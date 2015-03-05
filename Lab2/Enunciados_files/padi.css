@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="por-PT" xml:lang="por-PT" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Instituto Superior T&eacute;cnico: Serviço de páginas pessoais</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="keywords" content="ensino,  ensino superior, universidade, instituto, ciencia, instituto superior tecnico, investigacao e desenvolvimento" />
+<meta name="description" content="O Instituto Superior Tecnico e a maior escola de engenharia, ciencia e tecnologia em Portugal." />
+<meta name="author" content="Instituto Superior Tecnico" />
+<meta http-equiv="pragma" content="no-cache" />
+<link rel="shortcut icon" href="http://www.ist.utl.pt/img/wwwist.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" media="screen" href="http://www.ist.utl.pt/css/iststyle.css" />
+<link rel="stylesheet" type="text/css" media="print" href="http://www.ist.utl.pt/css/print.css" />
+</head>
+<body>
+<!-- UPGRADE MESSAGE FOR OLD BROWSERS -->
+<div class="browser_upgrade">
+  <p><strong>Aviso:</strong>
+  Se est&aacute; a ler esta mensagem, provavelmente, o browser que utiliza n&atilde;o &eacute; compat&iacute;vel
+  com os &quot;standards&quot; recomendados pela <a href="http://www.w3.org">W3C</a>.
+  Sugerimos vivamente que actualize o seu browser para ter uma melhor experi&ecirc;ncia
+  de utiliza&ccedil;&atilde;o deste &quot;website&quot;.
+  Mais informa&ccedil;&otilde;es em <a href="http://www.webstandards.org/upgrade/">webstandards.org</a>.</p>
+  <p><strong>Warning:</strong> If you are reading this message, probably, your
+    browser is not compliant with the standards recommended by the <a href="http://www.w3.org">W3C</a>. We suggest
+    that you upgrade your browser to enjoy a better user experience of this website.
+    More informations on <a href="http://www.webstandards.org/upgrade/">webstandards.org</a>.</p>
+</div>
+<!-- END UPGRADE MESSAGE FOR OLD BROWSERS -->
+<!--BEGIN HEADER -->
+<div id="header">
+	<div id="logoist"><a href="http://www.ist.utl.pt/"><img alt="[Logo] Instituto Superior T&eacute;cnico" height="51" src="http://www.ist.utl.pt/img/wwwist.gif" width="234" /></a></div>
+	<div id="header_links"><a href="https://fenix.ist.utl.pt/loginPage.jsp">Login .IST</a> | <a href="http://www.ist.utl.pt/html/instituto/index.shtml#cont">Contactos</a> | <a href="http://www.ist.utl.pt/html/mapadosite/">Mapa do Site</a> </div>
+<div id="search">
+		<form method="get" action="http://www.google.com/u/wwwist">
+		<input type="hidden" name="ie" value="iso-8859-1" />
+		<input type="hidden" name="domains" value="ist.utl.pt" />
+		<input type="hidden" name="sitesearch" value="ist.utl.pt" />
+		<label for="textfield">Pesquisar:</label>
+		<input type="text" id="textfield" name="q" size="17" />
+		<input type="submit" id="submit" name="sa" value="Google" />
+		</form>
+	</div>
+</div>
+<!--END HEADER -->
+<!--BEGIN SITEWIDE PROFILE NAVIGATION -->
+<div id="perfnav">
+	<ul>
+		<li><a href="http://www.ist.utl.pt">In&iacute;cio</a></li>
+		<li><a href="http://www.ist.utl.pt/html/perfil/aluno.shtml">Aluno</a></li>
+		<li><a href="http://www.ist.utl.pt/html/perfil/docente.shtml">Docente</a></li>
+		<li><a href="http://www.ist.utl.pt/html/perfil/funcionario.shtml">N&atilde;o&nbsp;Docente</a></li>
+		<li><a href="http://www.ist.utl.pt/html/perfil/candidato.shtml">Candidato</a></li>
+		<li><a href="http://www.ist.utl.pt/html/perfil/international.shtml">International</a></li>
+	</ul>
+</div>
+<!--END SITEWIDE PROFILE NAVIGATION -->	
+<div id="holder">
+<table id="bigtable" width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td rowspan="3" id="latnav_container" width="155px" nowrap="nowrap">
+<!--BEGIN MAIN NAVIGATION --> 
+<div id="latnav">
+        <ul>
+			<li><a href="/info/">P&aacute;gina inicial</a></li>
+<!--			<li><a href="/info/config">Configuracoes</a></li> -->
+        </ul>
+</div>
+
+
+
+<!--END MAIN NAVIGATION -->
+</td>
+<!-- START MAIN PAGE CONTENTS HERE -->
+<!--
+<td width="100%" colspan="3" id="main">
+</td>
+</tr>
+<tr>
+-->
+<td colspan="3" id="main" class="serv_error_404">
+<img src="/info/images/title-web.ist.utl.pt.png" alt="WEBPAGES" border="0"  /><br />
+<img src="/info/images/title-servico_de_paginas_pessoais.png" alt="Servico de páginas pessoais do IST" border="0" />
+<br />
+<br />
+<h2>A p&aacute;gina solicitada n&atilde;o est&aacute; dispon&iacute;vel </h2>
+<p>Caro utilizador, a p&aacute;gina que pretende visualizar n&atilde;o se encontra dispon&iacute;vel neste endere&ccedil;o.<br />
+  O erro pode ter ocorrido por uma das seguintes raz&otilde;es:</p>
+<ul class="warning">
+  <li>Escreveu mal o endere&ccedil;o (URL) do documento a que pretende aceder</li>
+  <li>A p&aacute;gina pretendida j&aacute; n&atilde;o existe ou o nome do ficheiro foi alterado</li>
+  <li>Seguiu um link proveniente de um web site exterior cuja informa&ccedil;&atilde;o pode estar desactualizada</li>
+</ul>
+</td>
+</tr>
+</table>
+</div>
+<!--BEGIN SITEWIDE FOOTER --><div id="footer">
+<div id="foot_links">
+<a href="http://www.ist.utl.pt/contactos/index-pt.shtml">contactos</a>  |  
+<a href="mailto:ci@ist.utl.pt">webmaster</a> |
+<!--<a href="?new_lang=en_US">english</a>-->
+</div>
+<div id="foot_copy">&copy;2006, Instituto Superior T&eacute;cnico. Todos os direitos reservados.</div>
+
+<div class="clear"></div>
+</div>
+<!--END SITEWIDE FOOTER -->
+
+
+</body>
+</html>
+
+

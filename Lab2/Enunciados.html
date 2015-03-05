@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0062)http://groups.tecnico.ulisboa.pt/~meic-padi.daemon/labs/aula2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+		<!--<base href="http://groups.ist.utl.pt/meic-padi/">--><base href=".">
+<title>Plataformas para Aplicações Distribuídas na Internet</title>
+		
+		<link href="./Enunciados_files/padi.css" type="text/css" rel="stylesheet">
+			<style type="text/css">.style1 { FONT-FAMILY: "Courier New", Courier, mono }
+	</style>
+		<script type="text/javascript" async="" src="./Enunciados_files/ga.js"></script></head>
+	<body bgcolor="#ffffff">
+		<table width="100%">
+			<tbody>
+				<tr>
+					<td valign="middle" align="right" width="146"></td>
+					<td align="center">
+					<h1>Plataformas para Aplicações Distribuídas na Internet - 2014/2015
+					</h1>
+					<h2>1º Ano, 2º Semestre</h2>
+					<a href="http://fenix.ist.utl.pt/cursos/meic-a">MEIC - Campus Alameda</a><br>
+					<a href="http://fenix.ist.utl.pt/cursos/meic-t">MEIC - Campus Tagus Park</a><br>
+					<a href="http://fenix.ist.utl.pt/cursos/merc/">METI - Campus Tagus Park</a><br>
+					<a href="http://fenix.ist.utl.pt/cursos/merc/">EMDC - Campus Alameda</a><br>
+				</td>
+					<td valign="middle" align="right" width="146"><a href="http://www.dei.ist.utl.pt/" target="_blank"><img src="./Enunciados_files/logodei.gif" width="144" border="0"></a>
+					</td>
+				</tr>
+			</tbody></table>
+		<blockquote>
+			<hr color="#b1bbd6" noshade="" size="4">
+			<h2 align="center">
+				Aula nº 2 - Programação Baseada em Eventos</h2>
+			<hr>
+			<h3>Material de apoio:</h3>
+			<ul>
+				<li>
+					Slides (<a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/aula2-slides.pdf" target="_top">pdf</a>)</li>
+			</ul>
+			<hr>
+			<!-- ----------------------------------------------------------------- --> <!-- ----------------------------------------------------------------- -->
+			<h2>A - Delegates</h2>
+			<p>Estude e execute o exemplo <a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/exercicio-1.cs">exercicio-1.cs</a>.
+				Modifique o exemplo como achar necessário de forma a responder às seguintes
+				questões:</p>
+			<ol>
+				<li>
+				Localize no código como é feita a adição, remoção e atribuição de métodos ao
+				delegate e onde é feita a invocação do delegate.
+				</li><li>
+				Por que ordem são executados os métodos registados nos delegates?
+				</li><li>
+				O que acontece se igualar um delegate a null antes do invocar?
+				</li><li>
+				É possível adicionar métodos estáticos a delegates?
+				</li><li>
+				O que acontece aos métodos registados no delegate se um novo método é
+				atribuído? São invocados?
+				</li><li>
+					Verifique que é possível passar um delegate como argumento e ser invocado
+					dentro de um método.</li></ol>
+			<p>&nbsp;</p>
+			<h2>B - Eventos</h2>
+			<p>Estude o código <a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/exercicio-2.cs">exercicio-2.cs</a> que pretende
+				simular um controlo de um form - um slider. Um slider é caracterizado
+				unicamente por uma posição que varia. Como se trata de uma simulação, esta
+				posição é actualizada programaticamente pelo set do atributo Position e não por interacção do rato.</p>
+			<p>
+				a) Implemente o código necessário de modo a garantir o seguinte:</p>
+			<ul>
+				<li>
+				A posição do slider é actualizada com a nova posição apenas se esta for válida.
+				</li><li>
+				Para validar a posição, o slider desencadeia um evento antes de fazer a
+				atribuição da posição.
+				</li><li>
+				Deve ser adicionada ao evento uma callback tal que, se a nova posição for maior
+				que 50, então é inválida.
+				</li><li>
+				Na classe Slider, sugere-se a criação do evento Move e a actualização da
+				propriedade Position.
+				</li><li>
+					Recomenda-se a criação da classe MoveEventArgs para transferência de
+					argumentos.</li>
+			</ul>
+			<p>
+				b) Verifique o que acontece quando tenta desencadear o evento fora da classe
+				onde este está declarado.</p>
+			<p>&nbsp;</p>
+			<h2>C - Threads</h2>
+			<p>Implemente uma thread pool tal que:</p>
+			<ul>
+				<li>
+				A thread pool ThrPool é inicializada com um conjunto de N threads.
+				</li><li>
+				A aplicação submete um delegate do tipo ThrWork para execução assíncrona
+				invocando o método AssyncInvoke.
+				</li><li>
+				Os pedidos de invocação são colocados num buffer gerido de forma circular.
+				</li><li>
+				Threads que estejam livres podem consumir pedidos, caso contrário ficam
+				bloqueadas.
+				</li><li>
+					Quando uma thread consome um pedido, retira-o do buffer e executa o pedidoe
+					volta a verificar se existem pedidos pendentes.</li>
+			</ul>
+			<p>Complemente o código do <a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/exercicio-3.cs">exercicio-3.cs</a>.</p>
+			<p>&nbsp;</p>
+			<p>
+				</p><hr>
+			<p></p>
+			<h1>Exercício Suplementar</h1>
+			<h3>Multithreading em Windows Forms</h3>
+			<p>O programa <a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/AsynchCalcPi.zip">AsynchCalcPi.zip</a> permite calcular o
+				número Pi com a precisão indicada pelo utilizador. Calcula nove dígitos de cada
+				vez entre actualizações da interface. Observe o código fonte.</p>
+			<p>a) Execute o programa (sugere-se com um número elevado de dígitos, por exemplo
+				1000). Enquanto o programa&nbsp;efectua os cálculos, porque razão ao minimizar
+				e ao maximizar a janela, esta deixou de ser desenhada? Considere o seguinte:</p>
+			<ul>
+				<li>
+				Existe uma user interface (UI) thread dedicada ao tratamento de eventos da
+				interface. À medida que são gerados, os eventos são colocados numa message
+				queue e tratados sequencialmente pela UI thread.
+				</li><li>
+				Os controlos (e.g. botões, text boxes, etc.) ao serem criados, ficam associados
+				à thread que a criou de tal modo que só essa thread pode manipular o controlo
+				(e.g. modificar as propriedades ou invocar métodos).
+				</li><li>
+					Os únicos métodos dos controlos que podem ser acedidos por outras threads de
+					forma segura são os métodos Invoke, BeginInvoke, EndInvoke que permitem
+					submeter acções para serem executadas pela thread associada ao controlo.</li>
+			</ul>
+			<p>b) Estude a solução proposta nos artigos seguintes. São usados delegates
+				assíncronos que usam uma thread pool existente internamente ao CLR - common
+				language runtime.
+				</p><ul>
+					<li>
+						<a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/Safe,%20Simple%20Multithreading%20in%20Windows%20Forms,%20Part%201.pdf">Safe, Simple
+							Multithreading in Windows Forms, Part 1.pdf</a>
+					</li><li>
+						<a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/Safe,%20Simple%20Multithreading%20in%20Windows%20Forms,%20Part%202.pdf">Safe, Simple
+							Multithreading in Windows Forms, Part 2.pdf</a>
+					</li><li>
+						<a href="http://groups.ist.utl.pt/meic-padi/labs/aula2/Safe,%20Simple%20Multithreading%20in%20Windows%20Forms,%20Part%203.pdf">Safe, Simple
+							Multithreading in Windows Forms, Part 3.pdf</a></li></ul>
+		</blockquote>
+	
+
+</body></html>
