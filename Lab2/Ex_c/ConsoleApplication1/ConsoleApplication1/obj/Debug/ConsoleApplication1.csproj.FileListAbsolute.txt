@@ -1,0 +1,6 @@
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+\\psf\Home\Documents\PADI-2015\Lab2\Ex_c\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
