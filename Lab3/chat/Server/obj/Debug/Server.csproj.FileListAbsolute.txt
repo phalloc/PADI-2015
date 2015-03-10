@@ -1,7 +1,0 @@
-Z:\Downloads\remotingexample\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
-Z:\Downloads\remotingexample\Server\bin\Debug\Server.exe
-Z:\Downloads\remotingexample\Server\bin\Debug\Server.pdb
-Z:\Downloads\remotingexample\Server\bin\Debug\CommonTypes.dll
-Z:\Downloads\remotingexample\Server\bin\Debug\CommonTypes.pdb
-Z:\Downloads\remotingexample\Server\obj\Debug\Server.exe
-Z:\Downloads\remotingexample\Server\obj\Debug\Server.pdb

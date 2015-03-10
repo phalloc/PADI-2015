@@ -1,5 +1,0 @@
-Z:\Downloads\remotingexample\CommonTypes\obj\Debug\ChatInterface.csprojResolveAssemblyReference.cache
-Z:\Downloads\remotingexample\CommonTypes\bin\Debug\CommonTypes.dll
-Z:\Downloads\remotingexample\CommonTypes\bin\Debug\CommonTypes.pdb
-Z:\Downloads\remotingexample\CommonTypes\obj\Debug\CommonTypes.dll
-Z:\Downloads\remotingexample\CommonTypes\obj\Debug\CommonTypes.pdb
