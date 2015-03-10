@@ -1,0 +1,13 @@
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\ChatForm.exe.config
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\ChatForm.exe
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\ChatForm.pdb
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.csprojResolveAssemblyReference.cache
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.Properties.Resources.resources
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.csproj.GenerateResource.Cache
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.exe
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.pdb
+Z:\Downloads\remotingexample\ChatForm\obj\Debug\ChatForm.Chatter.resources
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\Client.exe
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\CommonTypes.dll
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\Client.pdb
+Z:\Downloads\remotingexample\ChatForm\bin\Debug\CommonTypes.pdb
