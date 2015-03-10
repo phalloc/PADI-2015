@@ -11,3 +11,16 @@ Z:\Downloads\remotingexample\ChatForm\bin\Debug\Client.exe
 Z:\Downloads\remotingexample\ChatForm\bin\Debug\CommonTypes.dll
 Z:\Downloads\remotingexample\ChatForm\bin\Debug\Client.pdb
 Z:\Downloads\remotingexample\ChatForm\bin\Debug\CommonTypes.pdb
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\ChatForm.exe.config
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.exe
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.pdb
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\ChatForm.exe
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\ChatForm.pdb
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\Client.exe
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\CommonTypes.dll
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\Client.pdb
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\bin\Debug\CommonTypes.pdb
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.csprojResolveAssemblyReference.cache
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.Chatter.resources
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.Properties.Resources.resources
+E:\Tiago Diogo\Os Meus Documentos\development\PADI-2015\Lab3\chat\ChatForm\obj\Debug\ChatForm.csproj.GenerateResource.Cache
