@@ -5,7 +5,17 @@ using System.Runtime.Remoting.Channels.Tcp;
 
 namespace RemotingSample {
 
-	class Server {
+    public class Server : IChatServer
+    {
+        
+        public bool SendMsg(string nick, string message){
+            return true;
+        }
+
+        public bool Register(string nick, string url)
+        {
+            return true;
+        }
 
 		static void Main(string[] args) {
 

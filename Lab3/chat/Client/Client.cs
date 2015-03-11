@@ -8,42 +8,38 @@ namespace RemotingSample {
 
 	public class Client : MarshalByRefObject, IChatClient{
 
+        private TcpChannel channel = null;
+        private IChatServer obj = null;
+        private string nick = null;
+
+
         public bool RecvMsg(string msg)
         {
-            //implementacao fixe aqui
+            System.Console.WriteLine(msg);
             return true;
         }
 
         public bool SendMessage(string msg)
         {
-            //cenas
+            obj.SendMsg(nick, msg);
             return true;
         }
 
         public bool Register(string nick, string port)
         {
-            //cenas
+            System.Console.WriteLine("registering");
+            this.nick = nick;
+            channel = new TcpChannel(Convert.ToInt32(port));
+            ChannelServices.RegisterChannel(channel, true);
+            IChatServer obj = (IChatServer)Activator.GetObject(
+                typeof(IChatServer),
+                "tcp://localhost:8086/IChatServer");
             return true;
         }
 
 		static void Main() {
-			TcpChannel channel = new TcpChannel();
-			ChannelServices.RegisterChannel(channel,true);
-
-			IChatServer obj = (IChatServer) Activator.GetObject(
-				typeof(IChatServer),
-				"tcp://localhost:8086/IChatServer");
-
-	 		try
-	 		{
-	 			//
-	 		}
-	 		catch(SocketException)
-	 		{
-	 			System.Console.WriteLine("Could not locate server");
-	 		}
-            
-			Console.ReadLine();
-		}
+            System.Console.WriteLine("waiting for user");
+            System.Console.ReadLine();
+        }
 	}
 }
