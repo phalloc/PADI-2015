@@ -8,7 +8,8 @@ namespace RemotingSample {
     public class Server : IChatServer
     {
         
-        public bool SendMsg(string nick, string message){
+        public bool SendMsg(string nick, string message)
+        {
             return true;
         }
 
