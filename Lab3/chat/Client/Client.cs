@@ -43,7 +43,8 @@ namespace RemotingSample {
             System.Console.WriteLine("registering");
             this.nick = nick;
             channel = new TcpChannel(Convert.ToInt32(port));
-            ChannelServices.RegisterChannel(channel, true);
+            ChannelServices.RegisterChannel(channel, true); //NO EXEMPLO DO PROF ESTAVA A FALSE http://groups.ist.utl.pt/meic-padi/labs/aula3/aula3-slides.pdf
+
             IChatServer obj = (IChatServer)Activator.GetObject(
                 typeof(IChatServer),
                 "tcp://localhost:8086/IChatServer");
