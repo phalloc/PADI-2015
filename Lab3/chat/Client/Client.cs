@@ -8,31 +8,23 @@ namespace RemotingSample {
 
     public delegate void MsgDelegate(string msg);
 
-	public class Client : MarshalByRefObject, IChatClient{
+	public class Client{
 
-        private TcpChannel channel = null;
-        private IChatServer obj = null;
+        private ObjServer obj = null;
         private string nick = null;
 
         MsgDelegate msgDel;
 
-        public bool RecvMsg(string msg)
-        {
-            //write in console
-            System.Console.WriteLine(msg);
-
-            //write in form
-            msgDel(msg);
-            return true;
-        }
-
+        
         public void handler_writeInForm(string msg)
         {
+            System.Console.WriteLine("Formating message " + msg);
             //updates the form textbox               
         }
 
         public bool SendMessage(string msg)
         {
+            System.Console.WriteLine("Sending > Server : " + msg);
             obj.SendMsg(nick, msg);
             return true;
         }
@@ -40,14 +32,30 @@ namespace RemotingSample {
         public bool Register(string nick, string port)
         {
             msgDel = new MsgDelegate(handler_writeInForm);
-            System.Console.WriteLine("registering");
             this.nick = nick;
-            channel = new TcpChannel(Convert.ToInt32(port));
+
+            TcpChannel channel = new TcpChannel(Int32.Parse(port));
             ChannelServices.RegisterChannel(channel, true); //NO EXEMPLO DO PROF ESTAVA A FALSE http://groups.ist.utl.pt/meic-padi/labs/aula3/aula3-slides.pdf
 
-            IChatServer obj = (IChatServer)Activator.GetObject(
-                typeof(IChatServer),
-                "tcp://localhost:8086/IChatServer");
+            RemotingConfiguration.RegisterWellKnownServiceType(
+                typeof(ObjClient),
+                "IChatClient",
+                WellKnownObjectMode.Singleton);
+
+            string serverUrl = "tcp://localhost:8086/IChatServer";
+
+            obj = (ObjServer)Activator.GetObject(
+                typeof(ObjServer), serverUrl);
+
+            if (obj == null) { 
+                System.Console.WriteLine("Could not locate server");
+                return false;
+            }
+
+            System.Console.WriteLine("Registering in the server...");
+            string clientUrl = "tcp://localhost:" + port + "/IChatClient";
+            obj.Register(nick, clientUrl);
+
             return true;
         }
 
@@ -56,4 +64,5 @@ namespace RemotingSample {
             System.Console.ReadLine();
         }
 	}
+
 }

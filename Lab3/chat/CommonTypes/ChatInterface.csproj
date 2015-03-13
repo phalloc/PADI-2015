@@ -95,6 +95,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IChatServer.cs" />
+    <Compile Include="ObjClient.cs" />
+    <Compile Include="ObjServer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

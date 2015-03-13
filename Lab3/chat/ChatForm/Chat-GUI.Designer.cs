@@ -31,7 +31,7 @@
             this.RegisterButton = new System.Windows.Forms.Button();
             this.NickField = new System.Windows.Forms.TextBox();
             this.nick = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.portField = new System.Windows.Forms.TextBox();
             this.Port = new System.Windows.Forms.Label();
             this.MessageBox = new System.Windows.Forms.TextBox();
             this.Messages = new System.Windows.Forms.Label();
@@ -66,12 +66,12 @@
             this.nick.TabIndex = 2;
             this.nick.Text = "Nick";
             // 
-            // textBox1
+            // portField
             // 
-            this.textBox1.Location = new System.Drawing.Point(148, 56);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(66, 20);
-            this.textBox1.TabIndex = 3;
+            this.portField.Location = new System.Drawing.Point(148, 56);
+            this.portField.Name = "portField";
+            this.portField.Size = new System.Drawing.Size(66, 20);
+            this.portField.TabIndex = 3;
             // 
             // Port
             // 
@@ -137,7 +137,7 @@
             this.Controls.Add(this.Messages);
             this.Controls.Add(this.MessageBox);
             this.Controls.Add(this.Port);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.portField);
             this.Controls.Add(this.nick);
             this.Controls.Add(this.NickField);
             this.Controls.Add(this.RegisterButton);
@@ -154,7 +154,7 @@
         private System.Windows.Forms.Button RegisterButton;
         private System.Windows.Forms.TextBox NickField;
         private System.Windows.Forms.Label nick;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox portField;
         private System.Windows.Forms.Label Port;
         private System.Windows.Forms.TextBox MessageBox;
         private System.Windows.Forms.Label Messages;

@@ -24,7 +24,7 @@ namespace ChatForm
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
-            client.Register(NickField.Text, Port.Text);
+            client.Register(NickField.Text, portField.Text);
         }
 
         private void SendButton_Click(object sender, System.EventArgs e)
