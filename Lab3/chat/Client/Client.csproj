@@ -89,6 +89,7 @@
     <Reference Include="System.Runtime.Remoting">
       <Name>System.Runtime.Remoting</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
@@ -103,9 +104,16 @@
       <Project>{ddfd7b0b-aec6-4ed4-bdd4-8ce212d28158}</Project>
       <Name>ChatInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{78581b6e-41d2-452f-b28a-30a6c80887c8}</Project>
+      <Name>Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

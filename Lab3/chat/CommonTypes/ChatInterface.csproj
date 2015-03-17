@@ -86,15 +86,18 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IChatClient.cs">
-      <SubType>Code</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="IChatServer.cs" />
+    <Compile Include="ObjClient.cs" />
+    <Compile Include="ObjServer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

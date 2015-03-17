@@ -4,46 +4,62 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using System.Net.Sockets;
 
-namespace RemotingSample {
+using System.Windows.Forms;
 
-	public class Client : MarshalByRefObject, IChatClient{
 
-        public bool RecvMsg(string msg)
+namespace RemotingSample
+{
+    public class Client{
+
+        private ObjServer serverObj = null;
+        private string nick = null;
+
+        private FormRemoteGUI formClient = null;
+        public Client(FormRemoteGUI f)
         {
-            //implementacao fixe aqui
-            return true;
+            formClient = f;
         }
 
+        //HANDLER DO FORM
         public bool SendMessage(string msg)
         {
-            //cenas
+            serverObj.SendMsg(nick, msg);
             return true;
         }
 
+        //HANDLER DO FORM
         public bool Register(string nick, string port)
         {
-            //cenas
+            this.nick = nick;
+
+            TcpChannel channel = new TcpChannel(Int32.Parse(port));
+            ChannelServices.RegisterChannel(channel, true);
+
+            ObjClient objClient = new ObjClient(formClient);
+            RemotingServices.Marshal(objClient,
+                "IChatClient",
+                typeof(ObjClient));
+
+            string serverUrl = "tcp://localhost:8086/IChatServer";
+
+            serverObj = (ObjServer)Activator.GetObject(
+                typeof(ObjServer), serverUrl);
+
+            if (serverObj == null) { 
+                System.Console.WriteLine("Could not locate server");
+                return false;
+            }
+
+            string clientUrl = "tcp://localhost:" + port + "/IChatClient";
+            serverObj.Register(nick, clientUrl);
+
             return true;
         }
 
 		static void Main() {
-			TcpChannel channel = new TcpChannel();
-			ChannelServices.RegisterChannel(channel,true);
-
-			IChatServer obj = (IChatServer) Activator.GetObject(
-				typeof(IChatServer),
-				"tcp://localhost:8086/IChatServer");
-
-	 		try
-	 		{
-	 			//
-	 		}
-	 		catch(SocketException)
-	 		{
-	 			System.Console.WriteLine("Could not locate server");
-	 		}
-            
-			Console.ReadLine();
-		}
+            System.Console.WriteLine("waiting for user");
+            System.Console.ReadLine();
+        }
 	}
+
 }

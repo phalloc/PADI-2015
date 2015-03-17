@@ -16,52 +16,67 @@ public delegate void ThrWork();
 
 class ThrPool{
 
-    private List<ThrWork> queue;
+    private Queue<ThrWork> queue;
     private List<Thread> threads;
-   
+    private int queueCapacity = 0;
+
     public ThrPool(int thrNum, int bufSize){
 
-        queue = new List<ThrWork>();
+        queue = new Queue<ThrWork>(bufSize);
         threads = new List<Thread>();
-
+        queueCapacity = bufSize;
+        
         // initialize
         for (int i = 0; i < thrNum; i++) {
-            Thread t = new Thread(threadLoop);
-            threads.Add(t);
+            threads.Add(new Thread(threadLoop));
         }
     }
 
-    private ThrWork getWorkFromQueue()
+    public void AssyncInvoke(ThrWork action)
     {
-        lock (queue) {  
-            if (queue.Count == 0){
-                return null;
-            }else{
-                ThrWork work = queue[0];
-                queue.RemoveAt(0);
+        lock (queue)
+        {
+            while (queueCapacity == queue.Count)
+            {
+                System.Console.WriteLine("(queueCapacity == queue.Count)" + queue.Count);
 
-                return work;
+                Monitor.Wait(queue);
+            }
+
+            queue.Enqueue(action);
+
+            //every thread is waiting
+            if (queue.Count == 1)
+            {
+                //so notify only one thread that is able to work
+                Monitor.Pulse(queue);
             }
         }
-         
-
     }
 
-    public void AssyncInvoke(ThrWork action){
-        queue.Add(action);
+    public void AssyncInvoke2(ThrWork action){
+        //Thread t = new Thread(this.AssyncInvoke);
+        //t.Start(action);
     }
 
     private void threadLoop(){
-        
-        while (true) {
-            ThrWork work = getWorkFromQueue();
-            
-            //my work here is done!
-            if (work == null){
-                Console.WriteLine("My work here is done!");
-                return;
+        while (true) { 
+            lock (queue) {
+
+                while (queue.Count == 0) //waiting for work
+                {
+                    System.Console.WriteLine("(queue.Count == 0)");
+                    Monitor.Wait(queue);
+                }
+
+                ThrWork work = queue.Dequeue();
+
+                if (queue.Count == queueCapacity - 1) //a produced is waiting for a free space
+                {
+                    Monitor.Pulse(queue);
+                }
+                work();
             }
-            work();
         }
     }
 
@@ -70,26 +85,32 @@ class ThrPool{
             t.Start();
         }
     }
-
-    public void shutdown() {
-        foreach (Thread t in threads){
-            t.Join();
-            Console.WriteLine("Thread joined");
-        }
-    }
 }
 
 class Test{
+
+    ThrPool tpool = new ThrPool(4, 10);
+
+    
+    public Test(ThrPool t)
+    {
+        tpool = t;
+    }
+
+
     public static void Main(){
-        ThrPool tpool = new ThrPool(5, 10);
-        for (int i = 0; i < 5; i++){
-            tpool.AssyncInvoke(new ThrWork(new A(i).DoWorkA));
-            tpool.AssyncInvoke(new ThrWork(new B(i).DoWorkB));
+
+        Test t = new Test(new ThrPool(4, 10));
+        
+        t.tpool.start();
+
+        for (int i = 0; i < 10; i++)
+        {
+            t.tpool.AssyncInvoke(new ThrWork(new A(i).DoWorkA));
+            t.tpool.AssyncInvoke(new ThrWork(new B(i).DoWorkB));
         }
 
-        tpool.start();
-        tpool.shutdown();
-
+        
         Console.ReadLine();
     }
 }
