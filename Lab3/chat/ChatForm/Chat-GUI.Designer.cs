@@ -1,4 +1,4 @@
-﻿namespace ChatForm
+﻿namespace RemotingSample
 {
     partial class Chatter
     {

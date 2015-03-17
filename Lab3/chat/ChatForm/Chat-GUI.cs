@@ -8,18 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using RemotingSample;
-
-namespace ChatForm
+namespace RemotingSample
 {
-    public partial class Chatter : Form
+    public partial class Chatter : FormRemoteGUI
     {
 
-        private Client client = new Client();
+        private Client client = null;
 
         public Chatter()
         {
             InitializeComponent();
+            client = new Client(this);
+        }
+
+        override public void UpdateForm(string msg)
+        {
+            MessageBox.AppendText("\r\n" + msg);
         }
 
         private void RegisterButton_Click(object sender, EventArgs e)

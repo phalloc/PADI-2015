@@ -4,57 +4,54 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
 using System.Net.Sockets;
 
-namespace RemotingSample {
+using System.Windows.Forms;
 
-    public delegate void MsgDelegate(string msg);
 
-	public class Client{
+namespace RemotingSample
+{
+    public class Client{
 
-        private ObjServer obj = null;
+        private ObjServer serverObj = null;
         private string nick = null;
 
-        MsgDelegate msgDel;
-
-        
-        public void handler_writeInForm(string msg)
+        private FormRemoteGUI formClient = null;
+        public Client(FormRemoteGUI f)
         {
-            System.Console.WriteLine("Formating message " + msg);
-            //updates the form textbox               
+            formClient = f;
         }
 
+        //HANDLER DO FORM
         public bool SendMessage(string msg)
         {
-            System.Console.WriteLine("Sending > Server : " + msg);
-            obj.SendMsg(nick, msg);
+            serverObj.SendMsg(nick, msg);
             return true;
         }
 
+        //HANDLER DO FORM
         public bool Register(string nick, string port)
         {
-            msgDel = new MsgDelegate(handler_writeInForm);
             this.nick = nick;
 
             TcpChannel channel = new TcpChannel(Int32.Parse(port));
-            ChannelServices.RegisterChannel(channel, true); //NO EXEMPLO DO PROF ESTAVA A FALSE http://groups.ist.utl.pt/meic-padi/labs/aula3/aula3-slides.pdf
+            ChannelServices.RegisterChannel(channel, true);
 
-            RemotingConfiguration.RegisterWellKnownServiceType(
-                typeof(ObjClient),
+            ObjClient objClient = new ObjClient(formClient);
+            RemotingServices.Marshal(objClient,
                 "IChatClient",
-                WellKnownObjectMode.Singleton);
+                typeof(ObjClient));
 
             string serverUrl = "tcp://localhost:8086/IChatServer";
 
-            obj = (ObjServer)Activator.GetObject(
+            serverObj = (ObjServer)Activator.GetObject(
                 typeof(ObjServer), serverUrl);
 
-            if (obj == null) { 
+            if (serverObj == null) { 
                 System.Console.WriteLine("Could not locate server");
                 return false;
             }
 
-            System.Console.WriteLine("Registering in the server...");
             string clientUrl = "tcp://localhost:" + port + "/IChatClient";
-            obj.Register(nick, clientUrl);
+            serverObj.Register(nick, clientUrl);
 
             return true;
         }
