@@ -27,11 +27,9 @@ namespace ClientInterface
                 typeof(AgentStorage),
                 "tcp://localhost:8086/AgentStorage");
 
-            if (agentObj == null)
-                return false;
-            else
-                return true;
 
+
+            return agentObj != null;
         }
 
         public bool registerPerson(string name, int age, int agentID)
@@ -61,7 +59,7 @@ namespace ClientInterface
             }
 
             RevivePersonAsyncDelegate RemoteDel = new RevivePersonAsyncDelegate(agentObj.getPerson);
-            // Call remote method
+            // Call remote method without callback
             IAsyncResult RemAr = RemoteDel.BeginInvoke(agentID,null, null);
             // Wait for the end of the call and then explictly call EndInvoke
             RemAr.AsyncWaitHandle.WaitOne();
