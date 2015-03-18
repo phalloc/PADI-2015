@@ -8,12 +8,15 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using CommonLib;
 using Server;
+using System.Runtime.Remoting.Messaging;
 
 namespace ClientInterface
 {
     public class Client
     {
         AgentStorage agentObj = null;
+
+        public delegate Person RevivePersonAsyncDelegate(int agentID);
 
         private bool setupRemote()
         {
@@ -57,9 +60,12 @@ namespace ClientInterface
                     return null;//well sh*t
             }
 
-            // insert remote exception
-
-            return agentObj.getPerson(agentID);
+            RevivePersonAsyncDelegate RemoteDel = new RevivePersonAsyncDelegate(agentObj.getPerson);
+            // Call remote method
+            IAsyncResult RemAr = RemoteDel.BeginInvoke(agentID,null, null);
+            // Wait for the end of the call and then explictly call EndInvoke
+            RemAr.AsyncWaitHandle.WaitOne();
+            return RemoteDel.EndInvoke(RemAr);
         }
 
     }
