@@ -36,11 +36,12 @@
             this.NameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.AgentLabel = new System.Windows.Forms.Label();
+            this.ErrorBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // SendButton
             // 
-            this.SendButton.Location = new System.Drawing.Point(37, 175);
+            this.SendButton.Location = new System.Drawing.Point(86, 127);
             this.SendButton.Name = "SendButton";
             this.SendButton.Size = new System.Drawing.Size(75, 23);
             this.SendButton.TabIndex = 0;
@@ -50,7 +51,7 @@
             // 
             // GetButton
             // 
-            this.GetButton.Location = new System.Drawing.Point(172, 175);
+            this.GetButton.Location = new System.Drawing.Point(172, 127);
             this.GetButton.Name = "GetButton";
             this.GetButton.Size = new System.Drawing.Size(75, 23);
             this.GetButton.TabIndex = 1;
@@ -109,11 +110,24 @@
             this.AgentLabel.Text = "AgentID";
             this.AgentLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // ErrorBox
+            // 
+            this.ErrorBox.BackColor = System.Drawing.Color.Silver;
+            this.ErrorBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ErrorBox.ForeColor = System.Drawing.Color.Red;
+            this.ErrorBox.Location = new System.Drawing.Point(267, 35);
+            this.ErrorBox.Multiline = true;
+            this.ErrorBox.Name = "ErrorBox";
+            this.ErrorBox.ReadOnly = true;
+            this.ErrorBox.Size = new System.Drawing.Size(284, 215);
+            this.ErrorBox.TabIndex = 8;
+            // 
             // AgentStorageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(563, 269);
+            this.Controls.Add(this.ErrorBox);
             this.Controls.Add(this.AgentLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NameLabel);
@@ -139,6 +153,7 @@
         private System.Windows.Forms.Label NameLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label AgentLabel;
+        private System.Windows.Forms.TextBox ErrorBox;
     }
 }
 

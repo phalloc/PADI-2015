@@ -23,15 +23,31 @@ namespace ClientInterface
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            client.registerPerson(NameBox.Text, Int32.Parse(AgeBox.Text), Int32.Parse(AgentIDBox.Text));
+            try
+            {
+                client.registerPerson(NameBox.Text, Int32.Parse(AgeBox.Text), Int32.Parse(AgentIDBox.Text));
+                ErrorBox.ResetText();
+            }
+            catch (MyFormatException fException)
+            {
+                NameBox.Text = fException.getProblem();
+            }
         }
 
         private void GetButton_Click(object sender, EventArgs e)
         {
-            Person p = client.retrievePerson(Int32.Parse(AgentIDBox.Text));
-            NameBox.Text = p.getName();
-            AgeBox.Text = p.getAge().ToString();
-            AgentIDBox.Text = p.getAgentID().ToString();
+            try
+            {
+                Person p = client.retrievePerson(Int32.Parse(AgentIDBox.Text));
+                ErrorBox.ResetText();
+                NameBox.Text = p.getName();
+                AgeBox.Text = p.getAge().ToString();
+                AgentIDBox.Text = p.getAgentID().ToString();
+            }
+            catch (MyFormatException fException)
+            {
+                ErrorBox.Text = fException.getProblem();
+            }
         }
 
 

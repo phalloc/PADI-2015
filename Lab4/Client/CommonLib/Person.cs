@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CommonLib
 {
+    [Serializable]
     public class Person
     {
+
         public string _name;
         public int _age;
         public int _agentID;

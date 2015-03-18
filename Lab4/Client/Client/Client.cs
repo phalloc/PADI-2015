@@ -13,20 +13,36 @@ namespace ClientInterface
 {
     public class Client
     {
+        AgentStorage agentObj = null;
 
-        public bool registerPerson(string name, int age, int agentID)
+        private bool setupRemote()
         {
             TcpChannel channel = new TcpChannel();
             ChannelServices.RegisterChannel(channel, true);
 
-            AgentStorage agentObj = (AgentStorage)Activator.GetObject(
+            agentObj = (AgentStorage)Activator.GetObject(
                 typeof(AgentStorage),
                 "tcp://localhost:8086/AgentStorage");
 
             if (agentObj == null)
                 return false;
+            else
+                return true;
+
+        }
+
+        public bool registerPerson(string name, int age, int agentID)
+        {
+
+
+            if (agentObj == null) 
+            {
+                if (setupRemote() == false)
+                    return false;
+            }
 
             agentObj.registerPerson(new Person(name, age, agentID));
+           
 
             return true;
 
@@ -35,12 +51,11 @@ namespace ClientInterface
         public Person retrievePerson(int agentID)
         {
 
-            TcpChannel channel = new TcpChannel();
-            ChannelServices.RegisterChannel(channel, true);
-
-            AgentStorage agentObj = (AgentStorage)Activator.GetObject(
-                typeof(AgentStorage),
-                "tcp://localhost:8086/AgentStorage");
+            if (agentObj == null)
+            {
+                if (setupRemote() == false)
+                    return null;//well sh*t
+            }
 
             // insert remote exception
 
