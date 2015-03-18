@@ -501,15 +501,15 @@
             // 
             // scriptLocMsgBox
             // 
-            this.scriptLocMsgBox.Location = new System.Drawing.Point(91, 93);
+            this.scriptLocMsgBox.Location = new System.Drawing.Point(105, 93);
             this.scriptLocMsgBox.Name = "scriptLocMsgBox";
-            this.scriptLocMsgBox.Size = new System.Drawing.Size(492, 20);
+            this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
             this.scriptLocMsgBox.TabIndex = 77;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 96);
+            this.label2.Location = new System.Drawing.Point(22, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 76;
@@ -518,7 +518,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 70);
+            this.label1.Location = new System.Drawing.Point(44, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 75;
@@ -526,9 +526,9 @@
             // 
             // commandMsgBox
             // 
-            this.commandMsgBox.Location = new System.Drawing.Point(91, 67);
+            this.commandMsgBox.Location = new System.Drawing.Point(105, 67);
             this.commandMsgBox.Name = "commandMsgBox";
-            this.commandMsgBox.Size = new System.Drawing.Size(492, 20);
+            this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
             this.commandMsgBox.TabIndex = 74;
             // 
             // submitCommand
