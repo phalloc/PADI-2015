@@ -77,6 +77,10 @@
             this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
             this.submitTaskClassMapperComboBox = new System.Windows.Forms.ComboBox();
             this.consoleMessageBox = new System.Windows.Forms.RichTextBox();
+            this.OpenScriptBtn = new System.Windows.Forms.Button();
+            this.exportFileBtn = new System.Windows.Forms.Button();
+            this.sourceFileBtn = new System.Windows.Forms.Button();
+            this.destFileBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
@@ -85,7 +89,7 @@
             // ConsoleLabel
             // 
             this.ConsoleLabel.AutoSize = true;
-            this.ConsoleLabel.Location = new System.Drawing.Point(738, 9);
+            this.ConsoleLabel.Location = new System.Drawing.Point(738, 20);
             this.ConsoleLabel.Name = "ConsoleLabel";
             this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
             this.ConsoleLabel.TabIndex = 6;
@@ -125,6 +129,7 @@
             this.submitWorkerWorkerIdMsgBox.Name = "submitWorkerWorkerIdMsgBox";
             this.submitWorkerWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerWorkerIdMsgBox.TabIndex = 10;
+            this.submitWorkerWorkerIdMsgBox.TextChanged += new System.EventHandler(this.submitWorkerWorkerIdMsgBox_TextChanged);
             // 
             // submitWorkerPMUrlMsgBox
             // 
@@ -132,6 +137,7 @@
             this.submitWorkerPMUrlMsgBox.Name = "submitWorkerPMUrlMsgBox";
             this.submitWorkerPMUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerPMUrlMsgBox.TabIndex = 13;
+            this.submitWorkerPMUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerPMUrlMsgBox_TextChanged);
             // 
             // label7
             // 
@@ -146,6 +152,7 @@
             this.submitWorkerServiceUrlMsgBox.Name = "submitWorkerServiceUrlMsgBox";
             this.submitWorkerServiceUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerServiceUrlMsgBox.TabIndex = 16;
+            this.submitWorkerServiceUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerServiceUrlMsgBox_TextChanged);
             // 
             // label8
             // 
@@ -162,6 +169,7 @@
             this.submitWorkerEntryUrlMsgBox.Name = "submitWorkerEntryUrlMsgBox";
             this.submitWorkerEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerEntryUrlMsgBox.TabIndex = 18;
+            this.submitWorkerEntryUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerEntryUrlMsgBox_TextChanged);
             // 
             // label9
             // 
@@ -186,8 +194,9 @@
             // 
             this.submitTaskDestFileMsgBox.Location = new System.Drawing.Point(105, 405);
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
-            this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(412, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 25;
+            this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.submitTaskDestFileMsgBox_TextChanged);
             // 
             // label11
             // 
@@ -202,8 +211,9 @@
             // 
             this.submitTaskSourceFileMsgBox.Location = new System.Drawing.Point(105, 377);
             this.submitTaskSourceFileMsgBox.Name = "submitTaskSourceFileMsgBox";
-            this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(412, 20);
             this.submitTaskSourceFileMsgBox.TabIndex = 23;
+            this.submitTaskSourceFileMsgBox.TextChanged += new System.EventHandler(this.submitTaskSourceFileMsgBox_TextChanged);
             // 
             // submitTaskEntryUrlMsgBox
             // 
@@ -211,6 +221,7 @@
             this.submitTaskEntryUrlMsgBox.Name = "submitTaskEntryUrlMsgBox";
             this.submitTaskEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitTaskEntryUrlMsgBox.TabIndex = 22;
+            this.submitTaskEntryUrlMsgBox.TextChanged += new System.EventHandler(this.submitTaskEntryUrlMsgBox_TextChanged);
             // 
             // label12
             // 
@@ -243,7 +254,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(237, 434);
+            this.label15.Location = new System.Drawing.Point(174, 434);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label15.Size = new System.Drawing.Size(32, 13);
@@ -272,7 +283,7 @@
             // 
             // waitButton
             // 
-            this.waitButton.Location = new System.Drawing.Point(589, 128);
+            this.waitButton.Location = new System.Drawing.Point(589, 120);
             this.waitButton.Name = "waitButton";
             this.waitButton.Size = new System.Drawing.Size(146, 20);
             this.waitButton.TabIndex = 35;
@@ -282,9 +293,9 @@
             // 
             // slowBtn
             // 
-            this.slowBtn.Location = new System.Drawing.Point(611, 493);
+            this.slowBtn.Location = new System.Drawing.Point(662, 492);
             this.slowBtn.Name = "slowBtn";
-            this.slowBtn.Size = new System.Drawing.Size(73, 47);
+            this.slowBtn.Size = new System.Drawing.Size(73, 49);
             this.slowBtn.TabIndex = 39;
             this.slowBtn.Text = "Sleep";
             this.slowBtn.UseVisualStyleBackColor = true;
@@ -293,7 +304,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(121, 523);
+            this.label18.Location = new System.Drawing.Point(156, 522);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(59, 13);
             this.label18.TabIndex = 37;
@@ -311,8 +322,9 @@
             // 
             this.workerId.Location = new System.Drawing.Point(105, 495);
             this.workerId.Name = "workerId";
-            this.workerId.Size = new System.Drawing.Size(126, 20);
+            this.workerId.Size = new System.Drawing.Size(177, 20);
             this.workerId.TabIndex = 47;
+            this.workerId.TextChanged += new System.EventHandler(this.workerId_TextChanged);
             // 
             // label21
             // 
@@ -325,7 +337,7 @@
             // 
             // freezewBtn
             // 
-            this.freezewBtn.Location = new System.Drawing.Point(240, 492);
+            this.freezewBtn.Location = new System.Drawing.Point(288, 492);
             this.freezewBtn.Name = "freezewBtn";
             this.freezewBtn.Size = new System.Drawing.Size(86, 49);
             this.freezewBtn.TabIndex = 45;
@@ -345,9 +357,9 @@
             // 
             // unfreezewBtn
             // 
-            this.unfreezewBtn.Location = new System.Drawing.Point(332, 492);
+            this.unfreezewBtn.Location = new System.Drawing.Point(380, 492);
             this.unfreezewBtn.Name = "unfreezewBtn";
-            this.unfreezewBtn.Size = new System.Drawing.Size(86, 48);
+            this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezewBtn.TabIndex = 49;
             this.unfreezewBtn.Text = "Unfreeze";
             this.unfreezewBtn.UseVisualStyleBackColor = true;
@@ -358,7 +370,7 @@
             this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.refreshBtn.Location = new System.Drawing.Point(741, 591);
+            this.refreshBtn.Location = new System.Drawing.Point(741, 503);
             this.refreshBtn.Name = "refreshBtn";
             this.refreshBtn.Size = new System.Drawing.Size(479, 36);
             this.refreshBtn.TabIndex = 55;
@@ -368,7 +380,7 @@
             // 
             // unfreezecBtn
             // 
-            this.unfreezecBtn.Location = new System.Drawing.Point(424, 492);
+            this.unfreezecBtn.Location = new System.Drawing.Point(472, 492);
             this.unfreezecBtn.Name = "unfreezecBtn";
             this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezecBtn.TabIndex = 67;
@@ -378,7 +390,7 @@
             // 
             // freezecBtn
             // 
-            this.freezecBtn.Location = new System.Drawing.Point(516, 492);
+            this.freezecBtn.Location = new System.Drawing.Point(567, 492);
             this.freezecBtn.Name = "freezecBtn";
             this.freezecBtn.Size = new System.Drawing.Size(86, 49);
             this.freezecBtn.TabIndex = 64;
@@ -388,22 +400,24 @@
             // 
             // slowNumSeconds
             // 
-            this.slowNumSeconds.Location = new System.Drawing.Point(186, 521);
+            this.slowNumSeconds.Location = new System.Drawing.Point(221, 520);
             this.slowNumSeconds.Name = "slowNumSeconds";
-            this.slowNumSeconds.Size = new System.Drawing.Size(45, 20);
+            this.slowNumSeconds.Size = new System.Drawing.Size(61, 20);
             this.slowNumSeconds.TabIndex = 68;
+            this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
             // 
             // numSecondsWait
             // 
-            this.numSecondsWait.Location = new System.Drawing.Point(513, 128);
+            this.numSecondsWait.Location = new System.Drawing.Point(513, 119);
             this.numSecondsWait.Name = "numSecondsWait";
             this.numSecondsWait.Size = new System.Drawing.Size(70, 20);
             this.numSecondsWait.TabIndex = 70;
+            this.numSecondsWait.Leave += new System.EventHandler(this.numSecondsWait_Leave);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(469, 130);
+            this.label16.Location = new System.Drawing.Point(469, 122);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 13);
             this.label16.TabIndex = 69;
@@ -414,7 +428,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label17.Location = new System.Drawing.Point(45, 157);
+            this.label17.Location = new System.Drawing.Point(45, 152);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(639, 20);
             this.label17.TabIndex = 79;
@@ -422,11 +436,11 @@
             // 
             // submitScript
             // 
-            this.submitScript.Location = new System.Drawing.Point(589, 93);
+            this.submitScript.Location = new System.Drawing.Point(660, 92);
             this.submitScript.Name = "submitScript";
-            this.submitScript.Size = new System.Drawing.Size(146, 20);
+            this.submitScript.Size = new System.Drawing.Size(75, 20);
             this.submitScript.TabIndex = 78;
-            this.submitScript.Text = "Submit";
+            this.submitScript.Text = "Run";
             this.submitScript.UseVisualStyleBackColor = true;
             this.submitScript.Click += new System.EventHandler(this.submitScript_Click);
             // 
@@ -437,6 +451,7 @@
             this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
             this.scriptLocMsgBox.TabIndex = 77;
             this.scriptLocMsgBox.Text = "..\\..\\..\\MyScript.txt";
+            this.scriptLocMsgBox.TextChanged += new System.EventHandler(this.scriptLocMsgBox_TextChanged);
             // 
             // label2
             // 
@@ -463,6 +478,7 @@
             this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
             this.commandMsgBox.TabIndex = 74;
             this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 MapNoReduce.DummyMapper,Common";
+            this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
             // 
             // submitCommand
             // 
@@ -499,21 +515,23 @@
             // 
             this.submitTaskNumberSplits.Location = new System.Drawing.Point(106, 431);
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
-            this.submitTaskNumberSplits.Size = new System.Drawing.Size(125, 20);
+            this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 20);
             this.submitTaskNumberSplits.TabIndex = 82;
+            this.submitTaskNumberSplits.Leave += new System.EventHandler(this.submitTaskNumberSplits_Leave);
             // 
             // submitTaskClassMapperComboBox
             // 
-            this.submitTaskClassMapperComboBox.DisplayMember = "0";
+            this.submitTaskClassMapperComboBox.DisplayMember = "1";
             this.submitTaskClassMapperComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.submitTaskClassMapperComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.submitTaskClassMapperComboBox.FormattingEnabled = true;
             this.submitTaskClassMapperComboBox.Items.AddRange(new object[] {
             "MapNoReduce.DummyMapper,Common"});
-            this.submitTaskClassMapperComboBox.Location = new System.Drawing.Point(282, 431);
+            this.submitTaskClassMapperComboBox.Location = new System.Drawing.Point(212, 431);
             this.submitTaskClassMapperComboBox.Name = "submitTaskClassMapperComboBox";
-            this.submitTaskClassMapperComboBox.Size = new System.Drawing.Size(301, 21);
+            this.submitTaskClassMapperComboBox.Size = new System.Drawing.Size(371, 21);
             this.submitTaskClassMapperComboBox.TabIndex = 84;
+            this.submitTaskClassMapperComboBox.TextChanged += new System.EventHandler(this.submitTaskClassMapperComboBox_TextChanged);
             // 
             // consoleMessageBox
             // 
@@ -524,15 +542,59 @@
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
             this.consoleMessageBox.Location = new System.Drawing.Point(741, 36);
             this.consoleMessageBox.Name = "consoleMessageBox";
-            this.consoleMessageBox.Size = new System.Drawing.Size(479, 549);
+            this.consoleMessageBox.Size = new System.Drawing.Size(479, 461);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
+            // 
+            // OpenScriptBtn
+            // 
+            this.OpenScriptBtn.Location = new System.Drawing.Point(589, 92);
+            this.OpenScriptBtn.Name = "OpenScriptBtn";
+            this.OpenScriptBtn.Size = new System.Drawing.Size(64, 20);
+            this.OpenScriptBtn.TabIndex = 88;
+            this.OpenScriptBtn.Text = "Open";
+            this.OpenScriptBtn.UseVisualStyleBackColor = true;
+            this.OpenScriptBtn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // exportFileBtn
+            // 
+            this.exportFileBtn.Location = new System.Drawing.Point(1074, 10);
+            this.exportFileBtn.Name = "exportFileBtn";
+            this.exportFileBtn.Size = new System.Drawing.Size(146, 20);
+            this.exportFileBtn.TabIndex = 89;
+            this.exportFileBtn.Text = "Export Console to File";
+            this.exportFileBtn.UseVisualStyleBackColor = true;
+            this.exportFileBtn.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // sourceFileBtn
+            // 
+            this.sourceFileBtn.Location = new System.Drawing.Point(524, 377);
+            this.sourceFileBtn.Name = "sourceFileBtn";
+            this.sourceFileBtn.Size = new System.Drawing.Size(59, 20);
+            this.sourceFileBtn.TabIndex = 90;
+            this.sourceFileBtn.Text = "Choose";
+            this.sourceFileBtn.UseVisualStyleBackColor = true;
+            this.sourceFileBtn.Click += new System.EventHandler(this.sourceFileBtn_Click);
+            // 
+            // destFileBtn
+            // 
+            this.destFileBtn.Location = new System.Drawing.Point(524, 404);
+            this.destFileBtn.Name = "destFileBtn";
+            this.destFileBtn.Size = new System.Drawing.Size(59, 20);
+            this.destFileBtn.TabIndex = 91;
+            this.destFileBtn.Text = "Choose";
+            this.destFileBtn.UseVisualStyleBackColor = true;
+            this.destFileBtn.Click += new System.EventHandler(this.destFileBtn_Click);
             // 
             // GUIPupperMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1232, 639);
+            this.ClientSize = new System.Drawing.Size(1232, 551);
+            this.Controls.Add(this.destFileBtn);
+            this.Controls.Add(this.sourceFileBtn);
+            this.Controls.Add(this.exportFileBtn);
+            this.Controls.Add(this.OpenScriptBtn);
             this.Controls.Add(this.consoleMessageBox);
             this.Controls.Add(this.submitTaskClassMapperComboBox);
             this.Controls.Add(this.submitTaskNumberSplits);
@@ -582,7 +644,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ConsoleLabel);
-            this.MinimumSize = new System.Drawing.Size(1248, 678);
+            this.MinimumSize = new System.Drawing.Size(1248, 590);
             this.Name = "GUIPupperMaster";
             this.Text = "Pupper Master";
             this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
@@ -645,6 +707,10 @@
         private System.Windows.Forms.NumericUpDown submitTaskNumberSplits;
         private System.Windows.Forms.ComboBox submitTaskClassMapperComboBox;
         private System.Windows.Forms.RichTextBox consoleMessageBox;
+        private System.Windows.Forms.Button OpenScriptBtn;
+        private System.Windows.Forms.Button exportFileBtn;
+        private System.Windows.Forms.Button sourceFileBtn;
+        private System.Windows.Forms.Button destFileBtn;
 
     }
 }

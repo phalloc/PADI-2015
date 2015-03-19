@@ -1,0 +1,65 @@
+[   0]: Parse successfull
+[   1]: [SUBMIT] EntryUrl: <ENTRY-URL>
+                 inputFile: <FILE>
+                 outputFile: <OUTPUT>
+                 outputFile: <OUTPUT>
+                 numSplits: 9999
+                 mapper: DummyMapper
+                 Ola ---> MAPPER ---> OLA
+[   2]: [REFRESHING]
+[   3]: [FREEZING] 12
+[   4]: [UNFREEZING] 13
+[   5]: [DISABLING] 14 Job traceker
+[   6]: [ENABLING] 15 Job traceker
+[   7]: [CREATE] id: <ID>
+                 puppetMasterUrl: <PUPPETMASTER-URL>
+                 service Url: <SERVICE-URL>
+                 entryUrl <ENTRY-URL>
+[   8]: [CREATE] id: asf
+                 puppetMasterUrl: asf
+                 service Url: asda
+                 entryUrl asf
+[   9]: [SUBMIT] EntryUrl: saf
+                 inputFile: sdf
+                 outputFile: sdf
+                 outputFile: sdf
+                 numSplits: 0
+                 mapper: DummyMapper
+                 Ola ---> MAPPER ---> OLA
+[  10]: [FREEZING] asd
+[  11]: [UNFREEZING] asd
+[  12]: [ENABLING] asd Job traceker
+[  13]: [DISABLING] asd Job traceker
+[  14]: [DELAY] asd for 0 seconds.
+[  15]: [DELAY] asd for 3 seconds.
+[  16]: [DELAY] asd for 3 seconds.
+[  17]: [DELAY] asd for 3 seconds.
+[  18]: [UNFREEZING] asd
+[  19]: [FREEZING] asd
+[  20]: Parse successfull
+[  21]: [SUBMIT] EntryUrl: <ENTRY-URL>
+                 inputFile: <FILE>
+                 outputFile: <OUTPUT>
+                 outputFile: <OUTPUT>
+                 numSplits: 9999
+                 mapper: DummyMapper
+                 Ola ---> MAPPER ---> OLA
+[  22]: [REFRESHING]
+[  23]: [FREEZING] 12
+[  24]: [UNFREEZING] 13
+[  25]: [DISABLING] 14 Job traceker
+[  26]: [ENABLING] 15 Job traceker
+[  27]: [CREATE] id: <ID>
+                 puppetMasterUrl: <PUPPETMASTER-URL>
+                 service Url: <SERVICE-URL>
+                 entryUrl <ENTRY-URL>
+[  28]: [SUBMIT] EntryUrl: <ENTRY-URL>
+                 inputFile: <FILE>
+                 outputFile: <OUTPUT>
+                 outputFile: <OUTPUT>
+                 numSplits: 9999
+                 mapper: DummyMapper
+                 Ola ---> MAPPER ---> OLA
+[  29]: O valor não pode ser nulo.
+       Nome do parâmetro: type
+[  30]: Não foi possível localizar o ficheiro '\\psf\Home\Documents\PADI-2015\Project\MapNoReduce\MyScript.tx'.

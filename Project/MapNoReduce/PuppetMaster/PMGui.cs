@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MapNoReduce
 {
@@ -17,6 +18,11 @@ namespace MapNoReduce
         public GUIPupperMaster()
         {
             InitializeComponent();
+
+            checkLocationTextBox();
+            checkCreateJob();
+            setWorkerCommandsBtnsState(false);
+            checkSubmit();
         }
 
         private void AppendText(RichTextBox box, Color color, string text)
@@ -165,7 +171,200 @@ namespace MapNoReduce
         {
             submitCommandAux(CommandsManager.STATUS_CMD);
         }
-        
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Text File | *.txt";
+            saveFileDialog1.Title = "Export to a text File";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // create a writer and open the file
+                string fileName = saveFileDialog1.FileName;
+                TextWriter tw = new StreamWriter(fileName);
+                tw.WriteLine(consoleMessageBox.Text);
+                // close the stream
+                tw.Close();
+                LogInfo("Saved to " + fileName);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 0;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Title = "Choose Script Source File";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                scriptLocMsgBox.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void sourceFileBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 0;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Title = "Choose Source File";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                submitTaskSourceFileMsgBox.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void destFileBtn_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Text File | *.txt";
+            saveFileDialog1.Title = "Choose Destination File";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                submitTaskDestFileMsgBox.Text = saveFileDialog1.FileName;
+            }
+
+        }
+
+        private void workerId_TextChanged(object sender, EventArgs e)
+        {
+            setWorkerCommandsBtnsState(workerId.Text != "");            
+        }
+
+        private void setWorkerCommandsBtnsState(bool value)
+        {
+            freezewBtn.Enabled = value;
+            unfreezewBtn.Enabled = value;
+            unfreezecBtn.Enabled = value;
+            freezecBtn.Enabled = value;
+            slowBtn.Enabled = value;
+        }
+
+        private void checkLocationTextBox()
+        {
+
+            bool value = scriptLocMsgBox.Text != "";
+
+            submitScript.Enabled = value;
+        }
+
+        private void checkRunScriptTextBox()
+        {
+            submitCommand.Enabled = commandMsgBox.Text != "";
+        }
+
+        private void commandMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkRunScriptTextBox();
+        }
+
+        private void scriptLocMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkLocationTextBox();
+        }
+
+        public void checkSubmit()
+        {
+            if (submitWorkerWorkerIdMsgBox.Text == "" || 
+                submitWorkerPMUrlMsgBox.Text == "" || 
+                submitWorkerServiceUrlMsgBox.Text == "" || 
+                submitWorkerEntryUrlMsgBox.Text == "")
+            {
+                submitWorkerButton.Enabled = false;
+            }
+            else
+            {
+                submitWorkerButton.Enabled = true;
+            }
+        }
+
+        public void checkCreateJob()
+        {
+            if (submitTaskEntryUrlMsgBox.Text == "" || 
+                submitTaskSourceFileMsgBox.Text == "" || 
+                submitTaskDestFileMsgBox.Text == "" || 
+                submitTaskClassMapperComboBox.Text == "")
+            {
+                submitTaskButton.Enabled = false;
+            }
+            else
+            {
+                submitTaskButton.Enabled = true;
+            }
+        }
+
+        private void submitWorkerWorkerIdMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkSubmit();
+        }
+
+        private void submitWorkerPMUrlMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkSubmit();
+        }
+
+        private void submitWorkerServiceUrlMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkSubmit();
+        }
+
+        private void submitWorkerEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkSubmit();
+        }
+
+        private void submitTaskEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
+        private void submitTaskSourceFileMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
+        private void submitTaskDestFileMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
+        private void submitTaskClassMapperComboBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
+        private void numSecondsWait_Leave(object sender, EventArgs e)
+        {
+            if (numSecondsWait.Text == "")
+            {
+                numSecondsWait.Text = "0";
+            }
+        }
+
+        private void submitTaskNumberSplits_Leave(object sender, EventArgs e)
+        {
+            if (submitTaskNumberSplits.Text == "")
+            {
+                submitTaskNumberSplits.Text = "0";
+            }
+        }
+
+        private void slowNumSeconds_Leave(object sender, EventArgs e)
+        {
+            if (slowNumSeconds.Text == "")
+            {
+                slowNumSeconds.Text = "0";
+            }
+        }
 
     }
 }
