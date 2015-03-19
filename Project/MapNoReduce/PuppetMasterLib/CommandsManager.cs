@@ -25,26 +25,43 @@ namespace MapNoReduce
 
         List<Command> listCommands = null;
 
-        public bool LoadFile(string file)
+        public void LoadFile(string file)
         {
-            listCommands = new List<Command>();
-            StreamReader reader = File.OpenText(file);
-
-            string line;
-            while ((line = reader.ReadLine()) != null)
+            StreamReader reader = null;
+            try
             {
-                if (!line.StartsWith(COMMENT_CHAR)){
-                    Command c = ParseCommand(line);
-                    if (c == null)
+                listCommands = new List<Command>();
+                reader = File.OpenText(file);
+
+                string line;
+                int numLines = 0;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (!line.StartsWith(COMMENT_CHAR))
                     {
-                        return false;
+                        Command c = ParseCommand(line);
+                        if (c == null)
+                        {
+                            throw new Exception("Error parsing command at line " + numLines);
+                        }
+                        listCommands.Add(c);
                     }
-                    listCommands.Add(c);
+
+                    numLines++;
                 }
             }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
 
-            reader.Close();
-            return true;
+            }
         }
 
         public List<string> ExecuteScript()
@@ -62,13 +79,9 @@ namespace MapNoReduce
 
         public string ExecuteCommand(Command c)
         {
-            if (c != null && c.Parse()) {
-                c.Execute();
-                return c.getResult();
-            }
-        
-            return "Bad command";
-            
+            c.Parse();
+            c.Execute();
+            return c.getResult();            
         }
 
         public Command ParseCommand(string line) {
@@ -110,10 +123,11 @@ namespace MapNoReduce
             {
                 c = new EnableJobTrackerCmd(line);
             }
-
-            if (c != null){
-                c.Parse();
+            else {
+                throw new Exception("Invalid command: " + line);
             }
+
+            c.Parse();
 
             return c;
 
