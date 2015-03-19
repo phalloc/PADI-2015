@@ -12,7 +12,7 @@ namespace MapNoReduce.Commands
 
         public EnableJobTrackerCmd(string line) : base(line) { }
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 2)
@@ -26,9 +26,8 @@ namespace MapNoReduce.Commands
 
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return EnableJobTracker(workerId);
         }
 
@@ -36,6 +35,9 @@ namespace MapNoReduce.Commands
         public bool EnableJobTracker(string workerId)
         {
             System.Diagnostics.Debug.WriteLine("EnableJobTracker");
+
+            commandResult = "I got this result EnableJobTracker";
+
             return true;
         }
     }

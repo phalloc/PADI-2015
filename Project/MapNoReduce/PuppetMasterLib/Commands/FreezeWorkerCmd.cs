@@ -12,7 +12,7 @@ namespace MapNoReduce.Commands
 
         public FreezeWorkerCmd(string line) : base(line) { }
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 2)
@@ -26,9 +26,8 @@ namespace MapNoReduce.Commands
 
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return FreezeWorker(workerId);
         }
 
@@ -36,6 +35,9 @@ namespace MapNoReduce.Commands
         public bool FreezeWorker(string workerId)
         {
             System.Diagnostics.Debug.WriteLine("FreezeWorker");
+
+            commandResult = "I got this result FreezeWorker";
+
             return true;
         }
     }

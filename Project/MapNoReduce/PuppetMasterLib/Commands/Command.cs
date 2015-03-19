@@ -6,17 +6,41 @@ using System.Threading.Tasks;
 
 namespace MapNoReduce.Commands
 {
-    abstract class Command
+    public abstract class Command
     {
+        protected static string NO_RESULT = "No result";
+
         protected string line;
+        protected string commandResult = NO_RESULT;
+        protected bool didParse = false;
 
         public Command(string line)
         {
             this.line = line;
         }
 
-        public abstract bool Parse(string line);
-        public abstract bool Execute();
+        public string getResult()
+        {
+            return commandResult;
+        }
 
+
+        public bool Parse() {
+            if (!didParse) { 
+                didParse = ParseAux();
+            }
+
+            return didParse;
+        
+        }
+        public bool Execute()
+        {
+            if (!didParse) { return false; }
+            return ExecuteAux();
+        }
+
+        protected abstract bool ExecuteAux();
+        protected abstract bool ParseAux();
+        
     }
 }

@@ -16,7 +16,7 @@ namespace MapNoReduce.Commands
 
         public CreateWorkProcessCmd(string line) : base(line) { } 
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 5)
@@ -33,15 +33,17 @@ namespace MapNoReduce.Commands
 
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false;  }
             return CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
         }
 
         public bool CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
             System.Diagnostics.Debug.WriteLine("CreateWorkProcess");
+
+            commandResult = "I got this result CreateWorkProcess";
+
             return true;
         }
 

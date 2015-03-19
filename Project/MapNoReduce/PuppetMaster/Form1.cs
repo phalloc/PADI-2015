@@ -35,12 +35,20 @@ namespace MapNoReduce
 
         private void submitCommand_Click(object sender, EventArgs e)
         {
-            Log(cm.parseAndExecute(commandMsgBox.Text));
+            Log(cm.ExecuteCommand(cm.ParseCommand(commandMsgBox.Text)));
         }
 
         private void submitScript_Click(object sender, EventArgs e)
         {
-            Log(cm.LoadFile(scriptLocMsgBox.Text));
+            if (cm.LoadFile(scriptLocMsgBox.Text))
+            {
+                Log("Parse successfull");
+                Log(cm.ExecuteScript());
+            }
+            else
+            {
+                Log("File parse error");
+            }
         }
 
         

@@ -13,7 +13,7 @@ namespace MapNoReduce.Commands
 
         public SleepCmd(string line) : base(line) { }
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 2)
@@ -27,15 +27,17 @@ namespace MapNoReduce.Commands
 
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return Sleep(sec);
         }
 
 
         public bool Sleep(int sec){
             System.Diagnostics.Debug.WriteLine("RefreshStatus");
+
+            commandResult = "I got this result Sleep";
+
             return true;
         }
 

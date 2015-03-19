@@ -11,14 +11,13 @@ namespace MapNoReduce.Commands
 
         public StatusCmd(string line) : base(line) { }
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             return true;
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return RefreshStatus();
         }
 
@@ -26,6 +25,9 @@ namespace MapNoReduce.Commands
         public bool RefreshStatus()
         {
             System.Diagnostics.Debug.WriteLine("RefreshStatus");
+
+            commandResult = "I got this result RefreshStatus";
+
             return true;
         }
 

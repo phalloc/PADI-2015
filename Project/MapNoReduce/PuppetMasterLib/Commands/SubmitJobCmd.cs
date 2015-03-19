@@ -17,7 +17,7 @@ namespace MapNoReduce.Commands
 
         public SubmitJobCmd(string line) : base(line) { }
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 6)
@@ -36,17 +36,16 @@ namespace MapNoReduce.Commands
             return false;
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return SubmitJob(entryUrl, inputFile, outputFile, numSplits, map);
         }
 
         public bool SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMap mapper)
         {
-
-            
             System.Diagnostics.Debug.WriteLine("HERE -> " + mapper.Map("this sentence is now uppercase"));
+
+            commandResult = "I got this result SubmitJob";
 
             return true;
         }

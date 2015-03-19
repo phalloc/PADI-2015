@@ -14,7 +14,7 @@ namespace MapNoReduce.Commands
         int sec;
         string workerId;
 
-        public override bool Parse(string line)
+        protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
             if (args.Length == 3)
@@ -29,9 +29,8 @@ namespace MapNoReduce.Commands
 
         }
 
-        public override bool Execute()
+        protected override bool ExecuteAux()
         {
-            if (!Parse(line)) { return false; }
             return DelayWorker(workerId, sec);
         }
 
@@ -39,6 +38,9 @@ namespace MapNoReduce.Commands
         public bool DelayWorker(string workerId, int seconds)
         {
             System.Diagnostics.Debug.WriteLine("RefreshStatus");
+
+            commandResult = "I got this result DelayWorker";
+
             return true;
         }
     }

@@ -23,26 +23,56 @@ namespace MapNoReduce
         private static string DISABLE_JOBTRACKER_CMD = "FREEZEC";
         private static string ENABLE_JOBTRACKER_CMD = "UNFREEZEC";
 
-        public List<string> LoadFile(string file)
+        List<Command> listCommands = null;
+
+        public bool LoadFile(string file)
         {
-            List<string> returnValue = new List<string>();
+            listCommands = new List<Command>();
             StreamReader reader = File.OpenText(file);
 
             string line;
             while ((line = reader.ReadLine()) != null)
             {
                 if (!line.StartsWith(COMMENT_CHAR)){
-                    returnValue.Add(parseAndExecute(line));
+                    Command c = ParseCommand(line);
+                    if (c == null)
+                    {
+                        return false;
+                    }
+                    listCommands.Add(c);
                 }
             }
 
             reader.Close();
+            return true;
+        }
+
+        public List<string> ExecuteScript()
+        {
+            List<string> returnValue = new List<string>();
+
+            foreach (Command command in listCommands){
+                returnValue.Add(ExecuteCommand(command));
+            }
+
+            listCommands = null;
+
             return returnValue;
         }
 
-        public string parseAndExecute(string line)
+        public string ExecuteCommand(Command c)
         {
+            if (c.Parse()) {
+                c.Execute();
+                return c.getResult();
+            }
+        
 
+            return "Bad instruction";
+            
+        }
+
+        public Command ParseCommand(string line) {
             Command c = null;
 
             if (line.StartsWith(CREATE_WORK_PROCESS_CMD))
@@ -82,21 +112,8 @@ namespace MapNoReduce
                 c = new EnableJobTrackerCmd(line);
             }
 
-            if (c != null){
-                return c.Execute() ? generateSuccessMsg(line) : generateFailureMsg(line);
-            }
+            return c.Parse() ? c : null;
 
-            return generateFailureMsg("Unknown");
-        }
-
-        private string generateSuccessMsg(string line)
-        {
-            return "[GOOD COMMAND] - " + line;
-        }
-
-        private string generateFailureMsg(string line)
-        {
-            return "[BAD COMMAND] - " + line;
         }
     }
 
