@@ -574,8 +574,7 @@
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.Size = new System.Drawing.Size(479, 549);
             this.consoleMessageBox.TabIndex = 85;
-            this.consoleMessageBox.Text = " --- Pupper Master GUI ---";
-            this.consoleMessageBox.WordWrap = false;
+            this.consoleMessageBox.Text = "";
             // 
             // GUIPupperMaster
             // 

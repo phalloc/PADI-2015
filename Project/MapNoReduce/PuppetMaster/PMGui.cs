@@ -13,34 +13,50 @@ namespace MapNoReduce
     public partial class GUIPupperMaster : Form
     {
         CommandsManager cm = new CommandsManager();
-
+        int numLines = 0;
         public GUIPupperMaster()
         {
             InitializeComponent();
         }
 
-        void AppendText(RichTextBox box, Color color, string text)
+        private void AppendText(RichTextBox box, Color color, string text)
         {
+            string formatString = String.Format("[{0, 4}]: ", numLines++);
+
+            AppendTextAux(box, System.Drawing.Color.Black, System.Drawing.Color.Gainsboro, formatString, true);
+            AppendTextAux(box, color, System.Drawing.Color.Black, "  " + text, false);
+
+            box.SelectionStart = box.Text.Length;
+            box.ScrollToCaret();
+        }
+        
+        private void AppendTextAux(RichTextBox box, Color textColor, Color backColor, string text, bool isLineNumber)
+        {
+            
             int start = box.TextLength;
-            box.AppendText("\r\n " + text);
+
+            string s = isLineNumber ? (numLines == 1 ? text : "\r\n" + text) : text ;
+
+            box.AppendText(s);
             int end = box.TextLength;
 
             // Textbox may transform chars, so (end-start) != text.Length
             box.Select(start, end - start);
             {
-                box.SelectionColor = color;
-                // could set box.SelectionBackColor, box.SelectionFont too.
+                box.SelectionColor = textColor;
+                box.SelectionBackColor = backColor;
             }
+
             box.SelectionLength = 0; // clear
         }
 
         public void LogInfo(string s){
-            AppendText(consoleMessageBox, System.Drawing.Color.Lime, "[INFO]: " + s);
+            AppendText(consoleMessageBox, System.Drawing.Color.Lime, s);
         }
 
         public void LogError(string s)
         {
-            AppendText(consoleMessageBox, System.Drawing.Color.Red, "[ERROR]: " + s);
+            AppendText(consoleMessageBox, System.Drawing.Color.Red, s);
         }
 
         public void LogInfo(List<string> listS)
