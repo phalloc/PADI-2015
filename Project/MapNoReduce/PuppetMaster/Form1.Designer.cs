@@ -503,7 +503,7 @@
             this.scriptLocMsgBox.Name = "scriptLocMsgBox";
             this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
             this.scriptLocMsgBox.TabIndex = 77;
-            this.scriptLocMsgBox.Text = "\\\\psf\\Home\\Desktop\\MyScript.txt";
+            this.scriptLocMsgBox.Text = "..\\..\\..\\MyScript.txt";
             // 
             // label2
             // 
@@ -529,7 +529,7 @@
             this.commandMsgBox.Name = "commandMsgBox";
             this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
             this.commandMsgBox.TabIndex = 74;
-            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 MapNoReduce.DummyMapper";
+            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 MapNoReduce.DummyMapper,Common";
             // 
             // submitCommand
             // 

@@ -7,7 +7,7 @@
     <ProjectGuid>{69023AA7-1100-432E-A85F-1599B8E07A6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PuppetMasterLib</RootNamespace>
+    <RootNamespace>MapNoReduce</RootNamespace>
     <AssemblyName>PuppetMasterLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,9 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command.cs" />
-    <Compile Include="CommandInterface.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="CommandsManager.cs" />
+    <Compile Include="Commands\CreateWorkProcessCmd.cs" />
+    <Compile Include="Commands\DelayWorkerCmd.cs" />
+    <Compile Include="Commands\DisableJobTrackerCmd.cs" />
+    <Compile Include="Commands\EnableJobTrackerCmd.cs" />
+    <Compile Include="Commands\FreezeWorkerCmd.cs" />
+    <Compile Include="Commands\SleepCmd.cs" />
+    <Compile Include="Commands\StatusCmd.cs" />
+    <Compile Include="Commands\SubmitJobCmd.cs" />
+    <Compile Include="Commands\UnfreezeWorkerCmd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
