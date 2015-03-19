@@ -13,15 +13,15 @@ namespace MapNoReduce
     public class CommandsManager
     {
         private static string COMMENT_CHAR = "%";
-        private static string CREATE_WORK_PROCESS_CMD = "WORKER";
-        private static string SUBMIT_JOB_CMD = "SUBMIT";
-        private static string WAIT_CMD = "WAIT";
-        private static string STATUS_CMD = "STATUS";
-        private static string DELAY_WORKER_CMD = "SLEEPP";
-        private static string FREEZE_WORKER_CMD = "FREEZEW";
-        private static string UNFREEZE_WORKER_CMD = "UNFREEZEW";
-        private static string DISABLE_JOBTRACKER_CMD = "FREEZEC";
-        private static string ENABLE_JOBTRACKER_CMD = "UNFREEZEC";
+        public static string CREATE_WORK_PROCESS_CMD = "WORKER";
+        public static string SUBMIT_JOB_CMD = "SUBMIT";
+        public static string WAIT_CMD = "WAIT";
+        public static string STATUS_CMD = "STATUS";
+        public static string DELAY_WORKER_CMD = "SLEEPP";
+        public static string FREEZE_WORKER_CMD = "FREEZEW";
+        public static string UNFREEZE_WORKER_CMD = "UNFREEZEW";
+        public static string DISABLE_JOBTRACKER_CMD = "FREEZEC";
+        public static string ENABLE_JOBTRACKER_CMD = "UNFREEZEC";
 
         List<Command> listCommands = null;
 
@@ -97,7 +97,7 @@ namespace MapNoReduce
             }
             else if (line.StartsWith(WAIT_CMD))
             {
-                c = new DelayWorkerCmd(line);
+                c = new SleepCmd(line);
             }
             else if (line.StartsWith(STATUS_CMD))
             {

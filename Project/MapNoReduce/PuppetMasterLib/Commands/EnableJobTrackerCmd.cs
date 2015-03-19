@@ -34,9 +34,8 @@ namespace MapNoReduce.Commands
 
         public bool EnableJobTracker(string workerId)
         {
-            System.Diagnostics.Debug.WriteLine("EnableJobTracker");
 
-            commandResult = "I got this result EnableJobTracker";
+            commandResult = "[ENABLING] " + workerId + " Job traceker";
 
             return true;
         }

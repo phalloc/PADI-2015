@@ -53,21 +53,15 @@
             this.waitButton = new System.Windows.Forms.Button();
             this.slowBtn = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.slowWorkerIdMsgBox = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.freezewWorkerIdMsgBox = new System.Windows.Forms.TextBox();
+            this.workerId = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.freezewBtn = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.unfreezewBtn = new System.Windows.Forms.Button();
             this.refreshBtn = new System.Windows.Forms.Button();
-            this.label25 = new System.Windows.Forms.Label();
             this.unfreezecBtn = new System.Windows.Forms.Button();
-            this.freezecWorkerIdMsgBox = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.freezecBtn = new System.Windows.Forms.Button();
-            this.label24 = new System.Windows.Forms.Label();
             this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
             this.numSecondsWait = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
@@ -262,8 +256,9 @@
             this.submitWorkerButton.Name = "submitWorkerButton";
             this.submitWorkerButton.Size = new System.Drawing.Size(146, 98);
             this.submitWorkerButton.TabIndex = 33;
-            this.submitWorkerButton.Text = "Run";
+            this.submitWorkerButton.Text = "Create Worker";
             this.submitWorkerButton.UseVisualStyleBackColor = true;
+            this.submitWorkerButton.Click += new System.EventHandler(this.submitWorkerButton_Click);
             // 
             // submitTaskButton
             // 
@@ -271,8 +266,9 @@
             this.submitTaskButton.Name = "submitTaskButton";
             this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
             this.submitTaskButton.TabIndex = 34;
-            this.submitTaskButton.Text = "Run";
+            this.submitTaskButton.Text = "Submit Job";
             this.submitTaskButton.UseVisualStyleBackColor = true;
+            this.submitTaskButton.Click += new System.EventHandler(this.submitTaskButton_Click);
             // 
             // waitButton
             // 
@@ -282,41 +278,26 @@
             this.waitButton.TabIndex = 35;
             this.waitButton.Text = "Wait";
             this.waitButton.UseVisualStyleBackColor = true;
+            this.waitButton.Click += new System.EventHandler(this.waitButton_Click);
             // 
             // slowBtn
             // 
-            this.slowBtn.Location = new System.Drawing.Point(589, 604);
+            this.slowBtn.Location = new System.Drawing.Point(611, 493);
             this.slowBtn.Name = "slowBtn";
-            this.slowBtn.Size = new System.Drawing.Size(146, 23);
+            this.slowBtn.Size = new System.Drawing.Size(73, 47);
             this.slowBtn.TabIndex = 39;
-            this.slowBtn.Text = "Run";
+            this.slowBtn.Text = "Sleep";
             this.slowBtn.UseVisualStyleBackColor = true;
+            this.slowBtn.Click += new System.EventHandler(this.slowBtn_Click);
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(494, 609);
+            this.label18.Location = new System.Drawing.Point(121, 523);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(38, 13);
+            this.label18.Size = new System.Drawing.Size(59, 13);
             this.label18.TabIndex = 37;
-            this.label18.Text = "# SEC";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(37, 586);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(187, 13);
-            this.label19.TabIndex = 36;
-            this.label19.Text = "SLOWW (delay worker process)";
-            // 
-            // slowWorkerIdMsgBox
-            // 
-            this.slowWorkerIdMsgBox.Location = new System.Drawing.Point(105, 606);
-            this.slowWorkerIdMsgBox.Name = "slowWorkerIdMsgBox";
-            this.slowWorkerIdMsgBox.Size = new System.Drawing.Size(383, 20);
-            this.slowWorkerIdMsgBox.TabIndex = 41;
+            this.label18.Text = "# Seconds";
             // 
             // label20
             // 
@@ -326,12 +307,12 @@
             this.label20.Size = new System.Drawing.Size(0, 13);
             this.label20.TabIndex = 40;
             // 
-            // freezewWorkerIdMsgBox
+            // workerId
             // 
-            this.freezewWorkerIdMsgBox.Location = new System.Drawing.Point(105, 495);
-            this.freezewWorkerIdMsgBox.Name = "freezewWorkerIdMsgBox";
-            this.freezewWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.freezewWorkerIdMsgBox.TabIndex = 47;
+            this.workerId.Location = new System.Drawing.Point(105, 495);
+            this.workerId.Name = "workerId";
+            this.workerId.Size = new System.Drawing.Size(126, 20);
+            this.workerId.TabIndex = 47;
             // 
             // label21
             // 
@@ -344,12 +325,13 @@
             // 
             // freezewBtn
             // 
-            this.freezewBtn.Location = new System.Drawing.Point(589, 493);
+            this.freezewBtn.Location = new System.Drawing.Point(240, 492);
             this.freezewBtn.Name = "freezewBtn";
-            this.freezewBtn.Size = new System.Drawing.Size(70, 23);
+            this.freezewBtn.Size = new System.Drawing.Size(86, 49);
             this.freezewBtn.TabIndex = 45;
             this.freezewBtn.Text = "Freeze";
             this.freezewBtn.UseVisualStyleBackColor = true;
+            this.freezewBtn.Click += new System.EventHandler(this.freezewBtn_Click);
             // 
             // label23
             // 
@@ -357,18 +339,19 @@
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.Location = new System.Drawing.Point(13, 475);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(351, 13);
+            this.label23.Size = new System.Drawing.Size(155, 13);
             this.label23.TabIndex = 42;
-            this.label23.Text = "FREEZEW / UNFREEZEW (Freeze or unfreeze worker node)";
+            this.label23.Text = "Control Worker commands";
             // 
             // unfreezewBtn
             // 
-            this.unfreezewBtn.Location = new System.Drawing.Point(665, 493);
+            this.unfreezewBtn.Location = new System.Drawing.Point(332, 492);
             this.unfreezewBtn.Name = "unfreezewBtn";
-            this.unfreezewBtn.Size = new System.Drawing.Size(70, 23);
+            this.unfreezewBtn.Size = new System.Drawing.Size(86, 48);
             this.unfreezewBtn.TabIndex = 49;
             this.unfreezewBtn.Text = "Unfreeze";
             this.unfreezewBtn.UseVisualStyleBackColor = true;
+            this.unfreezewBtn.Click += new System.EventHandler(this.unfreezewBtn_Click);
             // 
             // refreshBtn
             // 
@@ -381,63 +364,31 @@
             this.refreshBtn.TabIndex = 55;
             this.refreshBtn.Text = "Refresh Status";
             this.refreshBtn.UseVisualStyleBackColor = true;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(46, 608);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(54, 13);
-            this.label25.TabIndex = 61;
-            this.label25.Text = "Worker Id";
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // unfreezecBtn
             // 
-            this.unfreezecBtn.Location = new System.Drawing.Point(665, 548);
+            this.unfreezecBtn.Location = new System.Drawing.Point(424, 492);
             this.unfreezecBtn.Name = "unfreezecBtn";
-            this.unfreezecBtn.Size = new System.Drawing.Size(70, 23);
+            this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezecBtn.TabIndex = 67;
-            this.unfreezecBtn.Text = "Enable";
+            this.unfreezecBtn.Text = "Enable Job Tracker";
             this.unfreezecBtn.UseVisualStyleBackColor = true;
-            // 
-            // freezecWorkerIdMsgBox
-            // 
-            this.freezecWorkerIdMsgBox.Location = new System.Drawing.Point(105, 550);
-            this.freezecWorkerIdMsgBox.Name = "freezecWorkerIdMsgBox";
-            this.freezecWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.freezecWorkerIdMsgBox.TabIndex = 66;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(45, 553);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(54, 13);
-            this.label22.TabIndex = 65;
-            this.label22.Text = "Worker Id";
+            this.unfreezecBtn.Click += new System.EventHandler(this.unfreezecBtn_Click);
             // 
             // freezecBtn
             // 
-            this.freezecBtn.Location = new System.Drawing.Point(589, 548);
+            this.freezecBtn.Location = new System.Drawing.Point(516, 492);
             this.freezecBtn.Name = "freezecBtn";
-            this.freezecBtn.Size = new System.Drawing.Size(70, 23);
+            this.freezecBtn.Size = new System.Drawing.Size(86, 49);
             this.freezecBtn.TabIndex = 64;
-            this.freezecBtn.Text = "Disable";
+            this.freezecBtn.Text = "Disable Job Tracker";
             this.freezecBtn.UseVisualStyleBackColor = true;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(13, 530);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(390, 13);
-            this.label24.TabIndex = 63;
-            this.label24.Text = "FREEZEC / UNFREEZEC (Disable o enable Job Tracker at Worker)";
+            this.freezecBtn.Click += new System.EventHandler(this.freezecBtn_Click);
             // 
             // slowNumSeconds
             // 
-            this.slowNumSeconds.Location = new System.Drawing.Point(538, 606);
+            this.slowNumSeconds.Location = new System.Drawing.Point(186, 521);
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(45, 20);
             this.slowNumSeconds.TabIndex = 68;
@@ -569,6 +520,7 @@
             this.consoleMessageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.consoleMessageBox.BackColor = System.Drawing.Color.Black;
+            this.consoleMessageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
             this.consoleMessageBox.Location = new System.Drawing.Point(741, 36);
             this.consoleMessageBox.Name = "consoleMessageBox";
@@ -597,22 +549,16 @@
             this.Controls.Add(this.label16);
             this.Controls.Add(this.slowNumSeconds);
             this.Controls.Add(this.unfreezecBtn);
-            this.Controls.Add(this.freezecWorkerIdMsgBox);
-            this.Controls.Add(this.label22);
             this.Controls.Add(this.freezecBtn);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.label25);
             this.Controls.Add(this.refreshBtn);
             this.Controls.Add(this.unfreezewBtn);
-            this.Controls.Add(this.freezewWorkerIdMsgBox);
+            this.Controls.Add(this.workerId);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.freezewBtn);
             this.Controls.Add(this.label23);
-            this.Controls.Add(this.slowWorkerIdMsgBox);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.slowBtn);
             this.Controls.Add(this.label18);
-            this.Controls.Add(this.label19);
             this.Controls.Add(this.waitButton);
             this.Controls.Add(this.submitTaskButton);
             this.Controls.Add(this.submitWorkerButton);
@@ -675,21 +621,15 @@
         private System.Windows.Forms.Button waitButton;
         private System.Windows.Forms.Button slowBtn;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox slowWorkerIdMsgBox;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox freezewWorkerIdMsgBox;
+        private System.Windows.Forms.TextBox workerId;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button freezewBtn;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button unfreezewBtn;
         private System.Windows.Forms.Button refreshBtn;
-        private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button unfreezecBtn;
-        private System.Windows.Forms.TextBox freezecWorkerIdMsgBox;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Button freezecBtn;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.NumericUpDown slowNumSeconds;
         private System.Windows.Forms.NumericUpDown numSecondsWait;
         private System.Windows.Forms.Label label16;

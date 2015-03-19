@@ -34,9 +34,7 @@ namespace MapNoReduce.Commands
 
         public bool UnfreezeWorker(string workerId)
         {
-            System.Diagnostics.Debug.WriteLine("FreezeWorker");
-
-            commandResult = "I got this result UnfreezeWorker";
+            commandResult = "[UNFREEZING] " + workerId;
 
             return true;
         }

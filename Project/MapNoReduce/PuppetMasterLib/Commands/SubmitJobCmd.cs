@@ -43,10 +43,15 @@ namespace MapNoReduce.Commands
 
         public bool SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMap mapper)
         {
-            System.Diagnostics.Debug.WriteLine("HERE -> " + mapper.Map("this sentence is now uppercase"));
 
-            commandResult = "I got this result SubmitJob";
-
+            commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
+                            "          inputFile: " + inputFile + "\r\n" +
+                            "          outputFile: " + outputFile + "\r\n" +
+                            "          outputFile: " + outputFile + "\r\n" +
+                            "          numSplits: " + numSplits + "\r\n" +
+                            "          mapper: " + mapper.GetType().Name + "\r\n" + 
+                            "          Ola ---> MAPPER ---> " + mapper.Map("Ola");
+            
             return true;
         }
     }

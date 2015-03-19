@@ -20,6 +20,10 @@ namespace MapNoReduce.Commands
             if (args.Length == 3)
             {
                 workerId = args[1];
+
+
+                System.Diagnostics.Debug.WriteLine(args[2]);
+                
                 sec = Convert.ToInt32(args[2]);
 
                 return true;
@@ -37,9 +41,8 @@ namespace MapNoReduce.Commands
 
         public bool DelayWorker(string workerId, int seconds)
         {
-            System.Diagnostics.Debug.WriteLine("RefreshStatus");
 
-            commandResult = "I got this result DelayWorker";
+            commandResult = "[DELAY] " + workerId + " for " + seconds + " seconds.";
 
             return true;
         }

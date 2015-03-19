@@ -26,7 +26,7 @@ namespace MapNoReduce.Commands
         {
             System.Diagnostics.Debug.WriteLine("RefreshStatus");
 
-            commandResult = "I got this result RefreshStatus";
+            commandResult = "[REFRESHING]";
 
             return true;
         }

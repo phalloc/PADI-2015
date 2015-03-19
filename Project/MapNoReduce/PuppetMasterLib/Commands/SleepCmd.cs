@@ -9,7 +9,7 @@ namespace MapNoReduce.Commands
     class SleepCmd : Command
     {
 
-        int sec;
+        int sec = 9999999;
 
         public SleepCmd(string line) : base(line) { }
 
@@ -18,6 +18,7 @@ namespace MapNoReduce.Commands
             string[] args = line.Split(' ');
             if (args.Length == 2)
             {
+                System.Diagnostics.Debug.WriteLine(args[1]);
                 sec = Convert.ToInt32(args[1]);
 
                 return true;
@@ -34,9 +35,8 @@ namespace MapNoReduce.Commands
 
 
         public bool Sleep(int sec){
-            System.Diagnostics.Debug.WriteLine("RefreshStatus");
 
-            commandResult = "I got this result Sleep";
+            commandResult = "[SLEEPING] " + sec + " seconds";
 
             return true;
         }

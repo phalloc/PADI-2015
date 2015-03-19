@@ -39,9 +39,11 @@ namespace MapNoReduce.Commands
 
         public bool CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
-            System.Diagnostics.Debug.WriteLine("CreateWorkProcess");
 
-            commandResult = "I got this result CreateWorkProcess";
+            commandResult = "[CREATE] id: " + id + "\r\n" +  
+                            "          puppetMasterUrl: " + puppetMasterUrl  + "\r\n" + 
+                            "          service Url: " + serviceUrl + "\r\n" + 
+                            "          entryUrl " + entryUrl;
 
             return true;
         }
