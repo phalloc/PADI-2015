@@ -24,19 +24,13 @@ namespace MapNoReduce.Commands
             return commandResult;
         }
 
-
         public bool Parse() {
-            if (!didParse) { 
-                didParse = ParseAux();
-            }
-
-            return didParse;
+            return didParse ? didParse : (didParse = ParseAux());
         
         }
         public bool Execute()
         {
-            if (!didParse) { return false; }
-            return ExecuteAux();
+            return (!didParse && Parse()) ? false : ExecuteAux();
         }
 
         protected abstract bool ExecuteAux();

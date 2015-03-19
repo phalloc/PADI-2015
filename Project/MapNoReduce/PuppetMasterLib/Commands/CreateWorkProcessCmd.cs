@@ -8,7 +8,6 @@ namespace MapNoReduce.Commands
 {
     class CreateWorkProcessCmd : Command
     {
-
         string id ;
         string puppetMasterUrl;
         string serviceUrl;

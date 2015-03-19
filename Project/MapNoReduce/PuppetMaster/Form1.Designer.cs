@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.consoleMessageBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.ConsoleLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -49,7 +49,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.submitTaskClassMapper = new System.Windows.Forms.TextBox();
             this.submitWorkerButton = new System.Windows.Forms.Button();
             this.submitTaskButton = new System.Windows.Forms.Button();
             this.waitButton = new System.Windows.Forms.Button();
@@ -83,6 +82,7 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
+            this.submitTaskClassMapperComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
@@ -90,24 +90,27 @@
             // 
             // consoleMessageBox
             // 
+            this.consoleMessageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.consoleMessageBox.BackColor = System.Drawing.SystemColors.WindowText;
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
             this.consoleMessageBox.Location = new System.Drawing.Point(741, 25);
             this.consoleMessageBox.Multiline = true;
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(479, 560);
+            this.consoleMessageBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.consoleMessageBox.Size = new System.Drawing.Size(479, 564);
             this.consoleMessageBox.TabIndex = 5;
-            this.consoleMessageBox.Text = "Quick Snippets: \\\\psf\\Home\\Desktop\\MyScript.txt";
+            this.consoleMessageBox.Text = "--- Start ---";
             // 
-            // label3
+            // ConsoleLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(738, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Console";
+            this.ConsoleLabel.AutoSize = true;
+            this.ConsoleLabel.Location = new System.Drawing.Point(738, 9);
+            this.ConsoleLabel.Name = "ConsoleLabel";
+            this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
+            this.ConsoleLabel.TabIndex = 6;
+            this.ConsoleLabel.Text = "Console";
             // 
             // label4
             // 
@@ -268,13 +271,6 @@
             this.label15.TabIndex = 28;
             this.label15.Text = "Class";
             // 
-            // submitTaskClassMapper
-            // 
-            this.submitTaskClassMapper.Location = new System.Drawing.Point(275, 431);
-            this.submitTaskClassMapper.Name = "submitTaskClassMapper";
-            this.submitTaskClassMapper.Size = new System.Drawing.Size(308, 20);
-            this.submitTaskClassMapper.TabIndex = 29;
-            // 
             // submitWorkerButton
             // 
             this.submitWorkerButton.Location = new System.Drawing.Point(589, 211);
@@ -391,6 +387,7 @@
             // 
             // refreshBtn
             // 
+            this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
             this.refreshBtn.Location = new System.Drawing.Point(741, 591);
@@ -481,7 +478,7 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label17.Location = new System.Drawing.Point(45, 151);
+            this.label17.Location = new System.Drawing.Point(45, 157);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(639, 20);
             this.label17.TabIndex = 79;
@@ -569,11 +566,25 @@
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(125, 20);
             this.submitTaskNumberSplits.TabIndex = 82;
             // 
+            // submitTaskClassMapperComboBox
+            // 
+            this.submitTaskClassMapperComboBox.DisplayMember = "0";
+            this.submitTaskClassMapperComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.submitTaskClassMapperComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.submitTaskClassMapperComboBox.FormattingEnabled = true;
+            this.submitTaskClassMapperComboBox.Items.AddRange(new object[] {
+            "MapNoReduce.DummyMapper,Common"});
+            this.submitTaskClassMapperComboBox.Location = new System.Drawing.Point(282, 431);
+            this.submitTaskClassMapperComboBox.Name = "submitTaskClassMapperComboBox";
+            this.submitTaskClassMapperComboBox.Size = new System.Drawing.Size(301, 21);
+            this.submitTaskClassMapperComboBox.TabIndex = 84;
+            // 
             // GUIPupperMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1232, 639);
+            this.Controls.Add(this.submitTaskClassMapperComboBox);
             this.Controls.Add(this.submitTaskNumberSplits);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
@@ -607,7 +618,6 @@
             this.Controls.Add(this.waitButton);
             this.Controls.Add(this.submitTaskButton);
             this.Controls.Add(this.submitWorkerButton);
-            this.Controls.Add(this.submitTaskClassMapper);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.submitTaskDestFileMsgBox);
@@ -627,10 +637,12 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.ConsoleLabel);
             this.Controls.Add(this.consoleMessageBox);
+            this.MinimumSize = new System.Drawing.Size(1248, 678);
             this.Name = "GUIPupperMaster";
             this.Text = "Pupper Master";
+            this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).EndInit();
@@ -642,7 +654,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox consoleMessageBox;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label ConsoleLabel;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -662,7 +674,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox submitTaskClassMapper;
         private System.Windows.Forms.Button submitWorkerButton;
         private System.Windows.Forms.Button submitTaskButton;
         private System.Windows.Forms.Button waitButton;
@@ -696,6 +707,7 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.NumericUpDown submitTaskNumberSplits;
+        private System.Windows.Forms.ComboBox submitTaskClassMapperComboBox;
 
     }
 }

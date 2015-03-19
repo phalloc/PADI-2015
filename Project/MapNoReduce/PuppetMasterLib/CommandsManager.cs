@@ -55,20 +55,19 @@ namespace MapNoReduce
                 returnValue.Add(ExecuteCommand(command));
             }
 
-            listCommands = null;
+            listCommands = new List<Command>();
 
             return returnValue;
         }
 
         public string ExecuteCommand(Command c)
         {
-            if (c.Parse()) {
+            if (c != null && c.Parse()) {
                 c.Execute();
                 return c.getResult();
             }
         
-
-            return "Bad instruction";
+            return "Bad command";
             
         }
 
@@ -112,7 +111,11 @@ namespace MapNoReduce
                 c = new EnableJobTrackerCmd(line);
             }
 
-            return c.Parse() ? c : null;
+            if (c != null){
+                c.Parse();
+            }
+
+            return c;
 
         }
     }

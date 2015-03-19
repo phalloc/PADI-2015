@@ -51,6 +51,13 @@ namespace MapNoReduce
             }
         }
 
+        private void GUIPupperMaster_Resize(object sender, EventArgs e)
+        {
+            int width = consoleMessageBox.Location.X + consoleMessageBox.Size.Width - ConsoleLabel.Location.X;
+            consoleMessageBox.SetBounds(ConsoleLabel.Location.X, consoleMessageBox.Location.Y, width, consoleMessageBox.Size.Height);
+            refreshBtn.SetBounds(ConsoleLabel.Location.X, refreshBtn.Location.Y, width, refreshBtn.Size.Height);
+        }
+
         
 
     }
