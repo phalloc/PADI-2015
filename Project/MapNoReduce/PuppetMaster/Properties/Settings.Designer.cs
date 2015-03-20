@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MapNoReduce.Properties {
+namespace PADIMapNoReduce.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

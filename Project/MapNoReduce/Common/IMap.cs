@@ -4,17 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapNoReduce
+namespace PADIMapNoReduce
 {
-    public interface IMap
+    public interface IMapper
     {
-        //FIX ME Set<String key, String Value> Map(String key, String value)
-        string Map(string s);
+        //FIX ME Remove, used just for testing purposes
+        string MapDummy(string s);
+        IList<KeyValuePair<string, string>> Map(string fileLine);
     }
 
-    public class DummyMapper : IMap
+    public class DummyMapper : IMapper
     {
-        public string Map(string s)
+        public IList<KeyValuePair<string, string>> Map(string fileLine)
+        {
+            return null;
+        }
+
+        public string MapDummy(string s)
         {
             return s.ToUpper();
         }

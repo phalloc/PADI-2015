@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapNoReduce.Commands
+namespace PADIMapNoReduce.Commands
 {
     class UnfreezeWorkerCmd : Command
     {

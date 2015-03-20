@@ -7,7 +7,7 @@
     <ProjectGuid>{286C72D6-77FD-4746-B4B6-205B79133453}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapNoReduce</RootNamespace>
+    <RootNamespace>PADIMapNoReduce</RootNamespace>
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

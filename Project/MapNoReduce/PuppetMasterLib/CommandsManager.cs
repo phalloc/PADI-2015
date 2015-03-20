@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections;
 
-using MapNoReduce.Commands;
+using PADIMapNoReduce.Commands;
 
-namespace MapNoReduce
+namespace PADIMapNoReduce
 {
     public class CommandsManager
     {

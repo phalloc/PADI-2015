@@ -7,7 +7,7 @@
     <ProjectGuid>{69023AA7-1100-432E-A85F-1599B8E07A6E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MapNoReduce</RootNamespace>
+    <RootNamespace>PADIMapNoReduce</RootNamespace>
     <AssemblyName>PuppetMasterLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

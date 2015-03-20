@@ -1,4 +1,4 @@
-﻿namespace MapNoReduce
+﻿namespace PADIMapNoReduce
 {
     partial class GUIPupperMaster
     {
@@ -47,7 +47,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.submitWorkerButton = new System.Windows.Forms.Button();
             this.submitTaskButton = new System.Windows.Forms.Button();
             this.waitButton = new System.Windows.Forms.Button();
@@ -75,13 +74,16 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
-            this.submitTaskClassMapperComboBox = new System.Windows.Forms.ComboBox();
             this.consoleMessageBox = new System.Windows.Forms.RichTextBox();
             this.OpenScriptBtn = new System.Windows.Forms.Button();
             this.exportFileBtn = new System.Windows.Forms.Button();
             this.sourceFileBtn = new System.Windows.Forms.Button();
             this.destFileBtn = new System.Windows.Forms.Button();
             this.clearButton = new System.Windows.Forms.Button();
+            this.submitJobMapTxtBox = new System.Windows.Forms.TextBox();
+            this.submitJobDllTxtBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
@@ -258,16 +260,6 @@
             this.label14.Size = new System.Drawing.Size(54, 13);
             this.label14.TabIndex = 19;
             this.label14.Text = "SUBMIT";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(174, 434);
-            this.label15.Name = "label15";
-            this.label15.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label15.Size = new System.Drawing.Size(32, 13);
-            this.label15.TabIndex = 28;
-            this.label15.Text = "Class";
             // 
             // submitWorkerButton
             // 
@@ -490,7 +482,7 @@
             this.commandMsgBox.Name = "commandMsgBox";
             this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
             this.commandMsgBox.TabIndex = 74;
-            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 MapNoReduce.DummyMapper,Common";
+            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper Common";
             this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
             // 
             // submitCommand
@@ -533,21 +525,6 @@
             this.submitTaskNumberSplits.TabIndex = 82;
             this.submitTaskNumberSplits.Leave += new System.EventHandler(this.submitTaskNumberSplits_Leave);
             // 
-            // submitTaskClassMapperComboBox
-            // 
-            this.submitTaskClassMapperComboBox.DisplayMember = "1";
-            this.submitTaskClassMapperComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.submitTaskClassMapperComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.submitTaskClassMapperComboBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskClassMapperComboBox.FormattingEnabled = true;
-            this.submitTaskClassMapperComboBox.Items.AddRange(new object[] {
-            "MapNoReduce.DummyMapper,Common"});
-            this.submitTaskClassMapperComboBox.Location = new System.Drawing.Point(212, 431);
-            this.submitTaskClassMapperComboBox.Name = "submitTaskClassMapperComboBox";
-            this.submitTaskClassMapperComboBox.Size = new System.Drawing.Size(371, 21);
-            this.submitTaskClassMapperComboBox.TabIndex = 84;
-            this.submitTaskClassMapperComboBox.TextChanged += new System.EventHandler(this.submitTaskClassMapperComboBox_TextChanged);
-            // 
             // consoleMessageBox
             // 
             this.consoleMessageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -581,7 +558,7 @@
             this.exportFileBtn.Name = "exportFileBtn";
             this.exportFileBtn.Size = new System.Drawing.Size(193, 23);
             this.exportFileBtn.TabIndex = 89;
-            this.exportFileBtn.Text = "[Ctrl + Shift + E] Export Console to File";
+            this.exportFileBtn.Text = "[Ctrl+Shift+E] Export Console to File";
             this.exportFileBtn.UseVisualStyleBackColor = true;
             this.exportFileBtn.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -617,18 +594,59 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
+            // submitJobMapTxtBox
+            // 
+            this.submitJobMapTxtBox.Location = new System.Drawing.Point(212, 431);
+            this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
+            this.submitJobMapTxtBox.Size = new System.Drawing.Size(194, 20);
+            this.submitJobMapTxtBox.TabIndex = 93;
+            this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
+            this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.submitJobMapTxtBox_TextChanged);
+            // 
+            // submitJobDllTxtBox
+            // 
+            this.submitJobDllTxtBox.Location = new System.Drawing.Point(445, 430);
+            this.submitJobDllTxtBox.Name = "submitJobDllTxtBox";
+            this.submitJobDllTxtBox.Size = new System.Drawing.Size(138, 20);
+            this.submitJobDllTxtBox.TabIndex = 94;
+            this.submitJobDllTxtBox.Text = "Common";
+            this.submitJobDllTxtBox.TextChanged += new System.EventHandler(this.submitJobDllTxtBox_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(177, 434);
+            this.label3.Name = "label3";
+            this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 95;
+            this.label3.Text = "Map";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(412, 433);
+            this.label19.Name = "label19";
+            this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label19.Size = new System.Drawing.Size(27, 13);
+            this.label19.TabIndex = 96;
+            this.label19.Text = "DLL";
+            // 
             // GUIPupperMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 551);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.submitJobDllTxtBox);
+            this.Controls.Add(this.submitJobMapTxtBox);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.destFileBtn);
             this.Controls.Add(this.sourceFileBtn);
             this.Controls.Add(this.exportFileBtn);
             this.Controls.Add(this.OpenScriptBtn);
             this.Controls.Add(this.consoleMessageBox);
-            this.Controls.Add(this.submitTaskClassMapperComboBox);
             this.Controls.Add(this.submitTaskNumberSplits);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label26);
@@ -656,7 +674,6 @@
             this.Controls.Add(this.waitButton);
             this.Controls.Add(this.submitTaskButton);
             this.Controls.Add(this.submitWorkerButton);
-            this.Controls.Add(this.label15);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.submitTaskDestFileMsgBox);
             this.Controls.Add(this.label11);
@@ -710,7 +727,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button submitWorkerButton;
         private System.Windows.Forms.Button submitTaskButton;
         private System.Windows.Forms.Button waitButton;
@@ -738,13 +754,16 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.NumericUpDown submitTaskNumberSplits;
-        private System.Windows.Forms.ComboBox submitTaskClassMapperComboBox;
         private System.Windows.Forms.RichTextBox consoleMessageBox;
         private System.Windows.Forms.Button OpenScriptBtn;
         private System.Windows.Forms.Button exportFileBtn;
         private System.Windows.Forms.Button sourceFileBtn;
         private System.Windows.Forms.Button destFileBtn;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.TextBox submitJobMapTxtBox;
+        private System.Windows.Forms.TextBox submitJobDllTxtBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label19;
 
     }
 }
