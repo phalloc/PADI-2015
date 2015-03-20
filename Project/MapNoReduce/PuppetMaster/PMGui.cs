@@ -13,6 +13,15 @@ namespace MapNoReduce
 {
     public partial class GUIPupperMaster : Form
     {
+
+        static string INTRO_TEXT = 
+            "     __  ___            _   __      ____           __              \r\n" +
+            "    /  |/  /___ _____  / | / /___  / __ \\___  ____/ /_  __________ \r\n" + 
+            "   / /|_/ / __ `/ __ \\/  |/ / __ \\/ /_/ / _ \\/ __  / / / / ___/ _ \\ \r\n" + 
+            "  / /  / / /_/ / /_/ / /|  / /_/ / _, _/  __/ /_/ / /_/ / /__/  __/ \r\n" +
+            " /_/  /_/\\__,_/ .___/_/ |_/\\____/_/ |_|\\___/\\__,_/\\__,_/\\___/\\___/ \r\n" + 
+            "             /_/                                                   \r\n\r\n";
+
         CommandsManager cm = new CommandsManager();
         int numLines = 0;
         public GUIPupperMaster()
@@ -23,11 +32,14 @@ namespace MapNoReduce
             checkCreateJob();
             setWorkerCommandsBtnsState(false);
             checkSubmit();
+
+    
+            AppendTextAux(consoleMessageBox, System.Drawing.Color.DeepSkyBlue, System.Drawing.Color.Black, INTRO_TEXT, false);
         }
 
         private void AppendText(RichTextBox box, Color color, string text)
         {
-            string formatString = String.Format("[{0, 4}]:", numLines++);
+            string formatString = String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + "]:", numLines++);
 
             AppendTextAux(box, System.Drawing.Color.Black, System.Drawing.Color.Gainsboro, formatString, true);
 

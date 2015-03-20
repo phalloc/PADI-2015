@@ -23,7 +23,6 @@ namespace MapNoReduce.Commands
             }
 
             return false;
-
         }
 
         protected override bool ExecuteAux()
