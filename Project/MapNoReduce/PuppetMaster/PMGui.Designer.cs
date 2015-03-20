@@ -81,6 +81,7 @@
             this.exportFileBtn = new System.Windows.Forms.Button();
             this.sourceFileBtn = new System.Windows.Forms.Button();
             this.destFileBtn = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
@@ -274,7 +275,7 @@
             this.submitWorkerButton.Name = "submitWorkerButton";
             this.submitWorkerButton.Size = new System.Drawing.Size(146, 98);
             this.submitWorkerButton.TabIndex = 33;
-            this.submitWorkerButton.Text = "Create Worker";
+            this.submitWorkerButton.Text = "[G]enerate Worker";
             this.submitWorkerButton.UseVisualStyleBackColor = true;
             this.submitWorkerButton.Click += new System.EventHandler(this.submitWorkerButton_Click);
             // 
@@ -284,7 +285,7 @@
             this.submitTaskButton.Name = "submitTaskButton";
             this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
             this.submitTaskButton.TabIndex = 34;
-            this.submitTaskButton.Text = "Submit Job";
+            this.submitTaskButton.Text = "Submit [J]ob";
             this.submitTaskButton.UseVisualStyleBackColor = true;
             this.submitTaskButton.Click += new System.EventHandler(this.submitTaskButton_Click);
             // 
@@ -294,17 +295,17 @@
             this.waitButton.Name = "waitButton";
             this.waitButton.Size = new System.Drawing.Size(146, 20);
             this.waitButton.TabIndex = 35;
-            this.waitButton.Text = "Wait";
+            this.waitButton.Text = "[W]ait";
             this.waitButton.UseVisualStyleBackColor = true;
             this.waitButton.Click += new System.EventHandler(this.waitButton_Click);
             // 
             // slowBtn
             // 
-            this.slowBtn.Location = new System.Drawing.Point(662, 492);
+            this.slowBtn.Location = new System.Drawing.Point(662, 494);
             this.slowBtn.Name = "slowBtn";
             this.slowBtn.Size = new System.Drawing.Size(73, 49);
             this.slowBtn.TabIndex = 39;
-            this.slowBtn.Text = "Sleep";
+            this.slowBtn.Text = "[S]leep";
             this.slowBtn.UseVisualStyleBackColor = true;
             this.slowBtn.Click += new System.EventHandler(this.slowBtn_Click);
             // 
@@ -345,11 +346,11 @@
             // 
             // freezewBtn
             // 
-            this.freezewBtn.Location = new System.Drawing.Point(288, 492);
+            this.freezewBtn.Location = new System.Drawing.Point(288, 494);
             this.freezewBtn.Name = "freezewBtn";
             this.freezewBtn.Size = new System.Drawing.Size(86, 49);
             this.freezewBtn.TabIndex = 45;
-            this.freezewBtn.Text = "Freeze";
+            this.freezewBtn.Text = "[F]reeze";
             this.freezewBtn.UseVisualStyleBackColor = true;
             this.freezewBtn.Click += new System.EventHandler(this.freezewBtn_Click);
             // 
@@ -365,11 +366,11 @@
             // 
             // unfreezewBtn
             // 
-            this.unfreezewBtn.Location = new System.Drawing.Point(380, 492);
+            this.unfreezewBtn.Location = new System.Drawing.Point(380, 494);
             this.unfreezewBtn.Name = "unfreezewBtn";
             this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezewBtn.TabIndex = 49;
-            this.unfreezewBtn.Text = "Unfreeze";
+            this.unfreezewBtn.Text = "[U]nfreeze";
             this.unfreezewBtn.UseVisualStyleBackColor = true;
             this.unfreezewBtn.Click += new System.EventHandler(this.unfreezewBtn_Click);
             // 
@@ -380,29 +381,29 @@
             this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
             this.refreshBtn.Location = new System.Drawing.Point(741, 504);
             this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(510, 36);
+            this.refreshBtn.Size = new System.Drawing.Size(510, 39);
             this.refreshBtn.TabIndex = 55;
-            this.refreshBtn.Text = "Refresh Status";
+            this.refreshBtn.Text = "[F5] Refresh Status";
             this.refreshBtn.UseVisualStyleBackColor = true;
             this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // unfreezecBtn
             // 
-            this.unfreezecBtn.Location = new System.Drawing.Point(472, 492);
+            this.unfreezecBtn.Location = new System.Drawing.Point(472, 494);
             this.unfreezecBtn.Name = "unfreezecBtn";
             this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezecBtn.TabIndex = 67;
-            this.unfreezecBtn.Text = "Enable Job Tracker";
+            this.unfreezecBtn.Text = "[E]nable Job Tracker";
             this.unfreezecBtn.UseVisualStyleBackColor = true;
             this.unfreezecBtn.Click += new System.EventHandler(this.unfreezecBtn_Click);
             // 
             // freezecBtn
             // 
-            this.freezecBtn.Location = new System.Drawing.Point(567, 492);
+            this.freezecBtn.Location = new System.Drawing.Point(567, 494);
             this.freezecBtn.Name = "freezecBtn";
             this.freezecBtn.Size = new System.Drawing.Size(86, 49);
             this.freezecBtn.TabIndex = 64;
-            this.freezecBtn.Text = "Disable Job Tracker";
+            this.freezecBtn.Text = "[D]isable Job Tracker";
             this.freezecBtn.UseVisualStyleBackColor = true;
             this.freezecBtn.Click += new System.EventHandler(this.freezecBtn_Click);
             // 
@@ -450,7 +451,7 @@
             this.submitScript.Name = "submitScript";
             this.submitScript.Size = new System.Drawing.Size(75, 20);
             this.submitScript.TabIndex = 78;
-            this.submitScript.Text = "Run";
+            this.submitScript.Text = "[R]un";
             this.submitScript.UseVisualStyleBackColor = true;
             this.submitScript.Click += new System.EventHandler(this.submitScript_Click);
             // 
@@ -498,7 +499,7 @@
             this.submitCommand.Name = "submitCommand";
             this.submitCommand.Size = new System.Drawing.Size(146, 20);
             this.submitCommand.TabIndex = 73;
-            this.submitCommand.Text = "Submit";
+            this.submitCommand.Text = "Run [C]ommand";
             this.submitCommand.UseVisualStyleBackColor = true;
             this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
             // 
@@ -556,9 +557,11 @@
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
             this.consoleMessageBox.Location = new System.Drawing.Point(741, 36);
             this.consoleMessageBox.Name = "consoleMessageBox";
+            this.consoleMessageBox.ReadOnly = true;
             this.consoleMessageBox.Size = new System.Drawing.Size(510, 461);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
+            this.consoleMessageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.consoleMessageBox_KeyDown);
             // 
             // OpenScriptBtn
             // 
@@ -566,7 +569,7 @@
             this.OpenScriptBtn.Name = "OpenScriptBtn";
             this.OpenScriptBtn.Size = new System.Drawing.Size(64, 20);
             this.OpenScriptBtn.TabIndex = 88;
-            this.OpenScriptBtn.Text = "Open";
+            this.OpenScriptBtn.Text = "[O]pen";
             this.OpenScriptBtn.UseVisualStyleBackColor = true;
             this.OpenScriptBtn.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -574,11 +577,11 @@
             // 
             this.exportFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.exportFileBtn.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-            this.exportFileBtn.Location = new System.Drawing.Point(1105, 10);
+            this.exportFileBtn.Location = new System.Drawing.Point(1058, 8);
             this.exportFileBtn.Name = "exportFileBtn";
-            this.exportFileBtn.Size = new System.Drawing.Size(146, 20);
+            this.exportFileBtn.Size = new System.Drawing.Size(193, 23);
             this.exportFileBtn.TabIndex = 89;
-            this.exportFileBtn.Text = "Export Console to File";
+            this.exportFileBtn.Text = "[Ctrl + Shift + E] Export Console to File";
             this.exportFileBtn.UseVisualStyleBackColor = true;
             this.exportFileBtn.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -602,11 +605,24 @@
             this.destFileBtn.UseVisualStyleBackColor = true;
             this.destFileBtn.Click += new System.EventHandler(this.destFileBtn_Click);
             // 
+            // clearButton
+            // 
+            this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearButton.ForeColor = System.Drawing.Color.DarkRed;
+            this.clearButton.Location = new System.Drawing.Point(929, 8);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(114, 23);
+            this.clearButton.TabIndex = 92;
+            this.clearButton.Text = "[Ctrl+Shift+C] Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // GUIPupperMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 551);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.destFileBtn);
             this.Controls.Add(this.sourceFileBtn);
             this.Controls.Add(this.exportFileBtn);
@@ -660,6 +676,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ConsoleLabel);
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1279, 590);
             this.Name = "GUIPupperMaster";
             this.Text = "Pupper Master";
@@ -727,6 +744,7 @@
         private System.Windows.Forms.Button exportFileBtn;
         private System.Windows.Forms.Button sourceFileBtn;
         private System.Windows.Forms.Button destFileBtn;
+        private System.Windows.Forms.Button clearButton;
 
     }
 }

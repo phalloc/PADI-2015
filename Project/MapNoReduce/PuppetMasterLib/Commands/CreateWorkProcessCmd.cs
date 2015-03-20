@@ -37,6 +37,7 @@ namespace MapNoReduce.Commands
             return CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
         }
 
+
         public bool CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
 

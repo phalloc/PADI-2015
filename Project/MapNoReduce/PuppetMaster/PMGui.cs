@@ -31,9 +31,14 @@ namespace MapNoReduce
             checkLocationTextBox();
             checkCreateJob();
             setWorkerCommandsBtnsState(false);
-            checkSubmit();
+            checkCreateWorkerMsgsBox();
+            
+            ClearConsole();
+        }
 
-    
+        private void ClearConsole()
+        {
+            consoleMessageBox.Clear();
             AppendTextAux(consoleMessageBox, System.Drawing.Color.DeepSkyBlue, System.Drawing.Color.Black, INTRO_TEXT, false);
         }
 
@@ -118,17 +123,22 @@ namespace MapNoReduce
             submitCommandAux(commandMsgBox.Text);
         }
 
-        private void submitScript_Click(object sender, EventArgs e)
+        private void submitScriptAux()
         {
             try
             {
                 cm.LoadFile(scriptLocMsgBox.Text);
-                LogInfo("Parse successfull");
                 LogInfo(cm.ExecuteScript());
-            }catch(Exception ex){
+            }
+            catch (Exception ex)
+            {
                 LogError(ex.Message);
             }
-            
+        }
+
+        private void submitScript_Click(object sender, EventArgs e)
+        {
+            submitScriptAux();            
         }
 
         //auto resize elements on maximize
@@ -141,42 +151,82 @@ namespace MapNoReduce
 
         private void waitButton_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.WAIT_CMD + " " + numSecondsWait.Value);
+            submitCommandAux(generateWaitCmd());
+        }
+
+        private string generateWaitCmd()
+        {
+            return CommandsManager.WAIT_CMD + " " + numSecondsWait.Value;
         }
 
         private void submitWorkerButton_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.CREATE_WORK_PROCESS_CMD + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text);
+            submitCommandAux(generateCreateWorkProcess());
+        }
+
+        private string generateCreateWorkProcess()
+        {
+            return CommandsManager.CREATE_WORK_PROCESS_CMD + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
         }
 
         private void submitTaskButton_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.SUBMIT_JOB_CMD + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitTaskClassMapperComboBox.Text);
+            submitCommandAux(generateCreateJob());
+        }
+
+        private string generateCreateJob()
+        {
+            return CommandsManager.SUBMIT_JOB_CMD + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitTaskClassMapperComboBox.Text;
         }
 
         private void freezewBtn_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.FREEZE_WORKER_CMD + " " + workerId.Text);
+            submitCommandAux(generateFreezeWorker());
+        }
+
+        private string generateFreezeWorker()
+        {
+            return CommandsManager.FREEZE_WORKER_CMD + " " + workerId.Text;
         }
 
         private void unfreezewBtn_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.UNFREEZE_WORKER_CMD + " " + workerId.Text);
+            submitCommandAux(generateUnfreezeWorker());
+        }
+
+        private string generateUnfreezeWorker()
+        {
+            return CommandsManager.UNFREEZE_WORKER_CMD + " " + workerId.Text;
         }
 
         private void freezecBtn_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.DISABLE_JOBTRACKER_CMD + " " + workerId.Text);
+            submitCommandAux(generateDisableJobTracker());
+        }
+
+        private string generateDisableJobTracker()
+        {
+            return CommandsManager.DISABLE_JOBTRACKER_CMD + " " + workerId.Text;
         }
 
         private void unfreezecBtn_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.ENABLE_JOBTRACKER_CMD + " " + workerId.Text);
+            submitCommandAux(generateEnableJobTracker());
+        }
+
+        private string generateEnableJobTracker()
+        {
+            return CommandsManager.ENABLE_JOBTRACKER_CMD + " " + workerId.Text;
         }
 
         private void slowBtn_Click(object sender, EventArgs e)
         {
-            submitCommandAux(CommandsManager.DELAY_WORKER_CMD + " " + workerId.Text + " " + slowNumSeconds.Value); 
+            submitCommandAux(generateSlowWorker()); 
+        }
+
+        private string generateSlowWorker()
+        {
+            return CommandsManager.DELAY_WORKER_CMD + " " + workerId.Text + " " + slowNumSeconds.Value;
         }
 
         private void refreshBtn_Click(object sender, EventArgs e)
@@ -185,6 +235,11 @@ namespace MapNoReduce
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            ExportConsoleToFile();
+        }
+
+        private void ExportConsoleToFile()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Text File | *.txt";
@@ -202,8 +257,25 @@ namespace MapNoReduce
             }
         }
 
+        private void OpenScriptFile()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 0;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Title = "Choose Script Source File";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                scriptLocMsgBox.Text = openFileDialog1.FileName;
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
+            OpenScriptFile();
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
             openFileDialog1.InitialDirectory = "c:\\";
@@ -249,7 +321,12 @@ namespace MapNoReduce
 
         private void workerId_TextChanged(object sender, EventArgs e)
         {
-            setWorkerCommandsBtnsState(workerId.Text != "");            
+            setWorkerCommandsBtnsState(checkWorkerIdMsgBox());            
+        }
+
+        private bool checkWorkerIdMsgBox()
+        {
+            return workerId.Text != "";
         }
 
         private void setWorkerCommandsBtnsState(bool value)
@@ -261,17 +338,19 @@ namespace MapNoReduce
             slowBtn.Enabled = value;
         }
 
-        private void checkLocationTextBox()
+        private bool checkLocationTextBox()
         {
 
             bool value = scriptLocMsgBox.Text != "";
-
             submitScript.Enabled = value;
+            return value;
         }
 
-        private void checkRunScriptTextBox()
+        private bool checkRunScriptTextBox()
         {
-            submitCommand.Enabled = commandMsgBox.Text != "";
+            bool value = commandMsgBox.Text != "";
+            submitCommand.Enabled = value;
+            return value; 
         }
 
         private void commandMsgBox_TextChanged(object sender, EventArgs e)
@@ -284,7 +363,7 @@ namespace MapNoReduce
             checkLocationTextBox();
         }
 
-        public void checkSubmit()
+        public bool checkCreateWorkerMsgsBox()
         {
             if (submitWorkerWorkerIdMsgBox.Text == "" || 
                 submitWorkerPMUrlMsgBox.Text == "" || 
@@ -292,14 +371,16 @@ namespace MapNoReduce
                 submitWorkerEntryUrlMsgBox.Text == "")
             {
                 submitWorkerButton.Enabled = false;
+                return false;
             }
             else
             {
                 submitWorkerButton.Enabled = true;
+                return true;
             }
         }
 
-        public void checkCreateJob()
+        public bool checkCreateJob()
         {
             if (submitTaskEntryUrlMsgBox.Text == "" || 
                 submitTaskSourceFileMsgBox.Text == "" || 
@@ -307,31 +388,33 @@ namespace MapNoReduce
                 submitTaskClassMapperComboBox.Text == "")
             {
                 submitTaskButton.Enabled = false;
+                return false;
             }
             else
             {
                 submitTaskButton.Enabled = true;
+                return true;
             }
         }
 
         private void submitWorkerWorkerIdMsgBox_TextChanged(object sender, EventArgs e)
         {
-            checkSubmit();
+            checkCreateWorkerMsgsBox();
         }
 
         private void submitWorkerPMUrlMsgBox_TextChanged(object sender, EventArgs e)
         {
-            checkSubmit();
+            checkCreateWorkerMsgsBox();
         }
 
         private void submitWorkerServiceUrlMsgBox_TextChanged(object sender, EventArgs e)
         {
-            checkSubmit();
+            checkCreateWorkerMsgsBox();
         }
 
         private void submitWorkerEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
         {
-            checkSubmit();
+            checkCreateWorkerMsgsBox();
         }
 
         private void submitTaskEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
@@ -375,6 +458,100 @@ namespace MapNoReduce
             if (slowNumSeconds.Text == "")
             {
                 slowNumSeconds.Text = "0";
+            }
+        }
+
+        private void consoleMessageBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5 || (e.KeyCode == Keys.R && e.Modifiers == Keys.Control))
+            {
+                submitCommandAux(CommandsManager.STATUS_CMD);
+                e.Handled = true;
+            }
+            
+            else if (e.KeyCode == Keys.C && e.Modifiers == (Keys.Control | Keys.Shift))
+            {
+                ClearConsoleAction();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.F && e.Modifiers == (Keys.Control | Keys.Shift))
+            {
+                ExportConsoleToFile();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.C && e.Modifiers != (Keys.Control | Keys.Shift) && checkRunScriptTextBox())
+            {
+                submitCommandAux(commandMsgBox.Text);
+                e.Handled = true;
+            }
+
+
+            else if (e.KeyCode == Keys.O)
+            {
+                OpenScriptFile();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.R && checkLocationTextBox())
+            {
+                submitScriptAux();
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.W)
+            {
+                submitCommandAux(generateWaitCmd());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.G && checkCreateWorkerMsgsBox())
+            {
+                submitCommandAux(generateCreateWorkProcess());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.J && checkCreateJob())
+            {
+                submitCommandAux(generateCreateJob());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.F && checkWorkerIdMsgBox())
+            {
+                submitCommandAux(generateFreezeWorker());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.U && checkWorkerIdMsgBox())
+            {
+                submitCommandAux(generateUnfreezeWorker());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.E && checkWorkerIdMsgBox())
+            {
+                submitCommandAux(generateEnableJobTracker());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.D && checkWorkerIdMsgBox())
+            {
+                submitCommandAux(generateDisableJobTracker());
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.S && checkWorkerIdMsgBox())
+            {
+                submitCommandAux(generateSlowWorker());
+                e.Handled = true;
+            }
+
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            ClearConsoleAction();
+        }
+
+        private void ClearConsoleAction()
+        {
+            DialogResult dr = MessageBox.Show("Are you sure? \r\n\r\nThis will clear the Log.",
+                        "Caption", MessageBoxButtons.YesNo);
+            switch (dr)
+            {
+                case DialogResult.Yes: ClearConsole(); break;
+                case DialogResult.No: break;
             }
         }
 
