@@ -1,6 +1,6 @@
 ﻿namespace PADIMapNoReduce
 {
-    partial class GUIPupperMaster
+    partial class GUIPuppetMaster
     {
         /// <summary>
         /// Required designer variable.
@@ -560,7 +560,7 @@
             this.exportFileBtn.TabIndex = 89;
             this.exportFileBtn.Text = "[Ctrl+Shift+E] Export Console to File";
             this.exportFileBtn.UseVisualStyleBackColor = true;
-            this.exportFileBtn.Click += new System.EventHandler(this.button2_Click);
+            this.exportFileBtn.Click += new System.EventHandler(this.exportConsole_Click);
             // 
             // sourceFileBtn
             // 
@@ -636,7 +636,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1263, 551);
+            this.ClientSize = new System.Drawing.Size(1263, 552);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.submitJobDllTxtBox);
@@ -696,7 +696,7 @@
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1279, 590);
             this.Name = "GUIPupperMaster";
-            this.Text = "Pupper Master";
+            this.Text = "Puppet Master";
             this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).EndInit();

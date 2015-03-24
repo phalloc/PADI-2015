@@ -16,7 +16,7 @@ namespace PADIMapNoReduce
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUIPupperMaster());
+            Application.Run(new GUIPuppetMaster());
         }
     }
 }

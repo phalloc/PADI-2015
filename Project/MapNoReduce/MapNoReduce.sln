@@ -1,8 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PupperMasterGui", "PuppetMaster\PupperMasterGui.csproj", "{E225DB27-1D5D-4D2F-AC45-4CE16A0C39A3}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppetMasterGui", "PuppetMaster\PuppetMasterGui.csproj", "{E225DB27-1D5D-4D2F-AC45-4CE16A0C39A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PuppetMasterLib", "PuppetMasterLib\PuppetMasterLib.csproj", "{69023AA7-1100-432E-A85F-1599B8E07A6E}"
 EndProject

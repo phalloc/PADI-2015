@@ -11,7 +11,7 @@ using System.IO;
 
 namespace PADIMapNoReduce
 {
-    public partial class GUIPupperMaster : Form
+    public partial class GUIPuppetMaster : Form
     {
 
         static string INTRO_TEXT = 
@@ -24,7 +24,7 @@ namespace PADIMapNoReduce
 
         CommandsManager cm = new CommandsManager();
         int numLines = 0;
-        public GUIPupperMaster()
+        public GUIPuppetMaster()
         {
             InitializeComponent();
 
@@ -277,7 +277,7 @@ namespace PADIMapNoReduce
 
         
 
-        private void button2_Click(object sender, EventArgs e)
+        private void exportConsole_Click(object sender, EventArgs e)
         {
             ExportConsoleToFile();
         }
