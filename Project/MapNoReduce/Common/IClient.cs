@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace PADIMapNoReduce
 {
-    public class Client : IClient
-    {
+    public interface IClient
+    { 
 
     }
 }
