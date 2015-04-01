@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce
 {
-    //FIXME
-    // bifurcar em dois
-    public interface IClient
+    public interface IWorker
     {
-
-        void getWorkSplit();
-        void returnWorkSplit();
+       void receiveWork(string entryUrl, int splits);
 
     }
 }

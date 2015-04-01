@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace UserInterface
+namespace PADIMapNoReduce
 {
     public partial class UI : Form
     {
 
         int numLines = 0;
+        private Client client;
 
         public UI()
         {
@@ -109,16 +110,14 @@ namespace UserInterface
         private void SubmitFile_Click(object sender, EventArgs e)
         {
             LogInfo("Submitting...");
+            client = new Client();
+            client.submitJob(FileTextBox.Text, entryUrlTextBox.Text, 10); 
+            //FIXME above (10)
         }
 
         private void Find_file_btn_hdlr(object sender, EventArgs e)
         {
             ChooseJobSourceFile();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            LogInfo("Connecting...");
         }
 
 
