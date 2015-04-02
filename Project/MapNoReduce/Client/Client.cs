@@ -17,17 +17,26 @@ namespace PADIMapNoReduce
             
         public void submitJob(string filePath, string destPath, string entryUrl, int splits, IMapper mapper)
         {
-            TcpChannel channel = new TcpChannel(8086);
-            ChannelServices.RegisterChannel(channel, true);
-
-            RemoteClient rmClient = new RemoteClient(filePath);
-            RemotingServices.Marshal(rmClient, "IClient" , typeof(RemoteClient));
-
-            worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
-            if (worker == null)
+            try
             {
-                //bruno mete na consola que não conseguimos localizar o worker pretendido
-            } else worker.receiveWork(clientURL, splits);
+                TcpChannel channel = new TcpChannel(8086);
+                ChannelServices.RegisterChannel(channel, true);
+
+                RemoteClient rmClient = new RemoteClient(filePath);
+                RemotingServices.Marshal(rmClient, "IClient", typeof(RemoteClient));
+
+                worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
+                if (worker == null)
+                {
+                    //bruno mete na consola que não conseguimos localizar o worker pretendido
+                }
+                else worker.ReceiveWork(clientURL, splits);
+            }
+            //catched when node is not responding
+            catch (RemotingTimeoutException timeException)
+            {
+                System.Diagnostics.Debug.WriteLine("time exception: " + timeException.Message);
+            }
         }
     }
 }
