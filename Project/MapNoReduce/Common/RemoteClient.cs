@@ -19,6 +19,7 @@ namespace PADIMapNoReduce
 
         public void getWorkSplit()
         {
+            System.Diagnostics.Debug.WriteLine("received request from node");
             //dar um split ao worker
         }
 

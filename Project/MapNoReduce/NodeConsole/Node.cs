@@ -17,12 +17,14 @@ namespace PADIMapNoReduce
         private long id;
         private string puppetMasterURL;
         private string myURL;
-        private static string entryURL;
+        private static string clientURL;
 
         private string nextURL;
         private string nextNextURL;
 
-        TcpChannel channel;
+        private IClient client = null;
+
+        TcpChannel myChannel;
 
         public Node(){
             //required for remoting
@@ -30,9 +32,9 @@ namespace PADIMapNoReduce
 
         public Node(string entryURL)
         {
-            channel = new TcpChannel(0);
-            var channelData = (ChannelDataStore)channel.ChannelData;
-            ChannelServices.RegisterChannel(channel, true);
+            myChannel = new TcpChannel(0);
+            var channelData = (ChannelDataStore)myChannel.ChannelData;
+            ChannelServices.RegisterChannel(myChannel, true);
             RemotingConfiguration.RegisterWellKnownServiceType(
                 typeof(Node),
                 serviceName,
@@ -51,9 +53,18 @@ namespace PADIMapNoReduce
             this.id = id;
         }
 
-        public void receiveWork(string entryUrl, int splits)
+        public void receiveWork(string clientUrl, int splits)
         {
-            Console.WriteLine("Received: " + entryUrl + " with " + splits + " splits");
+            try
+            {
+                Console.WriteLine("Received: " + clientUrl + " with " + splits + " splits");
+                client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
+                client.getWorkSplit();
+            }
+            catch (RemotingException e)
+            {
+                Console.WriteLine("Remoting Exception: " + e.Message);
+            }
         }
 
         //args: entryURL
