@@ -14,8 +14,8 @@ namespace PADIMapNoReduce
     {
         private IWorker worker = null;
         private string clientURL = "tcp://localhost:8086/IClient";
-
-        public void submitJob(string filePath, string entryUrl, int splits)
+            
+        public void submitJob(string filePath, string destPath, string entryUrl, int splits, IMapper mapper)
         {
             TcpChannel channel = new TcpChannel(8086);
             ChannelServices.RegisterChannel(channel, true);

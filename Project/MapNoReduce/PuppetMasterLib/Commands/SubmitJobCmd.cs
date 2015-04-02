@@ -27,7 +27,6 @@ namespace PADIMapNoReduce.Commands
                 outputFile = args[3];
                 numSplits = Convert.ToInt32(args[4]);
 
-                //COMMON = DLL where the className is at
                 map = (IMapper)Activator.CreateInstance(Type.GetType(args[5] + "," + args[6]));
 
                 return true;

@@ -14,7 +14,7 @@ namespace PADIMapNoReduce
     {
 
         int numLines = 0;
-        private Client client;
+        private Client client = new Client();
 
         public UI()
         {
@@ -107,17 +107,60 @@ namespace PADIMapNoReduce
             }
         }
 
+        private void ChooseJobDestinationFile()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Output File | *.out";
+            saveFileDialog1.Title = "Choose Destination File";
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                submitTaskDestFileMsgBox.Text = saveFileDialog1.FileName;
+            }
+        }
+
         private void SubmitFile_Click(object sender, EventArgs e)
         {
-            LogInfo("Submitting...");
-            client = new Client();
-            client.submitJob(FileTextBox.Text, entryUrlTextBox.Text, 10); 
-            //FIXME above (10)
+            LogInfo("Submitting: ");
+            
+            
+            string sourcePath = FileTextBox.Text;
+            LogInfo("Source Path: " + sourcePath);
+            
+            string destPath = submitTaskDestFileMsgBox.Text;
+            LogInfo("Destination Path: " + destPath);
+            
+            string entryUrl = entryUrlTextBox.Text;
+            LogInfo("Entry Url: " + entryUrl);
+            
+            int numSplits = Convert.ToInt32(submitTaskNumberSplits.Value);
+            LogInfo("Number of splits " + numSplits);
+
+            string mappperInfo =  submitJobMapTxtBox.Text + ","  + submitJobDllTxtBox.Text;
+            LogInfo("Mapper: " + mappperInfo);
+
+            IMapper map = (IMapper)Activator.CreateInstance(Type.GetType(mappperInfo));
+
+            try
+            {
+                client.submitJob(sourcePath, destPath, entryUrl, numSplits, map);
+            }
+            catch (Exception ex)
+            {
+                LogError("Error while submitting: " + ex.Message);
+            }
+            
+
         }
 
         private void Find_file_btn_hdlr(object sender, EventArgs e)
         {
             ChooseJobSourceFile();
+        }
+
+        private void destFileBtn_Click(object sender, EventArgs e)
+        {
+            ChooseJobDestinationFile();
         }
 
 
