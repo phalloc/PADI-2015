@@ -8,6 +8,7 @@ namespace PADIMapNoReduce
 {
     public class RemoteClient : MarshalByRefObject, IClient
     {
+        FormRemoteGUI form = null;
 
         private string filePath;
 

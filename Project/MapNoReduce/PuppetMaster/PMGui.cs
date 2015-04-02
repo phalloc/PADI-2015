@@ -7,23 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace PADIMapNoReduce
 {
-    public partial class GUIPuppetMaster : Form
+    public partial class GUIPuppetMaster : FormRemoteGUI
     {
-
-        static string INTRO_TEXT = 
-            "     __  ___            _   __      ____           __              \r\n" +
-            "    /  |/  /___ _____  / | / /___  / __ \\___  ____/ /_  __________ \r\n" + 
-            "   / /|_/ / __ `/ __ \\/  |/ / __ \\/ /_/ / _ \\/ __  / / / / ___/ _ \\ \r\n" + 
-            "  / /  / / /_/ / /_/ / /|  / /_/ / _, _/  __/ /_/ / /_/ / /__/  __/ \r\n" +
-            " /_/  /_/\\__,_/ .___/_/ |_/\\____/_/ |_|\\___/\\__,_/\\__,_/\\___/\\___/ \r\n" + 
-            "             /_/                                                   \r\n\r\n";
-
         CommandsManager cm = new CommandsManager();
-        int numLines = 0;
+   
         public GUIPuppetMaster()
         {
             InitializeComponent();
@@ -36,73 +26,9 @@ namespace PADIMapNoReduce
             ClearConsole();
         }
 
-        private void ClearConsole()
+        override public RichTextBox getConsoleRichTextBox()
         {
-            consoleMessageBox.Clear();
-            AppendTextAux(consoleMessageBox, System.Drawing.Color.DeepSkyBlue, System.Drawing.Color.Black, INTRO_TEXT, false);
-        }
-
-        private void AppendText(RichTextBox box, Color color, string text)
-        {
-            string formatString = String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + "]:", numLines++);
-
-            AppendTextAux(box, System.Drawing.Color.Black, System.Drawing.Color.Gainsboro, formatString, true);
-
-            string padding = "";
-            for (int i = 0; i < formatString.Length; i++)
-            {
-                padding += " ";
-            }
-
-            AppendTextAux(box, color, System.Drawing.Color.Black, " " + text.Replace("\r\n", "\r\n" + padding), false);
-
-            box.SelectionStart = box.Text.Length;
-            box.ScrollToCaret();
-        }
-        
-        private void AppendTextAux(RichTextBox box, Color textColor, Color backColor, string text, bool isLineNumber)
-        {
-            
-            int start = box.TextLength;
-
-            string s = isLineNumber ? (numLines == 1 ? text : "\r\n" + text) : text ;
-
-            box.AppendText(s);
-            int end = box.TextLength;
-
-            box.Select(start, end - start);
-            {
-                box.SelectionColor = textColor;
-                box.SelectionBackColor = backColor;
-            }
-
-            box.SelectionLength = 0; // clear
-        }
-
-        public void LogInfo(string s){
-            AppendText(consoleMessageBox, System.Drawing.Color.Lime, s);
-        }
-
-        public void LogError(string s)
-        {
-            AppendText(consoleMessageBox, System.Drawing.Color.Red, s);
-        }
-
-        public void LogInfo(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogInfo(s);
-            }
-        }
-
-
-        public void LogError(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogError(s);
-            }
+            return consoleMessageBox;
         }
 
         private void submitCommandAux(string line)
@@ -113,7 +39,7 @@ namespace PADIMapNoReduce
             }
             catch (Exception ex)
             {
-                LogError(ex.Message);
+                LogErr(ex.Message);
             }
         }
 
@@ -126,18 +52,7 @@ namespace PADIMapNoReduce
             }
             catch (Exception ex)
             {
-                LogError(ex.Message);
-            }
-        }
-
-        private void ClearConsoleAction()
-        {
-            DialogResult dr = MessageBox.Show("Are you sure? \r\n\r\nThis will clear the Log.",
-                        "Caption", MessageBoxButtons.YesNo);
-            switch (dr)
-            {
-                case DialogResult.Yes: ClearConsole(); break;
-                case DialogResult.No: break;
+                LogErr(ex.Message);
             }
         }
 
@@ -202,7 +117,6 @@ namespace PADIMapNoReduce
          * 
          * ************************
          * ************************/
-
 
 
         private void submitCommand_Click(object sender, EventArgs e)
@@ -279,7 +193,7 @@ namespace PADIMapNoReduce
 
         private void exportConsole_Click(object sender, EventArgs e)
         {
-            ExportConsoleToFile();
+            ExportConsoleToFile(getConsoleRichTextBox());
         }
 
         private void commandMsgBox_TextChanged(object sender, EventArgs e)
@@ -371,7 +285,7 @@ namespace PADIMapNoReduce
             }
             else if (e.KeyCode == Keys.F && e.Modifiers == (Keys.Control | Keys.Shift))
             {
-                ExportConsoleToFile();
+                ExportConsoleToFile(getConsoleRichTextBox());
                 e.Handled = true;
             }
             else if (e.KeyCode == Keys.C && e.Modifiers != (Keys.Control | Keys.Shift) && checkRunScriptTextBox())
@@ -445,94 +359,25 @@ namespace PADIMapNoReduce
             OpenScriptFile();
         }
 
-        private void sourceFileBtn_Click(object sender, EventArgs e)
+        private void OpenScriptFile()
         {
-            ChooseJobSourceFile();
+            FindSourceFile(scriptLocMsgBox, "txt files (*.txt)|*.txt|All files (*.*)|*.*", "Choose Script Source File");
         }
 
-
+        private void sourceFileBtn_Click(object sender, EventArgs e)
+        {
+            FindSourceFile(submitTaskSourceFileMsgBox, "Input files (*.in)|*.in", "Choose Source File");
+        }
 
         private void destFileBtn_Click(object sender, EventArgs e)
         {
-            ChooseJobDestinationFile();
-
+            FindDestinationFile(submitTaskDestFileMsgBox, "Output File | *.out", "Choose Destination File");
         }
 
         private void workerId_TextChanged(object sender, EventArgs e)
         {
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
         }
-
-        /* *********************************************
-         * ************************************************
-         * 
-         *  FILE HANDLERS AUXILIARIES
-         * 
-         * *********************************************
-         * ************************************************/
-
-        private void ExportConsoleToFile()
-        {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Text File | *.txt";
-            saveFileDialog1.Title = "Export to a text File";
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // create a writer and open the file
-                string fileName = saveFileDialog1.FileName;
-                TextWriter tw = new StreamWriter(fileName);
-                tw.WriteLine(consoleMessageBox.Text);
-                // close the stream
-                tw.Close();
-                LogInfo("Saved to " + fileName);
-            }
-        }
-
-        private void OpenScriptFile()
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            openFileDialog1.FilterIndex = 0;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Title = "Choose Script Source File";
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                scriptLocMsgBox.Text = openFileDialog1.FileName;
-            }
-        }
-
-        private void ChooseJobSourceFile()
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "Input files (*.in)|*.in";
-            openFileDialog1.FilterIndex = 0;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Title = "Choose Source File";
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                submitTaskSourceFileMsgBox.Text = openFileDialog1.FileName;
-            }
-        }
-
-        private void ChooseJobDestinationFile()
-        {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Output File | *.out";
-            saveFileDialog1.Title = "Choose Destination File";
-
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                submitTaskDestFileMsgBox.Text = saveFileDialog1.FileName;
-            }
-        }
-
 
         /*************************************************
          * ************************************************
