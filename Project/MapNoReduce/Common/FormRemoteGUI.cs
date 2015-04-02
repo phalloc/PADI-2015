@@ -9,9 +9,13 @@ using System.IO;
 
 namespace PADIMapNoReduce
 {
+
+    public delegate void LogInfoDel(string msg);
+    public delegate void LogErrDel(string msg);
+    public delegate void LogWarnDel(string msg);
+
     abstract public class FormRemoteGUI : Form
     {
-
         private static Color WARN_COLOR = Color.Yellow;
         private static Color ERROR_COLOR = Color.Red;
         private static Color INFO_COLOR = Color.Lime;
@@ -62,7 +66,6 @@ namespace PADIMapNoReduce
                 LogWarn(s);
             }
         }
-
 
         private void AppendText(RichTextBox box, Color color, string text)
         {

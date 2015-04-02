@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define DEBUG
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,19 @@ using System.Windows.Forms;
 
 namespace PADIMapNoReduce
 {
-    public partial class GUIPuppetMaster : FormRemoteGUI
+    //had to be done to render the form using abstract classes
+    //http://stackoverflow.com/questions/1620847/how-can-i-get-visual-studio-2008-windows-forms-designer-to-render-a-form-that-im/2406058#2406058
+    //
+    // It is a limitation of visual studio
+
+    public partial class GUIPuppetMaster
+
+#if DEBUG
+        : DummyClass
+#else
+        : FormRemoteGUI
+#endif
+
     {
         CommandsManager cm = new CommandsManager();
    

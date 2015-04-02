@@ -14,7 +14,14 @@ namespace PADIMapNoReduce
     {
         private IWorker worker = null;
         private string clientURL = "tcp://localhost:8086/IClient";
-            
+
+        private FormRemoteGUI connectedForm = null;
+
+        public Client(FormRemoteGUI form)
+        {
+            this.connectedForm = form;
+        }
+
         public void submitJob(string filePath, string destPath, string entryUrl, int splits, IMapper mapper)
         {
             try
@@ -22,8 +29,8 @@ namespace PADIMapNoReduce
                 TcpChannel channel = new TcpChannel(8086);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(filePath);
-                RemotingServices.Marshal(rmClient, "IClient", typeof(RemoteClient));
+                RemoteClient rmClient = new RemoteClient(filePath, connectedForm);
+                RemotingServices.Marshal(rmClient, "IClient" , typeof(RemoteClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
                 if (worker == null)
