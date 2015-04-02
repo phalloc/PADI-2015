@@ -93,7 +93,17 @@ namespace PADIMapNoReduce
         //args: entryURL
         static void Main(string[] args)
         {
-            Node node = new Node(args[0]);
+            if (args.Length >= 1)
+            {
+                Node node = new Node(args[0]);
+            }else if(args.Length == 0){
+                Node node = new Node(null);
+            }
+            else
+            {
+                Console.WriteLine("Error: Please provide entry Url as first argument");
+
+            }
             Console.ReadLine();
         }
     }
