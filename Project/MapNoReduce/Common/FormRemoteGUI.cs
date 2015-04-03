@@ -24,6 +24,11 @@ namespace PADIMapNoReduce
 
         abstract public RichTextBox getConsoleRichTextBox();
 
+        public FormRemoteGUI()
+        {
+            Logger.initializeForm(this);
+        }
+
         protected void ClearConsole()
         {
             getConsoleRichTextBox().Clear();
@@ -142,7 +147,7 @@ namespace PADIMapNoReduce
                 tw.WriteLine(source.Text);
                 // close the stream
                 tw.Close();
-                LogInfo("Saved to " + fileName);
+                Logger.LogInfo("Saved to " + fileName);
             }
         }
 

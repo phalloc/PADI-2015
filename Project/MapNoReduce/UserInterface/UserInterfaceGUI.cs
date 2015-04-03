@@ -28,6 +28,7 @@ namespace PADIMapNoReduce
         private Client client;
 
         public UI()
+            : base()
         {
             InitializeComponent();
         }
@@ -47,19 +48,19 @@ namespace PADIMapNoReduce
                 int numSplits = Convert.ToInt32(submitTaskNumberSplits.Value);
                 string mappperInfo =  submitJobMapTxtBox.Text + ","  + submitJobDllTxtBox.Text;
                 IMapper map = (IMapper)Activator.CreateInstance(Type.GetType(mappperInfo));
-                LogInfo("Submitting: ");
-                LogInfo("Source Path: " + sourcePath);
-                LogInfo("Destination Path: " + destPath);
-                LogInfo("Entry Url: " + entryUrl);
-                LogInfo("Number of splits " + numSplits);
-                LogInfo("Mapper: " + mappperInfo);
+                Logger.LogInfo("Submitting: ");
+                Logger.LogInfo("Source Path: " + sourcePath);
+                Logger.LogInfo("Destination Path: " + destPath);
+                Logger.LogInfo("Entry Url: " + entryUrl);
+                Logger.LogInfo("Number of splits " + numSplits);
+                Logger.LogInfo("Mapper: " + mappperInfo);
 
-                client = new Client(this);
+                client = new Client();
                 client.submitJob(sourcePath, destPath, entryUrl, numSplits, map);
             }
             catch (Exception ex)
             {
-                LogErr("Error while submitting: " + ex.Message);
+                Logger.LogErr("Error while submitting: " + ex.Message);
             }
         }
 

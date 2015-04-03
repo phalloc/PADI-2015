@@ -8,22 +8,20 @@ namespace PADIMapNoReduce
 {
     public class RemoteClient : MarshalByRefObject, IClient
     {
-        private static Logger logger;
         
         private string filePath;
 
-        public RemoteClient(string filePath, FormRemoteGUI form)
+        public RemoteClient(string filePath)
         {
             this.filePath = filePath;
-            logger = new Logger(form);
         }
 
 
         public void getWorkSplit()
         {
-            logger.LogInfo("received request from node");
-            logger.LogErr("received request from node");
-            logger.LogWarn("received request from node");
+            Logger.LogInfo("received request from node");
+            Logger.LogErr("received request from node");
+            Logger.LogWarn("received request from node");
 
             //dar um split ao worker
         }

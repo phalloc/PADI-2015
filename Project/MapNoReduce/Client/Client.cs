@@ -15,15 +15,6 @@ namespace PADIMapNoReduce
         private IWorker worker = null;
         private string clientURL = "tcp://localhost:8086/IClient";
 
-        private FormRemoteGUI connectedForm = null;
-        private Logger logger;
-
-
-        public Client(FormRemoteGUI form)
-        {
-            this.connectedForm = form;
-            logger = new Logger(form);
-        }
 
         public void submitJob(string filePath, string destPath, string entryUrl, int splits, IMapper mapper)
         {
@@ -32,13 +23,13 @@ namespace PADIMapNoReduce
                 TcpChannel channel = new TcpChannel(8086);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(filePath, connectedForm);
+                RemoteClient rmClient = new RemoteClient(filePath);
                 RemotingServices.Marshal(rmClient, "IClient" , typeof(RemoteClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
                 if (worker == null)
                 {
-                    logger.LogErr("Could not find specified worker");
+                    Logger.LogInfo("Could not find specified worker");
                 }
                 else worker.ReceiveWork(clientURL, splits);
             }

@@ -27,7 +27,7 @@ namespace PADIMapNoReduce
     {
         CommandsManager cm = new CommandsManager();
    
-        public GUIPuppetMaster()
+        public GUIPuppetMaster() : base()
         {
             InitializeComponent();
 
@@ -35,7 +35,8 @@ namespace PADIMapNoReduce
             checkCreateJob();
             setWorkerCommandsBtnsState(false);
             checkCreateWorkerMsgsBox();
-            
+
+
             ClearConsole();
         }
 
@@ -48,11 +49,11 @@ namespace PADIMapNoReduce
         {
             try
             {
-                LogInfo(cm.ExecuteCommand(cm.ParseCommand(line)));
+                Logger.LogInfo(cm.ExecuteCommand(cm.ParseCommand(line)));
             }
             catch (Exception ex)
             {
-                LogErr(ex.Message);
+                Logger.LogErr(ex.Message);
             }
         }
 
@@ -61,11 +62,11 @@ namespace PADIMapNoReduce
             try
             {
                 cm.LoadFile(scriptLocMsgBox.Text);
-                LogInfo(cm.ExecuteScript());
+                Logger.LogInfo(cm.ExecuteScript());
             }
             catch (Exception ex)
             {
-                LogErr(ex.Message);
+                Logger.LogErr(ex.Message);
             }
         }
 

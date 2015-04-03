@@ -44,12 +44,12 @@ namespace PADIMapNoReduce
                 serviceName,
                 WellKnownObjectMode.Singleton);
 
-            Console.WriteLine("New node created with URL: tcp://localhost:" + new System.Uri(channelData.ChannelUris[0]).Port + "/" + serviceName);
+            Logger.LogInfo("Node URL: tcp://localhost:" + new System.Uri(channelData.ChannelUris[0]).Port + "/" + serviceName);
           
             //check if other nodes exist
             if (entryURL != null)
             {
-                Console.WriteLine("Attaching myself to existing network at: " + entryURL);
+                Logger.LogInfo("Attaching myself to existing network at: " + entryURL);
                 //IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), entryURL);
                 //worker.AddWorker(myURL);
             }
@@ -101,7 +101,7 @@ namespace PADIMapNoReduce
             }
             else
             {
-                Console.WriteLine("Error: Please provide entry Url as first argument");
+                Logger.LogErr("Error: Please provide entry Url as first argument");
 
             }
             Console.ReadLine();

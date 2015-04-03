@@ -8,33 +8,80 @@ namespace PADIMapNoReduce
 {
     public class Logger
     {
-        private FormRemoteGUI form = null;
-        private int numLines = 0;
+        private static FormRemoteGUI form = null;
+        private static int numLines = 0;
+        public static Logger instance;
 
-        public Logger(FormRemoteGUI form)
+        public static void initializeForm(FormRemoteGUI form)
         {
-            this.form = form;
+            Logger.form = form;
         }
 
-        public void LogInfo(string msg)
+        public static void LogInfo(List<string> listS)
+        {
+            foreach (string s in listS)
+            {
+                LogTerminal("INFO", s);
+            }
+
+            if (form != null)
+                form.BeginInvoke(new LogInfoDel(form.LogInfo), new Object[] { listS });
+
+        }
+
+        public static void LogWarn(List<string> listS)
+        {
+            foreach (string s in listS)
+            {
+                LogTerminal("WARN", s);
+            }
+
+            if (form != null)
+                form.BeginInvoke(new LogInfoDel(form.LogWarn), new Object[] { listS });
+
+        }
+
+        public static void LogErr(List<string> listS)
+        {
+            foreach (string s in listS)
+            {
+                LogTerminal("ERR", s);
+            }
+
+            if (form != null)
+                form.BeginInvoke(new LogInfoDel(form.LogErr), new Object[] { listS });
+            else
+                LogTerminal("WARN", "Form not initialized");
+        }
+
+        public static void LogInfo(string msg)
         {
             LogTerminal("INFO", msg);
-            form.BeginInvoke(new LogInfoDel(form.LogInfo), new Object[] { msg });
+            
+            if (form != null)
+                form.BeginInvoke(new LogInfoDel(form.LogInfo), new Object[] { msg });
+
         }
 
-        public void LogWarn(string msg)
+        public static void LogWarn(string msg)
         {
             LogTerminal("WARN", msg);
-            form.BeginInvoke(new LogWarnDel(form.LogWarn), new Object[] { msg });
+
+            if (form != null)
+                form.BeginInvoke(new LogWarnDel(form.LogWarn), new Object[] { msg });
+
         }
 
-        public void LogErr(string msg)
+        public static void LogErr(string msg)
         {
             LogTerminal("ERR", msg);
-            form.BeginInvoke(new LogErrDel(form.LogErr), new Object[] { msg });
+
+            if (form != null)
+                form.BeginInvoke(new LogErrDel(form.LogErr), new Object[] { msg });
+
         }
 
-        private void LogTerminal(string prefix, string msg)
+        private static void LogTerminal(string prefix, string msg)
         {
             string formatString = String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + "] :", numLines++);
             formatString += "[" + prefix + "]: " + msg;
