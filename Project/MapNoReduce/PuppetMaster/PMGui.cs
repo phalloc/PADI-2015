@@ -62,7 +62,11 @@ namespace PADIMapNoReduce
             try
             {
                 cm.LoadFile(scriptLocMsgBox.Text);
-                Logger.LogInfo(cm.ExecuteScript());
+
+                foreach (string s in cm.ExecuteScript())
+                {
+                    Logger.LogInfo(s);
+                }
             }
             catch (Exception ex)
             {

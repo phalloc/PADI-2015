@@ -70,13 +70,13 @@ namespace PADIMapNoReduce
         {
             try
             {
-                Console.WriteLine("Received: " + clientUrl + " with " + splits + " splits");
+                Logger.LogInfo("Received: " + clientUrl + " with " + splits + " splits");
                 client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
                 client.getWorkSplit();
             }
             catch (RemotingException e)
             {
-                Console.WriteLine("Remoting Exception: " + e.Message);
+                Logger.LogErr("Remoting Exception: " + e.Message);
             }
         }
 

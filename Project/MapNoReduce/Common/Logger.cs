@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace PADIMapNoReduce
 {
     public class Logger
     {
+
+        private static Color WARN_COLOR = Color.Yellow;
+        private static Color ERROR_COLOR = Color.Red;
+        private static Color INFO_COLOR = Color.Lime;
+        private static Color PREFIX_BACK_COLOR = Color.Gainsboro;
+        private static Color PREFIX_TEXT_COLOR = Color.Black;        
+        private static Color TEXT_BACK_COLOR = Color.Black;
+
+
+        
         private static FormRemoteGUI form = null;
         private static int numLines = 0;
         public static Logger instance;
@@ -17,77 +28,52 @@ namespace PADIMapNoReduce
             Logger.form = form;
         }
 
-        public static void LogInfo(List<string> listS)
+        public static string generatePrefixString(string type)
         {
-            foreach (string s in listS)
-            {
-                LogTerminal("INFO", s);
-            }
-
-            if (form != null)
-                form.BeginInvoke(new LogInfoDel(form.LogInfo), new Object[] { listS });
-
-        }
-
-        public static void LogWarn(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogTerminal("WARN", s);
-            }
-
-            if (form != null)
-                form.BeginInvoke(new LogInfoDel(form.LogWarn), new Object[] { listS });
-
-        }
-
-        public static void LogErr(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogTerminal("ERR", s);
-            }
-
-            if (form != null)
-                form.BeginInvoke(new LogInfoDel(form.LogErr), new Object[] { listS });
-            else
-                LogTerminal("WARN", "Form not initialized");
+            return String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + " " + type + "]:", numLines++);
         }
 
         public static void LogInfo(string msg)
         {
-            LogTerminal("INFO", msg);
+
+            string prefix = generatePrefixString("INFO");
+            msg = "  " + msg;
             
+            LogTerminal(prefix + msg);
+         
             if (form != null)
-                form.BeginInvoke(new LogInfoDel(form.LogInfo), new Object[] { msg });
+                form.BeginInvoke(new LogInfoDel(form.AppendText), new Object[] { PREFIX_TEXT_COLOR, PREFIX_BACK_COLOR, TEXT_BACK_COLOR, INFO_COLOR, prefix, msg });
 
         }
 
         public static void LogWarn(string msg)
         {
-            LogTerminal("WARN", msg);
+            string prefix = generatePrefixString("WARN");
+            msg = "  " + msg;
+            LogTerminal(prefix + msg);
+            
 
             if (form != null)
-                form.BeginInvoke(new LogWarnDel(form.LogWarn), new Object[] { msg });
-
+                form.BeginInvoke(new LogInfoDel(form.AppendText), new Object[] { PREFIX_TEXT_COLOR, PREFIX_BACK_COLOR, TEXT_BACK_COLOR, WARN_COLOR, prefix, msg  });
         }
 
         public static void LogErr(string msg)
         {
-            LogTerminal("ERR", msg);
+            string prefix = generatePrefixString("ERRO");
+            msg = "  " + msg;
+            
+            LogTerminal(prefix + msg);
+            
 
             if (form != null)
-                form.BeginInvoke(new LogErrDel(form.LogErr), new Object[] { msg });
+                form.BeginInvoke(new LogInfoDel(form.AppendText), new Object[] { PREFIX_TEXT_COLOR, PREFIX_BACK_COLOR, TEXT_BACK_COLOR, ERROR_COLOR, prefix, msg  });
 
         }
 
-        private static void LogTerminal(string prefix, string msg)
+        private static void LogTerminal(string msg)
         {
-            string formatString = String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + "] :", numLines++);
-            formatString += "[" + prefix + "]: " + msg;
-            
-            System.Console.WriteLine(formatString);
-            System.Diagnostics.Debug.WriteLine(formatString);
+            System.Console.WriteLine(msg);
+            System.Diagnostics.Debug.WriteLine(msg);
         }
     }
 }

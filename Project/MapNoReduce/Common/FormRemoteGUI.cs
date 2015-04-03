@@ -10,18 +10,12 @@ using System.IO;
 namespace PADIMapNoReduce
 {
 
-    public delegate void LogInfoDel(string msg);
-    public delegate void LogErrDel(string msg);
-    public delegate void LogWarnDel(string msg);
+    public delegate void LogInfoDel(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text);
+    public delegate void LogErrDel(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text);
+    public delegate void LogWarnDel(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text);
 
     abstract public class FormRemoteGUI : Form
     {
-        private static Color WARN_COLOR = Color.Yellow;
-        private static Color ERROR_COLOR = Color.Red;
-        private static Color INFO_COLOR = Color.Lime;
-
-        private int numLines = 0;
-
         abstract public RichTextBox getConsoleRichTextBox();
 
         public FormRemoteGUI()
@@ -34,68 +28,28 @@ namespace PADIMapNoReduce
             getConsoleRichTextBox().Clear();
         }
 
-        public void LogInfo(string msg) 
+        
+        public void AppendText(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text)
         {
-            AppendText(getConsoleRichTextBox(), INFO_COLOR, msg);
-        }
+            RichTextBox box = getConsoleRichTextBox();
 
-        public void LogErr(string msg) 
-        {
-            AppendText(getConsoleRichTextBox(), ERROR_COLOR, msg);
-        }
-        public void LogWarn(string msg)
-        {
-            AppendText(getConsoleRichTextBox(), WARN_COLOR, msg);
-        }
+            AppendTextAux(prefixTextColor, prefixBackColor, prefixMsg, false);
+            AppendTextAux(msgTextColor, textBackColor, text, true);
 
-
-        public void LogInfo(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogInfo(s);
-            }
-        }
-
-        public void LogErr(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogErr(s);
-            }
-        }
-        public void LogWarn(List<string> listS)
-        {
-            foreach (string s in listS)
-            {
-                LogWarn(s);
-            }
-        }
-
-        private void AppendText(RichTextBox box, Color color, string text)
-        {
-            string formatString = String.Format("[{0, 4} - " + DateTime.Now.ToString("HH:mm:ss") + "]:", numLines++);
-
-            AppendTextAux(box, System.Drawing.Color.Black, System.Drawing.Color.Gainsboro, formatString, true);
-
-            string padding = "";
-            for (int i = 0; i < formatString.Length; i++)
-            {
-                padding += " ";
-            }
-
-            AppendTextAux(box, color, System.Drawing.Color.Black, " " + text.Replace("\r\n", "\r\n" + padding), false);
 
             box.SelectionStart = box.Text.Length;
             box.ScrollToCaret();
         }
+        
 
-        private void AppendTextAux(RichTextBox box, Color textColor, Color backColor, string text, bool isLineNumber)
+
+        public void AppendTextAux(Color textColor, Color backColor, string text, bool newLine)
         {
+            RichTextBox box = getConsoleRichTextBox();
 
             int start = box.TextLength;
 
-            string s = isLineNumber ? (numLines == 1 ? text : "\r\n" + text) : text;
+            string s = newLine ? text + "\r\n" : text;
 
             box.AppendText(s);
             int end = box.TextLength;
@@ -107,6 +61,7 @@ namespace PADIMapNoReduce
             }
 
             box.SelectionLength = 0; // clear
+
         }
 
 
