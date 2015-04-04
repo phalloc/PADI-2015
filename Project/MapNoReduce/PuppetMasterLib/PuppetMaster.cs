@@ -18,8 +18,8 @@ namespace PADIMapNoReduce
         private string serviceName = "PM";
         private int port;
 
-        private string workerExeLocation = null;
-        private string clientExeLocation = null;
+        private static string workerExeLocation = null;
+        private static string clientExeLocation = null;
 
         private TcpChannel serviceChannel;
         private PM remoteObject;
@@ -29,17 +29,24 @@ namespace PADIMapNoReduce
             cm = new CommandsManager(this);
         }
 
+        public static string GetWorkerExeLocation()
+        {
+            return workerExeLocation;
+        }
+
+        public static string getClientExeLocation()
+        {
+            return clientExeLocation;
+        }
+
         public void SetWorkerExeLocation(string exeLocation)
         {
-            Logger.LogInfo("setting up worker exe Location");
-            this.workerExeLocation = exeLocation;
-            remoteObject.SetworkerExecutableDirectoy(exeLocation);
+            PuppetMaster.workerExeLocation = exeLocation;
         }
 
         public void SetClientExeLocation(string exeLocation)
         {
-            Logger.LogInfo("setting up client exe location");
-            this.clientExeLocation = exeLocation;
+            PuppetMaster.clientExeLocation = exeLocation;
         }
 
         public void LoadConfigurationFile(IDictionary<string, string> dic)
@@ -62,7 +69,7 @@ namespace PADIMapNoReduce
             remoteObject = new PM();
             TcpChannel myChannel = new TcpChannel(this.port);
             ChannelServices.RegisterChannel(myChannel, true);
-            RemotingServices.Marshal(remoteObject, serviceName, typeof(PM));
+            RemotingServices.Marshal(remoteObject, serviceName, typeof(IPuppetMaster));
 
             Logger.LogInfo("Started PuppetMaster service @ tcp://localhost:" + this.port + "/" + this.serviceName);
         }

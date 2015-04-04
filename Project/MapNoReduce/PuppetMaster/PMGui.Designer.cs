@@ -586,6 +586,7 @@
             this.submitWorkerServiceUrlMsgBox.Name = "submitWorkerServiceUrlMsgBox";
             this.submitWorkerServiceUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerServiceUrlMsgBox.TabIndex = 16;
+            this.submitWorkerServiceUrlMsgBox.Text = "tcp://localhost:30001/W";
             this.submitWorkerServiceUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerServiceUrlMsgBox_TextChanged);
             // 
             // label8
@@ -620,6 +621,7 @@
             this.submitWorkerWorkerIdMsgBox.Name = "submitWorkerWorkerIdMsgBox";
             this.submitWorkerWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerWorkerIdMsgBox.TabIndex = 10;
+            this.submitWorkerWorkerIdMsgBox.Text = "W1";
             this.submitWorkerWorkerIdMsgBox.TextChanged += new System.EventHandler(this.submitWorkerWorkerIdMsgBox_TextChanged);
             // 
             // label6
@@ -689,6 +691,7 @@
             this.workerExeMsgBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.workerExeMsgBox.Size = new System.Drawing.Size(478, 20);
             this.workerExeMsgBox.TabIndex = 103;
+            this.workerExeMsgBox.Text = "..\\..\\..\\NodeConsole\\bin\\Debug\\NodeConsole.exe";
             this.workerExeMsgBox.TextChanged += new System.EventHandler(this.workerExeMsgBox_TextChanged);
             // 
             // label22
@@ -717,7 +720,7 @@
             this.clientExeMsgBox.Name = "clientExeMsgBox";
             this.clientExeMsgBox.Size = new System.Drawing.Size(478, 20);
             this.clientExeMsgBox.TabIndex = 107;
-            this.clientExeMsgBox.Text = "..\\..\\..\\MyScript.txt";
+            this.clientExeMsgBox.Text = "FIXME";
             this.clientExeMsgBox.TextChanged += new System.EventHandler(this.clientExeMsgBox_TextChanged);
             // 
             // label24

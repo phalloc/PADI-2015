@@ -434,8 +434,7 @@ namespace PADIMapNoReduce
         {
             if (submitWorkerWorkerIdMsgBox.Text == "" || 
                 submitWorkerServiceUrlMsgBox.Text == "" ||
-                workerExeMsgBox.Text == "" ||
-                submitWorkerEntryUrlMsgBox.Text == "")
+                workerExeMsgBox.Text == "")
             {
                 submitWorkerButton.Enabled = false;
                 return false;
