@@ -27,7 +27,7 @@ namespace PADIMapNoReduce
 #endif
 
     {
-        CommandsManager cm = new CommandsManager();
+        PuppetMaster cm = new PuppetMaster();
    
         public GUIPuppetMaster() : base()
         {
@@ -58,7 +58,7 @@ namespace PADIMapNoReduce
         {
             try
             {
-                cm.ExecuteCommand(cm.ParseCommand(line));
+                cm.ExecuteCommand(line);
             }
             catch (Exception ex)
             {
@@ -409,6 +409,20 @@ namespace PADIMapNoReduce
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
         }
 
+        
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            FindSourceFile(propertiesMsgBox, "Properties files (*.conf)|*.conf", "Choose properties File");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string source_file = propertiesMsgBox.Text;
+            IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
+
+            cm.LoadConfigurationFile(result);
+        }
+
         /*************************************************
          * ************************************************
          * 
@@ -490,5 +504,7 @@ namespace PADIMapNoReduce
         {
             checkCreateJob();
         }
+
+        
     }
 }

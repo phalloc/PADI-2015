@@ -17,7 +17,7 @@ namespace PADIMapNoReduce
 
         List<Command> listCommands = new List<Command>();
         List<Command> supportedCommands = new List<Command>();
-
+        
 
 
         public CommandsManager()
@@ -76,14 +76,17 @@ namespace PADIMapNoReduce
             listCommands.Clear();
         }
 
-
-
-        public void ExecuteCommand(Command c)
+        public void ExecuteCommand(string line)
         {
-            c.Execute();      
+            ParseCommand(line).Execute();      
         }
 
-        public Command ParseCommand(string line) {
+        private void ExecuteCommand(Command c)
+        {
+            c.Execute();
+        }
+
+        private Command ParseCommand(string line) {
             string commandType = line.Split(' ')[0];
 
             foreach (Command c in supportedCommands)

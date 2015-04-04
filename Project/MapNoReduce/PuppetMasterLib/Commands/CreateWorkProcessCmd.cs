@@ -30,17 +30,13 @@ namespace PADIMapNoReduce.Commands
 
                 return true;
             }
-
             return false;
-
         }
 
         public override string getCommandName()
         {
             return COMMAND;
         }
-
-
 
         protected override void ExecuteAux()
         {

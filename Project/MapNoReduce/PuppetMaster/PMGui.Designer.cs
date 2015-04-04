@@ -64,14 +64,12 @@
             this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
             this.numSecondsWait = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.submitScript = new System.Windows.Forms.Button();
             this.scriptLocMsgBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.commandMsgBox = new System.Windows.Forms.TextBox();
             this.submitCommand = new System.Windows.Forms.Button();
-            this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
             this.consoleMessageBox = new System.Windows.Forms.RichTextBox();
@@ -84,6 +82,10 @@
             this.submitJobDllTxtBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.propertiesMsgBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
@@ -283,7 +285,7 @@
             // 
             // waitButton
             // 
-            this.waitButton.Location = new System.Drawing.Point(589, 120);
+            this.waitButton.Location = new System.Drawing.Point(589, 147);
             this.waitButton.Name = "waitButton";
             this.waitButton.Size = new System.Drawing.Size(146, 20);
             this.waitButton.TabIndex = 35;
@@ -411,7 +413,7 @@
             // numSecondsWait
             // 
             this.numSecondsWait.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numSecondsWait.Location = new System.Drawing.Point(513, 119);
+            this.numSecondsWait.Location = new System.Drawing.Point(513, 146);
             this.numSecondsWait.Name = "numSecondsWait";
             this.numSecondsWait.Size = new System.Drawing.Size(70, 22);
             this.numSecondsWait.TabIndex = 70;
@@ -420,22 +422,11 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(469, 122);
+            this.label16.Location = new System.Drawing.Point(469, 149);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 13);
             this.label16.TabIndex = 69;
             this.label16.Text = "# SEC";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label17.Location = new System.Drawing.Point(45, 152);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(639, 20);
-            this.label17.TabIndex = 79;
-            this.label17.Text = "_______________________________________________________________";
             // 
             // submitScript
             // 
@@ -494,15 +485,6 @@
             this.submitCommand.Text = "Run [C]ommand";
             this.submitCommand.UseVisualStyleBackColor = true;
             this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(72, 132);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(0, 13);
-            this.label26.TabIndex = 80;
             // 
             // label27
             // 
@@ -632,11 +614,53 @@
             this.label19.TabIndex = 96;
             this.label19.Text = "DLL";
             // 
-            // GUIPupperMaster
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(589, 118);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 20);
+            this.button1.TabIndex = 97;
+            this.button1.Text = "Open";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // propertiesMsgBox
+            // 
+            this.propertiesMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.propertiesMsgBox.Location = new System.Drawing.Point(105, 118);
+            this.propertiesMsgBox.Name = "propertiesMsgBox";
+            this.propertiesMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.propertiesMsgBox.TabIndex = 99;
+            this.propertiesMsgBox.Text = "..\\..\\..\\PM_properties.conf";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(2, 120);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(98, 13);
+            this.label15.TabIndex = 98;
+            this.label15.Text = "Properties Location";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(660, 118);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 20);
+            this.button2.TabIndex = 100;
+            this.button2.Text = "Load";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 552);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.propertiesMsgBox);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.submitJobDllTxtBox);
@@ -649,8 +673,6 @@
             this.Controls.Add(this.consoleMessageBox);
             this.Controls.Add(this.submitTaskNumberSplits);
             this.Controls.Add(this.label27);
-            this.Controls.Add(this.label26);
-            this.Controls.Add(this.label17);
             this.Controls.Add(this.submitScript);
             this.Controls.Add(this.scriptLocMsgBox);
             this.Controls.Add(this.label2);
@@ -695,7 +717,7 @@
             this.Controls.Add(this.ConsoleLabel);
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1279, 590);
-            this.Name = "GUIPupperMaster";
+            this.Name = "GUIPuppetMaster";
             this.Text = "Puppet Master";
             this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
@@ -744,14 +766,12 @@
         private System.Windows.Forms.NumericUpDown slowNumSeconds;
         private System.Windows.Forms.NumericUpDown numSecondsWait;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Button submitScript;
         private System.Windows.Forms.TextBox scriptLocMsgBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox commandMsgBox;
         private System.Windows.Forms.Button submitCommand;
-        private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.NumericUpDown submitTaskNumberSplits;
         private System.Windows.Forms.RichTextBox consoleMessageBox;
@@ -764,6 +784,10 @@
         private System.Windows.Forms.TextBox submitJobDllTxtBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox propertiesMsgBox;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Button button2;
 
     }
 }
