@@ -11,9 +11,10 @@ namespace PADIMapNoReduce
     {
 
         public delegate bool RemoteAsyncDelegate(bool reply);
-        private static string serviceName = "IWorker";
+        private static string serviceName = "W";
 
-        private long id;
+        private string id;
+        private int channelPort;
         private string puppetMasterURL;
         private string myURL;
         private static string clientURL;
@@ -23,9 +24,13 @@ namespace PADIMapNoReduce
 
         private IClient client = null;
 
-        public Node(string port)
-        {  
-            myURL = "tcp://localhost:" + port + "/" + serviceName;
+        public Node(string id, string serviceURL)
+        {
+            this.id = id;
+            myURL = serviceURL;
+            string[] splits = serviceURL.Split(':');
+            splits = splits[splits.Length-1].Split('/');
+            channelPort = int.Parse(splits[0]);
         }
 
         public void Register(string entryURL){
@@ -34,10 +39,6 @@ namespace PADIMapNoReduce
             {
                 Logger.LogInfo("Attaching myself to existing network at: " + entryURL);
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), entryURL);
-                if (worker != null)
-                {
-                    Logger.LogInfo("not null");
-                }
                 List<String> urls = worker.AddWorker(myURL, true);
                 nextURL = urls[1];
                 nextNextURL = urls[2];
@@ -52,18 +53,8 @@ namespace PADIMapNoReduce
                 Logger.LogInfo("nextNextURL: " + nextNextURL);
 
             }
-            else Logger.LogInfo("I am the first node of my network...\n #foreveralone \n #whyUDoThis \n");
+            else Logger.LogErr("Did not provided entryURL");
 
-        }
-
-        public long getId()
-        {
-            return id;
-        }
-
-        public void setId(long id)
-        {
-            this.id = id;
         }
 
         public void ReceiveWork(string clientUrl, int splits)
@@ -126,30 +117,30 @@ namespace PADIMapNoReduce
             return urls;
         }
 
-        //args: entryURL
+        //args: id, serviceURL, entryURL
         static void Main(string[] args)
         {
-            if (args.Length >= 2)
+            if (args.Length <= 1)
             {
-                Node node = new Node(args[0]);
-                TcpChannel myChannel = new TcpChannel(int.Parse(args[0]));
-                ChannelServices.RegisterChannel(myChannel, true);
-                RemotingServices.Marshal(node, serviceName, typeof(IWorker));
-                Logger.LogInfo("Registered with url: " + node.myURL);
-                Logger.LogInfo("Registering on network with entry point: " + args[1]);
-                node.Register(args[1]);
-              
-            }else if(args.Length == 1){
-                Node node = new Node(args[0]);
-                TcpChannel myChannel = new TcpChannel(int.Parse(args[0]));
-                ChannelServices.RegisterChannel(myChannel, true);
-                RemotingServices.Marshal(node, serviceName, typeof(IWorker));
-                Logger.LogInfo("Registered with url: " + node.myURL);
+                Logger.LogErr("Error: Invalid arguments. Usage: [required: id, serviceURL], [optional: entryURL]");
             }
-            else
-            {
-                Logger.LogErr("Error: Please provide entry port as first argument");
 
+            try
+            {
+                Node node = new Node(args[0], args[1]);
+                TcpChannel myChannel = new TcpChannel(node.channelPort);
+                ChannelServices.RegisterChannel(myChannel, true);
+                RemotingServices.Marshal(node, serviceName, typeof(IWorker));
+                Logger.LogInfo("Registered with url: " + node.myURL);
+                if (args.Length >= 3)
+                {
+                    Logger.LogInfo("Registering on network with entry point: " + args[2]);
+                    node.Register(args[2]);
+                }
+            }
+            catch (RemotingException re)
+            {
+                Logger.LogErr("Remoting Exception: " + re.StackTrace);
             }
             Console.ReadLine();
         }
