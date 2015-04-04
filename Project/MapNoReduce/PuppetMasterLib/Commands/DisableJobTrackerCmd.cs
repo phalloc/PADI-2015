@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class DisableJobTrackerCmd : Command
+    public class DisableJobTrackerCmd : Command
     {
+
+        public static string COMMAND = "FREEZEC";
+        
+
         string workerId;
 
-        public DisableJobTrackerCmd(string line) : base(line) { }
 
         protected override bool ParseAux()
         {
@@ -31,11 +34,17 @@ namespace PADIMapNoReduce.Commands
             return DisableJobTracker(workerId);
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
 
         public bool DisableJobTracker(string workerId)
         {
 
-            commandResult = "[DISABLING] " + workerId + " Job traceker";
+            string commandResult = "[DISABLING] " + workerId + " Job traceker";
+            Logger.LogInfo(commandResult);
+
 
             return true;
         }

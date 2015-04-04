@@ -8,33 +8,31 @@ namespace PADIMapNoReduce.Commands
 {
     public abstract class Command
     {
-        protected static string NO_RESULT = "No result";
-
         protected string line;
-        protected string commandResult = NO_RESULT;
-        protected bool didParse = false;
-
-        public Command(string line)
-        {
+       
+        public void Parse(string line) {
             this.line = line;
-        }
-
-        public string getResult()
-        {
-            return commandResult;
-        }
-
-        public bool Parse() {
-            return didParse ? didParse : (didParse = ParseAux());
-        
+            if(!ParseAux()){
+                this.line = null;
+                throw new Exception("Couldn't parse command: " + line);
+            }
         }
         public bool Execute()
         {
-            return (!didParse && Parse()) ? false : ExecuteAux();
+            if (line == null){
+                throw new Exception("Run parse first");
+            }
+
+            bool result = ExecuteAux();
+            this.line = null;
+            return result;
         }
 
         protected abstract bool ExecuteAux();
         protected abstract bool ParseAux();
+        public abstract string getCommandName();
+
+        
         
     }
 }

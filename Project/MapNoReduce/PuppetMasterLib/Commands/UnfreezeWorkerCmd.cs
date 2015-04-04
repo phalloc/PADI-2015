@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class UnfreezeWorkerCmd : Command
+    public class UnfreezeWorkerCmd : Command
     {
+
+        public static string COMMAND = "UNFREEZEW";
+        
+
         string workerId;
 
-        public UnfreezeWorkerCmd(string line) : base(line) { }
 
         protected override bool ParseAux()
         {
@@ -30,11 +33,15 @@ namespace PADIMapNoReduce.Commands
             return UnfreezeWorker(workerId);
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
 
         public bool UnfreezeWorker(string workerId)
         {
-            commandResult = "[UNFREEZING] " + workerId;
-
+            string commandResult = "[UNFREEZING] " + workerId;
+            Logger.LogInfo(commandResult);
             return true;
         }
     }

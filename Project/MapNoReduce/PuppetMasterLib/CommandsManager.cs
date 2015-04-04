@@ -7,23 +7,31 @@ using System.IO;
 using System.Collections;
 
 using PADIMapNoReduce.Commands;
+using System.Threading;
 
 namespace PADIMapNoReduce
 {
     public class CommandsManager
     {
         private static string COMMENT_CHAR = "%";
-        public static string CREATE_WORK_PROCESS_CMD = "WORKER";
-        public static string SUBMIT_JOB_CMD = "SUBMIT";
-        public static string WAIT_CMD = "WAIT";
-        public static string STATUS_CMD = "STATUS";
-        public static string DELAY_WORKER_CMD = "SLEEPP";
-        public static string FREEZE_WORKER_CMD = "FREEZEW";
-        public static string UNFREEZE_WORKER_CMD = "UNFREEZEW";
-        public static string DISABLE_JOBTRACKER_CMD = "FREEZEC";
-        public static string ENABLE_JOBTRACKER_CMD = "UNFREEZEC";
 
-        List<Command> listCommands = null;
+        List<Command> listCommands = new List<Command>();
+        List<Command> supportedCommands = new List<Command>();
+
+
+
+        public CommandsManager()
+        {
+            supportedCommands.Add(new CreateWorkProcessCmd());
+            supportedCommands.Add(new DelayWorkerCmd());
+            supportedCommands.Add(new DisableJobTrackerCmd());
+            supportedCommands.Add(new EnableJobTrackerCmd());
+            supportedCommands.Add(new FreezeWorkerCmd());
+            supportedCommands.Add(new WaitCmd());
+            supportedCommands.Add(new StatusCmd());
+            supportedCommands.Add(new SubmitJobCmd());
+            supportedCommands.Add(new UnfreezeWorkerCmd());
+        }
 
         public void LoadFile(string file)
         {
@@ -64,73 +72,35 @@ namespace PADIMapNoReduce
             }
         }
 
-        public List<string> ExecuteScript()
+        public void ExecuteScript()
         {
-            List<string> returnValue = new List<string>();
-
             foreach (Command command in listCommands){
-                returnValue.Add(ExecuteCommand(command));
+                ExecuteCommand(command);
             }
 
-            listCommands = new List<Command>();
-
-            return returnValue;
+            listCommands.Clear();
         }
 
-        public string ExecuteCommand(Command c)
+
+
+        public void ExecuteCommand(Command c)
         {
-            c.Parse();
-            c.Execute();
-            return c.getResult();            
+            c.Execute();      
         }
 
         public Command ParseCommand(string line) {
-            Command c = null;
+            string commandType = line.Split(' ')[0];
 
-            if (line.StartsWith(CREATE_WORK_PROCESS_CMD))
+            foreach (Command c in supportedCommands)
             {
-                c = new CreateWorkProcessCmd(line);
-            }
-            else if (line.StartsWith(SUBMIT_JOB_CMD))
-            {
-                c = new SubmitJobCmd(line);
-            }
-            else if (line.StartsWith(WAIT_CMD))
-            {
-                c = new SleepCmd(line);
-            }
-            else if (line.StartsWith(STATUS_CMD))
-            {
-                c = new StatusCmd(line);
-            }
-            else if (line.StartsWith(DELAY_WORKER_CMD))
-            {
-                c = new DelayWorkerCmd(line);
-            }
-            else if (line.StartsWith(FREEZE_WORKER_CMD))
-            {
-                c = new FreezeWorkerCmd(line);
-            }
-            else if (line.StartsWith(UNFREEZE_WORKER_CMD))
-            {
-                c = new UnfreezeWorkerCmd(line);
-            }
-            else if (line.StartsWith(DISABLE_JOBTRACKER_CMD))
-            {
-                c = new DisableJobTrackerCmd(line);
-            }
-            else if (line.StartsWith(ENABLE_JOBTRACKER_CMD))
-            {
-                c = new EnableJobTrackerCmd(line);
-            }
-            else {
-                throw new Exception("Invalid command: " + line);
+                if (c.getCommandName() == commandType)
+                {
+                    c.Parse(line);
+                    return c;
+                }
             }
 
-            c.Parse();
-
-            return c;
-
+            throw new Exception("No command found");
         }
     }
 

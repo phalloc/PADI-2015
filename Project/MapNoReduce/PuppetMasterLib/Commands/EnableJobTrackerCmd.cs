@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class EnableJobTrackerCmd : Command
+    public class EnableJobTrackerCmd : Command
     {
+
+        public static string COMMAND = "UNFREEZEC";
+        
         string workerId;
 
-        public EnableJobTrackerCmd(string line) : base(line) { }
-
+        
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
@@ -26,6 +28,11 @@ namespace PADIMapNoReduce.Commands
 
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
+
         protected override bool ExecuteAux()
         {
             return EnableJobTracker(workerId);
@@ -35,7 +42,8 @@ namespace PADIMapNoReduce.Commands
         public bool EnableJobTracker(string workerId)
         {
 
-            commandResult = "[ENABLING] " + workerId + " Job traceker";
+            string commandResult = "[ENABLING] " + workerId + " Job traceker";
+            Logger.LogInfo(commandResult);
 
             return true;
         }

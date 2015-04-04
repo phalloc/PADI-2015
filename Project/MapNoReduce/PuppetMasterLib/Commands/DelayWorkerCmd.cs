@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class DelayWorkerCmd : Command
+    public class DelayWorkerCmd : Command
     {
+        public static string COMMAND = "SLEEPP";
 
-        public DelayWorkerCmd(string line) : base(line) { }
 
         int sec;
         string workerId;
@@ -33,6 +33,11 @@ namespace PADIMapNoReduce.Commands
 
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
+
         protected override bool ExecuteAux()
         {
             return DelayWorker(workerId, sec);
@@ -42,7 +47,9 @@ namespace PADIMapNoReduce.Commands
         public bool DelayWorker(string workerId, int seconds)
         {
 
-            commandResult = "[DELAY] " + workerId + " for " + seconds + " seconds.";
+            string commandResult = "[DELAY] " + workerId + " for " + seconds + " seconds.";
+            Logger.LogInfo(commandResult);
+
 
             return true;
         }

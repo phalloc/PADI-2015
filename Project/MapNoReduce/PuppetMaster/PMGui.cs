@@ -6,8 +6,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PADIMapNoReduce.Commands;
 
 namespace PADIMapNoReduce
 {
@@ -47,9 +49,16 @@ namespace PADIMapNoReduce
 
         private void submitCommandAux(string line)
         {
+
+            Thread runThread = new Thread(() => RunCommand(line));
+            runThread.Start();
+        }
+
+        private void RunCommand(string line)
+        {
             try
             {
-                Logger.LogInfo(cm.ExecuteCommand(cm.ParseCommand(line)));
+                cm.ExecuteCommand(cm.ParseCommand(line));
             }
             catch (Exception ex)
             {
@@ -57,21 +66,24 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void submitScriptAux()
+        private void RunScript()
         {
             try
             {
                 cm.LoadFile(scriptLocMsgBox.Text);
-
-                foreach (string s in cm.ExecuteScript())
-                {
-                    Logger.LogInfo(s);
-                }
+                cm.ExecuteScript();   
             }
             catch (Exception ex)
             {
                 Logger.LogErr(ex.Message);
             }
+        }
+
+
+        private void submitScriptAux()
+        {
+            Thread runThread = new Thread(RunScript);
+            runThread.Start();
         }
 
 
@@ -85,47 +97,47 @@ namespace PADIMapNoReduce
 
         private string generateWaitCmd()
         {
-            return CommandsManager.WAIT_CMD + " " + numSecondsWait.Value;
+            return WaitCmd.COMMAND + " " + numSecondsWait.Value;
         }
 
         private string generateCreateWorkProcess()
         {
-            return CommandsManager.CREATE_WORK_PROCESS_CMD + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
+            return CreateWorkProcessCmd.COMMAND + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
         }
 
         private string generateCreateJob()
         {
-            return CommandsManager.SUBMIT_JOB_CMD + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitJobMapTxtBox.Text + " " + submitJobDllTxtBox.Text;
+            return SubmitJobCmd.COMMAND + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitJobMapTxtBox.Text + " " + submitJobDllTxtBox.Text;
         }
 
         private string generateFreezeWorker()
         {
-            return CommandsManager.FREEZE_WORKER_CMD + " " + workerId.Text;
+            return FreezeWorkerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateUnfreezeWorker()
         {
-            return CommandsManager.UNFREEZE_WORKER_CMD + " " + workerId.Text;
+            return UnfreezeWorkerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateDisableJobTracker()
         {
-            return CommandsManager.DISABLE_JOBTRACKER_CMD + " " + workerId.Text;
+            return DisableJobTrackerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateEnableJobTracker()
         {
-            return CommandsManager.ENABLE_JOBTRACKER_CMD + " " + workerId.Text;
+            return EnableJobTrackerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateSlowWorker()
         {
-            return CommandsManager.DELAY_WORKER_CMD + " " + workerId.Text + " " + slowNumSeconds.Value;
+            return DelayWorkerCmd.COMMAND + " " + workerId.Text + " " + slowNumSeconds.Value;
         }
 
         private static string generateRefreshStatus()
         {
-            return CommandsManager.STATUS_CMD;
+            return StatusCmd.COMMAND;
         }
 
         /*************************
@@ -292,7 +304,7 @@ namespace PADIMapNoReduce
         {
             if (e.KeyCode == Keys.F5 || (e.KeyCode == Keys.R && e.Modifiers == Keys.Control))
             {
-                submitCommandAux(CommandsManager.STATUS_CMD);
+                submitCommandAux(generateRefreshStatus());
                 e.Handled = true;
             }
 

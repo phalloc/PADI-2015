@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace PADIMapNoReduce.Commands
 {
-    public class FreezeWorkerCmd : Command
+    public class WaitCmd : Command
     {
-
-        public static string COMMAND = "FREEZEW";
+        public static string COMMAND = "WAIT";
         
-        string workerId;
+
+        int sec = 9999999;
 
 
         protected override bool ParseAux()
@@ -19,7 +16,8 @@ namespace PADIMapNoReduce.Commands
             string[] args = line.Split(' ');
             if (args.Length == 2)
             {
-                workerId = args[1];
+                System.Diagnostics.Debug.WriteLine(args[1]);
+                sec = Convert.ToInt32(args[1]);
 
                 return true;
             }
@@ -30,7 +28,7 @@ namespace PADIMapNoReduce.Commands
 
         protected override bool ExecuteAux()
         {
-            return FreezeWorker(workerId);
+            return Wait(sec);
         }
 
         public override string getCommandName()
@@ -38,13 +36,16 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
+        public bool Wait(int sec){
 
-        public bool FreezeWorker(string workerId)
-        {
-            string commandResult = "[FREEZING] " + workerId;
+            string commandResult = "[WAIT] " + sec + " seconds";
             Logger.LogInfo(commandResult);
+            
+            Thread.Sleep(1000 * sec);
+            Logger.LogInfo("[WAIT] FINISHED");
 
             return true;
         }
+
     }
 }

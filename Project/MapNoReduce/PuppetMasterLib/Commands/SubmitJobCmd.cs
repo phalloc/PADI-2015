@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class SubmitJobCmd : Command
+    public class SubmitJobCmd : Command
     {
+
+        public static string COMMAND = "SUBMIT";
+        
 
         string entryUrl;
         string inputFile;
@@ -15,7 +18,6 @@ namespace PADIMapNoReduce.Commands
         int numSplits;
         IMapper map;
 
-        public SubmitJobCmd(string line) : base(line) { }
 
         protected override bool ParseAux()
         {
@@ -35,6 +37,11 @@ namespace PADIMapNoReduce.Commands
             return false;
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
+
         protected override bool ExecuteAux()
         {
             return SubmitJob(entryUrl, inputFile, outputFile, numSplits, map);
@@ -43,14 +50,14 @@ namespace PADIMapNoReduce.Commands
         public bool SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)
         {
 
-            commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
+            string commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
                             "          inputFile: " + inputFile + "\r\n" +
                             "          outputFile: " + outputFile + "\r\n" +
                             "          outputFile: " + outputFile + "\r\n" +
                             "          numSplits: " + numSplits + "\r\n" +
                             "          mapper: " + mapper.GetType().Name + "\r\n" +
                             "          Ola ---> MAPPER ---> " + mapper.MapDummy("Ola");
-            
+            Logger.LogInfo(commandResult);
             return true;
         }
     }

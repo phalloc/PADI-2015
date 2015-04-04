@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class CreateWorkProcessCmd : Command
+    public class CreateWorkProcessCmd : Command
     {
+        public static string COMMAND = "WORKER";
+        
+
+
         string id ;
         string puppetMasterUrl;
         string serviceUrl;
         string entryUrl;
 
-        public CreateWorkProcessCmd(string line) : base(line) { } 
 
         protected override bool ParseAux()
         {
@@ -32,6 +35,13 @@ namespace PADIMapNoReduce.Commands
 
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
+
+        
+
         protected override bool ExecuteAux()
         {
             return CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
@@ -41,10 +51,13 @@ namespace PADIMapNoReduce.Commands
         public bool CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
 
-            commandResult = "[CREATE] id: " + id + "\r\n" +  
+            string commandResult = "[CREATE] id: " + id + "\r\n" +  
                             "          puppetMasterUrl: " + puppetMasterUrl  + "\r\n" + 
                             "          service Url: " + serviceUrl + "\r\n" + 
                             "          entryUrl " + entryUrl;
+
+
+            Logger.LogInfo(commandResult);
 
             return true;
         }

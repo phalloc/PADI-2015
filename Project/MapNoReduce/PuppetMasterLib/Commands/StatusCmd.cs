@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    class StatusCmd : Command
+    public class StatusCmd : Command
     {
-
-        public StatusCmd(string line) : base(line) { }
-
+        public static string COMMAND = "STATUS";
+        
+        
         protected override bool ParseAux()
         {
             return true;
@@ -21,12 +21,17 @@ namespace PADIMapNoReduce.Commands
             return RefreshStatus();
         }
 
+        public override string getCommandName()
+        {
+            return COMMAND;
+        }
 
         public bool RefreshStatus()
         {
-            System.Diagnostics.Debug.WriteLine("RefreshStatus");
 
-            commandResult = "[REFRESHING]";
+            string commandResult = "[REFRESHING]";
+            Logger.LogInfo(commandResult);
+
 
             return true;
         }
