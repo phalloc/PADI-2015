@@ -18,6 +18,7 @@ namespace PADIMapNoReduce.Commands
         int numSplits;
         IMapper map;
 
+        public SubmitJobCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {

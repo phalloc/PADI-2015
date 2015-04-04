@@ -17,20 +17,21 @@ namespace PADIMapNoReduce
 
         List<Command> listCommands = new List<Command>();
         List<Command> supportedCommands = new List<Command>();
-        
 
+        PuppetMaster pm = null;
 
-        public CommandsManager()
+        public CommandsManager(PuppetMaster pm)
         {
-            supportedCommands.Add(new CreateWorkProcessCmd());
-            supportedCommands.Add(new DelayWorkerCmd());
-            supportedCommands.Add(new DisableJobTrackerCmd());
-            supportedCommands.Add(new EnableJobTrackerCmd());
-            supportedCommands.Add(new FreezeWorkerCmd());
-            supportedCommands.Add(new WaitCmd());
-            supportedCommands.Add(new StatusCmd());
-            supportedCommands.Add(new SubmitJobCmd());
-            supportedCommands.Add(new UnfreezeWorkerCmd());
+            this.pm = pm;
+            supportedCommands.Add(new CreateWorkProcessCmd(pm));
+            supportedCommands.Add(new DelayWorkerCmd(pm));
+            supportedCommands.Add(new DisableJobTrackerCmd(pm));
+            supportedCommands.Add(new EnableJobTrackerCmd(pm));
+            supportedCommands.Add(new FreezeWorkerCmd(pm));
+            supportedCommands.Add(new WaitCmd(pm));
+            supportedCommands.Add(new StatusCmd(pm));
+            supportedCommands.Add(new SubmitJobCmd(pm));
+            supportedCommands.Add(new UnfreezeWorkerCmd(pm));
         }
 
         public void LoadFile(string file)

@@ -365,6 +365,32 @@ namespace PADIMapNoReduce
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
             puppetMaster.InitializeService();
+            puppetMaster.SetWorkerExeLocation(workerExeMsgBox.Text);
+            puppetMaster.SetClientExeLocation(clientExeMsgBox.Text);
+        }
+
+
+        private void workerExeFindBtn_Click(object sender, EventArgs e)
+        {
+            FindSourceFile(workerExeMsgBox, "Executable files (*.exe)|*.exe", "Choose worker executable");
+        }
+
+        
+        private void clientFindBtn_Click(object sender, EventArgs e)
+        {
+            FindSourceFile(clientExeMsgBox, "Executable files (*.exe)|*.exe", "Choose client executable");
+        }
+
+
+        private void workerExeMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            puppetMaster.SetWorkerExeLocation(workerExeMsgBox.Text);
+        }
+
+
+        private void clientExeMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            puppetMaster.SetClientExeLocation(clientExeMsgBox.Text);
         }
 
         /*************************************************
@@ -407,7 +433,8 @@ namespace PADIMapNoReduce
         public bool checkCreateWorkerMsgsBox()
         {
             if (submitWorkerWorkerIdMsgBox.Text == "" || 
-                submitWorkerServiceUrlMsgBox.Text == "" || 
+                submitWorkerServiceUrlMsgBox.Text == "" ||
+                workerExeMsgBox.Text == "" ||
                 submitWorkerEntryUrlMsgBox.Text == "")
             {
                 submitWorkerButton.Enabled = false;
@@ -426,6 +453,7 @@ namespace PADIMapNoReduce
                 submitTaskSourceFileMsgBox.Text == "" || 
                 submitTaskDestFileMsgBox.Text == "" || 
                 submitJobMapTxtBox.Text == "" || 
+                clientExeMsgBox.Text == "" ||
                 submitJobDllTxtBox.Text == "")
             {
                 submitTaskButton.Enabled = false;
@@ -447,6 +475,10 @@ namespace PADIMapNoReduce
         {
             checkCreateJob();
         }
+
+
+
+
 
 
 

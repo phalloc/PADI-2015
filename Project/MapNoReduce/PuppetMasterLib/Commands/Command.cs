@@ -9,6 +9,13 @@ namespace PADIMapNoReduce.Commands
     public abstract class Command
     {
         protected string line;
+
+        PuppetMaster pm = null;
+
+        public Command(PuppetMaster pm)
+        {
+            this.pm = pm;
+        }
        
         public void Parse(string line) {
             this.line = line;

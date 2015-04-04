@@ -12,20 +12,40 @@ namespace PADIMapNoReduce
 {
     public class PuppetMaster
     {
-        private CommandsManager cm = new CommandsManager();
+        private CommandsManager cm;
         private IDictionary<string, string> knownWorkers = new Dictionary<string, string>();
         private string serviceUrl;
         private string serviceName = "PM";
         private int port;
 
-       
+        private string workerExeLocation = null;
+        private string clientExeLocation = null;
 
         private TcpChannel serviceChannel;
+        private PM remoteObject;
+
+
+        public PuppetMaster(){
+            cm = new CommandsManager(this);
+        }
+
+        public void SetWorkerExeLocation(string exeLocation)
+        {
+            Logger.LogInfo("setting up worker exe Location");
+            this.workerExeLocation = exeLocation;
+            remoteObject.SetworkerExecutableDirectoy(exeLocation);
+        }
+
+        public void SetClientExeLocation(string exeLocation)
+        {
+            Logger.LogInfo("setting up client exe location");
+            this.clientExeLocation = exeLocation;
+        }
 
         public void LoadConfigurationFile(IDictionary<string, string> dic)
         {
             this.knownWorkers = dic;
-            Logger.LogInfo("LOADED CONFIGURATION FILE");
+            Logger.LogInfo("Finished loading configuration file");
         }
 
         public void InitializeService()
@@ -39,14 +59,11 @@ namespace PADIMapNoReduce
 
             this.port = portAvailable;
 
-            serviceChannel = new TcpChannel(portAvailable);
+            remoteObject = new PM();
+            TcpChannel myChannel = new TcpChannel(this.port);
+            ChannelServices.RegisterChannel(myChannel, true);
+            RemotingServices.Marshal(remoteObject, serviceName, typeof(PM));
 
-            ChannelServices.RegisterChannel(serviceChannel, true);
-            RemotingConfiguration.RegisterWellKnownServiceType(
-                typeof(PM),
-                this.serviceName,
-                WellKnownObjectMode.Singleton);
-        
             Logger.LogInfo("Started PuppetMaster service @ tcp://localhost:" + this.port + "/" + this.serviceName);
         }
 

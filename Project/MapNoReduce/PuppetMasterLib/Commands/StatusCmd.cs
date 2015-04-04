@@ -9,8 +9,10 @@ namespace PADIMapNoReduce.Commands
     public class StatusCmd : Command
     {
         public static string COMMAND = "STATUS";
-        
-        
+
+        public StatusCmd(PuppetMaster pm) : base(pm) { }
+
+
         protected override bool ParseAux()
         {
             return true;

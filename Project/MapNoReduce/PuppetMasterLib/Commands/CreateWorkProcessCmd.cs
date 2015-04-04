@@ -15,6 +15,7 @@ namespace PADIMapNoReduce.Commands
         string serviceUrl;
         string entryUrl;
 
+        public CreateWorkProcessCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {

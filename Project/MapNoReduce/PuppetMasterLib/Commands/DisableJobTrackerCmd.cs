@@ -15,6 +15,8 @@ namespace PADIMapNoReduce.Commands
         string workerId;
 
 
+        public DisableJobTrackerCmd(PuppetMaster pm) : base(pm) { }
+
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');

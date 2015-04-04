@@ -8,8 +8,9 @@ namespace PADIMapNoReduce.Commands
         public static string COMMAND = "WAIT";
         
 
-        int sec = 9999999;
+        int sec = 0;
 
+        public WaitCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {

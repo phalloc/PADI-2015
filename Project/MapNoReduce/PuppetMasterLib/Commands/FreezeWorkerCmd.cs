@@ -14,6 +14,9 @@ namespace PADIMapNoReduce.Commands
         string workerId;
 
 
+        public FreezeWorkerCmd(PuppetMaster pm) : base(pm) { }
+
+
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');

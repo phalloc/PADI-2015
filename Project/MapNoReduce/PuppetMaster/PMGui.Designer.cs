@@ -86,6 +86,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.ConsoleLabel = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.workerExeFindBtn = new System.Windows.Forms.Button();
+            this.workerExeMsgBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.clientFindBtn = new System.Windows.Forms.Button();
+            this.clientExeMsgBox = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
@@ -93,7 +100,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(660, 118);
+            this.button2.Location = new System.Drawing.Point(660, 229);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 20);
             this.button2.TabIndex = 100;
@@ -104,7 +111,7 @@
             // propertiesMsgBox
             // 
             this.propertiesMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.propertiesMsgBox.Location = new System.Drawing.Point(105, 118);
+            this.propertiesMsgBox.Location = new System.Drawing.Point(105, 229);
             this.propertiesMsgBox.Name = "propertiesMsgBox";
             this.propertiesMsgBox.Size = new System.Drawing.Size(478, 20);
             this.propertiesMsgBox.TabIndex = 99;
@@ -113,7 +120,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(2, 120);
+            this.label15.Location = new System.Drawing.Point(2, 231);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(98, 13);
             this.label15.TabIndex = 98;
@@ -121,7 +128,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(589, 118);
+            this.button1.Location = new System.Drawing.Point(589, 229);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(64, 20);
             this.button1.TabIndex = 97;
@@ -132,7 +139,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(412, 433);
+            this.label19.Location = new System.Drawing.Point(412, 527);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label19.Size = new System.Drawing.Size(27, 13);
@@ -142,7 +149,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(177, 434);
+            this.label3.Location = new System.Drawing.Point(177, 528);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(28, 13);
@@ -151,7 +158,7 @@
             // 
             // submitJobDllTxtBox
             // 
-            this.submitJobDllTxtBox.Location = new System.Drawing.Point(445, 430);
+            this.submitJobDllTxtBox.Location = new System.Drawing.Point(445, 524);
             this.submitJobDllTxtBox.Name = "submitJobDllTxtBox";
             this.submitJobDllTxtBox.Size = new System.Drawing.Size(138, 20);
             this.submitJobDllTxtBox.TabIndex = 94;
@@ -160,7 +167,7 @@
             // 
             // submitJobMapTxtBox
             // 
-            this.submitJobMapTxtBox.Location = new System.Drawing.Point(212, 431);
+            this.submitJobMapTxtBox.Location = new System.Drawing.Point(212, 525);
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
             this.submitJobMapTxtBox.Size = new System.Drawing.Size(194, 20);
             this.submitJobMapTxtBox.TabIndex = 93;
@@ -181,7 +188,7 @@
             // 
             // destFileBtn
             // 
-            this.destFileBtn.Location = new System.Drawing.Point(524, 404);
+            this.destFileBtn.Location = new System.Drawing.Point(524, 498);
             this.destFileBtn.Name = "destFileBtn";
             this.destFileBtn.Size = new System.Drawing.Size(59, 20);
             this.destFileBtn.TabIndex = 91;
@@ -191,7 +198,7 @@
             // 
             // sourceFileBtn
             // 
-            this.sourceFileBtn.Location = new System.Drawing.Point(524, 377);
+            this.sourceFileBtn.Location = new System.Drawing.Point(524, 471);
             this.sourceFileBtn.Name = "sourceFileBtn";
             this.sourceFileBtn.Size = new System.Drawing.Size(59, 20);
             this.sourceFileBtn.TabIndex = 90;
@@ -213,7 +220,7 @@
             // 
             // OpenScriptBtn
             // 
-            this.OpenScriptBtn.Location = new System.Drawing.Point(589, 92);
+            this.OpenScriptBtn.Location = new System.Drawing.Point(589, 203);
             this.OpenScriptBtn.Name = "OpenScriptBtn";
             this.OpenScriptBtn.Size = new System.Drawing.Size(64, 20);
             this.OpenScriptBtn.TabIndex = 88;
@@ -231,7 +238,7 @@
             this.consoleMessageBox.Location = new System.Drawing.Point(746, 36);
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(556, 461);
+            this.consoleMessageBox.Size = new System.Drawing.Size(556, 556);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
             this.consoleMessageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.consoleMessageBox_KeyDown);
@@ -239,7 +246,7 @@
             // submitTaskNumberSplits
             // 
             this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskNumberSplits.Location = new System.Drawing.Point(106, 431);
+            this.submitTaskNumberSplits.Location = new System.Drawing.Point(106, 525);
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
             this.submitTaskNumberSplits.TabIndex = 82;
@@ -250,7 +257,7 @@
             this.label27.AutoSize = true;
             this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label27.Location = new System.Drawing.Point(12, 19);
+            this.label27.Location = new System.Drawing.Point(12, 130);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(728, 20);
             this.label27.TabIndex = 81;
@@ -259,7 +266,7 @@
             // 
             // submitScript
             // 
-            this.submitScript.Location = new System.Drawing.Point(660, 92);
+            this.submitScript.Location = new System.Drawing.Point(660, 203);
             this.submitScript.Name = "submitScript";
             this.submitScript.Size = new System.Drawing.Size(75, 20);
             this.submitScript.TabIndex = 78;
@@ -270,7 +277,7 @@
             // scriptLocMsgBox
             // 
             this.scriptLocMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scriptLocMsgBox.Location = new System.Drawing.Point(105, 93);
+            this.scriptLocMsgBox.Location = new System.Drawing.Point(105, 204);
             this.scriptLocMsgBox.Name = "scriptLocMsgBox";
             this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
             this.scriptLocMsgBox.TabIndex = 77;
@@ -280,25 +287,25 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 96);
+            this.label2.Location = new System.Drawing.Point(22, 207);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 76;
-            this.label2.Text = "Script Location";
+            this.label2.Text = "Script Location:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 70);
+            this.label1.Location = new System.Drawing.Point(44, 181);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 75;
-            this.label1.Text = "Command";
+            this.label1.Text = "Command:";
             // 
             // commandMsgBox
             // 
             this.commandMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commandMsgBox.Location = new System.Drawing.Point(105, 67);
+            this.commandMsgBox.Location = new System.Drawing.Point(105, 178);
             this.commandMsgBox.Name = "commandMsgBox";
             this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
             this.commandMsgBox.TabIndex = 74;
@@ -307,7 +314,7 @@
             // 
             // submitCommand
             // 
-            this.submitCommand.Location = new System.Drawing.Point(589, 67);
+            this.submitCommand.Location = new System.Drawing.Point(589, 178);
             this.submitCommand.Name = "submitCommand";
             this.submitCommand.Size = new System.Drawing.Size(146, 20);
             this.submitCommand.TabIndex = 73;
@@ -318,7 +325,7 @@
             // numSecondsWait
             // 
             this.numSecondsWait.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numSecondsWait.Location = new System.Drawing.Point(513, 146);
+            this.numSecondsWait.Location = new System.Drawing.Point(513, 257);
             this.numSecondsWait.Name = "numSecondsWait";
             this.numSecondsWait.Size = new System.Drawing.Size(70, 22);
             this.numSecondsWait.TabIndex = 70;
@@ -327,7 +334,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(469, 149);
+            this.label16.Location = new System.Drawing.Point(469, 260);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 13);
             this.label16.TabIndex = 69;
@@ -336,7 +343,7 @@
             // slowNumSeconds
             // 
             this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(221, 520);
+            this.slowNumSeconds.Location = new System.Drawing.Point(221, 614);
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
             this.slowNumSeconds.TabIndex = 68;
@@ -344,7 +351,7 @@
             // 
             // unfreezecBtn
             // 
-            this.unfreezecBtn.Location = new System.Drawing.Point(472, 494);
+            this.unfreezecBtn.Location = new System.Drawing.Point(472, 588);
             this.unfreezecBtn.Name = "unfreezecBtn";
             this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezecBtn.TabIndex = 67;
@@ -354,7 +361,7 @@
             // 
             // freezecBtn
             // 
-            this.freezecBtn.Location = new System.Drawing.Point(567, 494);
+            this.freezecBtn.Location = new System.Drawing.Point(567, 588);
             this.freezecBtn.Name = "freezecBtn";
             this.freezecBtn.Size = new System.Drawing.Size(86, 49);
             this.freezecBtn.TabIndex = 64;
@@ -367,7 +374,7 @@
             this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.refreshBtn.Location = new System.Drawing.Point(746, 504);
+            this.refreshBtn.Location = new System.Drawing.Point(746, 599);
             this.refreshBtn.Name = "refreshBtn";
             this.refreshBtn.Size = new System.Drawing.Size(556, 39);
             this.refreshBtn.TabIndex = 55;
@@ -377,7 +384,7 @@
             // 
             // unfreezewBtn
             // 
-            this.unfreezewBtn.Location = new System.Drawing.Point(380, 494);
+            this.unfreezewBtn.Location = new System.Drawing.Point(380, 588);
             this.unfreezewBtn.Name = "unfreezewBtn";
             this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezewBtn.TabIndex = 49;
@@ -388,7 +395,7 @@
             // workerId
             // 
             this.workerId.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.workerId.Location = new System.Drawing.Point(105, 495);
+            this.workerId.Location = new System.Drawing.Point(105, 589);
             this.workerId.Name = "workerId";
             this.workerId.Size = new System.Drawing.Size(177, 20);
             this.workerId.TabIndex = 47;
@@ -397,7 +404,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(45, 498);
+            this.label21.Location = new System.Drawing.Point(45, 592);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(54, 13);
             this.label21.TabIndex = 46;
@@ -405,7 +412,7 @@
             // 
             // freezewBtn
             // 
-            this.freezewBtn.Location = new System.Drawing.Point(288, 494);
+            this.freezewBtn.Location = new System.Drawing.Point(288, 588);
             this.freezewBtn.Name = "freezewBtn";
             this.freezewBtn.Size = new System.Drawing.Size(86, 49);
             this.freezewBtn.TabIndex = 45;
@@ -417,7 +424,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(13, 475);
+            this.label23.Location = new System.Drawing.Point(13, 569);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(155, 13);
             this.label23.TabIndex = 42;
@@ -426,14 +433,14 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(72, 609);
+            this.label20.Location = new System.Drawing.Point(72, 703);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(0, 13);
             this.label20.TabIndex = 40;
             // 
             // slowBtn
             // 
-            this.slowBtn.Location = new System.Drawing.Point(662, 494);
+            this.slowBtn.Location = new System.Drawing.Point(662, 588);
             this.slowBtn.Name = "slowBtn";
             this.slowBtn.Size = new System.Drawing.Size(73, 49);
             this.slowBtn.TabIndex = 39;
@@ -444,7 +451,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(156, 522);
+            this.label18.Location = new System.Drawing.Point(156, 616);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(59, 13);
             this.label18.TabIndex = 37;
@@ -452,7 +459,7 @@
             // 
             // waitButton
             // 
-            this.waitButton.Location = new System.Drawing.Point(589, 147);
+            this.waitButton.Location = new System.Drawing.Point(589, 258);
             this.waitButton.Name = "waitButton";
             this.waitButton.Size = new System.Drawing.Size(146, 20);
             this.waitButton.TabIndex = 35;
@@ -462,7 +469,7 @@
             // 
             // submitTaskButton
             // 
-            this.submitTaskButton.Location = new System.Drawing.Point(589, 351);
+            this.submitTaskButton.Location = new System.Drawing.Point(589, 445);
             this.submitTaskButton.Name = "submitTaskButton";
             this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
             this.submitTaskButton.TabIndex = 34;
@@ -472,7 +479,7 @@
             // 
             // submitWorkerButton
             // 
-            this.submitWorkerButton.Location = new System.Drawing.Point(589, 211);
+            this.submitWorkerButton.Location = new System.Drawing.Point(589, 305);
             this.submitWorkerButton.Name = "submitWorkerButton";
             this.submitWorkerButton.Size = new System.Drawing.Size(146, 98);
             this.submitWorkerButton.TabIndex = 33;
@@ -483,7 +490,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(58, 433);
+            this.label10.Location = new System.Drawing.Point(58, 527);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(42, 13);
@@ -493,7 +500,7 @@
             // submitTaskDestFileMsgBox
             // 
             this.submitTaskDestFileMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskDestFileMsgBox.Location = new System.Drawing.Point(105, 405);
+            this.submitTaskDestFileMsgBox.Location = new System.Drawing.Point(105, 499);
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
             this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(412, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 25;
@@ -502,7 +509,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(20, 406);
+            this.label11.Location = new System.Drawing.Point(20, 500);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(79, 13);
             this.label11.TabIndex = 24;
@@ -511,7 +518,7 @@
             // submitTaskSourceFileMsgBox
             // 
             this.submitTaskSourceFileMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskSourceFileMsgBox.Location = new System.Drawing.Point(105, 377);
+            this.submitTaskSourceFileMsgBox.Location = new System.Drawing.Point(105, 471);
             this.submitTaskSourceFileMsgBox.Name = "submitTaskSourceFileMsgBox";
             this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(412, 20);
             this.submitTaskSourceFileMsgBox.TabIndex = 23;
@@ -520,7 +527,7 @@
             // submitTaskEntryUrlMsgBox
             // 
             this.submitTaskEntryUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskEntryUrlMsgBox.Location = new System.Drawing.Point(105, 351);
+            this.submitTaskEntryUrlMsgBox.Location = new System.Drawing.Point(105, 445);
             this.submitTaskEntryUrlMsgBox.Name = "submitTaskEntryUrlMsgBox";
             this.submitTaskEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitTaskEntryUrlMsgBox.TabIndex = 22;
@@ -529,7 +536,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(39, 380);
+            this.label12.Location = new System.Drawing.Point(39, 474);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 21;
@@ -538,7 +545,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(52, 355);
+            this.label13.Location = new System.Drawing.Point(52, 449);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 13);
             this.label13.TabIndex = 20;
@@ -548,7 +555,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(46, 335);
+            this.label14.Location = new System.Drawing.Point(46, 429);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(54, 13);
             this.label14.TabIndex = 19;
@@ -557,7 +564,7 @@
             // submitWorkerEntryUrlMsgBox
             // 
             this.submitWorkerEntryUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerEntryUrlMsgBox.Location = new System.Drawing.Point(105, 289);
+            this.submitWorkerEntryUrlMsgBox.Location = new System.Drawing.Point(105, 383);
             this.submitWorkerEntryUrlMsgBox.Name = "submitWorkerEntryUrlMsgBox";
             this.submitWorkerEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerEntryUrlMsgBox.TabIndex = 18;
@@ -566,7 +573,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(52, 292);
+            this.label9.Location = new System.Drawing.Point(52, 386);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(47, 13);
             this.label9.TabIndex = 17;
@@ -575,7 +582,7 @@
             // submitWorkerServiceUrlMsgBox
             // 
             this.submitWorkerServiceUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerServiceUrlMsgBox.Location = new System.Drawing.Point(105, 263);
+            this.submitWorkerServiceUrlMsgBox.Location = new System.Drawing.Point(105, 357);
             this.submitWorkerServiceUrlMsgBox.Name = "submitWorkerServiceUrlMsgBox";
             this.submitWorkerServiceUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerServiceUrlMsgBox.TabIndex = 16;
@@ -584,7 +591,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(40, 266);
+            this.label8.Location = new System.Drawing.Point(40, 360);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 15;
@@ -600,7 +607,7 @@
             // submitWorkerPMUrlMsgBox
             // 
             this.submitWorkerPMUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerPMUrlMsgBox.Location = new System.Drawing.Point(105, 237);
+            this.submitWorkerPMUrlMsgBox.Location = new System.Drawing.Point(105, 331);
             this.submitWorkerPMUrlMsgBox.Name = "submitWorkerPMUrlMsgBox";
             this.submitWorkerPMUrlMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerPMUrlMsgBox.TabIndex = 13;
@@ -609,7 +616,7 @@
             // submitWorkerWorkerIdMsgBox
             // 
             this.submitWorkerWorkerIdMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerWorkerIdMsgBox.Location = new System.Drawing.Point(105, 211);
+            this.submitWorkerWorkerIdMsgBox.Location = new System.Drawing.Point(105, 305);
             this.submitWorkerWorkerIdMsgBox.Name = "submitWorkerWorkerIdMsgBox";
             this.submitWorkerWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
             this.submitWorkerWorkerIdMsgBox.TabIndex = 10;
@@ -618,7 +625,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 240);
+            this.label6.Location = new System.Drawing.Point(10, 334);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(89, 13);
             this.label6.TabIndex = 9;
@@ -627,7 +634,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(83, 214);
+            this.label5.Location = new System.Drawing.Point(83, 308);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(16, 13);
             this.label5.TabIndex = 8;
@@ -637,7 +644,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(38, 195);
+            this.label4.Location = new System.Drawing.Point(38, 289);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 13);
             this.label4.TabIndex = 7;
@@ -646,17 +653,94 @@
             // ConsoleLabel
             // 
             this.ConsoleLabel.AutoSize = true;
-            this.ConsoleLabel.Location = new System.Drawing.Point(738, 20);
+            this.ConsoleLabel.Location = new System.Drawing.Point(743, 18);
             this.ConsoleLabel.Name = "ConsoleLabel";
             this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
             this.ConsoleLabel.TabIndex = 6;
             this.ConsoleLabel.Text = "Console";
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label17.Location = new System.Drawing.Point(9, 20);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(734, 20);
+            this.label17.TabIndex = 101;
+            this.label17.Text = "Executables Directories                                                          " +
+    "                                                 ";
+            // 
+            // workerExeFindBtn
+            // 
+            this.workerExeFindBtn.Location = new System.Drawing.Point(589, 56);
+            this.workerExeFindBtn.Name = "workerExeFindBtn";
+            this.workerExeFindBtn.Size = new System.Drawing.Size(146, 20);
+            this.workerExeFindBtn.TabIndex = 105;
+            this.workerExeFindBtn.Text = "Find";
+            this.workerExeFindBtn.UseVisualStyleBackColor = true;
+            this.workerExeFindBtn.Click += new System.EventHandler(this.workerExeFindBtn_Click);
+            // 
+            // workerExeMsgBox
+            // 
+            this.workerExeMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.workerExeMsgBox.Location = new System.Drawing.Point(105, 57);
+            this.workerExeMsgBox.Name = "workerExeMsgBox";
+            this.workerExeMsgBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.workerExeMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.workerExeMsgBox.TabIndex = 103;
+            this.workerExeMsgBox.TextChanged += new System.EventHandler(this.workerExeMsgBox_TextChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(22, 60);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(75, 13);
+            this.label22.TabIndex = 102;
+            this.label22.Text = "Worker *.exe :";
+            // 
+            // clientFindBtn
+            // 
+            this.clientFindBtn.Location = new System.Drawing.Point(589, 82);
+            this.clientFindBtn.Name = "clientFindBtn";
+            this.clientFindBtn.Size = new System.Drawing.Size(146, 20);
+            this.clientFindBtn.TabIndex = 108;
+            this.clientFindBtn.Text = "Find";
+            this.clientFindBtn.UseVisualStyleBackColor = true;
+            this.clientFindBtn.Click += new System.EventHandler(this.clientFindBtn_Click);
+            // 
+            // clientExeMsgBox
+            // 
+            this.clientExeMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clientExeMsgBox.Location = new System.Drawing.Point(105, 83);
+            this.clientExeMsgBox.Name = "clientExeMsgBox";
+            this.clientExeMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.clientExeMsgBox.TabIndex = 107;
+            this.clientExeMsgBox.Text = "..\\..\\..\\MyScript.txt";
+            this.clientExeMsgBox.TextChanged += new System.EventHandler(this.clientExeMsgBox_TextChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(31, 86);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(66, 13);
+            this.label24.TabIndex = 106;
+            this.label24.Text = "Client *.exe :";
+            // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1314, 552);
+            this.ClientSize = new System.Drawing.Size(1314, 647);
+            this.Controls.Add(this.clientFindBtn);
+            this.Controls.Add(this.clientExeMsgBox);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.workerExeFindBtn);
+            this.Controls.Add(this.workerExeMsgBox);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label17);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.propertiesMsgBox);
             this.Controls.Add(this.label15);
@@ -789,6 +873,13 @@
         private System.Windows.Forms.TextBox propertiesMsgBox;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button workerExeFindBtn;
+        private System.Windows.Forms.TextBox workerExeMsgBox;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Button clientFindBtn;
+        private System.Windows.Forms.TextBox clientExeMsgBox;
+        private System.Windows.Forms.Label label24;
 
     }
 }

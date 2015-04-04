@@ -14,6 +14,8 @@ namespace PADIMapNoReduce.Commands
         int sec;
         string workerId;
 
+        public DelayWorkerCmd(PuppetMaster pm) : base(pm) { }
+
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');

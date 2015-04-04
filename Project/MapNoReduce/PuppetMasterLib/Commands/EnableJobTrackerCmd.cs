@@ -13,6 +13,7 @@ namespace PADIMapNoReduce.Commands
         
         string workerId;
 
+        public EnableJobTrackerCmd(PuppetMaster pm) : base(pm) { }
         
         protected override bool ParseAux()
         {
