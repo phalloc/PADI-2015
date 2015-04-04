@@ -10,8 +10,6 @@ namespace PADIMapNoReduce.Commands
     {
         public static string COMMAND = "WORKER";
         
-
-
         string id ;
         string puppetMasterUrl;
         string serviceUrl;
@@ -46,14 +44,18 @@ namespace PADIMapNoReduce.Commands
 
         public void CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
-
-            string commandResult = "[CREATE] id: " + id + "\r\n" +  
-                            "          puppetMasterUrl: " + puppetMasterUrl  + "\r\n" + 
-                            "          service Url: " + serviceUrl + "\r\n" + 
-                            "          entryUrl " + entryUrl;
-
-
-            Logger.LogInfo(commandResult);
+            Logger.LogInfo(id);
+            if (puppetMasterUrl != "") { 
+                Logger.LogInfo("CONTACTING PUPPET MASTER");
+            
+                IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
+                pm.CreateWorker(id, serviceUrl, entryUrl);
+            }
+            else
+            {
+                IPuppetMaster p = new PM();
+                p.CreateWorker(id, serviceUrl, entryUrl);
+            }
         }
 
     }

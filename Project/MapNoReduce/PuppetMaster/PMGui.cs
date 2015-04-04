@@ -27,7 +27,7 @@ namespace PADIMapNoReduce
 #endif
 
     {
-        PuppetMaster cm = new PuppetMaster();
+        PuppetMaster puppetMaster = new PuppetMaster();
    
         public GUIPuppetMaster() : base()
         {
@@ -37,9 +37,6 @@ namespace PADIMapNoReduce
             checkCreateJob();
             setWorkerCommandsBtnsState(false);
             checkCreateWorkerMsgsBox();
-
-
-            ClearConsole();
         }
 
         override public RichTextBox getConsoleRichTextBox()
@@ -58,7 +55,7 @@ namespace PADIMapNoReduce
         {
             try
             {
-                cm.ExecuteCommand(line);
+                puppetMaster.ExecuteCommand(line);
             }
             catch (Exception ex)
             {
@@ -70,8 +67,8 @@ namespace PADIMapNoReduce
         {
             try
             {
-                cm.LoadFile(scriptLocMsgBox.Text);
-                cm.ExecuteScript();   
+                puppetMaster.LoadFile(scriptLocMsgBox.Text);
+                puppetMaster.ExecuteScript();   
             }
             catch (Exception ex)
             {
@@ -102,7 +99,7 @@ namespace PADIMapNoReduce
 
         private string generateCreateWorkProcess()
         {
-            return CreateWorkProcessCmd.COMMAND + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
+            return CreateWorkProcessCmd.COMMAND + " " + submitWorkerWorkerIdMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
         }
 
         private string generateCreateJob()
@@ -302,80 +299,22 @@ namespace PADIMapNoReduce
 
         private void consoleMessageBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.F5 || (e.KeyCode == Keys.R && e.Modifiers == Keys.Control))
+            if (e.KeyCode == Keys.F5)
             {
                 submitCommandAux(generateRefreshStatus());
                 e.Handled = true;
             }
 
-            else if (e.KeyCode == Keys.C && e.Modifiers == (Keys.Control | Keys.Shift))
+            else if (e.KeyCode == Keys.F10)
             {
                 ClearConsoleAction();
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.F && e.Modifiers == (Keys.Control | Keys.Shift))
+            else if (e.KeyCode == Keys.F2)
             {
                 ExportConsoleToFile(getConsoleRichTextBox());
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.C && e.Modifiers != (Keys.Control | Keys.Shift) && checkRunScriptTextBox())
-            {
-                submitCommandAux(commandMsgBox.Text);
-                e.Handled = true;
-            }
-
-
-            else if (e.KeyCode == Keys.O)
-            {
-                OpenScriptFile();
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.R && checkLocationTextBox())
-            {
-                submitScriptAux();
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.W)
-            {
-                submitCommandAux(generateWaitCmd());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.G && checkCreateWorkerMsgsBox())
-            {
-                submitCommandAux(generateCreateWorkProcess());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.J && checkCreateJob())
-            {
-                submitCommandAux(generateCreateJob());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.F && checkWorkerIdMsgBox())
-            {
-                submitCommandAux(generateFreezeWorker());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.U && checkWorkerIdMsgBox())
-            {
-                submitCommandAux(generateUnfreezeWorker());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.E && checkWorkerIdMsgBox())
-            {
-                submitCommandAux(generateEnableJobTracker());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.D && checkWorkerIdMsgBox())
-            {
-                submitCommandAux(generateDisableJobTracker());
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.S && checkWorkerIdMsgBox())
-            {
-                submitCommandAux(generateSlowWorker());
-                e.Handled = true;
-            }
-
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -420,7 +359,12 @@ namespace PADIMapNoReduce
             string source_file = propertiesMsgBox.Text;
             IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
 
-            cm.LoadConfigurationFile(result);
+            puppetMaster.LoadConfigurationFile(result);
+        }
+
+        private void GUIPuppetMaster_Load(object sender, EventArgs e)
+        {
+            puppetMaster.InitializeService();
         }
 
         /*************************************************
@@ -463,7 +407,6 @@ namespace PADIMapNoReduce
         public bool checkCreateWorkerMsgsBox()
         {
             if (submitWorkerWorkerIdMsgBox.Text == "" || 
-                submitWorkerPMUrlMsgBox.Text == "" || 
                 submitWorkerServiceUrlMsgBox.Text == "" || 
                 submitWorkerEntryUrlMsgBox.Text == "")
             {
@@ -504,6 +447,8 @@ namespace PADIMapNoReduce
         {
             checkCreateJob();
         }
+
+
 
         
     }

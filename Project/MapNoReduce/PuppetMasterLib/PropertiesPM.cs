@@ -29,10 +29,6 @@ namespace PADIMapNoReduce
                 }
             }
 
-            if (!dictionary.ContainsKey("SERVICE_URL")){
-                throw new Exception ("No SERVICE_URL provided");
-            }
-
             return dictionary;
         }
     }

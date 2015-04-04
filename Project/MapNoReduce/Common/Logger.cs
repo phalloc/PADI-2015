@@ -44,7 +44,6 @@ namespace PADIMapNoReduce
          
             if (form != null)
                 form.BeginInvoke(new LogInfoDel(form.AppendText), new Object[] { PREFIX_TEXT_COLOR, PREFIX_BACK_COLOR, TEXT_BACK_COLOR, INFO_COLOR, prefix, msg });
-
         }
 
         public static void LogWarn(string msg, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)

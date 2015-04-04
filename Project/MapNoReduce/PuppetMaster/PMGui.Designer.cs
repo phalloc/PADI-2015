@@ -28,17 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ConsoleLabel = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.submitWorkerWorkerIdMsgBox = new System.Windows.Forms.TextBox();
-            this.submitWorkerPMUrlMsgBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.submitWorkerServiceUrlMsgBox = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.submitWorkerEntryUrlMsgBox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.propertiesMsgBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.submitJobDllTxtBox = new System.Windows.Forms.TextBox();
+            this.submitJobMapTxtBox = new System.Windows.Forms.TextBox();
+            this.clearButton = new System.Windows.Forms.Button();
+            this.destFileBtn = new System.Windows.Forms.Button();
+            this.sourceFileBtn = new System.Windows.Forms.Button();
+            this.exportFileBtn = new System.Windows.Forms.Button();
+            this.OpenScriptBtn = new System.Windows.Forms.Button();
+            this.consoleMessageBox = new System.Windows.Forms.RichTextBox();
+            this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
+            this.label27 = new System.Windows.Forms.Label();
+            this.submitScript = new System.Windows.Forms.Button();
+            this.scriptLocMsgBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.commandMsgBox = new System.Windows.Forms.TextBox();
+            this.submitCommand = new System.Windows.Forms.Button();
+            this.numSecondsWait = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
+            this.unfreezecBtn = new System.Windows.Forms.Button();
+            this.freezecBtn = new System.Windows.Forms.Button();
+            this.refreshBtn = new System.Windows.Forms.Button();
+            this.unfreezewBtn = new System.Windows.Forms.Button();
+            this.workerId = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.freezewBtn = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.slowBtn = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.waitButton = new System.Windows.Forms.Button();
+            this.submitTaskButton = new System.Windows.Forms.Button();
+            this.submitWorkerButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.submitTaskDestFileMsgBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -47,147 +75,410 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.submitWorkerButton = new System.Windows.Forms.Button();
-            this.submitTaskButton = new System.Windows.Forms.Button();
-            this.waitButton = new System.Windows.Forms.Button();
-            this.slowBtn = new System.Windows.Forms.Button();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.workerId = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.freezewBtn = new System.Windows.Forms.Button();
-            this.label23 = new System.Windows.Forms.Label();
-            this.unfreezewBtn = new System.Windows.Forms.Button();
-            this.refreshBtn = new System.Windows.Forms.Button();
-            this.unfreezecBtn = new System.Windows.Forms.Button();
-            this.freezecBtn = new System.Windows.Forms.Button();
-            this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
-            this.numSecondsWait = new System.Windows.Forms.NumericUpDown();
-            this.label16 = new System.Windows.Forms.Label();
-            this.submitScript = new System.Windows.Forms.Button();
-            this.scriptLocMsgBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.commandMsgBox = new System.Windows.Forms.TextBox();
-            this.submitCommand = new System.Windows.Forms.Button();
-            this.label27 = new System.Windows.Forms.Label();
-            this.submitTaskNumberSplits = new System.Windows.Forms.NumericUpDown();
-            this.consoleMessageBox = new System.Windows.Forms.RichTextBox();
-            this.OpenScriptBtn = new System.Windows.Forms.Button();
-            this.exportFileBtn = new System.Windows.Forms.Button();
-            this.sourceFileBtn = new System.Windows.Forms.Button();
-            this.destFileBtn = new System.Windows.Forms.Button();
-            this.clearButton = new System.Windows.Forms.Button();
-            this.submitJobMapTxtBox = new System.Windows.Forms.TextBox();
-            this.submitJobDllTxtBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.propertiesMsgBox = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
+            this.submitWorkerEntryUrlMsgBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.submitWorkerServiceUrlMsgBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.submitWorkerPMUrlMsgBox = new System.Windows.Forms.TextBox();
+            this.submitWorkerWorkerIdMsgBox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ConsoleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.SuspendLayout();
             // 
-            // ConsoleLabel
+            // button2
             // 
-            this.ConsoleLabel.AutoSize = true;
-            this.ConsoleLabel.Location = new System.Drawing.Point(738, 20);
-            this.ConsoleLabel.Name = "ConsoleLabel";
-            this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
-            this.ConsoleLabel.TabIndex = 6;
-            this.ConsoleLabel.Text = "Console";
+            this.button2.Location = new System.Drawing.Point(660, 118);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 20);
+            this.button2.TabIndex = 100;
+            this.button2.Text = "Load";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label4
+            // propertiesMsgBox
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(38, 195);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "WORKER";
+            this.propertiesMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.propertiesMsgBox.Location = new System.Drawing.Point(105, 118);
+            this.propertiesMsgBox.Name = "propertiesMsgBox";
+            this.propertiesMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.propertiesMsgBox.TabIndex = 99;
+            this.propertiesMsgBox.Text = "..\\..\\..\\PM_properties.conf";
             // 
-            // label5
+            // label15
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(83, 214);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(16, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Id";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(2, 120);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(98, 13);
+            this.label15.TabIndex = 98;
+            this.label15.Text = "Properties Location";
             // 
-            // label6
+            // button1
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 240);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "PupperMaster-Url";
+            this.button1.Location = new System.Drawing.Point(589, 118);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 20);
+            this.button1.TabIndex = 97;
+            this.button1.Text = "Open";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // submitWorkerWorkerIdMsgBox
+            // label19
             // 
-            this.submitWorkerWorkerIdMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerWorkerIdMsgBox.Location = new System.Drawing.Point(105, 211);
-            this.submitWorkerWorkerIdMsgBox.Name = "submitWorkerWorkerIdMsgBox";
-            this.submitWorkerWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.submitWorkerWorkerIdMsgBox.TabIndex = 10;
-            this.submitWorkerWorkerIdMsgBox.TextChanged += new System.EventHandler(this.submitWorkerWorkerIdMsgBox_TextChanged);
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(412, 433);
+            this.label19.Name = "label19";
+            this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label19.Size = new System.Drawing.Size(27, 13);
+            this.label19.TabIndex = 96;
+            this.label19.Text = "DLL";
             // 
-            // submitWorkerPMUrlMsgBox
+            // label3
             // 
-            this.submitWorkerPMUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerPMUrlMsgBox.Location = new System.Drawing.Point(105, 237);
-            this.submitWorkerPMUrlMsgBox.Name = "submitWorkerPMUrlMsgBox";
-            this.submitWorkerPMUrlMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.submitWorkerPMUrlMsgBox.TabIndex = 13;
-            this.submitWorkerPMUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerPMUrlMsgBox_TextChanged);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(177, 434);
+            this.label3.Name = "label3";
+            this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 95;
+            this.label3.Text = "Map";
             // 
-            // label7
+            // submitJobDllTxtBox
             // 
-            this.label7.Location = new System.Drawing.Point(0, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 23);
-            this.label7.TabIndex = 83;
+            this.submitJobDllTxtBox.Location = new System.Drawing.Point(445, 430);
+            this.submitJobDllTxtBox.Name = "submitJobDllTxtBox";
+            this.submitJobDllTxtBox.Size = new System.Drawing.Size(138, 20);
+            this.submitJobDllTxtBox.TabIndex = 94;
+            this.submitJobDllTxtBox.Text = "Common";
+            this.submitJobDllTxtBox.TextChanged += new System.EventHandler(this.submitJobDllTxtBox_TextChanged);
             // 
-            // submitWorkerServiceUrlMsgBox
+            // submitJobMapTxtBox
             // 
-            this.submitWorkerServiceUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerServiceUrlMsgBox.Location = new System.Drawing.Point(105, 263);
-            this.submitWorkerServiceUrlMsgBox.Name = "submitWorkerServiceUrlMsgBox";
-            this.submitWorkerServiceUrlMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.submitWorkerServiceUrlMsgBox.TabIndex = 16;
-            this.submitWorkerServiceUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerServiceUrlMsgBox_TextChanged);
+            this.submitJobMapTxtBox.Location = new System.Drawing.Point(212, 431);
+            this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
+            this.submitJobMapTxtBox.Size = new System.Drawing.Size(194, 20);
+            this.submitJobMapTxtBox.TabIndex = 93;
+            this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
+            this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.submitJobMapTxtBox_TextChanged);
             // 
-            // label8
+            // clearButton
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(40, 266);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
-            this.label8.TabIndex = 15;
-            this.label8.Text = "Service-Url";
+            this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clearButton.ForeColor = System.Drawing.Color.DarkRed;
+            this.clearButton.Location = new System.Drawing.Point(980, 8);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(114, 23);
+            this.clearButton.TabIndex = 92;
+            this.clearButton.Text = "[F10] Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
-            // submitWorkerEntryUrlMsgBox
+            // destFileBtn
             // 
-            this.submitWorkerEntryUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitWorkerEntryUrlMsgBox.Location = new System.Drawing.Point(105, 289);
-            this.submitWorkerEntryUrlMsgBox.Name = "submitWorkerEntryUrlMsgBox";
-            this.submitWorkerEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.submitWorkerEntryUrlMsgBox.TabIndex = 18;
-            this.submitWorkerEntryUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerEntryUrlMsgBox_TextChanged);
+            this.destFileBtn.Location = new System.Drawing.Point(524, 404);
+            this.destFileBtn.Name = "destFileBtn";
+            this.destFileBtn.Size = new System.Drawing.Size(59, 20);
+            this.destFileBtn.TabIndex = 91;
+            this.destFileBtn.Text = "Choose";
+            this.destFileBtn.UseVisualStyleBackColor = true;
+            this.destFileBtn.Click += new System.EventHandler(this.destFileBtn_Click);
             // 
-            // label9
+            // sourceFileBtn
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(52, 292);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Entry-Url";
+            this.sourceFileBtn.Location = new System.Drawing.Point(524, 377);
+            this.sourceFileBtn.Name = "sourceFileBtn";
+            this.sourceFileBtn.Size = new System.Drawing.Size(59, 20);
+            this.sourceFileBtn.TabIndex = 90;
+            this.sourceFileBtn.Text = "Choose";
+            this.sourceFileBtn.UseVisualStyleBackColor = true;
+            this.sourceFileBtn.Click += new System.EventHandler(this.sourceFileBtn_Click);
+            // 
+            // exportFileBtn
+            // 
+            this.exportFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportFileBtn.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.exportFileBtn.Location = new System.Drawing.Point(1109, 8);
+            this.exportFileBtn.Name = "exportFileBtn";
+            this.exportFileBtn.Size = new System.Drawing.Size(193, 23);
+            this.exportFileBtn.TabIndex = 89;
+            this.exportFileBtn.Text = "[F2] Export Console to File";
+            this.exportFileBtn.UseVisualStyleBackColor = true;
+            this.exportFileBtn.Click += new System.EventHandler(this.exportConsole_Click);
+            // 
+            // OpenScriptBtn
+            // 
+            this.OpenScriptBtn.Location = new System.Drawing.Point(589, 92);
+            this.OpenScriptBtn.Name = "OpenScriptBtn";
+            this.OpenScriptBtn.Size = new System.Drawing.Size(64, 20);
+            this.OpenScriptBtn.TabIndex = 88;
+            this.OpenScriptBtn.Text = "Open";
+            this.OpenScriptBtn.UseVisualStyleBackColor = true;
+            this.OpenScriptBtn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // consoleMessageBox
+            // 
+            this.consoleMessageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.consoleMessageBox.BackColor = System.Drawing.Color.Black;
+            this.consoleMessageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
+            this.consoleMessageBox.Location = new System.Drawing.Point(746, 36);
+            this.consoleMessageBox.Name = "consoleMessageBox";
+            this.consoleMessageBox.ReadOnly = true;
+            this.consoleMessageBox.Size = new System.Drawing.Size(556, 461);
+            this.consoleMessageBox.TabIndex = 85;
+            this.consoleMessageBox.Text = "";
+            this.consoleMessageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.consoleMessageBox_KeyDown);
+            // 
+            // submitTaskNumberSplits
+            // 
+            this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitTaskNumberSplits.Location = new System.Drawing.Point(106, 431);
+            this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
+            this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
+            this.submitTaskNumberSplits.TabIndex = 82;
+            this.submitTaskNumberSplits.Leave += new System.EventHandler(this.submitTaskNumberSplits_Leave);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label27.Location = new System.Drawing.Point(12, 19);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(728, 20);
+            this.label27.TabIndex = 81;
+            this.label27.Text = "Execute Commands                                                                 " +
+    "                                               ";
+            // 
+            // submitScript
+            // 
+            this.submitScript.Location = new System.Drawing.Point(660, 92);
+            this.submitScript.Name = "submitScript";
+            this.submitScript.Size = new System.Drawing.Size(75, 20);
+            this.submitScript.TabIndex = 78;
+            this.submitScript.Text = "Run";
+            this.submitScript.UseVisualStyleBackColor = true;
+            this.submitScript.Click += new System.EventHandler(this.submitScript_Click);
+            // 
+            // scriptLocMsgBox
+            // 
+            this.scriptLocMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scriptLocMsgBox.Location = new System.Drawing.Point(105, 93);
+            this.scriptLocMsgBox.Name = "scriptLocMsgBox";
+            this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.scriptLocMsgBox.TabIndex = 77;
+            this.scriptLocMsgBox.Text = "..\\..\\..\\MyScript.txt";
+            this.scriptLocMsgBox.TextChanged += new System.EventHandler(this.scriptLocMsgBox_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 96);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(78, 13);
+            this.label2.TabIndex = 76;
+            this.label2.Text = "Script Location";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(44, 70);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 13);
+            this.label1.TabIndex = 75;
+            this.label1.Text = "Command";
+            // 
+            // commandMsgBox
+            // 
+            this.commandMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commandMsgBox.Location = new System.Drawing.Point(105, 67);
+            this.commandMsgBox.Name = "commandMsgBox";
+            this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.commandMsgBox.TabIndex = 74;
+            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper Common";
+            this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
+            // 
+            // submitCommand
+            // 
+            this.submitCommand.Location = new System.Drawing.Point(589, 67);
+            this.submitCommand.Name = "submitCommand";
+            this.submitCommand.Size = new System.Drawing.Size(146, 20);
+            this.submitCommand.TabIndex = 73;
+            this.submitCommand.Text = "Run Command";
+            this.submitCommand.UseVisualStyleBackColor = true;
+            this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
+            // 
+            // numSecondsWait
+            // 
+            this.numSecondsWait.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numSecondsWait.Location = new System.Drawing.Point(513, 146);
+            this.numSecondsWait.Name = "numSecondsWait";
+            this.numSecondsWait.Size = new System.Drawing.Size(70, 22);
+            this.numSecondsWait.TabIndex = 70;
+            this.numSecondsWait.Leave += new System.EventHandler(this.numSecondsWait_Leave);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(469, 149);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(38, 13);
+            this.label16.TabIndex = 69;
+            this.label16.Text = "# SEC";
+            // 
+            // slowNumSeconds
+            // 
+            this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slowNumSeconds.Location = new System.Drawing.Point(221, 520);
+            this.slowNumSeconds.Name = "slowNumSeconds";
+            this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
+            this.slowNumSeconds.TabIndex = 68;
+            this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
+            // 
+            // unfreezecBtn
+            // 
+            this.unfreezecBtn.Location = new System.Drawing.Point(472, 494);
+            this.unfreezecBtn.Name = "unfreezecBtn";
+            this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
+            this.unfreezecBtn.TabIndex = 67;
+            this.unfreezecBtn.Text = "Enable Job Tracker";
+            this.unfreezecBtn.UseVisualStyleBackColor = true;
+            this.unfreezecBtn.Click += new System.EventHandler(this.unfreezecBtn_Click);
+            // 
+            // freezecBtn
+            // 
+            this.freezecBtn.Location = new System.Drawing.Point(567, 494);
+            this.freezecBtn.Name = "freezecBtn";
+            this.freezecBtn.Size = new System.Drawing.Size(86, 49);
+            this.freezecBtn.TabIndex = 64;
+            this.freezecBtn.Text = "Disable Job Tracker";
+            this.freezecBtn.UseVisualStyleBackColor = true;
+            this.freezecBtn.Click += new System.EventHandler(this.freezecBtn_Click);
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.refreshBtn.Location = new System.Drawing.Point(746, 504);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(556, 39);
+            this.refreshBtn.TabIndex = 55;
+            this.refreshBtn.Text = "[F5] Refresh Status";
+            this.refreshBtn.UseVisualStyleBackColor = true;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // unfreezewBtn
+            // 
+            this.unfreezewBtn.Location = new System.Drawing.Point(380, 494);
+            this.unfreezewBtn.Name = "unfreezewBtn";
+            this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
+            this.unfreezewBtn.TabIndex = 49;
+            this.unfreezewBtn.Text = "Unfreeze";
+            this.unfreezewBtn.UseVisualStyleBackColor = true;
+            this.unfreezewBtn.Click += new System.EventHandler(this.unfreezewBtn_Click);
+            // 
+            // workerId
+            // 
+            this.workerId.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.workerId.Location = new System.Drawing.Point(105, 495);
+            this.workerId.Name = "workerId";
+            this.workerId.Size = new System.Drawing.Size(177, 20);
+            this.workerId.TabIndex = 47;
+            this.workerId.TextChanged += new System.EventHandler(this.workerId_TextChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(45, 498);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(54, 13);
+            this.label21.TabIndex = 46;
+            this.label21.Text = "Worker Id";
+            // 
+            // freezewBtn
+            // 
+            this.freezewBtn.Location = new System.Drawing.Point(288, 494);
+            this.freezewBtn.Name = "freezewBtn";
+            this.freezewBtn.Size = new System.Drawing.Size(86, 49);
+            this.freezewBtn.TabIndex = 45;
+            this.freezewBtn.Text = "Freeze";
+            this.freezewBtn.UseVisualStyleBackColor = true;
+            this.freezewBtn.Click += new System.EventHandler(this.freezewBtn_Click);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(13, 475);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(155, 13);
+            this.label23.TabIndex = 42;
+            this.label23.Text = "Control Worker commands";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(72, 609);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(0, 13);
+            this.label20.TabIndex = 40;
+            // 
+            // slowBtn
+            // 
+            this.slowBtn.Location = new System.Drawing.Point(662, 494);
+            this.slowBtn.Name = "slowBtn";
+            this.slowBtn.Size = new System.Drawing.Size(73, 49);
+            this.slowBtn.TabIndex = 39;
+            this.slowBtn.Text = "Sleep";
+            this.slowBtn.UseVisualStyleBackColor = true;
+            this.slowBtn.Click += new System.EventHandler(this.slowBtn_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(156, 522);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(59, 13);
+            this.label18.TabIndex = 37;
+            this.label18.Text = "# Seconds";
+            // 
+            // waitButton
+            // 
+            this.waitButton.Location = new System.Drawing.Point(589, 147);
+            this.waitButton.Name = "waitButton";
+            this.waitButton.Size = new System.Drawing.Size(146, 20);
+            this.waitButton.TabIndex = 35;
+            this.waitButton.Text = "Wait";
+            this.waitButton.UseVisualStyleBackColor = true;
+            this.waitButton.Click += new System.EventHandler(this.waitButton_Click);
+            // 
+            // submitTaskButton
+            // 
+            this.submitTaskButton.Location = new System.Drawing.Point(589, 351);
+            this.submitTaskButton.Name = "submitTaskButton";
+            this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
+            this.submitTaskButton.TabIndex = 34;
+            this.submitTaskButton.Text = "Submit Job";
+            this.submitTaskButton.UseVisualStyleBackColor = true;
+            this.submitTaskButton.Click += new System.EventHandler(this.submitTaskButton_Click);
+            // 
+            // submitWorkerButton
+            // 
+            this.submitWorkerButton.Location = new System.Drawing.Point(589, 211);
+            this.submitWorkerButton.Name = "submitWorkerButton";
+            this.submitWorkerButton.Size = new System.Drawing.Size(146, 98);
+            this.submitWorkerButton.TabIndex = 33;
+            this.submitWorkerButton.Text = "Generate Worker";
+            this.submitWorkerButton.UseVisualStyleBackColor = true;
+            this.submitWorkerButton.Click += new System.EventHandler(this.submitWorkerButton_Click);
             // 
             // label10
             // 
@@ -263,400 +554,109 @@
             this.label14.TabIndex = 19;
             this.label14.Text = "SUBMIT";
             // 
-            // submitWorkerButton
-            // 
-            this.submitWorkerButton.Location = new System.Drawing.Point(589, 211);
-            this.submitWorkerButton.Name = "submitWorkerButton";
-            this.submitWorkerButton.Size = new System.Drawing.Size(146, 98);
-            this.submitWorkerButton.TabIndex = 33;
-            this.submitWorkerButton.Text = "[G]enerate Worker";
-            this.submitWorkerButton.UseVisualStyleBackColor = true;
-            this.submitWorkerButton.Click += new System.EventHandler(this.submitWorkerButton_Click);
-            // 
-            // submitTaskButton
-            // 
-            this.submitTaskButton.Location = new System.Drawing.Point(589, 351);
-            this.submitTaskButton.Name = "submitTaskButton";
-            this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
-            this.submitTaskButton.TabIndex = 34;
-            this.submitTaskButton.Text = "Submit [J]ob";
-            this.submitTaskButton.UseVisualStyleBackColor = true;
-            this.submitTaskButton.Click += new System.EventHandler(this.submitTaskButton_Click);
-            // 
-            // waitButton
-            // 
-            this.waitButton.Location = new System.Drawing.Point(589, 147);
-            this.waitButton.Name = "waitButton";
-            this.waitButton.Size = new System.Drawing.Size(146, 20);
-            this.waitButton.TabIndex = 35;
-            this.waitButton.Text = "[W]ait";
-            this.waitButton.UseVisualStyleBackColor = true;
-            this.waitButton.Click += new System.EventHandler(this.waitButton_Click);
-            // 
-            // slowBtn
-            // 
-            this.slowBtn.Location = new System.Drawing.Point(662, 494);
-            this.slowBtn.Name = "slowBtn";
-            this.slowBtn.Size = new System.Drawing.Size(73, 49);
-            this.slowBtn.TabIndex = 39;
-            this.slowBtn.Text = "[S]leep";
-            this.slowBtn.UseVisualStyleBackColor = true;
-            this.slowBtn.Click += new System.EventHandler(this.slowBtn_Click);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(156, 522);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(59, 13);
-            this.label18.TabIndex = 37;
-            this.label18.Text = "# Seconds";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(72, 609);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(0, 13);
-            this.label20.TabIndex = 40;
-            // 
-            // workerId
-            // 
-            this.workerId.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.workerId.Location = new System.Drawing.Point(105, 495);
-            this.workerId.Name = "workerId";
-            this.workerId.Size = new System.Drawing.Size(177, 20);
-            this.workerId.TabIndex = 47;
-            this.workerId.TextChanged += new System.EventHandler(this.workerId_TextChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(45, 498);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(54, 13);
-            this.label21.TabIndex = 46;
-            this.label21.Text = "Worker Id";
-            // 
-            // freezewBtn
-            // 
-            this.freezewBtn.Location = new System.Drawing.Point(288, 494);
-            this.freezewBtn.Name = "freezewBtn";
-            this.freezewBtn.Size = new System.Drawing.Size(86, 49);
-            this.freezewBtn.TabIndex = 45;
-            this.freezewBtn.Text = "[F]reeze";
-            this.freezewBtn.UseVisualStyleBackColor = true;
-            this.freezewBtn.Click += new System.EventHandler(this.freezewBtn_Click);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(13, 475);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(155, 13);
-            this.label23.TabIndex = 42;
-            this.label23.Text = "Control Worker commands";
-            // 
-            // unfreezewBtn
-            // 
-            this.unfreezewBtn.Location = new System.Drawing.Point(380, 494);
-            this.unfreezewBtn.Name = "unfreezewBtn";
-            this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
-            this.unfreezewBtn.TabIndex = 49;
-            this.unfreezewBtn.Text = "[U]nfreeze";
-            this.unfreezewBtn.UseVisualStyleBackColor = true;
-            this.unfreezewBtn.Click += new System.EventHandler(this.unfreezewBtn_Click);
-            // 
-            // refreshBtn
-            // 
-            this.refreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshBtn.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.refreshBtn.Location = new System.Drawing.Point(741, 504);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(510, 39);
-            this.refreshBtn.TabIndex = 55;
-            this.refreshBtn.Text = "[F5] Refresh Status";
-            this.refreshBtn.UseVisualStyleBackColor = true;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
-            // 
-            // unfreezecBtn
-            // 
-            this.unfreezecBtn.Location = new System.Drawing.Point(472, 494);
-            this.unfreezecBtn.Name = "unfreezecBtn";
-            this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
-            this.unfreezecBtn.TabIndex = 67;
-            this.unfreezecBtn.Text = "[E]nable Job Tracker";
-            this.unfreezecBtn.UseVisualStyleBackColor = true;
-            this.unfreezecBtn.Click += new System.EventHandler(this.unfreezecBtn_Click);
-            // 
-            // freezecBtn
-            // 
-            this.freezecBtn.Location = new System.Drawing.Point(567, 494);
-            this.freezecBtn.Name = "freezecBtn";
-            this.freezecBtn.Size = new System.Drawing.Size(86, 49);
-            this.freezecBtn.TabIndex = 64;
-            this.freezecBtn.Text = "[D]isable Job Tracker";
-            this.freezecBtn.UseVisualStyleBackColor = true;
-            this.freezecBtn.Click += new System.EventHandler(this.freezecBtn_Click);
-            // 
-            // slowNumSeconds
-            // 
-            this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(221, 520);
-            this.slowNumSeconds.Name = "slowNumSeconds";
-            this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
-            this.slowNumSeconds.TabIndex = 68;
-            this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
-            // 
-            // numSecondsWait
-            // 
-            this.numSecondsWait.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numSecondsWait.Location = new System.Drawing.Point(513, 146);
-            this.numSecondsWait.Name = "numSecondsWait";
-            this.numSecondsWait.Size = new System.Drawing.Size(70, 22);
-            this.numSecondsWait.TabIndex = 70;
-            this.numSecondsWait.Leave += new System.EventHandler(this.numSecondsWait_Leave);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(469, 149);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(38, 13);
-            this.label16.TabIndex = 69;
-            this.label16.Text = "# SEC";
-            // 
-            // submitScript
-            // 
-            this.submitScript.Location = new System.Drawing.Point(660, 92);
-            this.submitScript.Name = "submitScript";
-            this.submitScript.Size = new System.Drawing.Size(75, 20);
-            this.submitScript.TabIndex = 78;
-            this.submitScript.Text = "[R]un";
-            this.submitScript.UseVisualStyleBackColor = true;
-            this.submitScript.Click += new System.EventHandler(this.submitScript_Click);
-            // 
-            // scriptLocMsgBox
-            // 
-            this.scriptLocMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scriptLocMsgBox.Location = new System.Drawing.Point(105, 93);
-            this.scriptLocMsgBox.Name = "scriptLocMsgBox";
-            this.scriptLocMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.scriptLocMsgBox.TabIndex = 77;
-            this.scriptLocMsgBox.Text = "..\\..\\..\\MyScript.txt";
-            this.scriptLocMsgBox.TextChanged += new System.EventHandler(this.scriptLocMsgBox_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 96);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 13);
-            this.label2.TabIndex = 76;
-            this.label2.Text = "Script Location";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(44, 70);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
-            this.label1.TabIndex = 75;
-            this.label1.Text = "Command";
-            // 
-            // commandMsgBox
-            // 
-            this.commandMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commandMsgBox.Location = new System.Drawing.Point(105, 67);
-            this.commandMsgBox.Name = "commandMsgBox";
-            this.commandMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.commandMsgBox.TabIndex = 74;
-            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper Common";
-            this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
-            // 
-            // submitCommand
-            // 
-            this.submitCommand.Location = new System.Drawing.Point(589, 67);
-            this.submitCommand.Name = "submitCommand";
-            this.submitCommand.Size = new System.Drawing.Size(146, 20);
-            this.submitCommand.TabIndex = 73;
-            this.submitCommand.Text = "Run [C]ommand";
-            this.submitCommand.UseVisualStyleBackColor = true;
-            this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label27.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label27.Location = new System.Drawing.Point(12, 19);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(728, 20);
-            this.label27.TabIndex = 81;
-            this.label27.Text = "Execute Commands                                                                 " +
-    "                                               ";
-            // 
-            // submitTaskNumberSplits
-            // 
-            this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskNumberSplits.Location = new System.Drawing.Point(106, 431);
-            this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
-            this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
-            this.submitTaskNumberSplits.TabIndex = 82;
-            this.submitTaskNumberSplits.Leave += new System.EventHandler(this.submitTaskNumberSplits_Leave);
-            // 
-            // consoleMessageBox
-            // 
-            this.consoleMessageBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.consoleMessageBox.BackColor = System.Drawing.Color.Black;
-            this.consoleMessageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
-            this.consoleMessageBox.Location = new System.Drawing.Point(741, 36);
-            this.consoleMessageBox.Name = "consoleMessageBox";
-            this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(510, 461);
-            this.consoleMessageBox.TabIndex = 85;
-            this.consoleMessageBox.Text = "";
-            this.consoleMessageBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.consoleMessageBox_KeyDown);
-            // 
-            // OpenScriptBtn
-            // 
-            this.OpenScriptBtn.Location = new System.Drawing.Point(589, 92);
-            this.OpenScriptBtn.Name = "OpenScriptBtn";
-            this.OpenScriptBtn.Size = new System.Drawing.Size(64, 20);
-            this.OpenScriptBtn.TabIndex = 88;
-            this.OpenScriptBtn.Text = "[O]pen";
-            this.OpenScriptBtn.UseVisualStyleBackColor = true;
-            this.OpenScriptBtn.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // exportFileBtn
-            // 
-            this.exportFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.exportFileBtn.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-            this.exportFileBtn.Location = new System.Drawing.Point(1058, 8);
-            this.exportFileBtn.Name = "exportFileBtn";
-            this.exportFileBtn.Size = new System.Drawing.Size(193, 23);
-            this.exportFileBtn.TabIndex = 89;
-            this.exportFileBtn.Text = "[Ctrl+Shift+E] Export Console to File";
-            this.exportFileBtn.UseVisualStyleBackColor = true;
-            this.exportFileBtn.Click += new System.EventHandler(this.exportConsole_Click);
-            // 
-            // sourceFileBtn
-            // 
-            this.sourceFileBtn.Location = new System.Drawing.Point(524, 377);
-            this.sourceFileBtn.Name = "sourceFileBtn";
-            this.sourceFileBtn.Size = new System.Drawing.Size(59, 20);
-            this.sourceFileBtn.TabIndex = 90;
-            this.sourceFileBtn.Text = "Choose";
-            this.sourceFileBtn.UseVisualStyleBackColor = true;
-            this.sourceFileBtn.Click += new System.EventHandler(this.sourceFileBtn_Click);
-            // 
-            // destFileBtn
-            // 
-            this.destFileBtn.Location = new System.Drawing.Point(524, 404);
-            this.destFileBtn.Name = "destFileBtn";
-            this.destFileBtn.Size = new System.Drawing.Size(59, 20);
-            this.destFileBtn.TabIndex = 91;
-            this.destFileBtn.Text = "Choose";
-            this.destFileBtn.UseVisualStyleBackColor = true;
-            this.destFileBtn.Click += new System.EventHandler(this.destFileBtn_Click);
-            // 
-            // clearButton
-            // 
-            this.clearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.clearButton.ForeColor = System.Drawing.Color.DarkRed;
-            this.clearButton.Location = new System.Drawing.Point(929, 8);
-            this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(114, 23);
-            this.clearButton.TabIndex = 92;
-            this.clearButton.Text = "[Ctrl+Shift+C] Clear";
-            this.clearButton.UseVisualStyleBackColor = true;
-            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
-            // 
-            // submitJobMapTxtBox
-            // 
-            this.submitJobMapTxtBox.Location = new System.Drawing.Point(212, 431);
-            this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
-            this.submitJobMapTxtBox.Size = new System.Drawing.Size(194, 20);
-            this.submitJobMapTxtBox.TabIndex = 93;
-            this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
-            this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.submitJobMapTxtBox_TextChanged);
-            // 
-            // submitJobDllTxtBox
-            // 
-            this.submitJobDllTxtBox.Location = new System.Drawing.Point(445, 430);
-            this.submitJobDllTxtBox.Name = "submitJobDllTxtBox";
-            this.submitJobDllTxtBox.Size = new System.Drawing.Size(138, 20);
-            this.submitJobDllTxtBox.TabIndex = 94;
-            this.submitJobDllTxtBox.Text = "Common";
-            this.submitJobDllTxtBox.TextChanged += new System.EventHandler(this.submitJobDllTxtBox_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(177, 434);
-            this.label3.Name = "label3";
-            this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 95;
-            this.label3.Text = "Map";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(412, 433);
-            this.label19.Name = "label19";
-            this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label19.Size = new System.Drawing.Size(27, 13);
-            this.label19.TabIndex = 96;
-            this.label19.Text = "DLL";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(589, 118);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 20);
-            this.button1.TabIndex = 97;
-            this.button1.Text = "Open";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // propertiesMsgBox
-            // 
-            this.propertiesMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.propertiesMsgBox.Location = new System.Drawing.Point(105, 118);
-            this.propertiesMsgBox.Name = "propertiesMsgBox";
-            this.propertiesMsgBox.Size = new System.Drawing.Size(478, 20);
-            this.propertiesMsgBox.TabIndex = 99;
-            this.propertiesMsgBox.Text = "..\\..\\..\\PM_properties.conf";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(2, 120);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(98, 13);
-            this.label15.TabIndex = 98;
-            this.label15.Text = "Properties Location";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(660, 118);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 20);
-            this.button2.TabIndex = 100;
-            this.button2.Text = "Load";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // submitWorkerEntryUrlMsgBox
+            // 
+            this.submitWorkerEntryUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitWorkerEntryUrlMsgBox.Location = new System.Drawing.Point(105, 289);
+            this.submitWorkerEntryUrlMsgBox.Name = "submitWorkerEntryUrlMsgBox";
+            this.submitWorkerEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitWorkerEntryUrlMsgBox.TabIndex = 18;
+            this.submitWorkerEntryUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerEntryUrlMsgBox_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(52, 292);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(47, 13);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Entry-Url";
+            // 
+            // submitWorkerServiceUrlMsgBox
+            // 
+            this.submitWorkerServiceUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitWorkerServiceUrlMsgBox.Location = new System.Drawing.Point(105, 263);
+            this.submitWorkerServiceUrlMsgBox.Name = "submitWorkerServiceUrlMsgBox";
+            this.submitWorkerServiceUrlMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitWorkerServiceUrlMsgBox.TabIndex = 16;
+            this.submitWorkerServiceUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerServiceUrlMsgBox_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(40, 266);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Service-Url";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(0, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(100, 23);
+            this.label7.TabIndex = 83;
+            // 
+            // submitWorkerPMUrlMsgBox
+            // 
+            this.submitWorkerPMUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitWorkerPMUrlMsgBox.Location = new System.Drawing.Point(105, 237);
+            this.submitWorkerPMUrlMsgBox.Name = "submitWorkerPMUrlMsgBox";
+            this.submitWorkerPMUrlMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitWorkerPMUrlMsgBox.TabIndex = 13;
+            this.submitWorkerPMUrlMsgBox.TextChanged += new System.EventHandler(this.submitWorkerPMUrlMsgBox_TextChanged);
+            // 
+            // submitWorkerWorkerIdMsgBox
+            // 
+            this.submitWorkerWorkerIdMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitWorkerWorkerIdMsgBox.Location = new System.Drawing.Point(105, 211);
+            this.submitWorkerWorkerIdMsgBox.Name = "submitWorkerWorkerIdMsgBox";
+            this.submitWorkerWorkerIdMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitWorkerWorkerIdMsgBox.TabIndex = 10;
+            this.submitWorkerWorkerIdMsgBox.TextChanged += new System.EventHandler(this.submitWorkerWorkerIdMsgBox_TextChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 240);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(89, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "PupperMaster-Url";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(83, 214);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(16, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Id";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(38, 195);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(62, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "WORKER";
+            // 
+            // ConsoleLabel
+            // 
+            this.ConsoleLabel.AutoSize = true;
+            this.ConsoleLabel.Location = new System.Drawing.Point(738, 20);
+            this.ConsoleLabel.Name = "ConsoleLabel";
+            this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
+            this.ConsoleLabel.TabIndex = 6;
+            this.ConsoleLabel.Text = "Console";
             // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1263, 552);
+            this.ClientSize = new System.Drawing.Size(1314, 552);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.propertiesMsgBox);
             this.Controls.Add(this.label15);
@@ -716,13 +716,14 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ConsoleLabel);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(1279, 590);
+            this.MinimumSize = new System.Drawing.Size(1330, 590);
             this.Name = "GUIPuppetMaster";
             this.Text = "Puppet Master";
+            this.Load += new System.EventHandler(this.GUIPuppetMaster_Load);
             this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSecondsWait)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
