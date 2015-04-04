@@ -26,9 +26,9 @@ namespace PADIMapNoReduce.Commands
 
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return Wait(sec);
+            Wait(sec);
         }
 
         public override string getCommandName()
@@ -36,15 +36,14 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public bool Wait(int sec){
+        public void Wait(int sec)
+        {
 
             string commandResult = "[WAIT] " + sec + " seconds";
             Logger.LogInfo(commandResult);
             
             Thread.Sleep(1000 * sec);
             Logger.LogInfo("[WAIT] FINISHED");
-
-            return true;
         }
 
     }

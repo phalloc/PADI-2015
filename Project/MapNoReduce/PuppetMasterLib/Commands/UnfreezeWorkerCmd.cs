@@ -28,9 +28,9 @@ namespace PADIMapNoReduce.Commands
             return false;
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return UnfreezeWorker(workerId);
+            UnfreezeWorker(workerId);
         }
 
         public override string getCommandName()
@@ -38,11 +38,10 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public bool UnfreezeWorker(string workerId)
+        public void UnfreezeWorker(string workerId)
         {
             string commandResult = "[UNFREEZING] " + workerId;
             Logger.LogInfo(commandResult);
-            return true;
         }
     }
 }

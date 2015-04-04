@@ -42,12 +42,12 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return SubmitJob(entryUrl, inputFile, outputFile, numSplits, map);
+            SubmitJob(entryUrl, inputFile, outputFile, numSplits, map);
         }
 
-        public bool SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)
+        public void SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)
         {
 
             string commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
@@ -58,7 +58,6 @@ namespace PADIMapNoReduce.Commands
                             "          mapper: " + mapper.GetType().Name + "\r\n" +
                             "          Ola ---> MAPPER ---> " + mapper.MapDummy("Ola");
             Logger.LogInfo(commandResult);
-            return true;
         }
     }
 }

@@ -40,15 +40,15 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        
 
-        protected override bool ExecuteAux()
+
+        protected override void ExecuteAux()
         {
-            return CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
+            CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
         }
 
 
-        public bool CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
+        public void CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
 
             string commandResult = "[CREATE] id: " + id + "\r\n" +  
@@ -58,8 +58,6 @@ namespace PADIMapNoReduce.Commands
 
 
             Logger.LogInfo(commandResult);
-
-            return true;
         }
 
     }

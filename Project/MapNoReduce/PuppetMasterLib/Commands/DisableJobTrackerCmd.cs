@@ -29,9 +29,9 @@ namespace PADIMapNoReduce.Commands
 
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return DisableJobTracker(workerId);
+            DisableJobTracker(workerId);
         }
 
         public override string getCommandName()
@@ -39,14 +39,13 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public bool DisableJobTracker(string workerId)
+        public void DisableJobTracker(string workerId)
         {
 
             string commandResult = "[DISABLING] " + workerId + " Job traceker";
             Logger.LogInfo(commandResult);
 
 
-            return true;
         }
     }
 }

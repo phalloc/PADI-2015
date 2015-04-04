@@ -33,19 +33,18 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return EnableJobTracker(workerId);
+             EnableJobTracker(workerId);
         }
 
 
-        public bool EnableJobTracker(string workerId)
+        public void EnableJobTracker(string workerId)
         {
 
             string commandResult = "[ENABLING] " + workerId + " Job traceker";
             Logger.LogInfo(commandResult);
 
-            return true;
         }
     }
 }

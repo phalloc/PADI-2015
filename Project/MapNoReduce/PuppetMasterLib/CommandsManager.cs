@@ -47,12 +47,7 @@ namespace PADIMapNoReduce
                 {
                     if (!line.StartsWith(COMMENT_CHAR))
                     {
-                        Command c = ParseCommand(line);
-                        if (c == null)
-                        {
-                            throw new Exception("Error parsing command at line " + numLines);
-                        }
-                        listCommands.Add(c);
+                        listCommands.Add(ParseCommand(line));
                     }
 
                     numLines++;

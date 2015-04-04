@@ -38,20 +38,17 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return DelayWorker(workerId, sec);
+            DelayWorker(workerId, sec);
         }
 
 
-        public bool DelayWorker(string workerId, int seconds)
+        public void DelayWorker(string workerId, int seconds)
         {
 
             string commandResult = "[DELAY] " + workerId + " for " + seconds + " seconds.";
             Logger.LogInfo(commandResult);
-
-
-            return true;
         }
     }
 }

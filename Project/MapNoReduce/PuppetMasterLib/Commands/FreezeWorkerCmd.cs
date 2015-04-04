@@ -28,9 +28,9 @@ namespace PADIMapNoReduce.Commands
 
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return FreezeWorker(workerId);
+             FreezeWorker(workerId);
         }
 
         public override string getCommandName()
@@ -39,12 +39,11 @@ namespace PADIMapNoReduce.Commands
         }
 
 
-        public bool FreezeWorker(string workerId)
+        public void FreezeWorker(string workerId)
         {
             string commandResult = "[FREEZING] " + workerId;
             Logger.LogInfo(commandResult);
 
-            return true;
         }
     }
 }

@@ -16,9 +16,9 @@ namespace PADIMapNoReduce.Commands
             return true;
         }
 
-        protected override bool ExecuteAux()
+        protected override void ExecuteAux()
         {
-            return RefreshStatus();
+            RefreshStatus();
         }
 
         public override string getCommandName()
@@ -26,14 +26,13 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public bool RefreshStatus()
+        public void RefreshStatus()
         {
 
             string commandResult = "[REFRESHING]";
             Logger.LogInfo(commandResult);
 
 
-            return true;
         }
 
     }

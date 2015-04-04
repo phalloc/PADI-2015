@@ -17,22 +17,20 @@ namespace PADIMapNoReduce.Commands
                 throw new Exception("Couldn't parse command: " + line);
             }
         }
-        public bool Execute()
+
+        public void Execute()
         {
             if (line == null){
                 throw new Exception("Run parse first");
             }
 
-            bool result = ExecuteAux();
+            ExecuteAux();
             this.line = null;
-            return result;
+ 
         }
 
-        protected abstract bool ExecuteAux();
+        protected abstract void ExecuteAux();
         protected abstract bool ParseAux();
-        public abstract string getCommandName();
-
-        
-        
+        public abstract string getCommandName();       
     }
 }
