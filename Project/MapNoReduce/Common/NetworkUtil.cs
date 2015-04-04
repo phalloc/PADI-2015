@@ -27,25 +27,5 @@ namespace PADIMapNoReduce
             }
             return -1;
         }
-
-        public static int GetFirstAvailablePort2(int startRange, int endRange)
-        {
-            IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
-            TcpConnectionInformation[] tcpConnInfoArray = ipGlobalProperties.GetActiveTcpConnections();
-
-            Logger.LogWarn("HEREEEE111111");
-            foreach (TcpConnectionInformation tcpi in tcpConnInfoArray)
-            {
-                Logger.LogWarn("HEREEEE");
-                if (tcpi.LocalEndPoint.Port >= startRange && tcpi.LocalEndPoint.Port <= endRange)
-                {
-                    return tcpi.LocalEndPoint.Port;
-                }
-            }
-
-            return -1;
-        }
-
-        
     }
 }
