@@ -13,15 +13,14 @@ namespace PADIMapNoReduce
     public class PuppetMaster
     {
         private CommandsManager cm;
-        private IDictionary<string, string> knownWorkers = new Dictionary<string, string>();
+        private static IDictionary<string, string> knownWorkers = new Dictionary<string, string>();
         private string serviceUrl;
-        private string serviceName = "PM";
+        private static string SERVICE_NAME = "PM";
         private int port;
 
         private static string workerExeLocation = null;
         private static string clientExeLocation = null;
 
-        private TcpChannel serviceChannel;
         private PM remoteObject;
 
 
@@ -49,10 +48,36 @@ namespace PADIMapNoReduce
             PuppetMaster.clientExeLocation = exeLocation;
         }
 
-        public void LoadConfigurationFile(IDictionary<string, string> dic)
+        public void InstaciateWorkers(IDictionary<string, string> dic)
         {
-            this.knownWorkers = dic;
-            Logger.LogInfo("Finished loading configuration file");
+            Logger.LogWarn("CREATING SET OF WORKERS....");
+            string previousWorker = "";
+
+            foreach (KeyValuePair<string, string> entry in dic)
+            {
+                string id = entry.Key;
+                string url = entry.Value;
+                remoteObject.CreateWorker(id, url, previousWorker);
+                previousWorker = url;
+            }
+
+            Logger.LogWarn("FINISHED CREATING WORKERS....");
+        }
+
+        public static void RegisterNewWorker(string id, string url)
+        {
+            Logger.LogInfo("Register worker: " + id + " : " + url);
+
+            if(PuppetMaster.knownWorkers.ContainsKey(id))
+                PuppetMaster.knownWorkers.Remove(id);
+
+            PuppetMaster.knownWorkers.Add(id, url);
+        }
+
+        public static void UnregisterNewWorker(string id)
+        {
+            Logger.LogInfo("Unregistered worker: " + id);
+            PuppetMaster.knownWorkers.Remove(id);
         }
 
         public void InitializeService()
@@ -69,9 +94,10 @@ namespace PADIMapNoReduce
             remoteObject = new PM();
             TcpChannel myChannel = new TcpChannel(this.port);
             ChannelServices.RegisterChannel(myChannel, true);
-            RemotingServices.Marshal(remoteObject, serviceName, typeof(IPuppetMaster));
+            RemotingServices.Marshal(remoteObject, SERVICE_NAME, typeof(IPuppetMaster));
 
-            Logger.LogInfo("Started PuppetMaster service @ tcp://localhost:" + this.port + "/" + this.serviceName);
+            serviceUrl = "tcp://localhost:" + this.port + "/" + SERVICE_NAME;
+            Logger.LogInfo("Started PuppetMaster service @ " + serviceUrl);
         }
 
         public void LoadFile(string file)

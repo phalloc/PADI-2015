@@ -359,7 +359,7 @@ namespace PADIMapNoReduce
             string source_file = propertiesMsgBox.Text;
             IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
 
-            puppetMaster.LoadConfigurationFile(result);
+            puppetMaster.InstaciateWorkers(result);
         }
 
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
