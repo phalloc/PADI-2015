@@ -33,7 +33,7 @@ namespace PADIMapNoReduce.Commands
         {
 
             Logger.LogInfo("[REFRESHING]");
-            if (puppetMaster.GetActiveRemoteWorkers().Count == 0)
+            if (NetworkManager.GetActiveRemoteWorkers().Count == 0)
             {
                 Logger.LogWarn("No workers registered");
                 return;
@@ -44,22 +44,18 @@ namespace PADIMapNoReduce.Commands
                 List<string> listBecameInactiveWorkers = new List<string>();
                 Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 Logger.LogInfo("@@@@@@@@@@@ ACTIVE WORKERS @@@@@@@@@@@@@@");
-                foreach(KeyValuePair<string, IWorker> entry in puppetMaster.GetActiveRemoteWorkers()){
+                foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
+                {
                     string id = entry.Key;
                     IWorker w = entry.Value;
 
                     try
                     {
                         IDictionary<string, string> result = w.Status();
+                        NodeRepresentation nodeRep = NodeRepresentation.ConvertFromNodeStatus(result);
+                        NetworkManager.UpdateNodeInformation(nodeRep.id, nodeRep);
 
-                        Logger.LogInfo("----------- " + id + " -----------");
-                        foreach (KeyValuePair<string, string> data in result)
-                        {
-                            string key = data.Key;
-                            string value = data.Value;
-
-                            Logger.LogInfo(key + " = " + value);
-                        }
+                        Logger.LogInfo("\r\n" + nodeRep.Print());
                     }
                     catch (SocketException ex)
                     {
@@ -69,7 +65,7 @@ namespace PADIMapNoReduce.Commands
                 }
 
                 foreach (string id in listBecameInactiveWorkers){
-                    puppetMaster.SetWorkerAsDown(id);
+                    NetworkManager.SetWorkerAsDown(id);
                 }
 
 
@@ -77,7 +73,7 @@ namespace PADIMapNoReduce.Commands
 
                 Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 Logger.LogInfo("@@@@@@@@@@@@ DOWN WORKERS @@@@@@@@@@@@@@@");
-                foreach (string id in puppetMaster.GetDownWorkers())
+                foreach (string id in NetworkManager.GetDownWorkers())
                 {
                     Logger.LogInfo(id);
                 }
@@ -87,9 +83,6 @@ namespace PADIMapNoReduce.Commands
             {
                 Logger.LogErr(ex.Message);
             }
-
-
-
         }
 
     }

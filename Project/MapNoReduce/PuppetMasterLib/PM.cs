@@ -16,7 +16,7 @@ namespace PADIMapNoReduce
 
             string arguments = id + " " + serviceUrl + " " + entryUrl;
             ProcessUtil.ExecuteNewProcess(PropertiesPM.workerExeLocation, arguments);
-            PuppetMaster.RegisterNewWorker(id, serviceUrl);
+            NetworkManager.RegisterNewWorker(id, serviceUrl);
         }
     }
 }

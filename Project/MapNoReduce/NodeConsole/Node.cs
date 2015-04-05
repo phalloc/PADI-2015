@@ -19,11 +19,14 @@ namespace PADIMapNoReduce
         private static string clientURL;
 
 
-        //FIXME PASSAR PARA ENUM E ACRESCENTAR JOBTRACKER
+        //FIXME PASSAR PARA ENUM
         private string currentRole = "WORKER";
 
-        //FIXME é preciso por isto para o status
-        private string currentJobTrackerUrl = null;
+        //NO VALUE YET
+        private string currentJobTrackerUrl = "No value yet";
+
+        //FIXME PASSAR PARA ENUM
+        private string status = "PENDING";
         private string nextURL = null;
         private string nextNextURL = null;
 
@@ -159,10 +162,12 @@ namespace PADIMapNoReduce
             IDictionary<string, string> result = new Dictionary<string, string>();
 
             result.Add("ID", this.id);
+            result.Add("myURL", this.myURL);
             result.Add("NextUrl", this.nextURL);
             result.Add("NextNextUrl", this.nextNextURL);
-            result.Add("Role", this.currentRole);
+            result.Add("currentRole", this.currentRole);
             result.Add("CurrentJobTracker", this.currentJobTrackerUrl);
+            result.Add("status", this.status);
 
             return result;
         }

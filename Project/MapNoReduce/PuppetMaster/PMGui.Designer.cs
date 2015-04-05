@@ -81,11 +81,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.createInitialWorkersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshF5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.nodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.activeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.downToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.activeWorkersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -598,7 +594,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createInitialWorkersToolStripMenuItem,
             this.refreshF5ToolStripMenuItem,
-            this.nodesToolStripMenuItem,
+            this.showNetworkToolStripMenuItem,
             this.consoleToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -619,46 +615,18 @@
             // refreshF5ToolStripMenuItem
             // 
             this.refreshF5ToolStripMenuItem.Name = "refreshF5ToolStripMenuItem";
+            this.refreshF5ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.refreshF5ToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.refreshF5ToolStripMenuItem.Text = "Refresh F5";
             this.refreshF5ToolStripMenuItem.Click += new System.EventHandler(this.refreshF5ToolStripMenuItem_Click);
             // 
-            // nodesToolStripMenuItem
+            // showNetworkToolStripMenuItem
             // 
-            this.nodesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.refreshToolStripMenuItem,
-            this.activeToolStripMenuItem,
-            this.downToolStripMenuItem,
-            this.activeWorkersToolStripMenuItem});
-            this.nodesToolStripMenuItem.Name = "nodesToolStripMenuItem";
-            this.nodesToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.nodesToolStripMenuItem.Text = "Nodes";
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
-            // 
-            // activeToolStripMenuItem
-            // 
-            this.activeToolStripMenuItem.Name = "activeToolStripMenuItem";
-            this.activeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.activeToolStripMenuItem.Text = "Jop Trackers";
-            // 
-            // downToolStripMenuItem
-            // 
-            this.downToolStripMenuItem.Name = "downToolStripMenuItem";
-            this.downToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.downToolStripMenuItem.Text = "Down Workers";
-            // 
-            // activeWorkersToolStripMenuItem
-            // 
-            this.activeWorkersToolStripMenuItem.Name = "activeWorkersToolStripMenuItem";
-            this.activeWorkersToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.activeWorkersToolStripMenuItem.Text = "Active Workers";
+            this.showNetworkToolStripMenuItem.Name = "showNetworkToolStripMenuItem";
+            this.showNetworkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.showNetworkToolStripMenuItem.Size = new System.Drawing.Size(111, 20);
+            this.showNetworkToolStripMenuItem.Text = "Show Network F1";
+            this.showNetworkToolStripMenuItem.Click += new System.EventHandler(this.showNetworkToolStripMenuItem_Click);
             // 
             // consoleToolStripMenuItem
             // 
@@ -700,36 +668,36 @@
             // workerexeToolStripMenuItem
             // 
             this.workerexeToolStripMenuItem.Name = "workerexeToolStripMenuItem";
-            this.workerexeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.workerexeToolStripMenuItem.Text = "Worker *.exe";
+            this.workerexeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.workerexeToolStripMenuItem.Text = "Set Worker *.exe";
             this.workerexeToolStripMenuItem.ToolTipText = "..\\..\\..\\NodeConsole\\bin\\Debug\\NodeConsole.exe";
             this.workerexeToolStripMenuItem.Click += new System.EventHandler(this.workerexeToolStripMenuItem_Click);
             // 
             // clientexeToolStripMenuItem
             // 
             this.clientexeToolStripMenuItem.Name = "clientexeToolStripMenuItem";
-            this.clientexeToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.clientexeToolStripMenuItem.Text = "Client *.exe";
+            this.clientexeToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.clientexeToolStripMenuItem.Text = "Set Client *.exe";
             this.clientexeToolStripMenuItem.ToolTipText = "FIXME";
             this.clientexeToolStripMenuItem.Click += new System.EventHandler(this.clientexeToolStripMenuItem_Click);
             // 
             // propertiesFileToolStripMenuItem
             // 
             this.propertiesFileToolStripMenuItem.Name = "propertiesFileToolStripMenuItem";
-            this.propertiesFileToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.propertiesFileToolStripMenuItem.Text = "Properties *.conf";
+            this.propertiesFileToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.propertiesFileToolStripMenuItem.Text = "Set Properties *.conf";
             this.propertiesFileToolStripMenuItem.ToolTipText = "..\\..\\..\\PM_properties.conf";
             this.propertiesFileToolStripMenuItem.Click += new System.EventHandler(this.propertiesFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(178, 6);
             // 
             // showSettingsToolStripMenuItem
             // 
             this.showSettingsToolStripMenuItem.Name = "showSettingsToolStripMenuItem";
-            this.showSettingsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.showSettingsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.showSettingsToolStripMenuItem.Text = "Show Settings";
             this.showSettingsToolStripMenuItem.Click += new System.EventHandler(this.showSettingsToolStripMenuItem_Click);
             // 
@@ -737,7 +705,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1314, 526);
+            this.ClientSize = new System.Drawing.Size(1314, 524);
             this.Controls.Add(this.label19);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.submitJobDllTxtBox);
@@ -866,14 +834,10 @@
         private System.Windows.Forms.ToolStripMenuItem workerexeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clientexeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem propertiesFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nodesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem activeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem downToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem activeWorkersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshF5ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem showSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showNetworkToolStripMenuItem;
 
     }
 }

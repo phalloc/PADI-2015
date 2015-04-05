@@ -66,12 +66,12 @@ namespace PADIMapNoReduce
 
         private void Find_file_btn_hdlr(object sender, EventArgs e)
         {
-            FindSourceFile(FileTextBox, "Input files (*.in)|*.in", "Choose Source File" );
+            FileTextBox.Text = FindSourceFile("Input files (*.in)|*.in", "Choose Source File" );
         }
 
         private void destFileBtn_Click(object sender, EventArgs e)
         {
-            FindDestinationFile(submitTaskDestFileMsgBox, "Output File | *.out", "Choose Destination File");
+           submitTaskDestFileMsgBox.Text = FindDestinationFile("Output File | *.out", "Choose Destination File");
         }
     }
 }

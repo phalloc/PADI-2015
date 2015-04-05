@@ -52,6 +52,7 @@
     <Compile Include="Commands\StatusCmd.cs" />
     <Compile Include="Commands\SubmitJobCmd.cs" />
     <Compile Include="Commands\UnfreezeWorkerCmd.cs" />
+    <Compile Include="NetworkManager.cs" />
     <Compile Include="PM.cs" />
     <Compile Include="PropertiesPM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

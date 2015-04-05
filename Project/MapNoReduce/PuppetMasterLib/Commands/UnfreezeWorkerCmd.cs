@@ -45,14 +45,14 @@ namespace PADIMapNoReduce.Commands
         {
            try
             {
-                IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                IWorker w = NetworkManager.GetRemoteWorker(workerId);
                 Logger.LogInfo("[UNFREEZE W] " + workerId);
                 w.UnfreezeWorker();
             }
            catch (SocketException ex)
            {
                Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
-               puppetMaster.SetWorkerAsDown(workerId);
+               NetworkManager.SetWorkerAsDown(workerId);
            }
 
         }

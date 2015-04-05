@@ -28,11 +28,12 @@ namespace PADIMapNoReduce
 
     {
         PuppetMaster puppetMaster = new PuppetMaster();
-
+        NetworkForm networkForm;
 
         public GUIPuppetMaster() : base()
         {
             InitializeComponent();
+            networkForm = new NetworkForm(puppetMaster);
         }
 
         override public RichTextBox getConsoleRichTextBox()
@@ -42,7 +43,6 @@ namespace PADIMapNoReduce
 
         private void submitCommandAux(string line)
         {
-
             Thread runThread = new Thread(() => RunCommand(line));
             runThread.Start();
         }
@@ -474,6 +474,11 @@ namespace PADIMapNoReduce
                 + "Properties *.exe: " + propertiesFileToolStripMenuItem.ToolTipText + "\r\n"
                 + "-------------------------------";
             Logger.LogWarn(print);
+        }
+
+        private void showNetworkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            networkForm.Show();
         }
     }
 }

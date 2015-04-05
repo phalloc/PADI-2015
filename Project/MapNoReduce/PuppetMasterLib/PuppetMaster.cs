@@ -13,9 +13,6 @@ namespace PADIMapNoReduce
     public class PuppetMaster
     {
         private CommandsManager cm;
-        private static IDictionary<string, string> knownWorkers = new Dictionary<string, string>();
-        private static List<string> downWorkers = new List<string>();
-        private static IDictionary<string, IWorker> activeWorkersObj = new Dictionary<string, IWorker>();
 
         private string serviceUrl;
         private static string SERVICE_NAME = "PM";
@@ -42,60 +39,6 @@ namespace PADIMapNoReduce
             }
 
             Logger.LogWarn("FINISHED CREATING WORKERS....");
-        }
-
-       public IWorker GetRemoteWorker(string id)
-        {
-            if (!activeWorkersObj.ContainsKey(id))
-                throw new Exception("Worker id not configured");
-
-            return activeWorkersObj[id];
-        }
-
-       public IDictionary<string, IWorker> GetActiveRemoteWorkers()
-       {
-           return activeWorkersObj;
-       }
-
-       public List<string> GetDownWorkers()
-       {
-           return downWorkers;
-       }
-
-
-        public void SetWorkerAsDown(string id){
-            if (!PuppetMaster.knownWorkers.ContainsKey(id) || !PuppetMaster.activeWorkersObj.ContainsKey(id))
-            {
-                throw new Exception("Trying to flag worker " + id + " as inactive, yet it is not in the active list");
-            }
-
-            Logger.LogWarn("Adding worker " + id + " to the list of down workers.");
-            PuppetMaster.activeWorkersObj.Remove(id);
-            PuppetMaster.downWorkers.Add(id);
-        }
-
-        public static void RegisterNewWorker(string id, string url)
-        {
-            Logger.LogInfo("Register worker: " + id + " : " + url);
-
-            if(PuppetMaster.knownWorkers.ContainsKey(id))
-                PuppetMaster.knownWorkers.Remove(id);
-
-            PuppetMaster.knownWorkers.Add(id, url);
-
-
-            if (PuppetMaster.activeWorkersObj.ContainsKey(id))
-                PuppetMaster.activeWorkersObj.Remove(id);
-
-            IWorker w = (IWorker)Activator.GetObject(typeof(IWorker), url);
-            PuppetMaster.activeWorkersObj.Add(id, w);
-        }
-
-        public static void UnregisterNewWorker(string id)
-        {
-            Logger.LogInfo("Unregistered worker: " + id);
-            PuppetMaster.knownWorkers.Remove(id);
-            PuppetMaster.activeWorkersObj.Remove(id);
         }
 
         public void InitializeService()
