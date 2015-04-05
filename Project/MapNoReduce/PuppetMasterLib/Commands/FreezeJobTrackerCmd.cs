@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    public class UnfreezeWorkerCmd : Command
+    public class FreezeJobTrackerCmd : Command
     {
 
-        public static string COMMAND = "UNFREEZEW";
+        public static string COMMAND = "FREEZEC";
         
 
         string workerId;
 
-        public UnfreezeWorkerCmd(PuppetMaster pm) : base(pm) { }
 
+        public FreezeJobTrackerCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {
@@ -28,11 +28,12 @@ namespace PADIMapNoReduce.Commands
             }
 
             return false;
+
         }
 
         protected override void ExecuteAux()
         {
-            UnfreezeWorker(workerId);
+            FreezeJobTracker(workerId);
         }
 
         public override string getCommandName()
@@ -40,13 +41,13 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public void UnfreezeWorker(string workerId)
-        {
-           try
+        public void FreezeJobTracker(string workerId)
+        {         
+            try
             {
                 IWorker w = puppetMaster.GetRemoteWorker(workerId);
-                Logger.LogInfo("[UNFREEZE W] " + workerId);
-                w.UnfreezeWorker();
+                Logger.LogInfo("[FREEZE JT] " + workerId + " Job tracker");
+                w.FreezeJobTracker();
             }
             catch (Exception ex)
             {

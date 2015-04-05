@@ -23,10 +23,10 @@ namespace PADIMapNoReduce
         public CommandsManager(PuppetMaster pm)
         {
             this.pm = pm;
-            supportedCommands.Add(new CreateWorkProcessCmd(pm));
-            supportedCommands.Add(new DelayWorkerCmd(pm));
-            supportedCommands.Add(new DisableJobTrackerCmd(pm));
-            supportedCommands.Add(new EnableJobTrackerCmd(pm));
+            supportedCommands.Add(new CreateWorkerCmd(pm));
+            supportedCommands.Add(new SleepCmd(pm));
+            supportedCommands.Add(new FreezeJobTrackerCmd(pm));
+            supportedCommands.Add(new UnfreezeJobTrackerCmd(pm));
             supportedCommands.Add(new FreezeWorkerCmd(pm));
             supportedCommands.Add(new WaitCmd(pm));
             supportedCommands.Add(new StatusCmd(pm));

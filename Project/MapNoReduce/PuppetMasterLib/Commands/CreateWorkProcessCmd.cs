@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    public class CreateWorkProcessCmd : Command
+    public class CreateWorkerCmd : Command
     {
         public static string COMMAND = "WORKER";
         
@@ -15,7 +15,7 @@ namespace PADIMapNoReduce.Commands
         string serviceUrl;
         string entryUrl;
 
-        public CreateWorkProcessCmd(PuppetMaster pm) : base(pm) { }
+        public CreateWorkerCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {
@@ -39,13 +39,12 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-            CreateWorkProcess(id, puppetMasterUrl, serviceUrl, entryUrl);
+            CreateWorker(id, puppetMasterUrl, serviceUrl, entryUrl);
         }
 
 
-        public void CreateWorkProcess(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
+        public void CreateWorker(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
-            Logger.LogInfo(id);
             if (puppetMasterUrl != "") { 
                 Logger.LogInfo("CONTACTING PUPPET MASTER");
             

@@ -32,11 +32,6 @@ namespace PADIMapNoReduce
         public GUIPuppetMaster() : base()
         {
             InitializeComponent();
-
-            checkLocationTextBox();
-            checkCreateJob();
-            setWorkerCommandsBtnsState(false);
-            checkCreateWorkerMsgsBox();
         }
 
         override public RichTextBox getConsoleRichTextBox()
@@ -99,7 +94,7 @@ namespace PADIMapNoReduce
 
         private string generateCreateWorkProcess()
         {
-            return CreateWorkProcessCmd.COMMAND + " " + submitWorkerWorkerIdMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
+            return CreateWorkerCmd.COMMAND + " " + submitWorkerWorkerIdMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
         }
 
         private string generateCreateJob()
@@ -119,17 +114,17 @@ namespace PADIMapNoReduce
 
         private string generateDisableJobTracker()
         {
-            return DisableJobTrackerCmd.COMMAND + " " + workerId.Text;
+            return FreezeJobTrackerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateEnableJobTracker()
         {
-            return EnableJobTrackerCmd.COMMAND + " " + workerId.Text;
+            return UnfreezeJobTrackerCmd.COMMAND + " " + workerId.Text;
         }
 
         private string generateSlowWorker()
         {
-            return DelayWorkerCmd.COMMAND + " " + workerId.Text + " " + slowNumSeconds.Value;
+            return SleepCmd.COMMAND + " " + workerId.Text + " " + slowNumSeconds.Value;
         }
 
         private static string generateRefreshStatus()
@@ -367,6 +362,10 @@ namespace PADIMapNoReduce
             puppetMaster.InitializeService();
             puppetMaster.SetWorkerExeLocation(workerExeMsgBox.Text);
             puppetMaster.SetClientExeLocation(clientExeMsgBox.Text);
+            setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
+            checkLocationTextBox();
+            checkCreateJob();
+            checkCreateWorkerMsgsBox();
         }
 
 

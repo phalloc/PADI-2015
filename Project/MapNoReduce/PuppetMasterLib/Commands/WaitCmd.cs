@@ -40,11 +40,11 @@ namespace PADIMapNoReduce.Commands
         public void Wait(int sec)
         {
 
-            string commandResult = "[WAIT] " + sec + " seconds";
-            Logger.LogInfo(commandResult);
-            
+            Logger.LogInfo("[WAIT] Interrupting the commands of the script for " + sec + " seconds");
+
             Thread.Sleep(1000 * sec);
-            Logger.LogInfo("[WAIT] FINISHED");
+            
+            Logger.LogInfo("[WAIT] Resuming...");
         }
 
     }

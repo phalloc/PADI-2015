@@ -24,7 +24,13 @@ namespace PADIMapNoReduce
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             startInfo.Arguments = arguments;
             startInfo.WorkingDirectory = directory;
-            Process.Start(startInfo);
+            try { 
+                Process.Start(startInfo);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
         }
     }
 }

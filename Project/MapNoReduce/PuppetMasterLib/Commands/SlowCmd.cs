@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace PADIMapNoReduce.Commands
 {
-    public class UnfreezeWorkerCmd : Command
+    public class SleepCmd : Command
     {
+        public static string COMMAND = "SLEEPP";
 
-        public static string COMMAND = "UNFREEZEW";
-        
 
+        int sec;
         string workerId;
 
-        public UnfreezeWorkerCmd(PuppetMaster pm) : base(pm) { }
-
+        public SleepCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
-            if (args.Length == 2)
+            if (args.Length == 3)
             {
                 workerId = args[1];
+
+
+                System.Diagnostics.Debug.WriteLine(args[2]);
+                
+                sec = Convert.ToInt32(args[2]);
 
                 return true;
             }
 
             return false;
-        }
 
-        protected override void ExecuteAux()
-        {
-            UnfreezeWorker(workerId);
         }
 
         public override string getCommandName()
@@ -40,20 +40,26 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
-        public void UnfreezeWorker(string workerId)
+        protected override void ExecuteAux()
         {
-           try
+            Sleep(workerId, sec);
+        }
+
+
+        public void Sleep(string workerId, int seconds)
+        {
+
+            try
             {
                 IWorker w = puppetMaster.GetRemoteWorker(workerId);
-                Logger.LogInfo("[UNFREEZE W] " + workerId);
-                w.UnfreezeWorker();
+                Logger.LogInfo("[SLOW] " + workerId + " for " + seconds + " seconds.");
+                w.Slow(seconds);
             }
             catch (Exception ex)
             {
                 Logger.LogErr(ex.GetType().FullName);
                 Logger.LogErr(ex.Message);
             }
-
         }
     }
 }

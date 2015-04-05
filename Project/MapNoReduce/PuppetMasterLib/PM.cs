@@ -12,7 +12,7 @@ namespace PADIMapNoReduce
         //FIXME FALTA LANÇAR EXCEPCOES REMOTAS CASO O workerExecutableDirectory nao estiver definido
         public void CreateWorker(string id, string serviceUrl, string entryUrl)
         {
-            Logger.LogInfo("Creating \'" + id + "\' at " + serviceUrl + " with entry url " + entryUrl);
+            Logger.LogInfo("[WORKER] Creating \'" + id + "\' at " + serviceUrl + " with entry url " + entryUrl);
 
             string arguments = id + " " + serviceUrl + " " + entryUrl;
             ProcessUtil.ExecuteNewProcess(PuppetMaster.GetWorkerExeLocation(), arguments);

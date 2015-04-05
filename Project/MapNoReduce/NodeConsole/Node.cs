@@ -9,7 +9,6 @@ namespace PADIMapNoReduce
 {
     public class Node : MarshalByRefObject, IWorker
     {
-
         public delegate bool RemoteAsyncDelegate(bool reply);
         private static string serviceName = "W";
 
@@ -19,8 +18,16 @@ namespace PADIMapNoReduce
         private string myURL;
         private static string clientURL;
 
+
+        //FIXME PASSAR PARA ENUM E ACRESCENTAR JOBTRACKER
+        private string currentRole = "WORKER";
+
+        //FIXME é preciso por isto para o status
+        private string currentJobTrackerUrl = null;
         private string nextURL = null;
         private string nextNextURL = null;
+
+
 
         private IClient client = null;
 
@@ -62,6 +69,7 @@ namespace PADIMapNoReduce
             try
             {
                 Logger.LogInfo("Received: " + clientUrl + " with " + splits + " splits");
+                currentRole = "JOBTRACKER";
                 client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
                 client.getWorkSplit();
             }
@@ -143,10 +151,20 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Slowing down for " + seconds + " seconds.");
         }
 
+
         public IDictionary<string, string> Status()
         {
             Logger.LogInfo("Got status report request");
-            return new Dictionary<string, string>();
+
+            IDictionary<string, string> result = new Dictionary<string, string>();
+
+            result.Add("ID", this.id);
+            result.Add("NextUrl", this.nextURL);
+            result.Add("NextNextUrl", this.nextNextURL);
+            result.Add("Role", this.currentRole);
+            result.Add("CurrentJobTracker", this.currentJobTrackerUrl);
+
+            return result;
         }
 
 

@@ -31,18 +31,39 @@ namespace PADIMapNoReduce.Commands
         public void RefreshStatus()
         {
 
-            string commandResult = "[REFRESHING]";
-            Logger.LogInfo(commandResult);
+            Logger.LogInfo("[REFRESHING]");
 
 
             try
             {
-                Logger.LogInfo("[REFRESHING]");
-                //IWorker w = puppetMaster.GetRemoteWorker(workerId);
-                //w.FreezeWorker();
+                
+                foreach(KeyValuePair<string, IWorker> entry in puppetMaster.GetRemoteWorkers()){
+                    string id = entry.Key;
+                    IWorker w = entry.Value;
+
+                    try
+                    {
+                        IDictionary<string, string> result = w.Status();
+
+                        Logger.LogInfo("--------- WORKER " + id + " -----------");
+                        foreach (KeyValuePair<string, string> data in result)
+                        {
+                            string key = data.Key;
+                            string value = data.Value;
+
+                            Logger.LogInfo(key + " = " + value);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogErr(ex.GetType().FullName);
+                        Logger.LogErr(ex.Message);
+                    }
+                }
             }
             catch (Exception ex)
             {
+                Logger.LogErr(ex.GetType().FullName);
                 Logger.LogErr(ex.Message);
             }
 

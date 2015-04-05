@@ -43,9 +43,9 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="CommandsManager.cs" />
     <Compile Include="Commands\CreateWorkProcessCmd.cs" />
-    <Compile Include="Commands\DelayWorkerCmd.cs" />
-    <Compile Include="Commands\DisableJobTrackerCmd.cs" />
-    <Compile Include="Commands\EnableJobTrackerCmd.cs" />
+    <Compile Include="Commands\SlowCmd.cs" />
+    <Compile Include="Commands\FreezeJobTrackerCmd.cs" />
+    <Compile Include="Commands\UnfreezeJobTrackerCmd.cs" />
     <Compile Include="Commands\FreezeWorkerCmd.cs" />
     <Compile Include="Commands\WaitCmd.cs" />
     <Compile Include="Commands\StatusCmd.cs" />

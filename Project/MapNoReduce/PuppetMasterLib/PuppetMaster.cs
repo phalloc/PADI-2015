@@ -74,6 +74,11 @@ namespace PADIMapNoReduce
             return knownWorkersObjs[id];
         }
 
+       public IDictionary<string, IWorker> GetRemoteWorkers()
+       {
+           return knownWorkersObjs;
+       }
+
         public static void RegisterNewWorker(string id, string url)
         {
             Logger.LogInfo("Register worker: " + id + " : " + url);
@@ -132,6 +137,5 @@ namespace PADIMapNoReduce
         {
             cm.ExecuteCommand(line);
         }
-        
     }
 }

@@ -47,12 +47,13 @@ namespace PADIMapNoReduce.Commands
            
             try
             {
-                Logger.LogInfo("[FREEZING] " + workerId);
                 IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                Logger.LogInfo("[FREEZE W] " + workerId);
                 w.FreezeWorker();
             }
             catch (Exception ex)
             {
+                Logger.LogErr(ex.GetType().FullName);
                 Logger.LogErr(ex.Message);
             }
 

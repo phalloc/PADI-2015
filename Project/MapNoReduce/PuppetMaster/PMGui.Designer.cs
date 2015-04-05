@@ -213,9 +213,9 @@
             this.label19.Location = new System.Drawing.Point(412, 527);
             this.label19.Name = "label19";
             this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label19.Size = new System.Drawing.Size(27, 13);
+            this.label19.Size = new System.Drawing.Size(30, 13);
             this.label19.TabIndex = 96;
-            this.label19.Text = "DLL";
+            this.label19.Text = "DLL:";
             // 
             // label3
             // 
@@ -223,9 +223,9 @@
             this.label3.Location = new System.Drawing.Point(177, 528);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 95;
-            this.label3.Text = "Map";
+            this.label3.Text = "Map:";
             // 
             // submitJobDllTxtBox
             // 
@@ -358,7 +358,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 234);
+            this.label2.Location = new System.Drawing.Point(19, 233);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 76;
@@ -436,7 +436,7 @@
             this.unfreezecBtn.Name = "unfreezecBtn";
             this.unfreezecBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezecBtn.TabIndex = 67;
-            this.unfreezecBtn.Text = "Enable Job Tracker";
+            this.unfreezecBtn.Text = "Unfreeze Job Tracker";
             this.unfreezecBtn.UseVisualStyleBackColor = true;
             this.unfreezecBtn.Click += new System.EventHandler(this.unfreezecBtn_Click);
             // 
@@ -446,7 +446,7 @@
             this.freezecBtn.Name = "freezecBtn";
             this.freezecBtn.Size = new System.Drawing.Size(86, 49);
             this.freezecBtn.TabIndex = 64;
-            this.freezecBtn.Text = "Disable Job Tracker";
+            this.freezecBtn.Text = "Freeze Job Tracker";
             this.freezecBtn.UseVisualStyleBackColor = true;
             this.freezecBtn.Click += new System.EventHandler(this.freezecBtn_Click);
             // 
@@ -469,7 +469,7 @@
             this.unfreezewBtn.Name = "unfreezewBtn";
             this.unfreezewBtn.Size = new System.Drawing.Size(86, 49);
             this.unfreezewBtn.TabIndex = 49;
-            this.unfreezewBtn.Text = "Unfreeze";
+            this.unfreezewBtn.Text = "Unfreeze Worker";
             this.unfreezewBtn.UseVisualStyleBackColor = true;
             this.unfreezewBtn.Click += new System.EventHandler(this.unfreezewBtn_Click);
             // 
@@ -488,9 +488,9 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(45, 592);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(54, 13);
+            this.label21.Size = new System.Drawing.Size(57, 13);
             this.label21.TabIndex = 46;
-            this.label21.Text = "Worker Id";
+            this.label21.Text = "Worker Id:";
             // 
             // freezewBtn
             // 
@@ -498,7 +498,7 @@
             this.freezewBtn.Name = "freezewBtn";
             this.freezewBtn.Size = new System.Drawing.Size(86, 49);
             this.freezewBtn.TabIndex = 45;
-            this.freezewBtn.Text = "Freeze";
+            this.freezewBtn.Text = "Freeze Worker";
             this.freezewBtn.UseVisualStyleBackColor = true;
             this.freezewBtn.Click += new System.EventHandler(this.freezewBtn_Click);
             // 
@@ -526,7 +526,7 @@
             this.slowBtn.Name = "slowBtn";
             this.slowBtn.Size = new System.Drawing.Size(73, 49);
             this.slowBtn.TabIndex = 39;
-            this.slowBtn.Text = "Sleep";
+            this.slowBtn.Text = "Slow";
             this.slowBtn.UseVisualStyleBackColor = true;
             this.slowBtn.Click += new System.EventHandler(this.slowBtn_Click);
             // 
@@ -535,9 +535,9 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(156, 616);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(59, 13);
+            this.label18.Size = new System.Drawing.Size(62, 13);
             this.label18.TabIndex = 37;
-            this.label18.Text = "# Seconds";
+            this.label18.Text = "# Seconds:";
             // 
             // waitButton
             // 
@@ -575,9 +575,9 @@
             this.label10.Location = new System.Drawing.Point(58, 527);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label10.Size = new System.Drawing.Size(42, 13);
+            this.label10.Size = new System.Drawing.Size(45, 13);
             this.label10.TabIndex = 26;
-            this.label10.Text = "# Splits";
+            this.label10.Text = "# Splits:";
             // 
             // submitTaskDestFileMsgBox
             // 
@@ -593,9 +593,9 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(20, 500);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(79, 13);
+            this.label11.Size = new System.Drawing.Size(82, 13);
             this.label11.TabIndex = 24;
-            this.label11.Text = "Destination File";
+            this.label11.Text = "Destination File:";
             // 
             // submitTaskSourceFileMsgBox
             // 
@@ -620,18 +620,18 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(39, 474);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(60, 13);
+            this.label12.Size = new System.Drawing.Size(63, 13);
             this.label12.TabIndex = 21;
-            this.label12.Text = "Source File";
+            this.label12.Text = "Source File:";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(52, 449);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(47, 13);
+            this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 20;
-            this.label13.Text = "Entry-Url";
+            this.label13.Text = "Entry-Url:";
             // 
             // label14
             // 
@@ -657,9 +657,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(52, 386);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 13);
+            this.label9.Size = new System.Drawing.Size(50, 13);
             this.label9.TabIndex = 17;
-            this.label9.Text = "Entry-Url";
+            this.label9.Text = "Entry-Url:";
             // 
             // submitWorkerServiceUrlMsgBox
             // 
@@ -676,9 +676,9 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(40, 360);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.Size = new System.Drawing.Size(62, 13);
             this.label8.TabIndex = 15;
-            this.label8.Text = "Service-Url";
+            this.label8.Text = "Service-Url:";
             // 
             // label7
             // 
@@ -711,18 +711,18 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(10, 334);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(89, 13);
+            this.label6.Size = new System.Drawing.Size(92, 13);
             this.label6.TabIndex = 9;
-            this.label6.Text = "PupperMaster-Url";
+            this.label6.Text = "PupperMaster-Url:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(83, 308);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(16, 13);
+            this.label5.Size = new System.Drawing.Size(19, 13);
             this.label5.TabIndex = 8;
-            this.label5.Text = "Id";
+            this.label5.Text = "Id:";
             // 
             // label4
             // 
