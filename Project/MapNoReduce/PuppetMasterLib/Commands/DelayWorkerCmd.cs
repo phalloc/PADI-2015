@@ -49,8 +49,16 @@ namespace PADIMapNoReduce.Commands
         public void DelayWorker(string workerId, int seconds)
         {
 
-            string commandResult = "[DELAY] " + workerId + " for " + seconds + " seconds.";
-            Logger.LogInfo(commandResult);
+            try
+            {
+                IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                Logger.LogInfo("[DELAY] " + workerId + " for " + seconds + " seconds.");
+                w.Slow(seconds);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
         }
     }
 }

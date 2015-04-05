@@ -117,35 +117,34 @@ namespace PADIMapNoReduce
             return urls;
         }
 
-
         public void FreezeWorker()
         {
             Logger.LogInfo("Freezing Worker");
         }
-
-        public void UnfreezeWorker()
+        
+        public void UnfreezeWorker() 
         {
             Logger.LogInfo("Unfreezing Worker");
         }
-
-        public void FreezeJobTracker()
+        
+        public void FreezeJobTracker() 
         {
             Logger.LogInfo("Freezing JobTracker");
         }
-
-        public void UnfreezeJobTracker()
+        
+        public void UnfreezeJobTracker() 
         {
             Logger.LogInfo("Unfreezing JobTracker");
         }
-
-        public void Slow(int seconds)
+        
+        public void Slow(int seconds) 
         {
-            Logger.LogInfo("Slowing down for " + seconds + " seconds.");
+            Logger.LogInfo("Slowing " + seconds + " seconds");
         }
-
+        
         public IDictionary<string, string> Status()
         {
-            Logger.LogInfo("Got status report request");
+            Logger.LogInfo("Asked for status command");
             return new Dictionary<string, string>();
         }
 

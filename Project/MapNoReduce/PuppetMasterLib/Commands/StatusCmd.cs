@@ -35,6 +35,19 @@ namespace PADIMapNoReduce.Commands
             Logger.LogInfo(commandResult);
 
 
+            try
+            {
+                Logger.LogInfo("[REFRESHING]");
+                //IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                //w.FreezeWorker();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
+
+
+
         }
 
     }

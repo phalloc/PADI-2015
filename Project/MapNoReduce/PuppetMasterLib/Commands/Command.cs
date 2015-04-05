@@ -10,11 +10,11 @@ namespace PADIMapNoReduce.Commands
     {
         protected string line;
 
-        PuppetMaster pm = null;
+        protected PuppetMaster puppetMaster = null;
 
         public Command(PuppetMaster pm)
         {
-            this.pm = pm;
+            this.puppetMaster = pm;
         }
        
         public void Parse(string line) {

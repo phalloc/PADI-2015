@@ -42,11 +42,17 @@ namespace PADIMapNoReduce.Commands
         }
 
         public void DisableJobTracker(string workerId)
-        {
-
-            string commandResult = "[DISABLING] " + workerId + " Job traceker";
-            Logger.LogInfo(commandResult);
-
+        {         
+            try
+            {
+                Logger.LogInfo("[DISABLING] " + workerId + " Job tracker");
+                IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                w.FreezeJobTracker();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
 
         }
     }

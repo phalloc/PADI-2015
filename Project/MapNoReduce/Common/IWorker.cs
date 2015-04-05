@@ -8,5 +8,15 @@ namespace PADIMapNoReduce
        void ReceiveWork(string clientURL, int splits);
        bool IsAlive();
        List<string> AddWorker(string entryURL, bool firstContact);
+
+       void FreezeWorker();
+       void UnfreezeWorker();
+       void FreezeJobTracker();
+       void UnfreezeJobTracker();
+       void Slow(int seconds);
+       IDictionary<string, string> Status();
+
+
+
     }
 }

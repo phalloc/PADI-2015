@@ -14,6 +14,8 @@ namespace PADIMapNoReduce
     {
         private CommandsManager cm;
         private static IDictionary<string, string> knownWorkers = new Dictionary<string, string>();
+        private static IDictionary<string, IWorker> knownWorkersObjs = new Dictionary<string, IWorker>();
+
         private string serviceUrl;
         private static string SERVICE_NAME = "PM";
         private int port;
@@ -64,6 +66,14 @@ namespace PADIMapNoReduce
             Logger.LogWarn("FINISHED CREATING WORKERS....");
         }
 
+       public IWorker GetRemoteWorker(string id)
+        {
+            if (!knownWorkersObjs.ContainsKey(id))
+                throw new Exception("Worker id not configured");
+
+            return knownWorkersObjs[id];
+        }
+
         public static void RegisterNewWorker(string id, string url)
         {
             Logger.LogInfo("Register worker: " + id + " : " + url);
@@ -72,12 +82,20 @@ namespace PADIMapNoReduce
                 PuppetMaster.knownWorkers.Remove(id);
 
             PuppetMaster.knownWorkers.Add(id, url);
+
+
+            if (PuppetMaster.knownWorkersObjs.ContainsKey(id))
+                PuppetMaster.knownWorkersObjs.Remove(id);
+
+            IWorker w = (IWorker)Activator.GetObject(typeof(IWorker), url);
+            PuppetMaster.knownWorkersObjs.Add(id, w);
         }
 
         public static void UnregisterNewWorker(string id)
         {
             Logger.LogInfo("Unregistered worker: " + id);
             PuppetMaster.knownWorkers.Remove(id);
+            PuppetMaster.knownWorkersObjs.Remove(id);
         }
 
         public void InitializeService()

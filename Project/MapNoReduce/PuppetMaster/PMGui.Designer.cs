@@ -400,6 +400,11 @@
             this.numSecondsWait.Name = "numSecondsWait";
             this.numSecondsWait.Size = new System.Drawing.Size(70, 22);
             this.numSecondsWait.TabIndex = 70;
+            this.numSecondsWait.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.numSecondsWait.Leave += new System.EventHandler(this.numSecondsWait_Leave);
             // 
             // label16
@@ -418,6 +423,11 @@
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
             this.slowNumSeconds.TabIndex = 68;
+            this.slowNumSeconds.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
             // 
             // unfreezecBtn
@@ -470,6 +480,7 @@
             this.workerId.Name = "workerId";
             this.workerId.Size = new System.Drawing.Size(177, 20);
             this.workerId.TabIndex = 47;
+            this.workerId.Text = "W1";
             this.workerId.TextChanged += new System.EventHandler(this.workerId_TextChanged);
             // 
             // label21

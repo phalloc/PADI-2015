@@ -44,8 +44,17 @@ namespace PADIMapNoReduce.Commands
 
         public void FreezeWorker(string workerId)
         {
-            string commandResult = "[FREEZING] " + workerId;
-            Logger.LogInfo(commandResult);
+           
+            try
+            {
+                Logger.LogInfo("[FREEZING] " + workerId);
+                IWorker w = puppetMaster.GetRemoteWorker(workerId);
+                w.FreezeWorker();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
 
         }
     }
