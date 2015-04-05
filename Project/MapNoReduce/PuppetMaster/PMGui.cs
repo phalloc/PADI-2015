@@ -28,7 +28,8 @@ namespace PADIMapNoReduce
 
     {
         PuppetMaster puppetMaster = new PuppetMaster();
-   
+
+
         public GUIPuppetMaster() : base()
         {
             InitializeComponent();
@@ -132,6 +133,86 @@ namespace PADIMapNoReduce
             return StatusCmd.COMMAND;
         }
 
+        /*************************************************
+       * ************************************************
+       * 
+       *    CHECK BOX CHECKERS
+       *    
+       * ***********************************************
+       * ************************************************/
+
+        private bool checkWorkerIdMsgBox()
+        {
+            return workerId.Text != "";
+        }
+
+        private void setWorkerCommandsBtnsState(bool value)
+        {
+            freezewBtn.Enabled = value;
+            unfreezewBtn.Enabled = value;
+            unfreezecBtn.Enabled = value;
+            freezecBtn.Enabled = value;
+            slowBtn.Enabled = value;
+        }
+
+        private bool checkLocationTextBox()
+        {
+
+            bool value = scriptLocMsgBox.Text != "";
+            submitScript.Enabled = value;
+            return value;
+        }
+
+        private bool checkRunScriptTextBox()
+        {
+            bool value = commandMsgBox.Text != "";
+            submitCommand.Enabled = value;
+            return value;
+        }
+
+        public bool checkCreateWorkerMsgsBox()
+        {
+            if (submitWorkerWorkerIdMsgBox.Text == "" ||
+                submitWorkerServiceUrlMsgBox.Text == "")
+            {
+                submitWorkerButton.Enabled = false;
+                return false;
+            }
+            else
+            {
+                submitWorkerButton.Enabled = true;
+                return true;
+            }
+        }
+
+        public bool checkCreateJob()
+        {
+            if (submitTaskEntryUrlMsgBox.Text == "" ||
+                submitTaskSourceFileMsgBox.Text == "" ||
+                submitTaskDestFileMsgBox.Text == "" ||
+                submitJobMapTxtBox.Text == "" ||
+                submitJobDllTxtBox.Text == "")
+            {
+                submitTaskButton.Enabled = false;
+                return false;
+            }
+            else
+            {
+                submitTaskButton.Enabled = true;
+                return true;
+            }
+        }
+
+        private void submitJobMapTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
+        private void submitJobDllTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            checkCreateJob();
+        }
+
         /*************************
          * ************************
          * 
@@ -156,7 +237,6 @@ namespace PADIMapNoReduce
         {
             int width = consoleMessageBox.Location.X + consoleMessageBox.Size.Width - ConsoleLabel.Location.X;
             consoleMessageBox.SetBounds(ConsoleLabel.Location.X, consoleMessageBox.Location.Y, width, consoleMessageBox.Size.Height);
-            refreshBtn.SetBounds(ConsoleLabel.Location.X, refreshBtn.Location.Y, width, refreshBtn.Size.Height);
         }
 
         private void waitButton_Click(object sender, EventArgs e)
@@ -167,11 +247,6 @@ namespace PADIMapNoReduce
         private void submitWorkerButton_Click(object sender, EventArgs e)
         {
             submitCommandAux(generateCreateWorkProcess());
-        }
-
-        private void refreshBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateRefreshStatus());
         }
 
         private void submitTaskButton_Click(object sender, EventArgs e)
@@ -211,9 +286,8 @@ namespace PADIMapNoReduce
             submitCommandAux(generateSlowWorker()); 
         }
 
-        
 
-        private void exportConsole_Click(object sender, EventArgs e)
+        private void exportToFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportConsoleToFile(getConsoleRichTextBox());
         }
@@ -292,32 +366,6 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void consoleMessageBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.F5)
-            {
-                submitCommandAux(generateRefreshStatus());
-                e.Handled = true;
-            }
-
-            else if (e.KeyCode == Keys.F10)
-            {
-                ClearConsoleAction();
-                e.Handled = true;
-            }
-            else if (e.KeyCode == Keys.F2)
-            {
-                ExportConsoleToFile(getConsoleRichTextBox());
-                e.Handled = true;
-            }
-        }
-
-        private void clearButton_Click(object sender, EventArgs e)
-        {
-            ClearConsoleAction();
-        }
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             OpenScriptFile();
@@ -325,17 +373,17 @@ namespace PADIMapNoReduce
 
         private void OpenScriptFile()
         {
-            FindSourceFile(scriptLocMsgBox, "txt files (*.txt)|*.txt|All files (*.*)|*.*", "Choose Script Source File");
+            scriptLocMsgBox.Text = FindSourceFile("txt files (*.txt)|*.txt|All files (*.*)|*.*", "Choose Script Source File");
         }
 
         private void sourceFileBtn_Click(object sender, EventArgs e)
         {
-            FindSourceFile(submitTaskSourceFileMsgBox, "Input files (*.in)|*.in", "Choose Source File");
+            submitTaskSourceFileMsgBox.Text = FindSourceFile("Input files (*.in)|*.in", "Choose Source File");
         }
 
         private void destFileBtn_Click(object sender, EventArgs e)
         {
-            FindDestinationFile(submitTaskDestFileMsgBox, "Output File | *.out", "Choose Destination File");
+            submitTaskDestFileMsgBox.Text = FindDestinationFile("Output File | *.out", "Choose Destination File");
         }
 
         private void workerId_TextChanged(object sender, EventArgs e)
@@ -343,143 +391,89 @@ namespace PADIMapNoReduce
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
         }
 
-        
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            FindSourceFile(propertiesMsgBox, "Properties files (*.conf)|*.conf", "Choose properties File");
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string source_file = propertiesMsgBox.Text;
-            IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
-
-            puppetMaster.InstaciateWorkers(result);
-        }
-
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
             puppetMaster.InitializeService();
-            PropertiesPM.workerExeLocation = workerExeMsgBox.Text;
-            PropertiesPM.clientExeLocation = clientExeMsgBox.Text;
+            PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
+            PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
             checkLocationTextBox();
             checkCreateJob();
             checkCreateWorkerMsgsBox();
+
         }
-
-
-        private void workerExeFindBtn_Click(object sender, EventArgs e)
-        {
-            FindSourceFile(workerExeMsgBox, "Executable files (*.exe)|*.exe", "Choose worker executable");
-        }
-
-        
-        private void clientFindBtn_Click(object sender, EventArgs e)
-        {
-            FindSourceFile(clientExeMsgBox, "Executable files (*.exe)|*.exe", "Choose client executable");
-        }
-
 
         private void workerExeMsgBox_TextChanged(object sender, EventArgs e)
         {
-            PropertiesPM.workerExeLocation = workerExeMsgBox.Text;
+            PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
         }
 
 
         private void clientExeMsgBox_TextChanged(object sender, EventArgs e)
         {
-            PropertiesPM.clientExeLocation = clientExeMsgBox.Text;
+            PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
         }
 
-        /*************************************************
-         * ************************************************
-         * 
-         *    CHECK BOX CHECKERS
-         *    
-         * ***********************************************
-         * ************************************************/
-
-        private bool checkWorkerIdMsgBox()
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            return workerId.Text != "";
+            ClearConsoleAction();
         }
 
-        private void setWorkerCommandsBtnsState(bool value)
+        private void workerexeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            freezewBtn.Enabled = value;
-            unfreezewBtn.Enabled = value;
-            unfreezecBtn.Enabled = value;
-            freezecBtn.Enabled = value;
-            slowBtn.Enabled = value;
-        }
+            string path = FindSourceFile("Executable files (*.exe)|*.exe", "Choose worker executable");
 
-        private bool checkLocationTextBox()
-        {
-
-            bool value = scriptLocMsgBox.Text != "";
-            submitScript.Enabled = value;
-            return value;
-        }
-
-        private bool checkRunScriptTextBox()
-        {
-            bool value = commandMsgBox.Text != "";
-            submitCommand.Enabled = value;
-            return value; 
-        }
-
-        public bool checkCreateWorkerMsgsBox()
-        {
-            if (submitWorkerWorkerIdMsgBox.Text == "" || 
-                submitWorkerServiceUrlMsgBox.Text == "" ||
-                workerExeMsgBox.Text == "")
-            {
-                submitWorkerButton.Enabled = false;
-                return false;
-            }
-            else
-            {
-                submitWorkerButton.Enabled = true;
-                return true;
+            if (path != "") {
+                workerexeToolStripMenuItem.ToolTipText = path;
+                PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             }
         }
 
-        public bool checkCreateJob()
+        private void clientexeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (submitTaskEntryUrlMsgBox.Text == "" || 
-                submitTaskSourceFileMsgBox.Text == "" || 
-                submitTaskDestFileMsgBox.Text == "" || 
-                submitJobMapTxtBox.Text == "" || 
-                clientExeMsgBox.Text == "" ||
-                submitJobDllTxtBox.Text == "")
-            {
-                submitTaskButton.Enabled = false;
-                return false;
-            }
-            else
-            {
-                submitTaskButton.Enabled = true;
-                return true;
+            string result = FindSourceFile("Executable files (*.exe)|*.exe", "Choose client executable");
+
+            if (result != "") { 
+                clientexeToolStripMenuItem.ToolTipText = result;
+                PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
             }
         }
 
-        private void submitJobMapTxtBox_TextChanged(object sender, EventArgs e)
+        private void propertiesFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            checkCreateJob();
+            string result = FindSourceFile("Properties files (*.conf)|*.conf", "Choose properties File");
+
+            if (result != "") { 
+                propertiesFileToolStripMenuItem.ToolTipText = result;
+            }
         }
 
-        private void submitJobDllTxtBox_TextChanged(object sender, EventArgs e)
+        private void createInitialWorkersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            checkCreateJob();
+            string source_file = propertiesFileToolStripMenuItem.ToolTipText;
+            IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
+
+            puppetMaster.InstaciateWorkers(result);
         }
 
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            submitCommandAux(generateRefreshStatus());
+        }
 
+        private void refreshF5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            submitCommandAux(generateRefreshStatus());
+        }
 
-
-
-
-
-        
+        private void showSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string print = "\r\n------ CURRENT SETTINGS ------\r\n"
+                + "Worker *.exe: " + workerexeToolStripMenuItem.ToolTipText + "\r\n"
+                + "Client *.exe: " + clientexeToolStripMenuItem.ToolTipText + "\r\n"
+                + "Properties *.exe: " + propertiesFileToolStripMenuItem.ToolTipText + "\r\n"
+                + "-------------------------------";
+            Logger.LogWarn(print);
+        }
     }
 }

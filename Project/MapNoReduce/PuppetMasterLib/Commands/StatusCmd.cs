@@ -33,7 +33,11 @@ namespace PADIMapNoReduce.Commands
         {
 
             Logger.LogInfo("[REFRESHING]");
-
+            if (puppetMaster.GetActiveRemoteWorkers().Count == 0)
+            {
+                Logger.LogWarn("No workers registered");
+                return;
+            }
 
             try
             {

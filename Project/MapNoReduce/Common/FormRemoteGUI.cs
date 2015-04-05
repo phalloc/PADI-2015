@@ -65,16 +65,19 @@ namespace PADIMapNoReduce
         }
 
 
-        protected void FindDestinationFile(TextBox dest, string filter, string msg)
+        protected string FindDestinationFile(string filter, string msg)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = ".";
             saveFileDialog1.Filter = filter;
             saveFileDialog1.Title = msg;
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                dest.Text = saveFileDialog1.FileName;
+                return saveFileDialog1.FileName;
             }
+
+            return "";
         }
 
         protected void ClearConsoleAction()
@@ -91,6 +94,7 @@ namespace PADIMapNoReduce
         protected void ExportConsoleToFile(RichTextBox source)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = ".";
             saveFileDialog1.Filter = "Text File | *.txt";
             saveFileDialog1.Title = "Export to a text File";
 
@@ -106,11 +110,11 @@ namespace PADIMapNoReduce
             }
         }
 
-        protected void FindSourceFile(TextBox dest, string filter, string msg)
+        protected string FindSourceFile(string filter, string msg)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.InitialDirectory = ".";
             openFileDialog1.Filter = filter;
             openFileDialog1.FilterIndex = 0;
             openFileDialog1.RestoreDirectory = true;
@@ -118,9 +122,10 @@ namespace PADIMapNoReduce
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                
-                dest.Text = openFileDialog1.FileName;
+                return openFileDialog1.FileName;
             }
+
+            return "";
         }
 
     }
