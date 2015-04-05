@@ -448,9 +448,16 @@ namespace PADIMapNoReduce
             }
         }
 
+
+
         private void createInitialWorkersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string source_file = propertiesFileToolStripMenuItem.ToolTipText;
+            Thread runThread = new Thread(() => InstaciateWorkers(propertiesFileToolStripMenuItem.ToolTipText));
+            runThread.Start();
+        }
+
+        private void InstaciateWorkers(string source_file)
+        {
             IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
 
             puppetMaster.InstaciateWorkers(result);
@@ -478,6 +485,10 @@ namespace PADIMapNoReduce
 
         private void showNetworkToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (networkForm.IsDisposed)
+            {
+                networkForm = new NetworkForm(puppetMaster);
+            }
             networkForm.Show();
         }
     }

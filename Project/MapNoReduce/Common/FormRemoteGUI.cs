@@ -61,7 +61,6 @@ namespace PADIMapNoReduce
             }
 
             box.SelectionLength = 0; // clear
-
         }
 
 

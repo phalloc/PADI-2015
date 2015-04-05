@@ -41,7 +41,7 @@ namespace PADIMapNoReduce
             string currentJobTracker;
 
             dic.TryGetValue("ID", out id);
-            dic.TryGetValue("myUrl", out myUrl);
+            dic.TryGetValue("myURL", out myUrl);
             dic.TryGetValue("NextUrl", out nextUrl);
             dic.TryGetValue("NextNextUrl", out nextNextUrl);
             dic.TryGetValue("currentRole", out currentRole);

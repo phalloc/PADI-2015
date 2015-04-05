@@ -7,6 +7,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Collections;
+using System.Threading;
 
 namespace PADIMapNoReduce
 {
@@ -27,18 +28,24 @@ namespace PADIMapNoReduce
 
         public void InstaciateWorkers(IDictionary<string, string> dic)
         {
-            Logger.LogWarn("CREATING SET OF WORKERS....");
+            Logger.LogWarn("CLEARING NETWORK MANAGER");
+            NetworkManager.Clear();
+
+            Logger.LogWarn("LOADING...");
             string previousWorker = "";
 
             foreach (KeyValuePair<string, string> entry in dic)
             {
                 string id = entry.Key;
                 string url = entry.Value;
+                Logger.LogWarn("Creating " + id);
                 remoteObject.CreateWorker(id, url, previousWorker);
                 previousWorker = url;
+                Thread.Sleep(1000);
             }
 
             Logger.LogWarn("FINISHED CREATING WORKERS....");
+            Logger.LogInfo("---- YOU CAN NOW START ----");
         }
 
         public void InitializeService()

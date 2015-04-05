@@ -51,10 +51,12 @@ namespace PADIMapNoReduce
             TreeNode nodeTree = new TreeNode();
             nodeTree.Text = node.id;
             nodeTree.Name = node.id;
-
+            nodeTree.Expand();
             foreach (TreeNode t in NodeAtributesRepresentationToTree(node))
             {
-                nodeTree.Nodes.Add(t);            }
+                nodeTree.Nodes.Add(t);            
+            }
+
 
             root.Nodes.Add(nodeTree);
         }
@@ -87,9 +89,32 @@ namespace PADIMapNoReduce
             }
         }
 
+        public void GenerateGraph()
+        {
+            //reconstruction of the ring again
+            IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownUrlWorkers();
+
+            int numberOfTimes = knownNodes.Count;
+
+            NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
+
+            string result = node.id;
+            for (int i = 0; i < numberOfTimes; i++)
+            {
+                node = knownNodes[node.nextUrl];
+                result += " => " + node.id;
+            }
+             
+            richTextBox1.Clear();
+            richTextBox1.AppendText(result);
+        }
+
+        /**************************** HANDLERS ******************************/
+
         private void refreshTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RefreshNetWorkConfiguration();
+            GenerateGraph();
         }
 
         private void NetworkForm_Resize(object sender, EventArgs e)
@@ -102,7 +127,6 @@ namespace PADIMapNoReduce
             int width = richTextBox1.Location.X + richTextBox1.Size.Width - GraphLabel.Location.X;
             richTextBox1.SetBounds(GraphLabel.Location.X, richTextBox1.Location.Y, width, richTextBox1.Size.Height);
         }
-
 
     }
 }

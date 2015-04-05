@@ -58,7 +58,8 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(285, 501);
             this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "TEsting";
+            this.richTextBox1.Text = "Ring Configuration will be shown here. Refresh in Main Window, then refresh here." +
+    "";
             // 
             // menuStrip1
             // 

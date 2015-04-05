@@ -9,11 +9,16 @@ namespace PADIMapNoReduce
     public class NetworkManager
     {
         //all nodes including downOnes
+        //Key = id
         private static IDictionary<string, NodeRepresentation> knownWorkers = new Dictionary<string, NodeRepresentation>();
-        
+
+        //all nodes including downOne
+        //Key = url
+        private static IDictionary<string, NodeRepresentation> knownKUrlWorkers = new Dictionary<string, NodeRepresentation>();
+
         //all down nodes
         private static List<string> downWorkers = new List<string>();
-        
+
         //all active remote nodes
         private static IDictionary<string, IWorker> activeWorkersObj = new Dictionary<string, IWorker>();
 
@@ -31,6 +36,11 @@ namespace PADIMapNoReduce
         public static IDictionary<string, NodeRepresentation> GetKnownWorkers()
         {
             return knownWorkers;
+        }
+
+        public static IDictionary<string, NodeRepresentation> GetKnownUrlWorkers()
+        {
+            return knownKUrlWorkers;
         }
 
         public static IDictionary<string, IWorker> GetActiveRemoteWorkers()
@@ -57,11 +67,13 @@ namespace PADIMapNoReduce
 
         public static void UpdateNodeInformation(string id, NodeRepresentation node)
         {
-            if(!knownWorkers.ContainsKey(id)){
+            if (!knownWorkers.ContainsKey(id))
+            {
                 throw new Exception("Trying to update worker information where he does not exist!");
             }
 
             knownWorkers[id] = node;
+            knownKUrlWorkers[node.myUrl] = node;
         }
 
         public static void RegisterNewWorker(string id, string url)
@@ -80,11 +92,12 @@ namespace PADIMapNoReduce
             activeWorkersObj.Add(id, w);
         }
 
-        public static void UnregisterNewWorker(string id)
+        public static void Clear()
         {
-            Logger.LogInfo("Unregistered worker: " + id);
-            knownWorkers.Remove(id);
-            activeWorkersObj.Remove(id);
+            knownWorkers.Clear();
+            knownKUrlWorkers.Clear();
+            activeWorkersObj.Clear();
+            downWorkers.Clear();
         }
     }
 }
