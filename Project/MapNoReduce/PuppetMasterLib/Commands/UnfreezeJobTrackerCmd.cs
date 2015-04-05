@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -26,7 +27,6 @@ namespace PADIMapNoReduce.Commands
             }
 
             return false;
-
         }
 
         public override string getCommandName()
@@ -48,10 +48,10 @@ namespace PADIMapNoReduce.Commands
                 Logger.LogInfo("[UNFREEZE JT] " + workerId + " Job tracker");
                 w.UnfreezeJobTracker();
             }
-            catch (Exception ex)
+            catch (SocketException ex)
             {
-                Logger.LogErr(ex.GetType().FullName);
-                Logger.LogErr(ex.Message);
+                Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
+                puppetMaster.SetWorkerAsDown(workerId);
             }
         }
     }

@@ -360,8 +360,8 @@ namespace PADIMapNoReduce
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
             puppetMaster.InitializeService();
-            puppetMaster.SetWorkerExeLocation(workerExeMsgBox.Text);
-            puppetMaster.SetClientExeLocation(clientExeMsgBox.Text);
+            PropertiesPM.workerExeLocation = workerExeMsgBox.Text;
+            PropertiesPM.clientExeLocation = clientExeMsgBox.Text;
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
             checkLocationTextBox();
             checkCreateJob();
@@ -383,13 +383,13 @@ namespace PADIMapNoReduce
 
         private void workerExeMsgBox_TextChanged(object sender, EventArgs e)
         {
-            puppetMaster.SetWorkerExeLocation(workerExeMsgBox.Text);
+            PropertiesPM.workerExeLocation = workerExeMsgBox.Text;
         }
 
 
         private void clientExeMsgBox_TextChanged(object sender, EventArgs e)
         {
-            puppetMaster.SetClientExeLocation(clientExeMsgBox.Text);
+            PropertiesPM.clientExeLocation = clientExeMsgBox.Text;
         }
 
         /*************************************************

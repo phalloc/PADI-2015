@@ -9,6 +9,9 @@ namespace PADIMapNoReduce
 {
     public class PropertiesPM
     {
+        public static string workerExeLocation = null;
+        public static string clientExeLocation = null;
+
         public static IDictionary<string,string> ReadDictionaryFile(string fileName)
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();

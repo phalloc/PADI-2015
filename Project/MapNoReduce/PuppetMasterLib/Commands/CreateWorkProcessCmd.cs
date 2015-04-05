@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -47,9 +48,16 @@ namespace PADIMapNoReduce.Commands
         {
             if (puppetMasterUrl != "") { 
                 Logger.LogInfo("CONTACTING PUPPET MASTER");
-            
-                IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
-                pm.CreateWorker(id, serviceUrl, entryUrl);
+
+                try
+                {
+                    IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
+                    pm.CreateWorker(id, serviceUrl, entryUrl);
+                }
+                catch (SocketException ex)
+                {
+                    Logger.LogErr("Puppet Master @ " + puppetMasterUrl + " is down. --> " + ex.Message);
+                }
             }
             else
             {

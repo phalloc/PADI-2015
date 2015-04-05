@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -10,8 +11,6 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "FREEZEC";
-        
-
         string workerId;
 
 
@@ -49,10 +48,10 @@ namespace PADIMapNoReduce.Commands
                 Logger.LogInfo("[FREEZE JT] " + workerId + " Job tracker");
                 w.FreezeJobTracker();
             }
-            catch (Exception ex)
+            catch (SocketException ex)
             {
-                Logger.LogErr(ex.GetType().FullName);
-                Logger.LogErr(ex.Message);
+                Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
+                puppetMaster.SetWorkerAsDown(workerId);
             }
 
         }

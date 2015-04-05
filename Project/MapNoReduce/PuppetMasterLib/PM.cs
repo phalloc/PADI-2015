@@ -15,7 +15,7 @@ namespace PADIMapNoReduce
             Logger.LogInfo("[WORKER] Creating \'" + id + "\' at " + serviceUrl + " with entry url " + entryUrl);
 
             string arguments = id + " " + serviceUrl + " " + entryUrl;
-            ProcessUtil.ExecuteNewProcess(PuppetMaster.GetWorkerExeLocation(), arguments);
+            ProcessUtil.ExecuteNewProcess(PropertiesPM.workerExeLocation, arguments);
             PuppetMaster.RegisterNewWorker(id, serviceUrl);
         }
     }

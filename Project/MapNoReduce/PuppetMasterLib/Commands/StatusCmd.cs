@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -36,8 +37,10 @@ namespace PADIMapNoReduce.Commands
 
             try
             {
-                
-                foreach(KeyValuePair<string, IWorker> entry in puppetMaster.GetRemoteWorkers()){
+                List<string> listBecameInactiveWorkers = new List<string>();
+                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                Logger.LogInfo("@@@@@@@@@@@ ACTIVE WORKERS @@@@@@@@@@@@@@");
+                foreach(KeyValuePair<string, IWorker> entry in puppetMaster.GetActiveRemoteWorkers()){
                     string id = entry.Key;
                     IWorker w = entry.Value;
 
@@ -45,7 +48,7 @@ namespace PADIMapNoReduce.Commands
                     {
                         IDictionary<string, string> result = w.Status();
 
-                        Logger.LogInfo("--------- WORKER " + id + " -----------");
+                        Logger.LogInfo("----------- " + id + " -----------");
                         foreach (KeyValuePair<string, string> data in result)
                         {
                             string key = data.Key;
@@ -54,16 +57,30 @@ namespace PADIMapNoReduce.Commands
                             Logger.LogInfo(key + " = " + value);
                         }
                     }
-                    catch (Exception ex)
+                    catch (SocketException ex)
                     {
-                        Logger.LogErr(ex.GetType().FullName);
-                        Logger.LogErr(ex.Message);
+                        Logger.LogErr("[" + id + " is down]: " + ex.Message);
+                        listBecameInactiveWorkers.Add(id);
                     }
                 }
+
+                foreach (string id in listBecameInactiveWorkers){
+                    puppetMaster.SetWorkerAsDown(id);
+                }
+
+
+                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                Logger.LogInfo("@@@@@@@@@@@@ DOWN WORKERS @@@@@@@@@@@@@@@");
+                foreach (string id in puppetMaster.GetDownWorkers())
+                {
+                    Logger.LogInfo(id);
+                }
+                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             }
             catch (Exception ex)
             {
-                Logger.LogErr(ex.GetType().FullName);
                 Logger.LogErr(ex.Message);
             }
 
