@@ -29,6 +29,8 @@ namespace PADIMapNoReduce
 
     {
         PuppetMaster puppetMaster = new PuppetMaster();
+        CreateWorkerForm createWorkerForm;
+        SubmitJobForm submitJobForm;
         
         private Color activeWorkersColor = Color.Green;
         private Color downWorkersColor = Color.Red;
@@ -37,6 +39,8 @@ namespace PADIMapNoReduce
         public GUIPuppetMaster() : base()
         {
             InitializeComponent();
+            createWorkerForm = new CreateWorkerForm(this);
+            submitJobForm = new SubmitJobForm(this);
         }
 
         override public RichTextBox getConsoleRichTextBox()
@@ -44,7 +48,7 @@ namespace PADIMapNoReduce
             return consoleMessageBox;
         }
 
-        private void submitCommandAux(string line)
+        public void submitCommandAux(string line)
         {
             Thread runThread = new Thread(() =>
             {
@@ -99,15 +103,16 @@ namespace PADIMapNoReduce
          * **********************************************
          * ************************************************/
 
-        private string generateCreateWorkProcess()
+        public string generateCreateWorkProcess(string workerId, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
-            return CreateWorkerCmd.COMMAND + " " + submitWorkerWorkerIdMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
+            return CreateWorkerCmd.COMMAND + " " + workerId + " " + puppetMasterUrl + " " + serviceUrl + " " + entryUrl;
         }
 
-        private string generateCreateJob()
+        public string generateCreateJob(string entryUrl, string sourceFile, string destFile, int numberSplits, string mapper, string mapperDll)
         {
-            return SubmitJobCmd.COMMAND + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitJobMapTxtBox.Text + " " + submitJobDllTxtBox.Text;
+            return SubmitJobCmd.COMMAND + " " + entryUrl + " " + sourceFile + " " + destFile + " " + numberSplits + " " + mapper + " " + mapperDll;
         }
+
 
         private string generateFreezeWorker(string workerId)
         {
@@ -155,49 +160,6 @@ namespace PADIMapNoReduce
             return value;
         }
 
-        public bool checkCreateWorkerMsgsBox()
-        {
-            if (submitWorkerWorkerIdMsgBox.Text == "" ||
-                submitWorkerServiceUrlMsgBox.Text == "")
-            {
-                submitWorkerButton.Enabled = false;
-                return false;
-            }
-            else
-            {
-                submitWorkerButton.Enabled = true;
-                return true;
-            }
-        }
-
-        public bool checkCreateJob()
-        {
-            if (submitTaskEntryUrlMsgBox.Text == "" ||
-                submitTaskSourceFileMsgBox.Text == "" ||
-                submitTaskDestFileMsgBox.Text == "" ||
-                submitJobMapTxtBox.Text == "" ||
-                submitJobDllTxtBox.Text == "")
-            {
-                submitTaskButton.Enabled = false;
-                return false;
-            }
-            else
-            {
-                submitTaskButton.Enabled = true;
-                return true;
-            }
-        }
-
-        private void submitJobMapTxtBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
-        private void submitJobDllTxtBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
         /*************************
          * ************************
          * 
@@ -217,16 +179,7 @@ namespace PADIMapNoReduce
         {
             int width = consoleMessageBox.Location.X + consoleMessageBox.Size.Width - ConsoleLabel.Location.X;
             consoleMessageBox.SetBounds(ConsoleLabel.Location.X, consoleMessageBox.Location.Y, width, consoleMessageBox.Size.Height);
-        }
-
-        private void submitWorkerButton_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateCreateWorkProcess());
-        }
-
-        private void submitTaskButton_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateCreateJob());
+            NetworkTreeView.SetBounds(NetworkTreeView.Location.X, NetworkTreeView.Location.Y, NetworkTreeView.Size.Width, consoleMessageBox.Location.Y + consoleMessageBox.Size.Height - NetworkTreeView.Location.Y);
         }
 
 
@@ -240,54 +193,6 @@ namespace PADIMapNoReduce
             checkRunScriptTextBox();
         }
 
-        private void submitWorkerWorkerIdMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateWorkerMsgsBox();
-        }
-
-        private void submitWorkerPMUrlMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateWorkerMsgsBox();
-        }
-
-        private void submitWorkerServiceUrlMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateWorkerMsgsBox();
-        }
-
-        private void submitWorkerEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateWorkerMsgsBox();
-        }
-
-        private void submitTaskEntryUrlMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
-        private void submitTaskSourceFileMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
-        private void submitTaskDestFileMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
-        private void submitTaskClassMapperComboBox_TextChanged(object sender, EventArgs e)
-        {
-            checkCreateJob();
-        }
-
-        private void submitTaskNumberSplits_Leave(object sender, EventArgs e)
-        {
-            if (submitTaskNumberSplits.Text == "")
-            {
-                submitTaskNumberSplits.Text = "0";
-            }
-        }
-
         private void slowNumSeconds_Leave(object sender, EventArgs e)
         {
             if (slowNumSeconds.Text == "")
@@ -296,23 +201,12 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void sourceFileBtn_Click(object sender, EventArgs e)
-        {
-            submitTaskSourceFileMsgBox.Text = FindSourceFile("Input files (*.in)|*.in", "Choose Source File");
-        }
-
-        private void destFileBtn_Click(object sender, EventArgs e)
-        {
-            submitTaskDestFileMsgBox.Text = FindDestinationFile("Output File | *.out", "Choose Destination File");
-        }
-
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
             puppetMaster.InitializeService();
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
-            checkCreateJob();
-            checkCreateWorkerMsgsBox();
+            
         }
 
         private void workerExeMsgBox_TextChanged(object sender, EventArgs e)
@@ -333,7 +227,7 @@ namespace PADIMapNoReduce
 
         private void workerexeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string path = FindSourceFile("Executable files (*.exe)|*.exe", "Choose worker executable");
+            string path = FileUtil.FindSourceFile("Executable files (*.exe)|*.exe", "Choose worker executable");
 
             if (path != "") {
                 workerexeToolStripMenuItem.ToolTipText = path;
@@ -343,7 +237,7 @@ namespace PADIMapNoReduce
 
         private void clientexeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string result = FindSourceFile("Executable files (*.exe)|*.exe", "Choose client executable");
+            string result = FileUtil.FindSourceFile("Executable files (*.exe)|*.exe", "Choose client executable");
 
             if (result != "") { 
                 clientexeToolStripMenuItem.ToolTipText = result;
@@ -351,15 +245,6 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateRefreshStatus());
-        }
-
-        private void refreshF5ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateRefreshStatus());
-        }
 
         private void showSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -372,7 +257,7 @@ namespace PADIMapNoReduce
 
         private void fromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string file = FindSourceFile("Script files (*.script)|*.script|All files (*.*)|*.*", "Choose Script Source File");
+            string file = FileUtil.FindSourceFile("Script files (*.script)|*.script|All files (*.*)|*.*", "Choose Script Source File");
 
             if (file != "") {
                 RunScript(file);Seed(pMpropertiesconfToolStripMenuItem.Text);
@@ -386,7 +271,7 @@ namespace PADIMapNoReduce
 
         private void fromFileToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string result = FindSourceFile("Properties files (*.seed)|*.seed", "Choose seed File");
+            string result = FileUtil.FindSourceFile("Properties files (*.seed)|*.seed", "Choose seed File");
 
             if (result != "")
             {
@@ -484,11 +369,17 @@ namespace PADIMapNoReduce
                 Logger.LogErr("Pleae refresh first");
                 return;
             }
+
             NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
 
             string result = node.id;
             for (int i = 0; i < numberOfTimes; i++)
             {
+                if (node.nextUrl == "")
+                {
+                    Logger.LogErr("Node " + node.id + " as no nextUrl!");
+                    return;
+                }
                 node = knownNodes[node.nextUrl];
                 result += " => " + node.id;
             }
@@ -500,8 +391,9 @@ namespace PADIMapNoReduce
         public override void RefreshRemote()
         {
             RefreshNetWorkConfiguration();
-            GenerateGraph();
         }
+
+
 
         /**************************** HANDLERS ******************************/
 
@@ -573,6 +465,41 @@ namespace PADIMapNoReduce
         private void CollapseAllBtn_Click(object sender, EventArgs e)
         {
             NetworkTreeView.CollapseAll();
+        }
+
+        private void createWorkerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (createWorkerForm.IsDisposed)
+            {
+                createWorkerForm = new CreateWorkerForm(this);
+            }
+
+            createWorkerForm.Show();
+        }
+
+        private void submitJobToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (submitJobForm.IsDisposed)
+            {
+                submitJobForm = new SubmitJobForm(this);
+            }
+
+            submitJobForm.Show();
+        }
+
+        private void SendStatusCommandAllNodes(object sender, EventArgs e)
+        {
+            submitCommandAux(generateRefreshStatus());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GenerateGraph();
+        }
+
+        private void generateGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GenerateGraph();
         }
 
     }
