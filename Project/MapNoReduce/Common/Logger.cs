@@ -75,5 +75,16 @@ namespace PADIMapNoReduce
             System.Console.WriteLine(msg);
             System.Diagnostics.Debug.WriteLine(msg);
         }
+
+
+        //FIXME move to another separate class
+        public static void Refresh()
+        {
+            if (form != null)
+            {
+                form.BeginInvoke(new RefreshDel(form.RefreshRemote), new Object[] {});
+            }
+
+        }
     }
 }

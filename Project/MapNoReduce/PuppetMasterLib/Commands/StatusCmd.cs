@@ -88,6 +88,8 @@ namespace PADIMapNoReduce.Commands
             {
                 Logger.LogErr(ex.Message);
             }
+
+            Logger.Refresh();
         }
 
     }

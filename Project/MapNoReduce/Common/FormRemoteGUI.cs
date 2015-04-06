@@ -14,9 +14,13 @@ namespace PADIMapNoReduce
     public delegate void LogErrDel(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text);
     public delegate void LogWarnDel(Color prefixTextColor, Color prefixBackColor, Color textBackColor, Color msgTextColor, string prefixMsg, string text);
 
+    public delegate void RefreshDel();
+
+
     abstract public class FormRemoteGUI : Form
     {
         abstract public RichTextBox getConsoleRichTextBox();
+        abstract public void RefreshRemote();
 
         public FormRemoteGUI()
         {

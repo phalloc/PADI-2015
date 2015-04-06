@@ -35,6 +35,9 @@ namespace PADIMapNoReduce
                 Logger.LogWarn("Adding " + id + " = " + url);
                 NetworkManager.RegisterNewWorker(id, url);
             }
+
+
+            Logger.Refresh();
         }
 
         public void InitializeService()

@@ -73,5 +73,10 @@ namespace PADIMapNoReduce
         {
            submitTaskDestFileMsgBox.Text = FindDestinationFile("Output File | *.out", "Choose Destination File");
         }
+
+        public override void RefreshRemote()
+        {
+            //empty
+        }
     }
 }

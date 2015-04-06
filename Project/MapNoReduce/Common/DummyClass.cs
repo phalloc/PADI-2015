@@ -16,7 +16,7 @@ namespace PADIMapNoReduce
 
         public override void RefreshRemote()
         {
-            //empty...
+            //empty
         }
     }
 }

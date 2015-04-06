@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PADIMapNoReduce.Commands;
+using System.Reflection;
 
 namespace PADIMapNoReduce
 {
@@ -28,12 +29,14 @@ namespace PADIMapNoReduce
 
     {
         PuppetMaster puppetMaster = new PuppetMaster();
-        NetworkForm networkForm;
+        
+        private Color activeWorkersColor = Color.Green;
+        private Color downWorkersColor = Color.Red;
+
 
         public GUIPuppetMaster() : base()
         {
             InitializeComponent();
-            networkForm = new NetworkForm(puppetMaster);
         }
 
         override public RichTextBox getConsoleRichTextBox()
@@ -96,11 +99,6 @@ namespace PADIMapNoReduce
          * **********************************************
          * ************************************************/
 
-        private string generateWaitCmd()
-        {
-            return WaitCmd.COMMAND + " " + numSecondsWait.Value;
-        }
-
         private string generateCreateWorkProcess()
         {
             return CreateWorkerCmd.COMMAND + " " + submitWorkerWorkerIdMsgBox.Text + " " + submitWorkerPMUrlMsgBox.Text + " " + submitWorkerServiceUrlMsgBox.Text + " " + submitWorkerEntryUrlMsgBox.Text;
@@ -111,29 +109,29 @@ namespace PADIMapNoReduce
             return SubmitJobCmd.COMMAND + " " + submitTaskEntryUrlMsgBox.Text + " " + submitTaskSourceFileMsgBox.Text + " " + submitTaskDestFileMsgBox.Text + " " + submitTaskNumberSplits.Value + " " + submitJobMapTxtBox.Text + " " + submitJobDllTxtBox.Text;
         }
 
-        private string generateFreezeWorker()
+        private string generateFreezeWorker(string workerId)
         {
-            return FreezeWorkerCmd.COMMAND + " " + workerId.Text;
+            return FreezeWorkerCmd.COMMAND + " " + workerId;
         }
 
-        private string generateUnfreezeWorker()
+        private string generateUnfreezeWorker(string workerId)
         {
-            return UnfreezeWorkerCmd.COMMAND + " " + workerId.Text;
+            return UnfreezeWorkerCmd.COMMAND + " " + workerId;
         }
 
-        private string generateDisableJobTracker()
+        private string generateDisableJobTracker(string workerId)
         {
-            return FreezeJobTrackerCmd.COMMAND + " " + workerId.Text;
+            return FreezeJobTrackerCmd.COMMAND + " " + workerId;
         }
 
-        private string generateEnableJobTracker()
+        private string generateEnableJobTracker(string workerId)
         {
-            return UnfreezeJobTrackerCmd.COMMAND + " " + workerId.Text;
+            return UnfreezeJobTrackerCmd.COMMAND + " " + workerId;
         }
 
-        private string generateSlowWorker()
+        private string generateSlowWorker(string workerId, int seconds)
         {
-            return SleepCmd.COMMAND + " " + workerId.Text + " " + slowNumSeconds.Value;
+            return SleepCmd.COMMAND + " " + Text + " " + seconds;
         }
 
         private static string generateRefreshStatus()
@@ -149,19 +147,6 @@ namespace PADIMapNoReduce
        * ***********************************************
        * ************************************************/
 
-        private bool checkWorkerIdMsgBox()
-        {
-            return workerId.Text != "";
-        }
-
-        private void setWorkerCommandsBtnsState(bool value)
-        {
-            freezewBtn.Enabled = value;
-            unfreezewBtn.Enabled = value;
-            unfreezecBtn.Enabled = value;
-            freezecBtn.Enabled = value;
-            slowBtn.Enabled = value;
-        }
 
         private bool checkRunScriptTextBox()
         {
@@ -234,11 +219,6 @@ namespace PADIMapNoReduce
             consoleMessageBox.SetBounds(ConsoleLabel.Location.X, consoleMessageBox.Location.Y, width, consoleMessageBox.Size.Height);
         }
 
-        private void waitButton_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateWaitCmd());
-        }
-
         private void submitWorkerButton_Click(object sender, EventArgs e)
         {
             submitCommandAux(generateCreateWorkProcess());
@@ -247,38 +227,6 @@ namespace PADIMapNoReduce
         private void submitTaskButton_Click(object sender, EventArgs e)
         {
             submitCommandAux(generateCreateJob());
-        }
-
-        private void freezewBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateFreezeWorker());
-        }
-
-        
-        private void unfreezewBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateUnfreezeWorker());
-        }
-
-        
-
-        private void freezecBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateDisableJobTracker());
-        }
-
-        
-
-        private void unfreezecBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateEnableJobTracker());
-        }
-
-        
-
-        private void slowBtn_Click(object sender, EventArgs e)
-        {
-            submitCommandAux(generateSlowWorker()); 
         }
 
 
@@ -332,14 +280,6 @@ namespace PADIMapNoReduce
             checkCreateJob();
         }
 
-        private void numSecondsWait_Leave(object sender, EventArgs e)
-        {
-            if (numSecondsWait.Text == "")
-            {
-                numSecondsWait.Text = "0";
-            }
-        }
-
         private void submitTaskNumberSplits_Leave(object sender, EventArgs e)
         {
             if (submitTaskNumberSplits.Text == "")
@@ -366,20 +306,13 @@ namespace PADIMapNoReduce
             submitTaskDestFileMsgBox.Text = FindDestinationFile("Output File | *.out", "Choose Destination File");
         }
 
-        private void workerId_TextChanged(object sender, EventArgs e)
-        {
-            setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
-        }
-
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
             puppetMaster.InitializeService();
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
-            setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
             checkCreateJob();
             checkCreateWorkerMsgsBox();
-
         }
 
         private void workerExeMsgBox_TextChanged(object sender, EventArgs e)
@@ -418,9 +351,6 @@ namespace PADIMapNoReduce
             }
         }
 
-
-
-
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             submitCommandAux(generateRefreshStatus());
@@ -438,15 +368,6 @@ namespace PADIMapNoReduce
                 + "Client *.exe: " + clientexeToolStripMenuItem.ToolTipText + "\r\n"
                 + "-------------------------------";
             Logger.LogWarn(print);
-        }
-
-        private void showNetworkToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (networkForm.IsDisposed)
-            {
-                networkForm = new NetworkForm(puppetMaster);
-            }
-            networkForm.Show();
         }
 
         private void fromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -482,5 +403,177 @@ namespace PADIMapNoReduce
         {
             RunScript(createWorkerstxtToolStripMenuItem.Text);
         }
+
+        private void Clear()
+        {
+            NetworkTreeView.Nodes.Clear();
+            AddRootNode("Active Workers", activeWorkersColor);
+            AddRootNode("Down Nodes", downWorkersColor);
+        }
+
+        private void AddRootNode(string id, Color c)
+        {
+            TreeNode rootNode = new TreeNode();
+            rootNode.Text = id;
+            rootNode.Name = id;
+            rootNode.BackColor = c;
+            rootNode.Expand();
+            NetworkTreeView.Nodes.Add(rootNode);
+        }
+
+        private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
+        {
+            Logger.LogInfo(rootNodeKey);
+
+            TreeNode root = NetworkTreeView.Nodes.Find(rootNodeKey, false)[0];
+
+            TreeNode nodeTree = new TreeNode();
+            nodeTree.Text = node.id;
+            nodeTree.Name = node.id;
+            nodeTree.Tag = rootNodeKey + ":" + node.id;
+            foreach (TreeNode t in NodeAtributesRepresentationToTree(node))
+            {
+                nodeTree.Nodes.Add(t);
+            }
+
+
+            root.Nodes.Add(nodeTree);
+            root.Expand();
+        }
+
+        private List<TreeNode> NodeAtributesRepresentationToTree(NodeRepresentation node)
+        {
+            List<TreeNode> result = new List<TreeNode>();
+
+            foreach (FieldInfo f in node.GetType().GetFields())
+            {
+                TreeNode field = new TreeNode();
+                field.Text = f.Name + " = " + (string)f.GetValue(node);
+                result.Add(field);
+            }
+
+            return result;
+        }
+
+
+        public void RefreshNetWorkConfiguration()
+        {
+            Clear();
+            IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
+            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
+            {
+                AddNodeRepresentation("Active Workers", knownNodes[entry.Key]);
+            }
+
+            foreach (string id in NetworkManager.GetDownWorkers())
+            {
+                AddNodeRepresentation("Down Nodes", knownNodes[id]);
+            }
+        }
+
+        public void GenerateGraph()
+        {
+
+
+            //reconstruction of the ring again
+            IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownUrlWorkers();
+
+            int numberOfTimes = knownNodes.Count;
+            if (knownNodes.Count == 0)
+            {
+                Logger.LogErr("Pleae refresh first");
+                return;
+            }
+            NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
+
+            string result = node.id;
+            for (int i = 0; i < numberOfTimes; i++)
+            {
+                node = knownNodes[node.nextUrl];
+                result += " => " + node.id;
+            }
+
+            Logger.LogInfo(result);
+        }
+
+
+        public override void RefreshRemote()
+        {
+            RefreshNetWorkConfiguration();
+            GenerateGraph();
+        }
+
+        /**************************** HANDLERS ******************************/
+
+        private void treeView1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+
+                // Point where the mouse is clicked.
+                Point p = new Point(e.X, e.Y);
+
+                // Get the node that the user has clicked.
+                TreeNode node = NetworkTreeView.GetNodeAt(p);
+                if (node != null)
+                {
+
+                    NetworkTreeView.SelectedNode = node;
+
+                    if (Convert.ToString(node.Tag).Contains("Active Workers"))
+                    {
+                        workerMenuStrip.Show(NetworkTreeView, p);
+                    }
+                }
+            }
+        }
+
+        private void freezeWorkerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode node = NetworkTreeView.SelectedNode;
+            submitCommandAux(generateFreezeWorker(node.Text));
+        }
+
+        private void unfreezeWorkerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode node = NetworkTreeView.SelectedNode;
+
+            submitCommandAux(generateUnfreezeWorker(node.Text));
+        }
+
+        private void freezeJobTrackerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode node = NetworkTreeView.SelectedNode;
+
+            submitCommandAux(generateDisableJobTracker(node.Text));
+        }
+
+        private void unfreezeJobTrackerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode node = NetworkTreeView.SelectedNode;
+
+            submitCommandAux(generateEnableJobTracker(node.Text));
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            submitCommandAux(generateSlowWorker(NetworkTreeView.SelectedNode.Text, Convert.ToInt32(slowNumSeconds.Value)));
+        }
+
+        private void workerMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            workerMenuStrip.Items[4].Text = "Sleep " + slowNumSeconds.Value + " seconds";
+        }
+
+        private void ExpandAllBtn_Click(object sender, EventArgs e)
+        {
+            NetworkTreeView.ExpandAll();
+        }
+
+        private void CollapseAllBtn_Click(object sender, EventArgs e)
+        {
+            NetworkTreeView.CollapseAll();
+        }
+
     }
 }

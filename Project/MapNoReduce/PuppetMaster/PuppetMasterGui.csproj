@@ -44,15 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DummyClass.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NetworkForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NetworkForm.Designer.cs">
-      <DependentUpon>NetworkForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="PMGui.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,9 +52,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="NetworkForm.resx">
-      <DependentUpon>NetworkForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PMGui.resx">
       <DependentUpon>PMGui.cs</DependentUpon>
     </EmbeddedResource>
