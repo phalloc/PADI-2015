@@ -263,7 +263,8 @@ namespace PADIMapNoReduce
                 {
                     NetworkTreeView.SelectedNode = node;
 
-                    if (Convert.ToString(node.Tag).Contains(TreeViewManager.ACTIVE_WORKERS_TAG))
+                    string tag = Convert.ToString(node.Tag);
+                    if (tag.Contains(TreeViewManager.ACTIVE_WORKERS_TAG) || tag.Contains(TreeViewManager.DOWN_WORKERS_TAG))
                     {
                         workerMenuStrip.Show(NetworkTreeView, p);
                     }

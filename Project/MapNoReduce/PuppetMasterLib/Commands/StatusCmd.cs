@@ -40,7 +40,7 @@ namespace PADIMapNoReduce.Commands
 
             Logger.LogInfo("[STATUS]");
 
-            if (NetworkManager.GetActiveRemoteWorkers().Count == 0)
+            if (NetworkManager.GetRemoteWorkersObj().Count == 0)
             {
                 Logger.LogWarn("No workers registered");
                 return;
@@ -48,7 +48,7 @@ namespace PADIMapNoReduce.Commands
 
             
             List<string> listBecameInactiveWorkers = new List<string>();
-            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
+            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetRemoteWorkersObj())
             {
                 string id = entry.Key;
                 try

@@ -19,18 +19,15 @@ namespace PADIMapNoReduce
         //all down nodes
         private static List<string> downWorkers = new List<string>();
 
-        //all active remote nodes
-        private static IDictionary<string, IWorker> activeWorkersObj = new Dictionary<string, IWorker>();
-
-        //all active activeJobTrackers
-        //private static IDictionary<string, IWorker> activeJobTrackers = new Dictionary<string, IWorker>();
+        //all remote nodes
+        private static IDictionary<string, IWorker> workersObj = new Dictionary<string, IWorker>();
 
         public static IWorker GetRemoteWorker(string id)
         {
-            if (!activeWorkersObj.ContainsKey(id))
+            if (!workersObj.ContainsKey(id))
                 throw new Exception("Worker id not configured");
 
-            return activeWorkersObj[id];
+            return workersObj[id];
         }
 
         public static IDictionary<string, NodeRepresentation> GetKnownWorkers()
@@ -43,9 +40,9 @@ namespace PADIMapNoReduce
             return knownKUrlWorkers;
         }
 
-        public static IDictionary<string, IWorker> GetActiveRemoteWorkers()
+        public static IDictionary<string, IWorker> GetRemoteWorkersObj()
         {
-            return activeWorkersObj;
+            return workersObj;
         }
 
         public static List<string> GetDownWorkers()
@@ -55,13 +52,17 @@ namespace PADIMapNoReduce
 
         public static void SetWorkerAsDown(string id)
         {
-            if (!knownWorkers.ContainsKey(id) || !activeWorkersObj.ContainsKey(id))
+            if (!knownWorkers.ContainsKey(id) || !workersObj.ContainsKey(id))
             {
                 throw new Exception("Trying to flag worker " + id + " as inactive, yet it is not in the active list");
             }
 
+            if (downWorkers.Contains(id))
+            {
+                return;
+            }
+
             Logger.LogWarn("Adding worker " + id + " to the list of down workers.");
-            activeWorkersObj.Remove(id);
             downWorkers.Add(id);
         }
 
@@ -83,6 +84,12 @@ namespace PADIMapNoReduce
                 return;
             }
 
+            //node is back up again
+            if (downWorkers.Contains(id))
+            {
+                downWorkers.Remove(id);
+            }
+
             knownKUrlWorkers[myUrl] = node;
         }
 
@@ -101,7 +108,7 @@ namespace PADIMapNoReduce
             knownKUrlWorkers.Add(url, n);
              
             IWorker w = (IWorker)Activator.GetObject(typeof(IWorker), url);
-            activeWorkersObj.Add(id, w);
+            workersObj.Add(id, w);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace PADIMapNoReduce
     {
         private static string TIMESTAMP_TAG = "TIME";
         public static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
-        private static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
+        public static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
         private static string RING_NEXT_URL_TAG = "RING_N_URL";
         private static string RING_NEXT_NEXT_URL_START1_TAG = "RING_NN_URL_1";
         private static string RING_NEXT_NEXT_URL_START2_TAG = "RING_NN_URL_2";
@@ -104,12 +104,17 @@ namespace PADIMapNoReduce
             NetworkTreeView.Nodes.Add(now);
 
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
-            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
+            List<string> downNodes = NetworkManager.GetDownWorkers();
+            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetRemoteWorkersObj())
             {
-                AddNodeRepresentation(activeTag, knownNodes[entry.Key]);
+                //check if it not flagged as down
+                if (!downNodes.Contains(entry.Key))
+                {
+                    AddNodeRepresentation(activeTag, knownNodes[entry.Key]);
+                }
             }
 
-            foreach (string id in NetworkManager.GetDownWorkers())
+            foreach (string id in downNodes)
             {
                 AddNodeRepresentation(downTag, knownNodes[id]);
             }
