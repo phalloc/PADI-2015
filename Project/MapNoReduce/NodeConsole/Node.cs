@@ -131,39 +131,40 @@ namespace PADIMapNoReduce
 
         public void FreezeWorker()
         {
-            Logger.LogInfo("Freezing Worker");
+            Logger.LogInfo("[UNFREEZEW] (W)");
         }
 
         public void UnfreezeWorker()
         {
-            Logger.LogInfo("Unfreezing Worker");
+            Logger.LogInfo("[UNFREEZEW] (W)");
         }
 
         public void FreezeJobTracker()
         {
-            Logger.LogInfo("Freezing JobTracker");
+            Logger.LogInfo("[FREEZEC] (JT)");
         }
 
         public void UnfreezeJobTracker()
         {
-            Logger.LogInfo("Unfreezing JobTracker");
+            Logger.LogInfo("[UNFREEZEC] (JT)");
         }
 
         public void Slow(int seconds)
         {
-            Logger.LogInfo("Slowing down for " + seconds + " seconds.");
+            Logger.LogInfo("[SLOWW] " + seconds);
         }
 
 
         public IDictionary<string, string> Status()
         {
-            Logger.LogInfo("Got status report request");
+            Logger.LogInfo("[STATUS]");
 
             IDictionary<string, string> result = new Dictionary<string, string>();
 
-            result.Add("ID", this.id);
-            result.Add("myURL", this.myURL);
-            result.Add("NextUrl", this.nextURL);
+            result.Add(NodeRepresentation.ID, this.id);
+            result.Add(NodeRepresentation.SERVICE_URL, this.myURL);
+            result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
+
             result.Add("NextNextUrl", this.nextNextURL);
             result.Add("currentRole", this.currentRole);
             result.Add("CurrentJobTracker", this.currentJobTrackerUrl);

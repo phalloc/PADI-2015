@@ -48,8 +48,10 @@ namespace PADIMapNoReduce
         {
             TreeNode root = FindNode(NetworkTreeView, rootNodeKey);
 
+            string id;
+            node.info.TryGetValue(NodeRepresentation.ID, out id);
 
-            TreeNode nodeTree = CreateNode(node.id, rootNodeKey + ":" + node.id);
+            TreeNode nodeTree = CreateNode(id, rootNodeKey + ":" + id);
             foreach (TreeNode t in NodeAtributesRepresentationToTree(node))
             {
                 nodeTree.Nodes.Add(t);
@@ -62,7 +64,7 @@ namespace PADIMapNoReduce
         private List<TreeNode> NodeAtributesRepresentationToTree(NodeRepresentation node)
         {
 
-            IDictionary<string, string> values = NodeRepresentation.FieldValues(node);
+            IDictionary<string, string> values = node.info;
 
             List<TreeNode> result = new List<TreeNode>();
 
@@ -131,16 +133,29 @@ namespace PADIMapNoReduce
 
             NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
 
-            string result = node.id;
+            string id;
+            string nextUrl;
+            string result = "";
             for (int i = 0; i < numberOfTimes; i++)
             {
-                if (node.nextUrl == "")
+                node.info.TryGetValue(NodeRepresentation.ID, out id);
+                node.info.TryGetValue(NodeRepresentation.NEXT_URL, out nextUrl);
+
+                result += " => " + id;
+
+                if (nextUrl == null || (nextUrl != null && nextUrl == ""))
                 {
-                    Logger.LogErr("Node " + node.id + " as no nextUrl!");
-                    return;
+                    Logger.LogErr("Node " + id + " as no nextUrl!");
+                    break;
                 }
-                node = knownNodes[node.nextUrl];
-                result += " => " + node.id;
+
+                knownNodes.TryGetValue(nextUrl, out node);
+
+                if (node == null)
+                {
+                    Logger.LogErr("No information on nextUrl...");
+                    break;
+                }
             }
 
             TreeNode tagNode = CreateNode(RING_TAG + " : " + result, RING_TAG);

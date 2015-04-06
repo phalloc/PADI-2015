@@ -73,7 +73,17 @@ namespace PADIMapNoReduce
             }
 
             knownWorkers[id] = node;
-            knownKUrlWorkers[node.myUrl] = node;
+            string myUrl;
+            
+            node.info.TryGetValue(NodeRepresentation.SERVICE_URL, out myUrl);
+
+            if (myUrl == null || (myUrl != null && myUrl == ""))
+            {
+                Logger.LogWarn("Worker " + id + " did not provide a service url!! Bad update!");
+                return;
+            }
+
+            knownKUrlWorkers[myUrl] = node;
         }
 
         public static void RegisterNewWorker(string id, string url)
@@ -83,21 +93,15 @@ namespace PADIMapNoReduce
             if (knownWorkers.ContainsKey(id))
                 knownWorkers.Remove(id);
 
-            knownWorkers.Add(id, new NodeRepresentation(id, url));
+            NodeRepresentation n = new NodeRepresentation(id, url);
+            knownWorkers.Add(id, n);
+            knownKUrlWorkers.Add(url, n);
 
             if (activeWorkersObj.ContainsKey(id))
                 activeWorkersObj.Remove(id);
-
+             
             IWorker w = (IWorker)Activator.GetObject(typeof(IWorker), url);
             activeWorkersObj.Add(id, w);
-        }
-
-        public static void Clear()
-        {
-            knownWorkers.Clear();
-            knownKUrlWorkers.Clear();
-            activeWorkersObj.Clear();
-            downWorkers.Clear();
         }
     }
 }

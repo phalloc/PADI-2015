@@ -50,8 +50,8 @@ namespace PADIMapNoReduce.Commands
         private static void RefreshStatusAuxiliary(string workerId){
                 IWorker w = NetworkManager.GetActiveRemoteWorkers()[workerId];
                 IDictionary<string, string> result = w.Status();
-                NodeRepresentation nodeRep = NodeRepresentation.ConvertFromNodeStatus(result);
-                NetworkManager.UpdateNodeInformation(nodeRep.id, nodeRep);
+                NodeRepresentation nodeRep = new NodeRepresentation(result);
+                NetworkManager.UpdateNodeInformation(workerId, nodeRep);
         }
 
         public static void RefreshStatus(string workerId, bool fromBuldRefresh)

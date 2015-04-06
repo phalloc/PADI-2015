@@ -18,6 +18,8 @@ namespace PADIMapNoReduce
             ProcessUtil.ExecuteNewProcess(PropertiesPM.workerExeLocation, arguments);
 
             NetworkManager.RegisterNewWorker(id, serviceUrl);
+
+            Logger.Refresh();
         }
     }
 }
