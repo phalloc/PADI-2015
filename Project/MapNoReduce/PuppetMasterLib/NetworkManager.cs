@@ -69,7 +69,7 @@ namespace PADIMapNoReduce
         {
             if (!knownWorkers.ContainsKey(id))
             {
-                throw new Exception("Trying to update worker information where he does not exist!");
+                throw new Exception("Trying to update worker information but he does not exist!");
             }
 
             knownWorkers[id] = node;
@@ -91,14 +91,14 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Register worker: " + id + " : " + url);
 
             if (knownWorkers.ContainsKey(id))
-                knownWorkers.Remove(id);
-
+            {
+                Logger.LogWarn("Already registered " + id + " worker. Skipping.");
+                return;
+            }
+            
             NodeRepresentation n = new NodeRepresentation(id, url);
             knownWorkers.Add(id, n);
             knownKUrlWorkers.Add(url, n);
-
-            if (activeWorkersObj.ContainsKey(id))
-                activeWorkersObj.Remove(id);
              
             IWorker w = (IWorker)Activator.GetObject(typeof(IWorker), url);
             activeWorkersObj.Add(id, w);
