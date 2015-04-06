@@ -37,6 +37,11 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
+        public override Command CreateCopy()
+        {
+            return new WaitCmd(puppetMaster);
+        }
+
         public void Wait(int sec)
         {
 

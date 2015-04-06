@@ -94,8 +94,9 @@ namespace PADIMapNoReduce
             {
                 if (c.getCommandName() == commandType)
                 {
-                    c.Parse(line);
-                    return c;
+                    Command copy = c.CreateCopy();
+                    copy.Parse(line);
+                    return copy;
                 }
             }
 

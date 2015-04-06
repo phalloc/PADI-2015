@@ -11,8 +11,8 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "FREEZEW";
-        
-        string workerId;
+
+        string workerId = "";
 
 
         public FreezeWorkerCmd(PuppetMaster pm) : base(pm) { }
@@ -34,7 +34,7 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-             FreezeWorker(workerId);
+            FreezeWorker(workerId.Trim());
         }
 
         public override string getCommandName()
@@ -42,6 +42,10 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
+        public override Command CreateCopy()
+        {
+            return new FreezeWorkerCmd(puppetMaster);
+        }
 
         public void FreezeWorker(string workerId)
         {

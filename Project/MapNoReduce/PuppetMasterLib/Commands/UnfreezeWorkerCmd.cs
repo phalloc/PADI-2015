@@ -11,9 +11,9 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "UNFREEZEW";
-        
 
-        string workerId;
+
+        string workerId = "";
 
         public UnfreezeWorkerCmd(PuppetMaster pm) : base(pm) { }
 
@@ -33,12 +33,17 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-            UnfreezeWorker(workerId);
+            UnfreezeWorker(workerId.Trim());
         }
 
         public override string getCommandName()
         {
             return COMMAND;
+        }
+
+        public override Command CreateCopy()
+        {
+            return new UnfreezeWorkerCmd(puppetMaster);
         }
 
         public void UnfreezeWorker(string workerId)

@@ -11,8 +11,8 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "UNFREEZEC";
-        
-        string workerId;
+
+        string workerId = "";
 
         public UnfreezeJobTrackerCmd(PuppetMaster pm) : base(pm) { }
         
@@ -36,9 +36,13 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-             UnfreezeJobTracker(workerId);
+            UnfreezeJobTracker(workerId.Trim());
         }
 
+        public override Command CreateCopy()
+        {
+            return new UnfreezeJobTrackerCmd(puppetMaster);
+        }
 
         public void UnfreezeJobTracker(string workerId)
         {

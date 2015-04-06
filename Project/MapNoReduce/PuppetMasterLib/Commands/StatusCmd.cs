@@ -29,6 +29,11 @@ namespace PADIMapNoReduce.Commands
             return COMMAND;
         }
 
+        public override Command CreateCopy()
+        {
+            return new StatusCmd(puppetMaster);
+        }
+
         public void RefreshStatus()
         {
 

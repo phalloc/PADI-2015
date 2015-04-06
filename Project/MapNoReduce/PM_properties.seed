@@ -1,0 +1,4 @@
+W1 = tcp://localhost:30001/W
+W2 = tcp://localhost:30002/W
+W3 = tcp://localhost:30003/W
+W4 = tcp://localhost:30004/W

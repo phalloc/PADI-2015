@@ -11,11 +11,11 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "SUBMIT";
-        
 
-        string entryUrl;
-        string inputFile;
-        string outputFile;
+
+        string entryUrl = "";
+        string inputFile = "";
+        string outputFile = "";
         int numSplits;
         IMapper map;
 
@@ -46,7 +46,12 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-            SubmitJob(entryUrl, inputFile, outputFile, numSplits, map);
+            SubmitJob(entryUrl.Trim(), inputFile.Trim(), outputFile.Trim(), numSplits, map);
+        }
+
+        public override Command CreateCopy()
+        {
+            return new SubmitJobCmd(puppetMaster);
         }
 
         public void SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)

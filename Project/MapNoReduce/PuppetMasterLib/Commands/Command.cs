@@ -33,11 +33,11 @@ namespace PADIMapNoReduce.Commands
 
             ExecuteAux();
             this.line = null;
- 
         }
 
         protected abstract void ExecuteAux();
         protected abstract bool ParseAux();
+        public abstract Command CreateCopy();
         public abstract string getCommandName();       
     }
 }

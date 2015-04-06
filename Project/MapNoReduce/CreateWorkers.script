@@ -1,0 +1,7 @@
+WORKER W1 tcp://localhost:30001/W
+WAIT 1
+WORKER W2 tcp://localhost:30002/W tcp://localhost:30001/W
+WAIT 1
+WORKER W3 tcp://localhost:30003/W tcp://localhost:30002/W
+WAIT 1
+WORKER W4 tcp://localhost:30004/W tcp://localhost:30003/W

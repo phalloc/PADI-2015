@@ -13,7 +13,7 @@ namespace PADIMapNoReduce.Commands
 
 
         int sec;
-        string workerId;
+        string workerId = "";
 
         public SleepCmd(PuppetMaster pm) : base(pm) { }
 
@@ -43,9 +43,13 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-            Sleep(workerId, sec);
+            Sleep(workerId.Trim(), sec);
         }
 
+        public override Command CreateCopy()
+        {
+            return new SleepCmd(puppetMaster);
+        }
 
         public void Sleep(string workerId, int seconds)
         {

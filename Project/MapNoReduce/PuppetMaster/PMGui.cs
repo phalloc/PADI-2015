@@ -43,42 +43,50 @@ namespace PADIMapNoReduce
 
         private void submitCommandAux(string line)
         {
-            Thread runThread = new Thread(() => RunCommand(line));
+            Thread runThread = new Thread(() =>
+            {
+                try
+                {
+                    puppetMaster.ExecuteCommand(line);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogErr(ex.Message);
+                }
+            });
+
             runThread.Start();
         }
 
-        private void RunCommand(string line)
+        private void RunScript(string filePath)
         {
-            try
+            Thread runThread = new Thread(() =>
             {
-                puppetMaster.ExecuteCommand(line);
-            }
-            catch (Exception ex)
-            {
-                Logger.LogErr(ex.Message);
-            }
-        }
+                try
+                {
+                    puppetMaster.LoadFile(filePath);
+                    puppetMaster.ExecuteScript();
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogErr(ex.Message);
+                }
+            });
 
-        private void RunScript()
-        {
-            try
-            {
-                puppetMaster.LoadFile(scriptLocMsgBox.Text);
-                puppetMaster.ExecuteScript();   
-            }
-            catch (Exception ex)
-            {
-                Logger.LogErr(ex.Message);
-            }
-        }
-
-
-        private void submitScriptAux()
-        {
-            Thread runThread = new Thread(RunScript);
             runThread.Start();
         }
 
+        private void Seed(string source_file)
+        {
+            Thread runThread = new Thread(() =>
+            {
+                IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
+
+                puppetMaster.InstaciateWorkers(result);
+            });
+
+            runThread.Start();
+        }
 
         /************************************************
          * ************************************************
@@ -155,14 +163,6 @@ namespace PADIMapNoReduce
             slowBtn.Enabled = value;
         }
 
-        private bool checkLocationTextBox()
-        {
-
-            bool value = scriptLocMsgBox.Text != "";
-            submitScript.Enabled = value;
-            return value;
-        }
-
         private bool checkRunScriptTextBox()
         {
             bool value = commandMsgBox.Text != "";
@@ -225,11 +225,6 @@ namespace PADIMapNoReduce
         private void submitCommand_Click(object sender, EventArgs e)
         {
             submitCommandAux(commandMsgBox.Text);
-        }
-
-        private void submitScript_Click(object sender, EventArgs e)
-        {
-            submitScriptAux();            
         }
 
         //auto resize elements on maximize
@@ -297,11 +292,6 @@ namespace PADIMapNoReduce
             checkRunScriptTextBox();
         }
 
-        private void scriptLocMsgBox_TextChanged(object sender, EventArgs e)
-        {
-            checkLocationTextBox();
-        }
-
         private void submitWorkerWorkerIdMsgBox_TextChanged(object sender, EventArgs e)
         {
             checkCreateWorkerMsgsBox();
@@ -366,16 +356,6 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenScriptFile();
-        }
-
-        private void OpenScriptFile()
-        {
-            scriptLocMsgBox.Text = FindSourceFile("txt files (*.txt)|*.txt|All files (*.*)|*.*", "Choose Script Source File");
-        }
-
         private void sourceFileBtn_Click(object sender, EventArgs e)
         {
             submitTaskSourceFileMsgBox.Text = FindSourceFile("Input files (*.in)|*.in", "Choose Source File");
@@ -397,7 +377,6 @@ namespace PADIMapNoReduce
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
             setWorkerCommandsBtnsState(checkWorkerIdMsgBox());
-            checkLocationTextBox();
             checkCreateJob();
             checkCreateWorkerMsgsBox();
 
@@ -439,29 +418,8 @@ namespace PADIMapNoReduce
             }
         }
 
-        private void propertiesFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string result = FindSourceFile("Properties files (*.conf)|*.conf", "Choose properties File");
-
-            if (result != "") { 
-                propertiesFileToolStripMenuItem.ToolTipText = result;
-            }
-        }
 
 
-
-        private void createInitialWorkersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Thread runThread = new Thread(() => InstaciateWorkers(propertiesFileToolStripMenuItem.ToolTipText));
-            runThread.Start();
-        }
-
-        private void InstaciateWorkers(string source_file)
-        {
-            IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
-
-            puppetMaster.InstaciateWorkers(result);
-        }
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -478,7 +436,6 @@ namespace PADIMapNoReduce
             string print = "\r\n------ CURRENT SETTINGS ------\r\n"
                 + "Worker *.exe: " + workerexeToolStripMenuItem.ToolTipText + "\r\n"
                 + "Client *.exe: " + clientexeToolStripMenuItem.ToolTipText + "\r\n"
-                + "Properties *.exe: " + propertiesFileToolStripMenuItem.ToolTipText + "\r\n"
                 + "-------------------------------";
             Logger.LogWarn(print);
         }
@@ -490,6 +447,40 @@ namespace PADIMapNoReduce
                 networkForm = new NetworkForm(puppetMaster);
             }
             networkForm.Show();
+        }
+
+        private void fromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string file = FindSourceFile("Script files (*.script)|*.script|All files (*.*)|*.*", "Choose Script Source File");
+
+            if (file != "") {
+                RunScript(file);Seed(pMpropertiesconfToolStripMenuItem.Text);
+            }
+        }
+
+        private void myScripttxtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RunScript(myScripttxtToolStripMenuItem.Text);
+        }
+
+        private void fromFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string result = FindSourceFile("Properties files (*.seed)|*.seed", "Choose seed File");
+
+            if (result != "")
+            {
+                Seed(result);
+            }
+        }
+
+        private void pMpropertiesconfToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Seed(pMpropertiesconfToolStripMenuItem.Text);
+        }
+
+        private void createWorkerstxtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RunScript(createWorkerstxtToolStripMenuItem.Text);
         }
     }
 }

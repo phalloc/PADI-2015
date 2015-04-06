@@ -11,7 +11,7 @@ namespace PADIMapNoReduce.Commands
     {
 
         public static string COMMAND = "FREEZEC";
-        string workerId;
+        string workerId = "";
 
 
         public FreezeJobTrackerCmd(PuppetMaster pm) : base(pm) { }
@@ -30,9 +30,14 @@ namespace PADIMapNoReduce.Commands
 
         }
 
+        public override Command CreateCopy()
+        {
+            return new FreezeJobTrackerCmd(puppetMaster);
+        }
+
         protected override void ExecuteAux()
         {
-            FreezeJobTracker(workerId);
+            FreezeJobTracker(workerId.Trim());
         }
 
         public override string getCommandName()
