@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TreeViewManager.cs" />
     <Compile Include="CreateWorkerForm.cs">
       <SubType>Form</SubType>
     </Compile>

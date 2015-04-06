@@ -103,6 +103,53 @@ namespace PADIMapNoReduce
 
             throw new Exception("No command found");
         }
+
+
+        public static string generateCreateWorkProcess(string workerId, string puppetMasterUrl, string serviceUrl, string entryUrl)
+        {
+            return CreateWorkerCmd.COMMAND + " " + workerId + " " + puppetMasterUrl + " " + serviceUrl + " " + entryUrl;
+        }
+
+        public static string generateCreateJob(string entryUrl, string sourceFile, string destFile, int numberSplits, string mapper, string mapperDll)
+        {
+            return SubmitJobCmd.COMMAND + " " + entryUrl + " " + sourceFile + " " + destFile + " " + numberSplits + " " + mapper + " " + mapperDll;
+        }
+
+        public static string generateFreezeWorker(string workerId)
+        {
+            return FreezeWorkerCmd.COMMAND + " " + workerId;
+        }
+
+        public static string generateUnfreezeWorker(string workerId)
+        {
+            return UnfreezeWorkerCmd.COMMAND + " " + workerId;
+        }
+
+        public static string generateDisableJobTracker(string workerId)
+        {
+            return FreezeJobTrackerCmd.COMMAND + " " + workerId;
+        }
+
+        public static string generateEnableJobTracker(string workerId)
+        {
+            return UnfreezeJobTrackerCmd.COMMAND + " " + workerId;
+        }
+
+        public static string generateSlowWorker(string workerId, int seconds)
+        {
+            return SleepCmd.COMMAND + " " + workerId + " " + seconds;
+        }
+
+        public static string generateRefreshStatus()
+        {
+            return StatusCmd.COMMAND;
+        }
+
+
+        public static string generateStatusIndividual(string workerId)
+        {
+            return StatusIndividualCmd.COMMAND + " " + workerId;
+        }
     }
 
 

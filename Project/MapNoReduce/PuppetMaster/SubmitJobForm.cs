@@ -76,7 +76,7 @@ namespace PADIMapNoReduce
             string mapper = submitJobMapTxtBox.Text;
             string mapperDll = submitJobDllTxtBox.Text;
 
-            pmGUI.submitCommandAux(pmGUI.generateCreateJob(entryUrl, source, destination, numberSplits, mapper, mapperDll));
+            pmGUI.submitCommandAux(CommandsManager.generateCreateJob(entryUrl, source, destination, numberSplits, mapper, mapperDll));
         }
     }
 }

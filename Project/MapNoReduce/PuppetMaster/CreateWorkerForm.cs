@@ -54,7 +54,7 @@ namespace PADIMapNoReduce
             string serviceUrl = submitWorkerServiceUrlMsgBox.Text;
             string entryUrl = submitWorkerEntryUrlMsgBox.Text;
 
-            string command = pmGUI.generateCreateWorkProcess(workerId, pmUrl, serviceUrl, entryUrl);
+            string command = CommandsManager.generateCreateWorkProcess(workerId, pmUrl, serviceUrl, entryUrl);
 
             pmGUI.submitCommandAux(command);
         }

@@ -59,6 +59,8 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Started PuppetMaster service @ " + serviceUrl);
         }
 
+        /**************** COMMANDS **********************/
+        
         public void LoadFile(string file)
         {
             cm.LoadFile(file);
