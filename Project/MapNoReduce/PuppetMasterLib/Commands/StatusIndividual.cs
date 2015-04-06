@@ -52,7 +52,6 @@ namespace PADIMapNoReduce.Commands
                 IDictionary<string, string> result = w.Status();
                 NodeRepresentation nodeRep = NodeRepresentation.ConvertFromNodeStatus(result);
                 NetworkManager.UpdateNodeInformation(nodeRep.id, nodeRep);
-                Logger.LogInfo("\r\n" + nodeRep.Print());
         }
 
         public static void RefreshStatus(string workerId, bool fromBuldRefresh)

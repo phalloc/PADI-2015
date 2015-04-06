@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PADIMapNoReduce.Commands;
-using System.Reflection;
 
 namespace PADIMapNoReduce
 {
@@ -332,12 +331,18 @@ namespace PADIMapNoReduce
 
         private List<TreeNode> NodeAtributesRepresentationToTree(NodeRepresentation node)
         {
+
+            IDictionary<string, string> values = NodeRepresentation.FieldValues(node);
+
             List<TreeNode> result = new List<TreeNode>();
 
-            foreach (FieldInfo f in node.GetType().GetFields())
+            foreach (KeyValuePair<string, string> entry in values)
             {
+                string fieldName = entry.Key;
+                string value = entry.Value;
+
                 TreeNode field = new TreeNode();
-                field.Text = f.Name + " = " + (string)f.GetValue(node);
+                field.Text = fieldName + " = " + value;
                 result.Add(field);
             }
 

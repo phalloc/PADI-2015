@@ -46,8 +46,6 @@ namespace PADIMapNoReduce.Commands
 
             
             List<string> listBecameInactiveWorkers = new List<string>();
-            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            Logger.LogInfo("@@@@@@@@@@@ ACTIVE WORKERS @@@@@@@@@@@@@@");
             foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
             {
                 string id = entry.Key;
@@ -68,17 +66,7 @@ namespace PADIMapNoReduce.Commands
             foreach (string id in listBecameInactiveWorkers){
                 NetworkManager.SetWorkerAsDown(id);
             }
-
-            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
-            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            Logger.LogInfo("@@@@@@@@@@@@ DOWN WORKERS @@@@@@@@@@@@@@@");
-            foreach (string id in NetworkManager.GetDownWorkers())
-            {
-                Logger.LogInfo(id);
-            }
-            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
+            
             Logger.Refresh();
         }
 

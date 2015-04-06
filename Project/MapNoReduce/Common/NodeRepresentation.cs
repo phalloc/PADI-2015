@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using System.Reflection;
 namespace PADIMapNoReduce
 {
     public class NodeRepresentation
@@ -51,14 +51,17 @@ namespace PADIMapNoReduce
             return new NodeRepresentation(id, myUrl, nextUrl, nextNextUrl, currentRole, status, currentJobTracker);
         }
 
-        public string Print()
+        public static IDictionary<string, string> FieldValues(NodeRepresentation instance)
         {
-           return "id: " + this.id
-                + "\r\n" + "nextUrl: " + this.nextUrl
-                + "\r\n" + "nextNextUrl: " + this.nextNextUrl
-                + "\r\n" + "currentRole: " + this.currentRole
-                + "\r\n" + "status: " + this.status
-                + "\r\n" + "currentJobTracker: " + this.currentJobTracker;
+
+            IDictionary<string, string> result = new Dictionary<string, string>();
+
+            foreach (FieldInfo f in instance.GetType().GetFields())
+            {
+                result.Add(f.Name, (string)f.GetValue(instance));
+            }
+
+            return result;
         }
     }
 }
