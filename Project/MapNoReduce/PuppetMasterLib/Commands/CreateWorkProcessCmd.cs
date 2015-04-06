@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.Runtime.Remoting;
+
 
 namespace PADIMapNoReduce.Commands
 {
@@ -108,9 +110,12 @@ namespace PADIMapNoReduce.Commands
                     IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
                     pm.CreateWorker(id, serviceUrl, entryUrl);
                 }
-                catch (SocketException ex)
+                catch (Exception ex)
                 {
-                    Logger.LogErr("Puppet Master @ " + puppetMasterUrl + " is down. --> " + ex.Message);
+                    if (ex is RemotingException || ex is SocketException)
+                    {
+                        Logger.LogErr("Puppet Master @ " + puppetMasterUrl + " is down. --> " + ex.Message);
+                    }
                 }
             }
             else

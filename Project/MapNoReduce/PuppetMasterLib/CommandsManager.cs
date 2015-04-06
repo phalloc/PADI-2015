@@ -32,6 +32,7 @@ namespace PADIMapNoReduce
             supportedCommands.Add(new StatusCmd(pm));
             supportedCommands.Add(new SubmitJobCmd(pm));
             supportedCommands.Add(new UnfreezeWorkerCmd(pm));
+            supportedCommands.Add(new StatusIndividualCmd(pm));
         }
 
         public void LoadFile(string file)

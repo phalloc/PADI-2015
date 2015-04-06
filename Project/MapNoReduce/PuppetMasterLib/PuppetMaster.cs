@@ -32,7 +32,6 @@ namespace PADIMapNoReduce
             {
                 string id = entry.Key;
                 string url = entry.Value;
-                Logger.LogWarn("Adding " + id + " = " + url);
                 NetworkManager.RegisterNewWorker(id, url);
             }
 

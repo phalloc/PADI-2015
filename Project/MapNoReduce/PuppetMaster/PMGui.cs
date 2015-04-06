@@ -136,12 +136,18 @@ namespace PADIMapNoReduce
 
         private string generateSlowWorker(string workerId, int seconds)
         {
-            return SleepCmd.COMMAND + " " + Text + " " + seconds;
+            return SleepCmd.COMMAND + " " + workerId + " " + seconds;
         }
 
         private static string generateRefreshStatus()
         {
             return StatusCmd.COMMAND;
+        }
+
+
+        public string generateStatusIndividual(string workerId)
+        {
+            return StatusIndividualCmd.COMMAND + " " + workerId;
         }
 
         /*************************************************
@@ -308,8 +314,6 @@ namespace PADIMapNoReduce
 
         private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
         {
-            Logger.LogInfo(rootNodeKey);
-
             TreeNode root = NetworkTreeView.Nodes.Find(rootNodeKey, false)[0];
 
             TreeNode nodeTree = new TreeNode();
@@ -423,33 +427,58 @@ namespace PADIMapNoReduce
         private void freezeWorkerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TreeNode node = NetworkTreeView.SelectedNode;
-            submitCommandAux(generateFreezeWorker(node.Text));
+            if (node != null) { 
+                submitCommandAux(generateFreezeWorker(node.Text));
+            }
+
+            NetworkTreeView.SelectedNode = null;
         }
 
         private void unfreezeWorkerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TreeNode node = NetworkTreeView.SelectedNode;
 
-            submitCommandAux(generateUnfreezeWorker(node.Text));
+            if (node != null)
+            {
+                submitCommandAux(generateUnfreezeWorker(node.Text));
+            }
+
+            NetworkTreeView.SelectedNode = null;
         }
 
         private void freezeJobTrackerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TreeNode node = NetworkTreeView.SelectedNode;
 
-            submitCommandAux(generateDisableJobTracker(node.Text));
+            if (node != null)
+            {
+                submitCommandAux(generateDisableJobTracker(node.Text));
+            }
+
+            NetworkTreeView.SelectedNode = null;
         }
 
         private void unfreezeJobTrackerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TreeNode node = NetworkTreeView.SelectedNode;
+            if (node != null)
+            {
+                submitCommandAux(generateEnableJobTracker(node.Text));
+            }
 
-            submitCommandAux(generateEnableJobTracker(node.Text));
+            NetworkTreeView.SelectedNode = null;
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            submitCommandAux(generateSlowWorker(NetworkTreeView.SelectedNode.Text, Convert.ToInt32(slowNumSeconds.Value)));
+            TreeNode node = NetworkTreeView.SelectedNode;
+
+            if (node != null)
+            {
+                submitCommandAux(generateSlowWorker(node.Text, Convert.ToInt32(slowNumSeconds.Value)));
+            }
+
+            NetworkTreeView.SelectedNode = null;
         }
 
         private void workerMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -501,6 +530,15 @@ namespace PADIMapNoReduce
         {
             GenerateGraph();
         }
+
+        private void statusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode node = NetworkTreeView.SelectedNode;
+
+            string command = generateStatusIndividual(node.Text);
+            submitCommandAux(command);
+        }
+
 
     }
 }

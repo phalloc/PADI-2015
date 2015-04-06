@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.Runtime.Remoting;
+
 
 namespace PADIMapNoReduce.Commands
 {
@@ -55,8 +57,16 @@ namespace PADIMapNoReduce.Commands
             }
             catch (SocketException ex)
             {
-                Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
-                NetworkManager.SetWorkerAsDown(workerId);
+                
+            }
+            catch (Exception ex)
+            {
+                if (ex is RemotingException || ex is SocketException)
+                {
+                    Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
+                    NetworkManager.SetWorkerAsDown(workerId);
+                    Logger.Refresh();
+                }
             }
 
         }

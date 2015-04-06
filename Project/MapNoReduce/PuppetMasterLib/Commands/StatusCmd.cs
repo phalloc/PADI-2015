@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using System.Runtime.Remoting;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -37,57 +38,46 @@ namespace PADIMapNoReduce.Commands
         public void RefreshStatus()
         {
 
-            Logger.LogInfo("[REFRESHING]");
             if (NetworkManager.GetActiveRemoteWorkers().Count == 0)
             {
                 Logger.LogWarn("No workers registered");
                 return;
             }
 
-            try
+            
+            List<string> listBecameInactiveWorkers = new List<string>();
+            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Logger.LogInfo("@@@@@@@@@@@ ACTIVE WORKERS @@@@@@@@@@@@@@");
+            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
             {
-                List<string> listBecameInactiveWorkers = new List<string>();
-                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                Logger.LogInfo("@@@@@@@@@@@ ACTIVE WORKERS @@@@@@@@@@@@@@");
-                foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
+                string id = entry.Key;
+                try
                 {
-                    string id = entry.Key;
-                    IWorker w = entry.Value;
-
-                    try
-                    {
-                        IDictionary<string, string> result = w.Status();
-                        NodeRepresentation nodeRep = NodeRepresentation.ConvertFromNodeStatus(result);
-                        NetworkManager.UpdateNodeInformation(nodeRep.id, nodeRep);
-
-                        Logger.LogInfo("\r\n" + nodeRep.Print());
-                    }
-                    catch (SocketException ex)
+                    StatusIndividualCmd.RefreshStatus(id, true);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is RemotingException || ex is SocketException)
                     {
                         Logger.LogErr("[" + id + " is down]: " + ex.Message);
                         listBecameInactiveWorkers.Add(id);
-                    }
+                    }                    
                 }
-
-                foreach (string id in listBecameInactiveWorkers){
-                    NetworkManager.SetWorkerAsDown(id);
-                }
-
-
-                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-
-                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                Logger.LogInfo("@@@@@@@@@@@@ DOWN WORKERS @@@@@@@@@@@@@@@");
-                foreach (string id in NetworkManager.GetDownWorkers())
-                {
-                    Logger.LogInfo(id);
-                }
-                Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             }
-            catch (Exception ex)
+
+            foreach (string id in listBecameInactiveWorkers){
+                NetworkManager.SetWorkerAsDown(id);
+            }
+
+            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            Logger.LogInfo("@@@@@@@@@@@@ DOWN WORKERS @@@@@@@@@@@@@@@");
+            foreach (string id in NetworkManager.GetDownWorkers())
             {
-                Logger.LogErr(ex.Message);
+                Logger.LogInfo(id);
             }
+            Logger.LogInfo("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
             Logger.Refresh();
         }

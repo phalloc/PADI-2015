@@ -367,7 +367,7 @@
             this.toolStripMenuItem1,
             this.statusToolStripMenuItem});
             this.workerMenuStrip.Name = "workerMenuStrip";
-            this.workerMenuStrip.Size = new System.Drawing.Size(184, 136);
+            this.workerMenuStrip.Size = new System.Drawing.Size(184, 158);
             this.workerMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.workerMenuStrip_Opening);
             // 
             // freezeWorkerToolStripMenuItem
@@ -409,7 +409,8 @@
             // 
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
             this.statusToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.statusToolStripMenuItem.Text = "Status";
+            this.statusToolStripMenuItem.Text = "Single Status";
+            this.statusToolStripMenuItem.Click += new System.EventHandler(this.statusToolStripMenuItem_Click);
             // 
             // CollapseAllBtn
             // 

@@ -26,8 +26,6 @@ namespace PADIMapNoReduce
                     string key = parsed[0].Trim();
                     string value = parsed[1].Trim();
 
-                    Logger.LogInfo("Adding: " + key + "=" + value);
-
                     dictionary.Add(key, value);
                 }
             }
