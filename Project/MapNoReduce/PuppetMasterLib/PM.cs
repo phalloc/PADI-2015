@@ -19,7 +19,7 @@ namespace PADIMapNoReduce
 
             NetworkManager.RegisterNewWorker(id, serviceUrl);
 
-            Logger.Refresh();
+            Logger.RefreshNetwork();
         }
     }
 }

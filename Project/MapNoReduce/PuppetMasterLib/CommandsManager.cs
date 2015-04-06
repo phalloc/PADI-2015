@@ -151,7 +151,6 @@ namespace PADIMapNoReduce
             return StatusCmd.COMMAND;
         }
 
-
         public static string generateStatusIndividual(string workerId)
         {
             return StatusIndividualCmd.COMMAND + " " + workerId;

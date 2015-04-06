@@ -69,7 +69,7 @@ namespace PADIMapNoReduce.Commands
                 NetworkManager.SetWorkerAsDown(id);
             }
             
-            Logger.Refresh();
+            Logger.RefreshNetwork();
         }
 
     }

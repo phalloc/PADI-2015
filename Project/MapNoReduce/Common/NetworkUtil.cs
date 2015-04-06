@@ -10,7 +10,6 @@ namespace PADIMapNoReduce
 {
     public class NetworkUtil
     {
-
         public static int GetFirstAvailablePort(int startRange, int endRange)
         {
             IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();

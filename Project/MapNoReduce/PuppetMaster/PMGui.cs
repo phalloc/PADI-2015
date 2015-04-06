@@ -87,7 +87,7 @@ namespace PADIMapNoReduce
             {
                 IDictionary<string, string> result = PropertiesPM.ReadDictionaryFile(source_file);
 
-                puppetMaster.InstaciateWorkers(result);
+                puppetMaster.RegisterWorkers(result);
             });
 
             runThread.Start();
@@ -152,7 +152,7 @@ namespace PADIMapNoReduce
 
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
-            puppetMaster.InitializeService();
+            puppetMaster.StartService();
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
             

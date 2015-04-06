@@ -77,8 +77,7 @@ namespace PADIMapNoReduce
         }
 
 
-        //FIXME move to another separate class
-        public static void Refresh()
+        public static void RefreshNetwork()
         {
             if (form != null)
             {

@@ -61,7 +61,7 @@ namespace PADIMapNoReduce.Commands
                 {
                     Logger.LogErr("[" + workerId + " is down]: " + ex.Message);
                     NetworkManager.SetWorkerAsDown(workerId);
-                    Logger.Refresh();
+                    Logger.RefreshNetwork();
                 }
             }
 

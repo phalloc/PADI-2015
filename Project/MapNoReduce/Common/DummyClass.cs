@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace PADIMapNoReduce
 {
+    //used because MSVisual studio limits the usage of designer when using abstracts classes
     public class DummyClass : FormRemoteGUI
     {
         override public RichTextBox getConsoleRichTextBox()

@@ -21,9 +21,7 @@ namespace PADIMapNoReduce
 
         private TreeView NetworkTreeView;
 
-
         private TreeNode mostRecentNode;
-
         public TreeViewManager(TreeView t)
         {
             this.NetworkTreeView = t;
@@ -46,7 +44,7 @@ namespace PADIMapNoReduce
 
         private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
         {
-            TreeNode root = FindNode(NetworkTreeView, rootNodeKey);
+            TreeNode root = TreeViewUtil.FindNode(NetworkTreeView, rootNodeKey);
 
             string id;
             node.info.TryGetValue(NodeRepresentation.ID, out id);
@@ -63,9 +61,7 @@ namespace PADIMapNoReduce
 
         private List<TreeNode> NodeAtributesRepresentationToTree(NodeRepresentation node)
         {
-
             IDictionary<string, string> values = node.info;
-
             List<TreeNode> result = new List<TreeNode>();
 
             foreach (KeyValuePair<string, string> entry in values)
@@ -90,7 +86,6 @@ namespace PADIMapNoReduce
             string timeStamp = TIMESTAMP_TAG + ":" + GenerateTimeStamp();
             TreeNode now = CreateNode(timeStamp, timeStamp);
 
-
             string activeTag = ACTIVE_WORKERS_TAG + ":" + timeStamp;
             TreeNode active = CreateNode(ACTIVE_WORKERS_TAG, activeTag);
             active.BackColor = ACTIVE_WORKERS_COLOR;
@@ -101,7 +96,6 @@ namespace PADIMapNoReduce
 
             now.Nodes.Add(active);
             now.Nodes.Add(down);
-
             NetworkTreeView.Nodes.Add(now);
 
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
@@ -115,6 +109,7 @@ namespace PADIMapNoReduce
                 AddNodeRepresentation(downTag, knownNodes[id]);
             }
 
+
             now.Expand();
             mostRecentNode = now;
         }
@@ -124,13 +119,14 @@ namespace PADIMapNoReduce
             //reconstruction of the ring again
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownUrlWorkers();
 
-            int numberOfTimes = knownNodes.Count;
             if (knownNodes.Count == 0)
             {
                 Logger.LogErr("There are no known nodes");
                 return;
             }
 
+
+            int numberOfTimes = knownNodes.Count + 1;
             NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
 
             string id;
@@ -161,40 +157,6 @@ namespace PADIMapNoReduce
             TreeNode tagNode = CreateNode(RING_TAG + " : " + result, RING_TAG);
             tagNode.BackColor = RING_COLOR;
             mostRecentNode.Nodes.Add(tagNode);
-        }
-
-        private TreeNode FindNode(TreeView treeView, string matchTag)
-        {
-            foreach (TreeNode node in treeView.Nodes)
-            {
-                if (node.Tag.ToString() == matchTag)
-                {
-                    return node;
-                }
-                else
-                {
-                    TreeNode nodeChild = FindChildNode(node, matchTag);
-                    if (nodeChild != null) return nodeChild;
-                }
-            }
-            return (TreeNode)null;
-        }
-
-        private TreeNode FindChildNode(TreeNode parentNode, string matchTag)
-        {
-            foreach (TreeNode node in parentNode.Nodes)
-            {
-                if (node.Tag.ToString() == matchTag)
-                {
-                    return node;
-                }
-                else
-                {
-                    TreeNode nodeChild = FindChildNode(node, matchTag);
-                    if (nodeChild != null) return nodeChild;
-                }
-            }
-            return (TreeNode)null;
         }
 
         public void Clear()

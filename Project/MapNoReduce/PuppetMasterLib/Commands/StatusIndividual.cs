@@ -76,7 +76,7 @@ namespace PADIMapNoReduce.Commands
                 }
             }
 
-            Logger.Refresh();
+            Logger.RefreshNetwork();
             
         }
 

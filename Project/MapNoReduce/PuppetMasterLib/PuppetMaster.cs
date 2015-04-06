@@ -26,7 +26,7 @@ namespace PADIMapNoReduce
             cm = new CommandsManager(this);
         }
 
-        public void InstaciateWorkers(IDictionary<string, string> dic)
+        public void RegisterWorkers(IDictionary<string, string> dic)
         {
             foreach (KeyValuePair<string, string> entry in dic)
             {
@@ -36,10 +36,10 @@ namespace PADIMapNoReduce
             }
 
 
-            Logger.Refresh();
+            Logger.RefreshNetwork();
         }
 
-        public void InitializeService()
+        public void StartService()
         {
             
             int portAvailable = NetworkUtil.GetFirstAvailablePort(20001, 29999);

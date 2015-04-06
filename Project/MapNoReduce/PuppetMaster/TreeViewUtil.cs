@@ -9,9 +9,7 @@ using System.Windows.Forms;
 
 namespace PADIMapNoReduce
 {
-
-    //from http://www.codeproject.com/Articles/12606/Loading-and-Saving-XML-to-and-from-a-TreeView-Cont
-    class TreeViewUtil
+    public class TreeViewUtil
     {
         private XmlTextWriter xr;
 
@@ -48,6 +46,40 @@ namespace PADIMapNoReduce
                     xr.WriteString(node.Text);
                 }
             }
+        }
+
+        public static TreeNode FindNode(TreeView treeView, string matchTag)
+        {
+            foreach (TreeNode node in treeView.Nodes)
+            {
+                if (node.Tag.ToString() == matchTag)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchTag);
+                    if (nodeChild != null) return nodeChild;
+                }
+            }
+            return (TreeNode)null;
+        }
+
+        public static TreeNode FindChildNode(TreeNode parentNode, string matchTag)
+        {
+            foreach (TreeNode node in parentNode.Nodes)
+            {
+                if (node.Tag.ToString() == matchTag)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchTag);
+                    if (nodeChild != null) return nodeChild;
+                }
+            }
+            return (TreeNode)null;
         }
     }
 }
