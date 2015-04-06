@@ -10,47 +10,51 @@ namespace PADIMapNoReduce
 {
     class TreeViewManager
     {
+        private static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
+        private static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
+        private static string RING_TAG = "RING";
 
-        private Color activeWorkersColor = Color.Green;
-        private Color downWorkersColor = Color.Red;
+        private static Color ACTIVE_WORKERS_COLOR = Color.Green;
+        private static Color DOWN_WORKERS_COLOR = Color.Red;
+        private static Color RING_COLOR = Color.SteelBlue;
 
         private TreeView NetworkTreeView;
+
+
+        private TreeNode mostRecentNode;
 
         public TreeViewManager(TreeView t)
         {
             this.NetworkTreeView = t;
         }
 
-        private void Clear()
+        private string GenerateTimeStamp()
         {
-            NetworkTreeView.Nodes.Clear();
-            AddRootNode("Active Workers", activeWorkersColor);
-            AddRootNode("Down Nodes", downWorkersColor);
+            return DateTime.Now.ToString("HH:mm:ss");
         }
 
-        private void AddRootNode(string id, Color c)
+        private TreeNode CreateNode(string id, string tag)
         {
             TreeNode rootNode = new TreeNode();
             rootNode.Text = id;
             rootNode.Name = id;
-            rootNode.BackColor = c;
-            rootNode.Expand();
-            NetworkTreeView.Nodes.Add(rootNode);
+            rootNode.Tag = tag;
+
+            return rootNode;
         }
 
         private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
         {
-            TreeNode root = NetworkTreeView.Nodes.Find(rootNodeKey, false)[0];
+            Logger.LogWarn(rootNodeKey);
 
-            TreeNode nodeTree = new TreeNode();
-            nodeTree.Text = node.id;
-            nodeTree.Name = node.id;
-            nodeTree.Tag = rootNodeKey + ":" + node.id;
+            TreeNode root = FindNode(NetworkTreeView, rootNodeKey);
+
+
+            TreeNode nodeTree = CreateNode(node.id, rootNodeKey + ":" + node.id);
             foreach (TreeNode t in NodeAtributesRepresentationToTree(node))
             {
                 nodeTree.Nodes.Add(t);
             }
-
 
             root.Nodes.Add(nodeTree);
             root.Expand();
@@ -68,7 +72,7 @@ namespace PADIMapNoReduce
                 string fieldName = entry.Key;
                 string value = entry.Value;
 
-                TreeNode field = new TreeNode();
+                TreeNode field = CreateNode(fieldName, fieldName);
                 field.Text = fieldName + " = " + value;
                 result.Add(field);
             }
@@ -79,30 +83,50 @@ namespace PADIMapNoReduce
 
         public void RefreshNetWorkConfiguration()
         {
-            Clear();
+            NetworkTreeView.CollapseAll();
+
+
+            string timeStamp = GenerateTimeStamp();
+            TreeNode now = CreateNode(timeStamp, timeStamp);
+
+
+            string activeTag = ACTIVE_WORKERS_TAG + ":" + timeStamp;
+            TreeNode active = CreateNode(ACTIVE_WORKERS_TAG, activeTag);
+            active.BackColor = ACTIVE_WORKERS_COLOR;
+
+            string downTag = RING_TAG + ":" + timeStamp;
+            TreeNode down = CreateNode(DOWN_WORKERS_TAG, downTag);
+            down.BackColor = DOWN_WORKERS_COLOR;
+
+            now.Nodes.Add(active);
+            now.Nodes.Add(down);
+
+            NetworkTreeView.Nodes.Add(now);
+
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
             foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetActiveRemoteWorkers())
             {
-                AddNodeRepresentation("Active Workers", knownNodes[entry.Key]);
+                AddNodeRepresentation(activeTag, knownNodes[entry.Key]);
             }
 
             foreach (string id in NetworkManager.GetDownWorkers())
             {
-                AddNodeRepresentation("Down Nodes", knownNodes[id]);
+                AddNodeRepresentation(downTag, knownNodes[id]);
             }
+
+            now.Expand();
+            mostRecentNode = now;
         }
 
         public void GenerateGraph()
         {
-
-
             //reconstruction of the ring again
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownUrlWorkers();
 
             int numberOfTimes = knownNodes.Count;
             if (knownNodes.Count == 0)
             {
-                Logger.LogErr("Pleae refresh first");
+                Logger.LogErr("There are no known nodes");
                 return;
             }
 
@@ -120,8 +144,50 @@ namespace PADIMapNoReduce
                 result += " => " + node.id;
             }
 
+            TreeNode tagNode = CreateNode(result, RING_TAG);
+            tagNode.BackColor = RING_COLOR;
+            mostRecentNode.Nodes.Add(tagNode);
+
             Logger.LogInfo(result);
         }
 
+        private TreeNode FindNode(TreeView treeView, string matchTag)
+        {
+            foreach (TreeNode node in treeView.Nodes)
+            {
+                if (node.Tag.ToString() == matchTag)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchTag);
+                    if (nodeChild != null) return nodeChild;
+                }
+            }
+            return (TreeNode)null;
+        }
+
+        private TreeNode FindChildNode(TreeNode parentNode, string matchTag)
+        {
+            foreach (TreeNode node in parentNode.Nodes)
+            {
+                if (node.Tag.ToString() == matchTag)
+                {
+                    return node;
+                }
+                else
+                {
+                    TreeNode nodeChild = FindChildNode(node, matchTag);
+                    if (nodeChild != null) return nodeChild;
+                }
+            }
+            return (TreeNode)null;
+        }
+
+        public void Clear()
+        {
+            NetworkTreeView.Nodes.Clear();
+        }
     }
 }

@@ -244,6 +244,7 @@ namespace PADIMapNoReduce
         public override void RefreshRemote()
         {
             treeViewManager.RefreshNetWorkConfiguration();
+            treeViewManager.GenerateGraph();
         }
 
 
@@ -251,22 +252,32 @@ namespace PADIMapNoReduce
 
         private void treeView1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            // Point where the mouse is clicked.
+            Point p = new Point(e.X, e.Y);
+            
+            // Get the node that the user has clicked.
+            TreeNode node = NetworkTreeView.GetNodeAt(p);
+                
             if (e.Button == MouseButtons.Right)
             {
-
-                // Point where the mouse is clicked.
-                Point p = new Point(e.X, e.Y);
-
-                // Get the node that the user has clicked.
-                TreeNode node = NetworkTreeView.GetNodeAt(p);
                 if (node != null)
                 {
-
                     NetworkTreeView.SelectedNode = node;
 
                     if (Convert.ToString(node.Tag).Contains("Active Workers"))
                     {
                         workerMenuStrip.Show(NetworkTreeView, p);
+                    }
+                }
+            }
+            else
+            {
+
+                if (node != null && node.Parent == null)
+                {
+                    foreach (TreeNode n in node.Nodes)
+                    {
+                        n.Expand();
                     }
                 }
             }
@@ -369,22 +380,23 @@ namespace PADIMapNoReduce
             submitCommandAux(CommandsManager.generateRefreshStatus());
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            treeViewManager.GenerateGraph();
-        }
-
-        private void generateGraphToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            treeViewManager.GenerateGraph();
-        }
-
         private void statusToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TreeNode node = NetworkTreeView.SelectedNode;
 
             string command = CommandsManager.generateStatusIndividual(node.Text);
             submitCommandAux(command);
+        }
+
+        private void ClearTreeBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("Are you sure? \r\n\r\nThis will clear the Tree.",
+                        "Caption", MessageBoxButtons.YesNo);
+            switch (dr)
+            {
+                case DialogResult.Yes: treeViewManager.Clear(); break;
+                case DialogResult.No: break;
+            }
         }
 
 

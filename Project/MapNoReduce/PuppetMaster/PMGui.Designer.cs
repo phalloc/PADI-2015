@@ -71,8 +71,7 @@
             this.ExpandAllBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.RefreshBtn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.generateGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearTreeBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.workerMenuStrip.SuspendLayout();
@@ -124,7 +123,7 @@
             // slowNumSeconds
             // 
             this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(460, 121);
+            this.slowNumSeconds.Location = new System.Drawing.Point(517, 121);
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
             this.slowNumSeconds.TabIndex = 68;
@@ -146,7 +145,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(392, 125);
+            this.label18.Location = new System.Drawing.Point(449, 125);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(62, 13);
             this.label18.TabIndex = 37;
@@ -169,7 +168,6 @@
             this.createWorkerToolStripMenuItem,
             this.submitJobToolStripMenuItem,
             this.refreshF5ToolStripMenuItem,
-            this.generateGraphToolStripMenuItem,
             this.consoleToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -197,7 +195,7 @@
             this.myScripttxtToolStripMenuItem,
             this.createWorkerstxtToolStripMenuItem});
             this.loadScriptToolStripMenuItem.Name = "loadScriptToolStripMenuItem";
-            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadScriptToolStripMenuItem.Text = "Load Script";
             // 
             // fromFileToolStripMenuItem
@@ -236,7 +234,7 @@
             this.toolStripSeparator3,
             this.pMpropertiesconfToolStripMenuItem});
             this.loadSeedToolStripMenuItem.Name = "loadSeedToolStripMenuItem";
-            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadSeedToolStripMenuItem.Text = "Load Seed";
             // 
             // fromFileToolStripMenuItem1
@@ -367,7 +365,7 @@
             this.toolStripMenuItem1,
             this.statusToolStripMenuItem});
             this.workerMenuStrip.Name = "workerMenuStrip";
-            this.workerMenuStrip.Size = new System.Drawing.Size(184, 158);
+            this.workerMenuStrip.Size = new System.Drawing.Size(184, 136);
             this.workerMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.workerMenuStrip_Opening);
             // 
             // freezeWorkerToolStripMenuItem
@@ -447,7 +445,7 @@
             // RefreshBtn
             // 
             this.RefreshBtn.BackColor = System.Drawing.SystemColors.Control;
-            this.RefreshBtn.Location = new System.Drawing.Point(527, 121);
+            this.RefreshBtn.Location = new System.Drawing.Point(584, 121);
             this.RefreshBtn.Name = "RefreshBtn";
             this.RefreshBtn.Size = new System.Drawing.Size(75, 23);
             this.RefreshBtn.TabIndex = 115;
@@ -455,29 +453,22 @@
             this.RefreshBtn.UseVisualStyleBackColor = false;
             this.RefreshBtn.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
             // 
-            // button1
+            // ClearTreeBtn
             // 
-            this.button1.Location = new System.Drawing.Point(608, 121);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(132, 23);
-            this.button1.TabIndex = 116;
-            this.button1.Text = "Generate Ring Graph F6";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // generateGraphToolStripMenuItem
-            // 
-            this.generateGraphToolStripMenuItem.Name = "generateGraphToolStripMenuItem";
-            this.generateGraphToolStripMenuItem.Size = new System.Drawing.Size(143, 20);
-            this.generateGraphToolStripMenuItem.Text = "Generate Ring Graph F6";
-            this.generateGraphToolStripMenuItem.Click += new System.EventHandler(this.generateGraphToolStripMenuItem_Click);
+            this.ClearTreeBtn.Location = new System.Drawing.Point(665, 121);
+            this.ClearTreeBtn.Name = "ClearTreeBtn";
+            this.ClearTreeBtn.Size = new System.Drawing.Size(75, 23);
+            this.ClearTreeBtn.TabIndex = 117;
+            this.ClearTreeBtn.Text = "Clear Tree";
+            this.ClearTreeBtn.UseVisualStyleBackColor = true;
+            this.ClearTreeBtn.Click += new System.EventHandler(this.ClearTreeBtn_Click);
             // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1314, 614);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ClearTreeBtn);
             this.Controls.Add(this.RefreshBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ExpandAllBtn);
@@ -551,8 +542,7 @@
         private System.Windows.Forms.ToolStripMenuItem createWorkerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem submitJobToolStripMenuItem;
         private System.Windows.Forms.Button RefreshBtn;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ToolStripMenuItem generateGraphToolStripMenuItem;
+        private System.Windows.Forms.Button ClearTreeBtn;
 
     }
 }
