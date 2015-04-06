@@ -164,8 +164,9 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.ID, this.id);
             result.Add(NodeRepresentation.SERVICE_URL, this.myURL);
             result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
+            result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
 
-            result.Add("NextNextUrl", this.nextNextURL);
+
             result.Add("currentRole", this.currentRole);
             result.Add("CurrentJobTracker", this.currentJobTrackerUrl);
             result.Add("status", this.status);
