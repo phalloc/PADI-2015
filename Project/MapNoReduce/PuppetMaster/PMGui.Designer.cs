@@ -49,8 +49,6 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.pMpropertiesconfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createWorkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.submitJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshF5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,8 +68,12 @@
             this.CollapseAllBtn = new System.Windows.Forms.Button();
             this.ExpandAllBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.RefreshBtn = new System.Windows.Forms.Button();
-            this.ClearTreeBtn = new System.Windows.Forms.Button();
+            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.submitJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.workerMenuStrip.SuspendLayout();
@@ -123,7 +125,7 @@
             // slowNumSeconds
             // 
             this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(517, 121);
+            this.slowNumSeconds.Location = new System.Drawing.Point(679, 121);
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(61, 22);
             this.slowNumSeconds.TabIndex = 68;
@@ -145,7 +147,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(449, 125);
+            this.label18.Location = new System.Drawing.Point(611, 125);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(62, 13);
             this.label18.TabIndex = 37;
@@ -165,9 +167,9 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
+            this.networkToolStripMenuItem,
             this.createWorkerToolStripMenuItem,
             this.submitJobToolStripMenuItem,
-            this.refreshF5ToolStripMenuItem,
             this.consoleToolStripMenuItem,
             this.settingsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -265,22 +267,6 @@
             this.createWorkerToolStripMenuItem.Size = new System.Drawing.Size(109, 20);
             this.createWorkerToolStripMenuItem.Text = "Create Worker F1";
             this.createWorkerToolStripMenuItem.Click += new System.EventHandler(this.createWorkerToolStripMenuItem_Click);
-            // 
-            // submitJobToolStripMenuItem
-            // 
-            this.submitJobToolStripMenuItem.Name = "submitJobToolStripMenuItem";
-            this.submitJobToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.submitJobToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
-            this.submitJobToolStripMenuItem.Text = "Submit Job F2";
-            this.submitJobToolStripMenuItem.Click += new System.EventHandler(this.submitJobToolStripMenuItem_Click);
-            // 
-            // refreshF5ToolStripMenuItem
-            // 
-            this.refreshF5ToolStripMenuItem.Name = "refreshF5ToolStripMenuItem";
-            this.refreshF5ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.refreshF5ToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.refreshF5ToolStripMenuItem.Text = "Status F5";
-            this.refreshF5ToolStripMenuItem.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
             // 
             // consoleToolStripMenuItem
             // 
@@ -442,34 +428,59 @@
             this.label3.Text = "Network Information   _                                                          " +
     "                                                  ";
             // 
-            // RefreshBtn
+            // networkToolStripMenuItem
             // 
-            this.RefreshBtn.BackColor = System.Drawing.SystemColors.Control;
-            this.RefreshBtn.Location = new System.Drawing.Point(584, 121);
-            this.RefreshBtn.Name = "RefreshBtn";
-            this.RefreshBtn.Size = new System.Drawing.Size(75, 23);
-            this.RefreshBtn.TabIndex = 115;
-            this.RefreshBtn.Text = "Status F5";
-            this.RefreshBtn.UseVisualStyleBackColor = false;
-            this.RefreshBtn.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
+            this.networkToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.refreshToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.exportToolStripMenuItem,
+            this.clearToolStripMenuItem1});
+            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
+            this.networkToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.networkToolStripMenuItem.Text = "Network";
             // 
-            // ClearTreeBtn
+            // refreshToolStripMenuItem
             // 
-            this.ClearTreeBtn.Location = new System.Drawing.Point(665, 121);
-            this.ClearTreeBtn.Name = "ClearTreeBtn";
-            this.ClearTreeBtn.Size = new System.Drawing.Size(75, 23);
-            this.ClearTreeBtn.TabIndex = 117;
-            this.ClearTreeBtn.Text = "Clear Tree";
-            this.ClearTreeBtn.UseVisualStyleBackColor = true;
-            this.ClearTreeBtn.Click += new System.EventHandler(this.ClearTreeBtn_Click);
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.exportToolStripMenuItem.Text = "Export Tree To Xml";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+            // 
+            // clearToolStripMenuItem1
+            // 
+            this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
+            this.clearToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
+            this.clearToolStripMenuItem1.Text = "Clear Tree";
+            this.clearToolStripMenuItem1.Click += new System.EventHandler(this.ClearTreeBtn_Click);
+            // 
+            // submitJobToolStripMenuItem
+            // 
+            this.submitJobToolStripMenuItem.Name = "submitJobToolStripMenuItem";
+            this.submitJobToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.submitJobToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.submitJobToolStripMenuItem.Text = "Submit Job F2";
+            this.submitJobToolStripMenuItem.Click += new System.EventHandler(this.submitJobToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(196, 6);
             // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1314, 614);
-            this.Controls.Add(this.ClearTreeBtn);
-            this.Controls.Add(this.RefreshBtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ExpandAllBtn);
             this.Controls.Add(this.CollapseAllBtn);
@@ -515,7 +526,6 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem workerexeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clientexeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem refreshF5ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem showSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem;
@@ -540,9 +550,12 @@
         private System.Windows.Forms.Button ExpandAllBtn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem createWorkerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem networkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem submitJobToolStripMenuItem;
-        private System.Windows.Forms.Button RefreshBtn;
-        private System.Windows.Forms.Button ClearTreeBtn;
 
     }
 }

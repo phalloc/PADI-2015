@@ -10,7 +10,8 @@ namespace PADIMapNoReduce
 {
     class TreeViewManager
     {
-        private static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
+        private static string TIMESTAMP_TAG = "TIME";
+        public static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
         private static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
         private static string RING_TAG = "RING";
 
@@ -45,8 +46,6 @@ namespace PADIMapNoReduce
 
         private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
         {
-            Logger.LogWarn(rootNodeKey);
-
             TreeNode root = FindNode(NetworkTreeView, rootNodeKey);
 
 
@@ -86,7 +85,7 @@ namespace PADIMapNoReduce
             NetworkTreeView.CollapseAll();
 
 
-            string timeStamp = GenerateTimeStamp();
+            string timeStamp = TIMESTAMP_TAG + ":" + GenerateTimeStamp();
             TreeNode now = CreateNode(timeStamp, timeStamp);
 
 
@@ -144,7 +143,7 @@ namespace PADIMapNoReduce
                 result += " => " + node.id;
             }
 
-            TreeNode tagNode = CreateNode(result, RING_TAG);
+            TreeNode tagNode = CreateNode(RING_TAG + " : " + result, RING_TAG);
             tagNode.BackColor = RING_COLOR;
             mostRecentNode.Nodes.Add(tagNode);
 

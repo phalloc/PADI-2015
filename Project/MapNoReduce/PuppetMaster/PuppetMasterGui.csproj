@@ -65,6 +65,7 @@
     <Compile Include="SubmitJobForm.Designer.cs">
       <DependentUpon>SubmitJobForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TreeViewUtil.cs" />
     <EmbeddedResource Include="CreateWorkerForm.resx">
       <DependentUpon>CreateWorkerForm.cs</DependentUpon>
     </EmbeddedResource>

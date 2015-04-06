@@ -96,15 +96,8 @@ namespace PADIMapNoReduce.Commands
 
         public void CreateWorker(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
-            Logger.LogInfo("----");
-            Logger.LogInfo(id);
-            Logger.LogInfo(puppetMasterUrl);
-            Logger.LogInfo(serviceUrl);
-            Logger.LogInfo(entryUrl);
-
             if (puppetMasterUrl != "") { 
                 Logger.LogInfo("CONTACTING PUPPET MASTER");
-
                 try
                 {
                     IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
@@ -120,7 +113,6 @@ namespace PADIMapNoReduce.Commands
             }
             else
             {
-                Logger.LogInfo("Creating locally");
                 IPuppetMaster p = new PM();
                 p.CreateWorker(id, serviceUrl, entryUrl);
             }

@@ -257,14 +257,13 @@ namespace PADIMapNoReduce
             
             // Get the node that the user has clicked.
             TreeNode node = NetworkTreeView.GetNodeAt(p);
-                
             if (e.Button == MouseButtons.Right)
             {
                 if (node != null)
                 {
                     NetworkTreeView.SelectedNode = node;
 
-                    if (Convert.ToString(node.Tag).Contains("Active Workers"))
+                    if (Convert.ToString(node.Tag).Contains(TreeViewManager.ACTIVE_WORKERS_TAG))
                     {
                         workerMenuStrip.Show(NetworkTreeView, p);
                     }
@@ -399,6 +398,15 @@ namespace PADIMapNoReduce
             }
         }
 
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string output = FileUtil.FindDestinationFile("Xml file (*.xml)|*.xml", "Choose destination");
+            
+            if(output != ""){
+                TreeViewUtil tv = new TreeViewUtil();
+                tv.exportToXml(NetworkTreeView, output);
+            }
+        }
 
     }
 }
