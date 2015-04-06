@@ -59,6 +59,7 @@ namespace PADIMapNoReduce.Commands
         public void SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)
         {
 
+
             string commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
                             "          inputFile: " + inputFile + "\r\n" +
                             "          outputFile: " + outputFile + "\r\n" +

@@ -38,6 +38,8 @@ namespace PADIMapNoReduce.Commands
         public void RefreshStatus()
         {
 
+            Logger.LogInfo("[STATUS]");
+
             if (NetworkManager.GetActiveRemoteWorkers().Count == 0)
             {
                 Logger.LogWarn("No workers registered");

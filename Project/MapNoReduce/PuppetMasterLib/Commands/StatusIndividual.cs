@@ -56,7 +56,7 @@ namespace PADIMapNoReduce.Commands
 
         public static void RefreshStatus(string workerId, bool fromBuldRefresh)
         {
-            Logger.LogInfo("[REFRESHING " + workerId + "]");
+            Logger.LogInfo("[REFRESH] " + workerId);
 
             if (fromBuldRefresh){
                 RefreshStatusAuxiliary(workerId);

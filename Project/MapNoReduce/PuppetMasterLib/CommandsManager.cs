@@ -72,7 +72,13 @@ namespace PADIMapNoReduce
         public void ExecuteScript()
         {
             foreach (Command command in listCommands){
-                ExecuteCommand(command);
+                try { 
+                    ExecuteCommand(command);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarn("ERROR IN COMMAND: " + ex.Message + " IGNORING...");
+                }
             }
 
             listCommands.Clear();

@@ -51,11 +51,12 @@ namespace PADIMapNoReduce.Commands
 
         public void FreezeWorker(string workerId)
         {
-           
+
+            Logger.LogInfo("[FREEZEW] " + workerId + "(W)");
+
             try
             {
                 IWorker w = NetworkManager.GetRemoteWorker(workerId);
-                Logger.LogInfo("[FREEZE W] " + workerId);
                 w.FreezeWorker();
             }
             catch (Exception ex)

@@ -11,7 +11,7 @@ namespace PADIMapNoReduce.Commands
 {
     public class SleepCmd : Command
     {
-        public static string COMMAND = "SLEEPP";
+        public static string COMMAND = "SLOWW";
 
 
         int sec;
@@ -56,10 +56,10 @@ namespace PADIMapNoReduce.Commands
         public void Sleep(string workerId, int seconds)
         {
 
+            Logger.LogInfo("[SLOWW] " + workerId + " " + seconds);
             try
             {
                 IWorker w = NetworkManager.GetRemoteWorker(workerId);
-                Logger.LogInfo("[SLOW] " + workerId + " for " + seconds + " seconds.");
                 w.Slow(seconds);
             }
             catch (Exception ex)

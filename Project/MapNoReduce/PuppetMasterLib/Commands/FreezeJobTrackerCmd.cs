@@ -48,16 +48,12 @@ namespace PADIMapNoReduce.Commands
         }
 
         public void FreezeJobTracker(string workerId)
-        {         
+        {
+            Logger.LogInfo("[FREEZEC] " + workerId + "(JT)");
             try
             {
                 IWorker w = NetworkManager.GetRemoteWorker(workerId);
-                Logger.LogInfo("[FREEZE JT] " + workerId + " Job tracker");
                 w.FreezeJobTracker();
-            }
-            catch (SocketException ex)
-            {
-                
             }
             catch (Exception ex)
             {

@@ -96,6 +96,7 @@ namespace PADIMapNoReduce.Commands
 
         public void CreateWorker(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {
+            Logger.LogInfo("[WORKER] " + id + " " + puppetMaster + " " + serviceUrl + " " + entryUrl);
             if (puppetMasterUrl != "") { 
                 Logger.LogInfo("CONTACTING PUPPET MASTER");
                 try

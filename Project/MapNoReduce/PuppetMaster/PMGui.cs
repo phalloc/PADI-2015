@@ -341,7 +341,15 @@ namespace PADIMapNoReduce
 
         private void workerMenuStrip_Opening(object sender, CancelEventArgs e)
         {
-            workerMenuStrip.Items[4].Text = "Sleep " + slowNumSeconds.Value + " seconds";
+            string workerId = NetworkTreeView.SelectedNode.Text;
+
+            workerMenuStrip.Items[0].Text = CommandsManager.generateFreezeWorker(workerId);
+            workerMenuStrip.Items[1].Text = CommandsManager.generateUnfreezeWorker(workerId);
+            workerMenuStrip.Items[2].Text = CommandsManager.generateDisableJobTracker(workerId);
+            workerMenuStrip.Items[3].Text = CommandsManager.generateEnableJobTracker(workerId);
+            workerMenuStrip.Items[4].Text = CommandsManager.generateSlowWorker(workerId, Convert.ToInt32(slowNumSeconds.Value));
+            
+            workerMenuStrip.Items[6].Text = CommandsManager.generateStatusIndividual(workerId);
         }
 
         private void ExpandAllBtn_Click(object sender, EventArgs e)

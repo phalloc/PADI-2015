@@ -146,8 +146,6 @@ namespace PADIMapNoReduce
             TreeNode tagNode = CreateNode(RING_TAG + " : " + result, RING_TAG);
             tagNode.BackColor = RING_COLOR;
             mostRecentNode.Nodes.Add(tagNode);
-
-            Logger.LogInfo(result);
         }
 
         private TreeNode FindNode(TreeView treeView, string matchTag)
