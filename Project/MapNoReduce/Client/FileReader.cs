@@ -23,10 +23,9 @@ namespace Client
         {
             long beginLine;
             long endLine;
-            //FIXME: Tratamento Excepção
-            /*if(begin > _reader.length || begin > end || end > _reader.Length || begin < 0){
-
-            }*/
+            if(begin > _reader.Length || begin > end || end > _reader.Length || begin < 0){
+                throw new InvalidAccessException();
+            }
 
 
 
@@ -45,9 +44,7 @@ namespace Client
                 }
                 else
                 {
-                    //colocar found a false se -1
                     beginLine = seekBeginLine(begin, end);
-
                 }
 
             }
@@ -69,7 +66,10 @@ namespace Client
 
         private long seekNewLine(long end)
         {
-
+            if (_reader.Position == getFileSize())
+            {
+                return _reader.Position;
+            }
             _reader.Seek(end - 1, SeekOrigin.Begin);
             //FIXME: Should be optimized
             byte[] singleByte = new byte[1];
@@ -81,13 +81,11 @@ namespace Client
                 }
             }
 
-            //Fixme: switch to appropriate exception(even tho its unreachable)
-            throw new Exception();
+            throw new EmptySplitException();
         }
 
         private string readString(long begin, long end)
         {
-            Console.WriteLine("FileSize: " + _reader.Length);
 
             _reader.Seek(begin, SeekOrigin.Begin);
 
@@ -107,7 +105,6 @@ namespace Client
                     Array.Clear(readBuffer, 0, readBufferLength);
 
                 _reader.Read(readBuffer, 0, nBytesToRead);
-                Console.WriteLine("My position: " + _reader.Position);
 
                 split += encoding.GetString(readBuffer);
                 nBytesToRead = getBytesToRead(end, readBufferLength);
@@ -128,8 +125,7 @@ namespace Client
             {
                 if (_reader.Position >= end)
                 {
-                    //Fixme
-                    throw new Exception();
+                    throw new EmptySplitException();
                 }
 
                 if (encoding.GetString(singleByte) == "\n")
@@ -138,8 +134,7 @@ namespace Client
                 }
             }
 
-            //Fixme
-            throw new Exception();
+            throw new EmptySplitException();
         }
 
         private int getBytesToRead(long end, int readBufferLength)
