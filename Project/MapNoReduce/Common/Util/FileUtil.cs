@@ -42,5 +42,14 @@ namespace PADIMapNoReduce
 
             return "";
         }
+
+
+        public static string FindFolder()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+
+            return fbd.SelectedPath;
+        }
     }
 }

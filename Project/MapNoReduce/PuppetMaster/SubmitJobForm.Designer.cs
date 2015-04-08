@@ -50,7 +50,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(50, 95);
+            this.label3.Location = new System.Drawing.Point(67, 94);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(31, 13);
@@ -60,16 +60,16 @@
             // submitJobMapTxtBox
             // 
             this.submitJobMapTxtBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitJobMapTxtBox.Location = new System.Drawing.Point(87, 92);
+            this.submitJobMapTxtBox.Location = new System.Drawing.Point(104, 92);
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
-            this.submitJobMapTxtBox.Size = new System.Drawing.Size(479, 20);
+            this.submitJobMapTxtBox.Size = new System.Drawing.Size(515, 20);
             this.submitJobMapTxtBox.TabIndex = 109;
             this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
             this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // destFileBtn
             // 
-            this.destFileBtn.Location = new System.Drawing.Point(507, 65);
+            this.destFileBtn.Location = new System.Drawing.Point(560, 64);
             this.destFileBtn.Name = "destFileBtn";
             this.destFileBtn.Size = new System.Drawing.Size(59, 20);
             this.destFileBtn.TabIndex = 108;
@@ -79,7 +79,7 @@
             // 
             // sourceFileBtn
             // 
-            this.sourceFileBtn.Location = new System.Drawing.Point(507, 38);
+            this.sourceFileBtn.Location = new System.Drawing.Point(560, 38);
             this.sourceFileBtn.Name = "sourceFileBtn";
             this.sourceFileBtn.Size = new System.Drawing.Size(59, 20);
             this.sourceFileBtn.TabIndex = 107;
@@ -90,7 +90,7 @@
             // submitTaskNumberSplits
             // 
             this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskNumberSplits.Location = new System.Drawing.Point(504, 143);
+            this.submitTaskNumberSplits.Location = new System.Drawing.Point(557, 146);
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
             this.submitTaskNumberSplits.TabIndex = 106;
@@ -98,7 +98,7 @@
             // 
             // submitTaskButton
             // 
-            this.submitTaskButton.Location = new System.Drawing.Point(572, 12);
+            this.submitTaskButton.Location = new System.Drawing.Point(625, 12);
             this.submitTaskButton.Name = "submitTaskButton";
             this.submitTaskButton.Size = new System.Drawing.Size(154, 154);
             this.submitTaskButton.TabIndex = 105;
@@ -109,7 +109,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(456, 145);
+            this.label10.Location = new System.Drawing.Point(506, 153);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(45, 13);
@@ -119,44 +119,46 @@
             // submitTaskDestFileMsgBox
             // 
             this.submitTaskDestFileMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskDestFileMsgBox.Location = new System.Drawing.Point(88, 66);
+            this.submitTaskDestFileMsgBox.Location = new System.Drawing.Point(104, 64);
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
-            this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(412, 20);
+            this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 103;
-            this.submitTaskDestFileMsgBox.Text = "FIXME ---> CHOOSE DIRECTORY NOT FILE";
+            this.submitTaskDestFileMsgBox.Text = "*.out directory";
             this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 67);
+            this.label11.Location = new System.Drawing.Point(3, 68);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 13);
+            this.label11.Size = new System.Drawing.Size(95, 13);
             this.label11.TabIndex = 102;
-            this.label11.Text = "Destination File:";
+            this.label11.Text = "Destination Folder:";
             // 
             // submitTaskSourceFileMsgBox
             // 
             this.submitTaskSourceFileMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskSourceFileMsgBox.Location = new System.Drawing.Point(88, 38);
+            this.submitTaskSourceFileMsgBox.Location = new System.Drawing.Point(104, 38);
             this.submitTaskSourceFileMsgBox.Name = "submitTaskSourceFileMsgBox";
-            this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(412, 20);
+            this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskSourceFileMsgBox.TabIndex = 101;
+            this.submitTaskSourceFileMsgBox.Text = "*.in Input file";
             this.submitTaskSourceFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // submitTaskEntryUrlMsgBox
             // 
             this.submitTaskEntryUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskEntryUrlMsgBox.Location = new System.Drawing.Point(88, 12);
+            this.submitTaskEntryUrlMsgBox.Location = new System.Drawing.Point(104, 12);
             this.submitTaskEntryUrlMsgBox.Name = "submitTaskEntryUrlMsgBox";
-            this.submitTaskEntryUrlMsgBox.Size = new System.Drawing.Size(478, 20);
+            this.submitTaskEntryUrlMsgBox.Size = new System.Drawing.Size(515, 20);
             this.submitTaskEntryUrlMsgBox.TabIndex = 100;
+            this.submitTaskEntryUrlMsgBox.Text = "tcp://localhost:30001/W";
             this.submitTaskEntryUrlMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(22, 41);
+            this.label12.Location = new System.Drawing.Point(35, 42);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(63, 13);
             this.label12.TabIndex = 99;
@@ -165,7 +167,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(35, 16);
+            this.label13.Location = new System.Drawing.Point(48, 14);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(50, 13);
             this.label13.TabIndex = 98;
@@ -173,7 +175,7 @@
             // 
             // dllLocationChooseBtn
             // 
-            this.dllLocationChooseBtn.Location = new System.Drawing.Point(507, 117);
+            this.dllLocationChooseBtn.Location = new System.Drawing.Point(560, 120);
             this.dllLocationChooseBtn.Name = "dllLocationChooseBtn";
             this.dllLocationChooseBtn.Size = new System.Drawing.Size(59, 20);
             this.dllLocationChooseBtn.TabIndex = 115;
@@ -184,9 +186,9 @@
             // dllLocationMsgBox
             // 
             this.dllLocationMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dllLocationMsgBox.Location = new System.Drawing.Point(87, 118);
+            this.dllLocationMsgBox.Location = new System.Drawing.Point(104, 118);
             this.dllLocationMsgBox.Name = "dllLocationMsgBox";
-            this.dllLocationMsgBox.Size = new System.Drawing.Size(412, 20);
+            this.dllLocationMsgBox.Size = new System.Drawing.Size(450, 20);
             this.dllLocationMsgBox.TabIndex = 114;
             this.dllLocationMsgBox.Text = "Common.dll";
             this.dllLocationMsgBox.TextChanged += new System.EventHandler(this.textChanged);
@@ -194,7 +196,7 @@
             // dllLocation
             // 
             this.dllLocation.AutoSize = true;
-            this.dllLocation.Location = new System.Drawing.Point(41, 120);
+            this.dllLocation.Location = new System.Drawing.Point(54, 120);
             this.dllLocation.Name = "dllLocation";
             this.dllLocation.Size = new System.Drawing.Size(44, 13);
             this.dllLocation.TabIndex = 113;
@@ -204,7 +206,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 176);
+            this.ClientSize = new System.Drawing.Size(791, 176);
             this.Controls.Add(this.dllLocationChooseBtn);
             this.Controls.Add(this.dllLocationMsgBox);
             this.Controls.Add(this.dllLocation);
