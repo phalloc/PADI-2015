@@ -12,20 +12,29 @@ namespace PADIMapNoReduce
         public static string NEXT_NEXT_URL = "NEXT_NEXT_URL";
         public static string CURRENT_JT = "CURRENT_JT";
 
-
         public IDictionary<string, string> info;
 
-        public NodeRepresentation(string id, string serviceUrl)
+        public NodeRepresentation()
         {
             info = new Dictionary<string, string>();
 
-            info.Add(ID, id);
-            info.Add(SERVICE_URL, serviceUrl);
+            this.info.Add(ID, "<NO_ID>");
+            this.info.Add(SERVICE_URL, "<NO_SERVICE_URL>");
         }
 
         public NodeRepresentation(IDictionary<string, string> info)
         {
             this.info = info;
+
+            if (!this.info.ContainsKey(ID))
+            {
+                this.info.Add(ID, "<NO_ID>");
+            }
+
+            if (!this.info.ContainsKey(SERVICE_URL))
+            {
+                this.info.Add(SERVICE_URL, "<NO_SERVICE_URL>");
+            }
         }
     }
 }

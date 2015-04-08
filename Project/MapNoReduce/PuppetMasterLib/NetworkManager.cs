@@ -102,8 +102,12 @@ namespace PADIMapNoReduce
                 Logger.LogWarn("Already registered " + id + " worker. Skipping.");
                 return;
             }
-            
-            NodeRepresentation n = new NodeRepresentation(id, url);
+
+            IDictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add(NodeRepresentation.ID, id);
+            dic.Add(NodeRepresentation.SERVICE_URL, url);
+            NodeRepresentation n = new NodeRepresentation(dic);
+
             knownWorkers.Add(id, n);
             knownKUrlWorkers.Add(url, n);
              

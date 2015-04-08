@@ -106,33 +106,39 @@ namespace PADIMapNoReduce
             TreeNode now = CreateNode(timeStamp, timeStamp);
             NetworkTreeView.Nodes.Add(now);
 
-            string activeTag = ACTIVE_WORKERS_TAG + ":" + timeStamp;
-            TreeNode active = CreateNode(ACTIVE_WORKERS_TAG, activeTag);
-            active.BackColor = ACTIVE_WORKERS_COLOR;
-            now.Nodes.Add(active);
-
+            
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
             List<string> downNodes = NetworkManager.GetDownWorkers();
             List<string> currentJTs = new List<string>();
 
-            //Generating Active workers
-            foreach (KeyValuePair<string, NodeRepresentation> entry in knownNodes)
+
+            //check if active nodes
+            if (knownNodes.Count != 0 && knownNodes.Count != downNodes.Count)
             {
-                //check if it not flagged as down
-                if (!downNodes.Contains(entry.Key))
+                string activeTag = ACTIVE_WORKERS_TAG + ":" + timeStamp;
+                TreeNode active = CreateNode(ACTIVE_WORKERS_TAG, activeTag);
+                active.BackColor = ACTIVE_WORKERS_COLOR;
+                now.Nodes.Add(active);
+
+                //Generating Active workers
+                foreach (KeyValuePair<string, NodeRepresentation> entry in knownNodes)
                 {
-                    AddNodeRepresentation(activeTag, entry.Value);
-
-                    string jobTracker = "";
-                    entry.Value.info.TryGetValue(NodeRepresentation.CURRENT_JT, out jobTracker);
-
-                    if (jobTracker != null && !currentJTs.Contains(jobTracker))
+                    //check if it not flagged as down
+                    if (!downNodes.Contains(entry.Key))
                     {
-                        currentJTs.Add(jobTracker);
+                        AddNodeRepresentation(activeTag, entry.Value);
+
+                        string jobTracker = "";
+                        entry.Value.info.TryGetValue(NodeRepresentation.CURRENT_JT, out jobTracker);
+
+                        if (jobTracker != null && !currentJTs.Contains(jobTracker))
+                        {
+                            currentJTs.Add(jobTracker);
+                        }
                     }
                 }
             }
-
+            
             if (downNodes.Count != 0)
             {
                 string downTag = DOWN_WORKERS_TAG + ":" + timeStamp;
@@ -155,16 +161,16 @@ namespace PADIMapNoReduce
 
                 foreach (string id in currentJTs)
                 {
-                    IDictionary<string,string> dummyDic = new Dictionary<string, string>();
-                    dummyDic.Add(NodeRepresentation.ID, id);
-                    dummyDic.Add("ERROR MSG", id + " DOES NOT EXIST");
-
-                    NodeRepresentation dummy = new NodeRepresentation(dummyDic);
-
-                    NodeRepresentation node;
-
-                    knownNodes.TryGetValue(id, out node);
-                    AddNodeRepresentation(jtTag, node == null ? dummy : node);
+                    if (knownNodes.ContainsKey(id))
+                    {
+                        AddNodeRepresentation(jtTag, knownNodes[id]);
+                    }
+                    else
+                    {
+                        NodeRepresentation node = new NodeRepresentation();
+                        node.info.Add("UNKNOWN JOBTRACKER WORKER ID", id);
+                        AddNodeRepresentation(jtTag, node);
+                    }
                 }
             }
 
