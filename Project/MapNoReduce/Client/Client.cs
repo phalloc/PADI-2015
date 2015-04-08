@@ -25,7 +25,7 @@ namespace PADIMapNoReduce
                 TcpChannel channel = new TcpChannel(8086);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(jobFilePath, mapperName, mapperPath);
+                RemoteClient rmClient = new RemoteClient(jobFilePath, mapperName, mapperPath, splits);
                 RemotingServices.Marshal(rmClient, "IClient" , typeof(IClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
