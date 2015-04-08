@@ -10,6 +10,8 @@ namespace PADIMapNoReduce
         public static string SERVICE_URL = "SERVICE_URL";
         public static string NEXT_URL = "NEXT_URL";
         public static string NEXT_NEXT_URL = "NEXT_NEXT_URL";
+        public static string CURRENT_JT = "CURRENT_JT";
+
 
         public IDictionary<string, string> info;
 

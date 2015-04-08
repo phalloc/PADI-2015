@@ -10,19 +10,27 @@ namespace PADIMapNoReduce
 {
     class TreeViewManager
     {
-        private static string TIMESTAMP_TAG = "TIME";
+        public static string TIMESTAMP_TAG = "TIME";
+
+
         public static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
-        public static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
-        private static string RING_NEXT_URL_TAG = "RING_N_URL";
-        private static string RING_NEXT_NEXT_URL_START1_TAG = "RING_NN_URL_1";
-        private static string RING_NEXT_NEXT_URL_START2_TAG = "RING_NN_URL_2";
-
-
         private static Color ACTIVE_WORKERS_COLOR = Color.Green;
+        
+        public static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
         private static Color DOWN_WORKERS_COLOR = Color.Red;
+        
+        
+        public static string RING_NEXT_URL_TAG = "RING_N_URL";
         private static Color RING_NEXT_COLOR = Color.SteelBlue;
+        
+        public static string RING_NEXT_NEXT_URL_START1_TAG = "RING_NN_URL_1";
         private static Color RING_NEXT_NEXT_1_COLOR = Color.DodgerBlue;
+        
+        public static string RING_NEXT_NEXT_URL_START2_TAG = "RING_NN_URL_2";
         private static Color RING_NEXT_NEXT_2_COLOR = Color.SkyBlue;
+        
+        public static string CURRENT_JTS_TAG = "CURRENT_JTS";
+        private static Color CURRENT_JTS_COLOR = Color.Gainsboro;
 
         private TreeView NetworkTreeView;
 
@@ -50,8 +58,14 @@ namespace PADIMapNoReduce
         private void AddNodeRepresentation(string rootNodeKey, NodeRepresentation node)
         {
             TreeNode root = TreeViewUtil.FindNode(NetworkTreeView, rootNodeKey);
+            
+            if (root == null)
+            {
+                Logger.LogErr("Something bad happened generating tree: cant find rootNode " + rootNodeKey);
+                return;
+            }
 
-            string id;
+            string id = "";
             node.info.TryGetValue(NodeRepresentation.ID, out id);
 
             TreeNode nodeTree = CreateNode(id, rootNodeKey + ":" + id);
@@ -85,40 +99,74 @@ namespace PADIMapNoReduce
 
         public void RefreshNetWorkConfiguration()
         {
+            //collapse
             NetworkTreeView.CollapseAll();
-
 
             string timeStamp = TIMESTAMP_TAG + ":" + GenerateTimeStamp();
             TreeNode now = CreateNode(timeStamp, timeStamp);
+            NetworkTreeView.Nodes.Add(now);
 
             string activeTag = ACTIVE_WORKERS_TAG + ":" + timeStamp;
             TreeNode active = CreateNode(ACTIVE_WORKERS_TAG, activeTag);
             active.BackColor = ACTIVE_WORKERS_COLOR;
-
-            string downTag = DOWN_WORKERS_TAG + ":" + timeStamp;
-            TreeNode down = CreateNode(DOWN_WORKERS_TAG, downTag);
-            down.BackColor = DOWN_WORKERS_COLOR;
-
             now.Nodes.Add(active);
-            now.Nodes.Add(down);
-            NetworkTreeView.Nodes.Add(now);
 
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
             List<string> downNodes = NetworkManager.GetDownWorkers();
-            foreach (KeyValuePair<string, IWorker> entry in NetworkManager.GetRemoteWorkersObj())
+            List<string> currentJTs = new List<string>();
+
+            //Generating Active workers
+            foreach (KeyValuePair<string, NodeRepresentation> entry in knownNodes)
             {
                 //check if it not flagged as down
                 if (!downNodes.Contains(entry.Key))
                 {
-                    AddNodeRepresentation(activeTag, knownNodes[entry.Key]);
+                    AddNodeRepresentation(activeTag, entry.Value);
+
+                    string jobTracker = "";
+                    entry.Value.info.TryGetValue(NodeRepresentation.CURRENT_JT, out jobTracker);
+
+                    if (jobTracker != null && !currentJTs.Contains(jobTracker))
+                    {
+                        currentJTs.Add(jobTracker);
+                    }
                 }
             }
 
-            foreach (string id in downNodes)
+            if (downNodes.Count != 0)
             {
-                AddNodeRepresentation(downTag, knownNodes[id]);
+                string downTag = DOWN_WORKERS_TAG + ":" + timeStamp;
+                TreeNode down = CreateNode(DOWN_WORKERS_TAG, downTag);
+                down.BackColor = DOWN_WORKERS_COLOR;
+                now.Nodes.Add(down);
+                
+                foreach (string id in downNodes)
+                {
+                    AddNodeRepresentation(downTag, knownNodes[id]);
+                }
             }
 
+            if (currentJTs.Count != 0)
+            {
+                string jtTag = CURRENT_JTS_TAG + ":" + timeStamp;
+                TreeNode jt = CreateNode(CURRENT_JTS_TAG, jtTag);
+                jt.BackColor = CURRENT_JTS_COLOR;
+                now.Nodes.Add(jt);
+
+                foreach (string id in currentJTs)
+                {
+                    IDictionary<string,string> dummyDic = new Dictionary<string, string>();
+                    dummyDic.Add(NodeRepresentation.ID, id);
+                    dummyDic.Add("ERROR MSG", id + " DOES NOT EXIST");
+
+                    NodeRepresentation dummy = new NodeRepresentation(dummyDic);
+
+                    NodeRepresentation node;
+
+                    knownNodes.TryGetValue(id, out node);
+                    AddNodeRepresentation(jtTag, node == null ? dummy : node);
+                }
+            }
 
             now.Expand();
             mostRecentNode = now;

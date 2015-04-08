@@ -24,7 +24,7 @@ namespace PADIMapNoReduce
                 ChannelServices.RegisterChannel(channel, true);
 
                 RemoteClient rmClient = new RemoteClient(filePath);
-                RemotingServices.Marshal(rmClient, "IClient" , typeof(RemoteClient));
+                RemotingServices.Marshal(rmClient, "IClient" , typeof(IClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
                 if (worker == null)

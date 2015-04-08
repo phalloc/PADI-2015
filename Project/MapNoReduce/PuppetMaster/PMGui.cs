@@ -109,6 +109,38 @@ namespace PADIMapNoReduce
             return value;
         }
 
+
+        private void verifyWorkerButtons()
+        {
+            if (workerIdMsgBox.Text == "")
+            {
+                freezeCBtn.Enabled = false;
+                unfreezeCBtn.Enabled = false;
+                freezeWBtn.Enabled = false;
+                unfreezeWBtn.Enabled = false;
+                slowwBtn.Enabled = false;
+                refreshBtn.Enabled = false;
+            }
+            else
+            {
+                freezeCBtn.Enabled = true;
+                unfreezeCBtn.Enabled = true;
+                freezeWBtn.Enabled = true;
+                unfreezeWBtn.Enabled = true;
+                slowwBtn.Enabled = true;
+                refreshBtn.Enabled = true;
+            }
+
+            if (NetworkTreeView.SelectedNode == null && workerIdMsgBox.Text == "")
+            {
+                slowNumSeconds.Enabled = false;
+            }
+            else
+            {
+                slowNumSeconds.Enabled = true;
+            }
+        }
+
         /*************************
          * ************************
          * 
@@ -155,6 +187,8 @@ namespace PADIMapNoReduce
             puppetMaster.StartService();
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
+            verifyWorkerButtons();
+            checkRunScriptTextBox();
             
         }
 
@@ -273,11 +307,21 @@ namespace PADIMapNoReduce
             else
             {
 
-                if (node != null && node.Parent == null)
+                if (node != null)
                 {
-                    foreach (TreeNode n in node.Nodes)
+                    if (node.Parent == null) { 
+                        foreach (TreeNode n in node.Nodes)
+                        {
+                            n.Expand();
+                        }
+                    }
+                    else
                     {
-                        n.Expand();
+                        string tag = Convert.ToString(node.Tag);
+                        if (tag.Contains(TreeViewManager.ACTIVE_WORKERS_TAG) || tag.Contains(TreeViewManager.DOWN_WORKERS_TAG))
+                        {
+                            workerIdMsgBox.Text = node.Text;
+                        }
                     }
                 }
             }
@@ -415,6 +459,52 @@ namespace PADIMapNoReduce
                 TreeViewUtil tv = new TreeViewUtil();
                 tv.exportToXml(NetworkTreeView, output);
             }
+        }
+
+
+        private void workerIdMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            verifyWorkerButtons();   
+        }
+
+        private void freezeWBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateFreezeWorker(workerId));
+        }
+
+        private void unfreezeWBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateUnfreezeWorker(workerId));
+
+        }
+
+        private void freezeCBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateDisableJobTracker(workerId));
+
+        }
+
+        private void unfreezeCBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateEnableJobTracker(workerId));
+
+        }
+
+        private void slowwBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateSlowWorker(workerId, Convert.ToInt32(slowNumSeconds.Value)));
+
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            string workerId = workerIdMsgBox.Text;
+            submitCommandAux(CommandsManager.generateStatusIndividual(workerId));
         }
 
     }

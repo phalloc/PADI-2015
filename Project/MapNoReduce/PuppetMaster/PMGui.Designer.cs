@@ -38,7 +38,6 @@
             this.submitCommand = new System.Windows.Forms.Button();
             this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.ConsoleLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,9 +50,9 @@
             this.fromFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.pMpropertiesconfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createWorkerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.submitJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.networkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.workerexeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clientexeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +60,9 @@
             this.showSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NetworkTreeView = new System.Windows.Forms.TreeView();
             this.treeViewContextView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToXmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.workerMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -69,12 +71,17 @@
             this.freezeJobTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unfreezeJobTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
-            this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.label2 = new System.Windows.Forms.Label();
+            this.freezeWBtn = new System.Windows.Forms.Button();
+            this.unfreezeWBtn = new System.Windows.Forms.Button();
+            this.unfreezeCBtn = new System.Windows.Forms.Button();
+            this.freezeCBtn = new System.Windows.Forms.Button();
+            this.slowwBtn = new System.Windows.Forms.Button();
+            this.refreshBtn = new System.Windows.Forms.Button();
+            this.workerIdMsgBox = new System.Windows.Forms.TextBox();
             this.consoleContextMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -93,7 +100,7 @@
             this.consoleMessageBox.Location = new System.Drawing.Point(746, 27);
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(556, 575);
+            this.consoleMessageBox.Size = new System.Drawing.Size(556, 557);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
             // 
@@ -135,7 +142,8 @@
             this.commandMsgBox.Name = "commandMsgBox";
             this.commandMsgBox.Size = new System.Drawing.Size(577, 20);
             this.commandMsgBox.TabIndex = 74;
-            this.commandMsgBox.Text = "SUBMIT <ENTRY-URL> <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper Common";
+            this.commandMsgBox.Text = "SUBMIT tcp://localhost:30001/W <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper C" +
+    "ommon";
             this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
             // 
             // submitCommand
@@ -151,9 +159,9 @@
             // slowNumSeconds
             // 
             this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(654, 89);
+            this.slowNumSeconds.Location = new System.Drawing.Point(605, 561);
             this.slowNumSeconds.Name = "slowNumSeconds";
-            this.slowNumSeconds.Size = new System.Drawing.Size(86, 22);
+            this.slowNumSeconds.Size = new System.Drawing.Size(50, 22);
             this.slowNumSeconds.TabIndex = 68;
             this.slowNumSeconds.Value = new decimal(new int[] {
             5,
@@ -169,15 +177,6 @@
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(0, 13);
             this.label20.TabIndex = 40;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(586, 93);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(62, 13);
-            this.label18.TabIndex = 37;
-            this.label18.Text = "# Seconds:";
             // 
             // ConsoleLabel
             // 
@@ -211,7 +210,7 @@
             this.loadScriptToolStripMenuItem,
             this.loadSeedToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
             this.loadToolStripMenuItem.Text = "File";
             // 
             // loadScriptToolStripMenuItem
@@ -285,14 +284,6 @@
             this.pMpropertiesconfToolStripMenuItem.Text = "..\\..\\..\\PM_properties.seed";
             this.pMpropertiesconfToolStripMenuItem.Click += new System.EventHandler(this.pMpropertiesconfToolStripMenuItem_Click);
             // 
-            // networkToolStripMenuItem
-            // 
-            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
-            this.networkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.networkToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
-            this.networkToolStripMenuItem.Text = "STATUS F5";
-            this.networkToolStripMenuItem.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
-            // 
             // createWorkerToolStripMenuItem
             // 
             this.createWorkerToolStripMenuItem.Name = "createWorkerToolStripMenuItem";
@@ -308,6 +299,14 @@
             this.submitJobToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
             this.submitJobToolStripMenuItem.Text = "SUBMIT F2";
             this.submitJobToolStripMenuItem.Click += new System.EventHandler(this.submitJobToolStripMenuItem_Click);
+            // 
+            // networkToolStripMenuItem
+            // 
+            this.networkToolStripMenuItem.Name = "networkToolStripMenuItem";
+            this.networkToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.networkToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+            this.networkToolStripMenuItem.Text = "STATUS F5";
+            this.networkToolStripMenuItem.Click += new System.EventHandler(this.SendStatusCommandAllNodes);
             // 
             // settingsToolStripMenuItem
             // 
@@ -354,7 +353,7 @@
             this.NetworkTreeView.ContextMenuStrip = this.treeViewContextView;
             this.NetworkTreeView.Location = new System.Drawing.Point(12, 117);
             this.NetworkTreeView.Name = "NetworkTreeView";
-            this.NetworkTreeView.Size = new System.Drawing.Size(728, 485);
+            this.NetworkTreeView.Size = new System.Drawing.Size(728, 438);
             this.NetworkTreeView.TabIndex = 110;
             this.NetworkTreeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
             // 
@@ -368,6 +367,25 @@
             this.clearToolStripMenuItem2});
             this.treeViewContextView.Name = "treeViewContextView";
             this.treeViewContextView.Size = new System.Drawing.Size(146, 98);
+            // 
+            // collapseAllToolStripMenuItem
+            // 
+            this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
+            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.collapseAllToolStripMenuItem.Text = "Collapse All";
+            this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.CollapseAllBtn_Click);
+            // 
+            // expandAllToolStripMenuItem
+            // 
+            this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
+            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.expandAllToolStripMenuItem.Text = "Expand All";
+            this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.ExpandAllBtn_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(142, 6);
             // 
             // exportToXmlToolStripMenuItem
             // 
@@ -432,10 +450,15 @@
             this.toolStripMenuItem1.Text = "Sleep X Seconds";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(180, 6);
+            // 
             // statusToolStripMenuItem
             // 
             this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
-            this.statusToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.statusToolStripMenuItem.Text = "Get Status";
             this.statusToolStripMenuItem.Click += new System.EventHandler(this.statusToolStripMenuItem_Click);
             // 
@@ -444,42 +467,103 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label3.Location = new System.Drawing.Point(8, 84);
+            this.label3.Location = new System.Drawing.Point(13, 84);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(571, 20);
+            this.label3.Size = new System.Drawing.Size(731, 20);
             this.label3.TabIndex = 114;
-            this.label3.Text = "Network Information   __                                                         " +
-    "                ";
+            this.label3.Text = "Network Information   __________________                                         " +
+    "                                ";
             // 
-            // expandAllToolStripMenuItem
+            // label2
             // 
-            this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.expandAllToolStripMenuItem.Text = "Expand All";
-            this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.ExpandAllBtn_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 564);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.TabIndex = 115;
+            this.label2.Text = "Worker Id:";
             // 
-            // collapseAllToolStripMenuItem
+            // freezeWBtn
             // 
-            this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.collapseAllToolStripMenuItem.Text = "Collapse All";
-            this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.CollapseAllBtn_Click);
+            this.freezeWBtn.Location = new System.Drawing.Point(160, 561);
+            this.freezeWBtn.Name = "freezeWBtn";
+            this.freezeWBtn.Size = new System.Drawing.Size(75, 23);
+            this.freezeWBtn.TabIndex = 116;
+            this.freezeWBtn.Text = "FREEZEW";
+            this.freezeWBtn.UseVisualStyleBackColor = true;
+            this.freezeWBtn.Click += new System.EventHandler(this.freezeWBtn_Click);
             // 
-            // toolStripSeparator5
+            // unfreezeWBtn
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(198, 6);
+            this.unfreezeWBtn.Location = new System.Drawing.Point(241, 561);
+            this.unfreezeWBtn.Name = "unfreezeWBtn";
+            this.unfreezeWBtn.Size = new System.Drawing.Size(89, 23);
+            this.unfreezeWBtn.TabIndex = 117;
+            this.unfreezeWBtn.Text = "UNFREEZEW";
+            this.unfreezeWBtn.UseVisualStyleBackColor = true;
+            this.unfreezeWBtn.Click += new System.EventHandler(this.unfreezeWBtn_Click);
             // 
-            // toolStripSeparator4
+            // unfreezeCBtn
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(142, 6);
+            this.unfreezeCBtn.Location = new System.Drawing.Point(426, 561);
+            this.unfreezeCBtn.Name = "unfreezeCBtn";
+            this.unfreezeCBtn.Size = new System.Drawing.Size(89, 23);
+            this.unfreezeCBtn.TabIndex = 119;
+            this.unfreezeCBtn.Text = "UNFREEZEC";
+            this.unfreezeCBtn.UseVisualStyleBackColor = true;
+            this.unfreezeCBtn.Click += new System.EventHandler(this.unfreezeCBtn_Click);
+            // 
+            // freezeCBtn
+            // 
+            this.freezeCBtn.Location = new System.Drawing.Point(345, 561);
+            this.freezeCBtn.Name = "freezeCBtn";
+            this.freezeCBtn.Size = new System.Drawing.Size(75, 23);
+            this.freezeCBtn.TabIndex = 118;
+            this.freezeCBtn.Text = "FREEZEC";
+            this.freezeCBtn.UseVisualStyleBackColor = true;
+            this.freezeCBtn.Click += new System.EventHandler(this.freezeCBtn_Click);
+            // 
+            // slowwBtn
+            // 
+            this.slowwBtn.Location = new System.Drawing.Point(530, 561);
+            this.slowwBtn.Name = "slowwBtn";
+            this.slowwBtn.Size = new System.Drawing.Size(69, 23);
+            this.slowwBtn.TabIndex = 120;
+            this.slowwBtn.Text = "SLOWW";
+            this.slowwBtn.UseVisualStyleBackColor = true;
+            this.slowwBtn.Click += new System.EventHandler(this.slowwBtn_Click);
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.Location = new System.Drawing.Point(670, 561);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(70, 23);
+            this.refreshBtn.TabIndex = 121;
+            this.refreshBtn.Text = "REFRESH";
+            this.refreshBtn.UseVisualStyleBackColor = true;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // workerIdMsgBox
+            // 
+            this.workerIdMsgBox.Location = new System.Drawing.Point(71, 562);
+            this.workerIdMsgBox.Name = "workerIdMsgBox";
+            this.workerIdMsgBox.Size = new System.Drawing.Size(79, 20);
+            this.workerIdMsgBox.TabIndex = 122;
+            this.workerIdMsgBox.TextChanged += new System.EventHandler(this.workerIdMsgBox_TextChanged);
             // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1314, 614);
+            this.ClientSize = new System.Drawing.Size(1314, 592);
+            this.Controls.Add(this.workerIdMsgBox);
+            this.Controls.Add(this.refreshBtn);
+            this.Controls.Add(this.slowwBtn);
+            this.Controls.Add(this.unfreezeCBtn);
+            this.Controls.Add(this.freezeCBtn);
+            this.Controls.Add(this.unfreezeWBtn);
+            this.Controls.Add(this.freezeWBtn);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.NetworkTreeView);
             this.Controls.Add(this.consoleMessageBox);
@@ -488,7 +572,6 @@
             this.Controls.Add(this.submitCommand);
             this.Controls.Add(this.slowNumSeconds);
             this.Controls.Add(this.label20);
-            this.Controls.Add(this.label18);
             this.Controls.Add(this.ConsoleLabel);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
@@ -511,7 +594,6 @@
         #endregion
 
         private System.Windows.Forms.Label ConsoleLabel;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.NumericUpDown slowNumSeconds;
         private System.Windows.Forms.Label label1;
@@ -556,6 +638,14 @@
         private System.Windows.Forms.ToolStripMenuItem expandAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button freezeWBtn;
+        private System.Windows.Forms.Button unfreezeWBtn;
+        private System.Windows.Forms.Button unfreezeCBtn;
+        private System.Windows.Forms.Button freezeCBtn;
+        private System.Windows.Forms.Button slowwBtn;
+        private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.TextBox workerIdMsgBox;
 
     }
 }

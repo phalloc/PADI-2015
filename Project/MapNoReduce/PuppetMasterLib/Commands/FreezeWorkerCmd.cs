@@ -52,7 +52,7 @@ namespace PADIMapNoReduce.Commands
         public void FreezeWorker(string workerId)
         {
 
-            Logger.LogInfo("[FREEZEW] " + workerId + "(W)");
+            Logger.LogInfo("[FREEZEW] " + workerId + " (W)");
 
             try
             {

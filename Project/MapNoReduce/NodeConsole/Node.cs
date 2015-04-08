@@ -14,23 +14,17 @@ namespace PADIMapNoReduce
 
         private string id;
         private int channelPort;
-        private string puppetMasterURL;
         private string myURL;
         private static string clientURL;
+
+        private string nextURL = null;
+        private string nextNextURL = null;
+        private string currentJobTrackerUrl = "<JobTracker Id>";
 
 
         //FIXME PASSAR PARA ENUM
         private string currentRole = "WORKER";
-
-        //NO VALUE YET
-        private string currentJobTrackerUrl = "No value yet";
-
-        //FIXME PASSAR PARA ENUM
         private string status = "PENDING";
-        private string nextURL = null;
-        private string nextNextURL = null;
-
-
 
         private IClient client = null;
 
@@ -73,6 +67,7 @@ namespace PADIMapNoReduce
             {
                 Logger.LogInfo("Received: " + clientUrl + " with " + splits + " splits");
                 currentRole = "JOBTRACKER";
+                currentJobTrackerUrl = this.id;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
                 client.getWorkSplit();
             }
@@ -131,7 +126,7 @@ namespace PADIMapNoReduce
 
         public void FreezeWorker()
         {
-            Logger.LogInfo("[UNFREEZEW] (W)");
+            Logger.LogInfo("[FREEZEW] (W)");
         }
 
         public void UnfreezeWorker()
@@ -165,10 +160,10 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.SERVICE_URL, this.myURL);
             result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
             result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
+            result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
 
 
             result.Add("currentRole", this.currentRole);
-            result.Add("CurrentJobTracker", this.currentJobTrackerUrl);
             result.Add("status", this.status);
 
             return result;

@@ -49,7 +49,7 @@ namespace PADIMapNoReduce.Commands
 
         public void FreezeJobTracker(string workerId)
         {
-            Logger.LogInfo("[FREEZEC] " + workerId + "(JT)");
+            Logger.LogInfo("[FREEZEC] " + workerId + " (JT)");
             try
             {
                 IWorker w = NetworkManager.GetRemoteWorker(workerId);
