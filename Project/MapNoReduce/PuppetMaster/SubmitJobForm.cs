@@ -32,7 +32,7 @@ namespace PADIMapNoReduce
                 submitTaskSourceFileMsgBox.Text == "" ||
                 submitTaskDestFileMsgBox.Text == "" ||
                 submitJobMapTxtBox.Text == "" ||
-                submitJobDllTxtBox.Text == "")
+                dllLocationMsgBox.Text == "")
             {
                 submitTaskButton.Enabled = false;
                 return false;
@@ -74,9 +74,14 @@ namespace PADIMapNoReduce
             string destination = submitTaskDestFileMsgBox.Text;
             int numberSplits = Convert.ToInt32(submitTaskNumberSplits.Value);
             string mapper = submitJobMapTxtBox.Text;
-            string mapperDll = submitJobDllTxtBox.Text;
+            string mapperDllLocation = dllLocationMsgBox.Text;
 
-            pmGUI.submitCommandAux(CommandsManager.generateCreateJob(entryUrl, source, destination, numberSplits, mapper, mapperDll));
+            pmGUI.submitCommandAux(CommandsManager.generateCreateJob(entryUrl, source, destination, numberSplits, mapper, mapperDllLocation));
+        }
+
+        private void dllLocationChooseBtn_Click(object sender, EventArgs e)
+        {
+            dllLocationMsgBox.Text = FileUtil.FindSourceFile("Dll File | *.dll", "Choose Dll for Mapper File");
         }
     }
 }

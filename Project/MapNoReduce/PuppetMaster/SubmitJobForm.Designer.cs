@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label19 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.submitJobDllTxtBox = new System.Windows.Forms.TextBox();
             this.submitJobMapTxtBox = new System.Windows.Forms.TextBox();
             this.destFileBtn = new System.Windows.Forms.Button();
             this.sourceFileBtn = new System.Windows.Forms.Button();
@@ -43,43 +41,28 @@
             this.submitTaskEntryUrlMsgBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.dllLocationChooseBtn = new System.Windows.Forms.Button();
+            this.dllLocationMsgBox = new System.Windows.Forms.TextBox();
+            this.dllLocation = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.submitTaskNumberSplits)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(395, 94);
-            this.label19.Name = "label19";
-            this.label19.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label19.Size = new System.Drawing.Size(30, 13);
-            this.label19.TabIndex = 112;
-            this.label19.Text = "DLL:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(160, 95);
+            this.label3.Location = new System.Drawing.Point(50, 95);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 111;
             this.label3.Text = "Map:";
             // 
-            // submitJobDllTxtBox
-            // 
-            this.submitJobDllTxtBox.Location = new System.Drawing.Point(428, 91);
-            this.submitJobDllTxtBox.Name = "submitJobDllTxtBox";
-            this.submitJobDllTxtBox.Size = new System.Drawing.Size(138, 20);
-            this.submitJobDllTxtBox.TabIndex = 110;
-            this.submitJobDllTxtBox.Text = "Common";
-            this.submitJobDllTxtBox.TextChanged += new System.EventHandler(this.textChanged);
-            // 
             // submitJobMapTxtBox
             // 
-            this.submitJobMapTxtBox.Location = new System.Drawing.Point(195, 92);
+            this.submitJobMapTxtBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.submitJobMapTxtBox.Location = new System.Drawing.Point(87, 92);
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
-            this.submitJobMapTxtBox.Size = new System.Drawing.Size(194, 20);
+            this.submitJobMapTxtBox.Size = new System.Drawing.Size(479, 20);
             this.submitJobMapTxtBox.TabIndex = 109;
             this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
             this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.textChanged);
@@ -107,7 +90,7 @@
             // submitTaskNumberSplits
             // 
             this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.submitTaskNumberSplits.Location = new System.Drawing.Point(89, 92);
+            this.submitTaskNumberSplits.Location = new System.Drawing.Point(504, 143);
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
             this.submitTaskNumberSplits.TabIndex = 106;
@@ -117,7 +100,7 @@
             // 
             this.submitTaskButton.Location = new System.Drawing.Point(572, 12);
             this.submitTaskButton.Name = "submitTaskButton";
-            this.submitTaskButton.Size = new System.Drawing.Size(146, 100);
+            this.submitTaskButton.Size = new System.Drawing.Size(154, 154);
             this.submitTaskButton.TabIndex = 105;
             this.submitTaskButton.Text = "Submit Job";
             this.submitTaskButton.UseVisualStyleBackColor = true;
@@ -126,7 +109,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(41, 94);
+            this.label10.Location = new System.Drawing.Point(456, 145);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label10.Size = new System.Drawing.Size(45, 13);
@@ -140,6 +123,7 @@
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
             this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(412, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 103;
+            this.submitTaskDestFileMsgBox.Text = "FIXME ---> CHOOSE DIRECTORY NOT FILE";
             this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label11
@@ -187,14 +171,44 @@
             this.label13.TabIndex = 98;
             this.label13.Text = "Entry-Url:";
             // 
+            // dllLocationChooseBtn
+            // 
+            this.dllLocationChooseBtn.Location = new System.Drawing.Point(507, 117);
+            this.dllLocationChooseBtn.Name = "dllLocationChooseBtn";
+            this.dllLocationChooseBtn.Size = new System.Drawing.Size(59, 20);
+            this.dllLocationChooseBtn.TabIndex = 115;
+            this.dllLocationChooseBtn.Text = "Choose";
+            this.dllLocationChooseBtn.UseVisualStyleBackColor = true;
+            this.dllLocationChooseBtn.Click += new System.EventHandler(this.dllLocationChooseBtn_Click);
+            // 
+            // dllLocationMsgBox
+            // 
+            this.dllLocationMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dllLocationMsgBox.Location = new System.Drawing.Point(87, 118);
+            this.dllLocationMsgBox.Name = "dllLocationMsgBox";
+            this.dllLocationMsgBox.Size = new System.Drawing.Size(412, 20);
+            this.dllLocationMsgBox.TabIndex = 114;
+            this.dllLocationMsgBox.Text = "Common.dll";
+            this.dllLocationMsgBox.TextChanged += new System.EventHandler(this.textChanged);
+            // 
+            // dllLocation
+            // 
+            this.dllLocation.AutoSize = true;
+            this.dllLocation.Location = new System.Drawing.Point(41, 120);
+            this.dllLocation.Name = "dllLocation";
+            this.dllLocation.Size = new System.Drawing.Size(44, 13);
+            this.dllLocation.TabIndex = 113;
+            this.dllLocation.Text = "Dll File: ";
+            // 
             // SubmitJobForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 122);
-            this.Controls.Add(this.label19);
+            this.ClientSize = new System.Drawing.Size(736, 176);
+            this.Controls.Add(this.dllLocationChooseBtn);
+            this.Controls.Add(this.dllLocationMsgBox);
+            this.Controls.Add(this.dllLocation);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.submitJobDllTxtBox);
             this.Controls.Add(this.submitJobMapTxtBox);
             this.Controls.Add(this.destFileBtn);
             this.Controls.Add(this.sourceFileBtn);
@@ -208,7 +222,6 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label13);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(746, 176);
             this.Name = "SubmitJobForm";
             this.Text = "Submit Job";
             this.Load += new System.EventHandler(this.SubmitJobForm_Load);
@@ -220,9 +233,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox submitJobDllTxtBox;
         private System.Windows.Forms.TextBox submitJobMapTxtBox;
         private System.Windows.Forms.Button destFileBtn;
         private System.Windows.Forms.Button sourceFileBtn;
@@ -235,5 +246,8 @@
         private System.Windows.Forms.TextBox submitTaskEntryUrlMsgBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button dllLocationChooseBtn;
+        private System.Windows.Forms.TextBox dllLocationMsgBox;
+        private System.Windows.Forms.Label dllLocation;
     }
 }
