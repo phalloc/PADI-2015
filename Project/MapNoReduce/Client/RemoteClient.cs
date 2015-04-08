@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,16 @@ namespace PADIMapNoReduce
     {
         
         private string filePath;
+        private byte[] mapperCode;
+        private string mapperName;
 
-        public RemoteClient(string filePath)
+        public RemoteClient(string filePath, string mapperName, string mapperPath)
         {
             this.filePath = filePath;
+            this.mapperCode = File.ReadAllBytes(mapperPath);
+            this.mapperName = mapperName;
+
+
         }
 
 

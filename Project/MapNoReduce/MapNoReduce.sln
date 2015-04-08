@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeConsole", "NodeConsole\NodeConsole.csproj", "{7728ADBF-2297-477D-B84D-0704F2A8D39D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApplication", "ClientApplication\ClientApplication.csproj", "{95011513-1DA4-4EE4-A45E-ACAF3F750B85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{7728ADBF-2297-477D-B84D-0704F2A8D39D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7728ADBF-2297-477D-B84D-0704F2A8D39D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7728ADBF-2297-477D-B84D-0704F2A8D39D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95011513-1DA4-4EE4-A45E-ACAF3F750B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95011513-1DA4-4EE4-A45E-ACAF3F750B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95011513-1DA4-4EE4-A45E-ACAF3F750B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95011513-1DA4-4EE4-A45E-ACAF3F750B85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
@@ -16,14 +17,15 @@ namespace PADIMapNoReduce
         private string clientURL = "tcp://localhost:8086/IClient";
 
 
-        public void submitJob(string filePath, string destPath, string entryUrl, int splits, IMapper mapper)
+        public void submitJob(string jobFilePath, string destPath, string entryUrl, int splits, string mapperName, string mapperPath)
         {
+
             try
             {
                 TcpChannel channel = new TcpChannel(8086);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(filePath);
+                RemoteClient rmClient = new RemoteClient(jobFilePath, mapperName, mapperPath);
                 RemotingServices.Marshal(rmClient, "IClient" , typeof(IClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
