@@ -24,7 +24,7 @@ namespace Client
             long beginLine;
             long endLine;
             if(begin > _reader.Length || begin > end || end > _reader.Length || begin < 0){
-                throw new InvalidAccessException();
+                throw new InvalidAccessException(begin, end, _reader.Length);
             }
 
 

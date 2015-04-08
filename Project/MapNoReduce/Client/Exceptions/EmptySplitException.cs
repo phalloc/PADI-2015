@@ -8,5 +8,11 @@ namespace Client
 {
     class EmptySplitException : Exception
     {
+
+
+        public override string ToString()
+        {
+            return "Interval provided doesn't return a single line";
+        }
     }
 }
