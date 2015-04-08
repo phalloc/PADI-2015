@@ -14,6 +14,8 @@ namespace ClientApplication
             if (args.Length != 6)
             {
                 Logger.LogErr("Error: Invalid arguments. Usage: [required: jobFilePath, destPath, entryUrl, splits, mapperName, mapperPath])");
+                Logger.LogInfo("Press any key to quit");
+                Console.ReadKey();
                 return;
             }
 
@@ -27,9 +29,15 @@ namespace ClientApplication
             string mapperPath = args[5];
 
             Logger.LogInfo("Submitting job " + jobFilePath + " to " + entryURL + " with " + splits + "splits with mapper " + mapperName + " at " + mapperPath + " and writing results to " + destinationPath);
-
-            client.submitJob(jobFilePath, destinationPath, entryURL, splits, mapperName, mapperPath);
-
+            try { 
+                client.submitJob(jobFilePath, destinationPath, entryURL, splits, mapperName, mapperPath);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr("Error during submit: " + ex.Message);
+                Logger.LogInfo("Press any key to quit");
+                Console.ReadKey();
+            }
 
         }
     }

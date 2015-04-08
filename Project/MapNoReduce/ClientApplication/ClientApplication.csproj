@@ -48,9 +48,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj">
+    <ProjectReference Include="..\Client\ClientLib.csproj">
       <Project>{dec1b207-e162-40ec-aa63-b6bb8069a686}</Project>
-      <Name>Client</Name>
+      <Name>ClientLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{286c72d6-77fd-4746-b4b6-205b79133453}</Project>

@@ -19,21 +19,24 @@ namespace PADIMapNoReduce.Commands
         string inputFile = "";
         string outputFile = "";
         int numSplits;
-        IMapper map;
+        string classMapper;
+        string dllPath;
 
         public SubmitJobCmd(PuppetMaster pm) : base(pm) { }
 
         protected override bool ParseAux()
         {
             string[] args = line.Split(' ');
+
+            Logger.LogWarn(line);
             if (args.Length == 7)
             {
                 entryUrl = args[1];
                 inputFile = args[2];
                 outputFile = args[3];
                 numSplits = Convert.ToInt32(args[4]);
-
-                map = (IMapper)Activator.CreateInstance(Type.GetType(args[5] + "," + args[6]));
+                classMapper = args[5];
+                dllPath = args[6];
 
                 return true;
             }
@@ -48,7 +51,7 @@ namespace PADIMapNoReduce.Commands
 
         protected override void ExecuteAux()
         {
-            SubmitJob(entryUrl.Trim(), inputFile.Trim(), outputFile.Trim(), numSplits, map);
+            SubmitJob(entryUrl.Trim(), inputFile.Trim(), outputFile.Trim(), numSplits, classMapper.Trim(), dllPath.Trim());
         }
 
         public override Command CreateCopy()
@@ -56,7 +59,7 @@ namespace PADIMapNoReduce.Commands
             return new SubmitJobCmd(puppetMaster);
         }
 
-        public void SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, IMapper mapper)
+        public void SubmitJob(string entryUrl, string inputFile, string outputFile, int numSplits, string classMapper, string dllPath)
         {
 
 
@@ -65,9 +68,14 @@ namespace PADIMapNoReduce.Commands
                             "          outputFile: " + outputFile + "\r\n" +
                             "          outputFile: " + outputFile + "\r\n" +
                             "          numSplits: " + numSplits + "\r\n" +
-                            "          mapper: " + mapper.GetType().Name + "\r\n" +
-                            "          Ola ---> MAPPER ---> " + mapper.MapDummy("Ola");
+                            "          classMapper: " + classMapper.GetType().Name + "\r\n" +
+                            "          dllPath" + dllPath;
             Logger.LogInfo(commandResult);
+
+
+            string arguments = entryUrl + " " + inputFile + " " + outputFile + " " + numSplits + " " + classMapper + " " + dllPath;
+            ProcessUtil.ExecuteNewProcess(PropertiesPM.clientExeLocation, arguments);
+
         }
     }
 }

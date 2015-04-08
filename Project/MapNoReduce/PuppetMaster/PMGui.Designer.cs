@@ -210,7 +210,7 @@
             this.loadScriptToolStripMenuItem,
             this.loadSeedToolStripMenuItem});
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.loadToolStripMenuItem.Text = "File";
             // 
             // loadScriptToolStripMenuItem
@@ -221,7 +221,7 @@
             this.myScripttxtToolStripMenuItem,
             this.createWorkerstxtToolStripMenuItem});
             this.loadScriptToolStripMenuItem.Name = "loadScriptToolStripMenuItem";
-            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadScriptToolStripMenuItem.Text = "Load Script";
             // 
             // fromFileToolStripMenuItem
@@ -260,7 +260,7 @@
             this.toolStripSeparator3,
             this.pMpropertiesconfToolStripMenuItem});
             this.loadSeedToolStripMenuItem.Name = "loadSeedToolStripMenuItem";
-            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadSeedToolStripMenuItem.Text = "Load Seed";
             // 
             // fromFileToolStripMenuItem1
@@ -332,7 +332,7 @@
             this.clientexeToolStripMenuItem.Name = "clientexeToolStripMenuItem";
             this.clientexeToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.clientexeToolStripMenuItem.Text = "Set Client *.exe";
-            this.clientexeToolStripMenuItem.ToolTipText = "FIXME";
+            this.clientexeToolStripMenuItem.ToolTipText = "..\\..\\..\\ClientApplication\\bin\\Debug\\ClientApplication.exe";
             this.clientexeToolStripMenuItem.Click += new System.EventHandler(this.clientexeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1

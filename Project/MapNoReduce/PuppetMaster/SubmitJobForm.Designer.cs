@@ -123,7 +123,6 @@
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
             this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 103;
-            this.submitTaskDestFileMsgBox.Text = "*.out directory";
             this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label11
@@ -142,7 +141,6 @@
             this.submitTaskSourceFileMsgBox.Name = "submitTaskSourceFileMsgBox";
             this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskSourceFileMsgBox.TabIndex = 101;
-            this.submitTaskSourceFileMsgBox.Text = "*.in Input file";
             this.submitTaskSourceFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // submitTaskEntryUrlMsgBox
