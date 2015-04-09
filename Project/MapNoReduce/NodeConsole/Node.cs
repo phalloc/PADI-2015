@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
@@ -60,6 +61,40 @@ namespace PADIMapNoReduce
             else Logger.LogErr("Did not provided entryURL");
 
         }
+
+        private IList<KeyValuePair<string, string>> processStringWithMapper(string mapperName, byte[] mapperCode, string split)
+        {
+            Assembly assembly = Assembly.Load(mapperCode);
+            //procurar o metodo
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (type.IsClass == true)
+                {
+                    if (type.FullName.EndsWith("." + mapperName))//potencial problema de nomes
+                    {
+                        // create an instance of the object
+                        object ClassObj = Activator.CreateInstance(type);
+
+                        // Dynamically Invoke the method
+                        object[] args = new object[] { split };
+                        object resultObject = type.InvokeMember("Map",
+                          BindingFlags.Default | BindingFlags.InvokeMethod,
+                               null,
+                               ClassObj,
+                               args);
+                        IList<KeyValuePair<string, string>> result = (IList<KeyValuePair<string, string>>)resultObject;
+                        Logger.LogInfo("Processed: ");
+                        foreach (KeyValuePair<string, string> p in result)
+                        {
+                            Logger.LogInfo("key: " + p.Key + ", value: " + p.Value);
+                        }
+                        return result;
+                    }
+                }
+            }
+            throw (new System.Exception("could not invoke method"));
+        }
+
 
         public void ReceiveWork(string clientUrl, long fileSize, int splits, string mapperName, byte[] mapperCode)
         {

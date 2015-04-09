@@ -36,7 +36,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.commandMsgBox = new System.Windows.Forms.TextBox();
             this.submitCommand = new System.Windows.Forms.Button();
-            this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
             this.ConsoleLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -74,19 +73,20 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.freezeWBtn = new System.Windows.Forms.Button();
-            this.unfreezeWBtn = new System.Windows.Forms.Button();
+            this.workerIdMsgBox = new System.Windows.Forms.TextBox();
+            this.refreshBtn = new System.Windows.Forms.Button();
+            this.slowwBtn = new System.Windows.Forms.Button();
             this.unfreezeCBtn = new System.Windows.Forms.Button();
             this.freezeCBtn = new System.Windows.Forms.Button();
-            this.slowwBtn = new System.Windows.Forms.Button();
-            this.refreshBtn = new System.Windows.Forms.Button();
-            this.workerIdMsgBox = new System.Windows.Forms.TextBox();
+            this.unfreezeWBtn = new System.Windows.Forms.Button();
+            this.freezeWBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
             this.consoleContextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.treeViewContextView.SuspendLayout();
             this.workerMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).BeginInit();
             this.SuspendLayout();
             // 
             // consoleMessageBox
@@ -155,20 +155,6 @@
             this.submitCommand.Text = "Run";
             this.submitCommand.UseVisualStyleBackColor = true;
             this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
-            // 
-            // slowNumSeconds
-            // 
-            this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(605, 561);
-            this.slowNumSeconds.Name = "slowNumSeconds";
-            this.slowNumSeconds.Size = new System.Drawing.Size(50, 22);
-            this.slowNumSeconds.TabIndex = 68;
-            this.slowNumSeconds.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
             // 
             // label20
             // 
@@ -351,7 +337,7 @@
             // NetworkTreeView
             // 
             this.NetworkTreeView.ContextMenuStrip = this.treeViewContextView;
-            this.NetworkTreeView.Location = new System.Drawing.Point(12, 117);
+            this.NetworkTreeView.Location = new System.Drawing.Point(12, 146);
             this.NetworkTreeView.Name = "NetworkTreeView";
             this.NetworkTreeView.Size = new System.Drawing.Size(728, 438);
             this.NetworkTreeView.TabIndex = 110;
@@ -474,82 +460,88 @@
             this.label3.Text = "Network Information   __________________                                         " +
     "                                ";
             // 
-            // label2
+            // workerIdMsgBox
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 564);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
-            this.label2.TabIndex = 115;
-            this.label2.Text = "Worker Id:";
-            // 
-            // freezeWBtn
-            // 
-            this.freezeWBtn.Location = new System.Drawing.Point(160, 561);
-            this.freezeWBtn.Name = "freezeWBtn";
-            this.freezeWBtn.Size = new System.Drawing.Size(75, 23);
-            this.freezeWBtn.TabIndex = 116;
-            this.freezeWBtn.Text = "FREEZEW";
-            this.freezeWBtn.UseVisualStyleBackColor = true;
-            this.freezeWBtn.Click += new System.EventHandler(this.freezeWBtn_Click);
-            // 
-            // unfreezeWBtn
-            // 
-            this.unfreezeWBtn.Location = new System.Drawing.Point(241, 561);
-            this.unfreezeWBtn.Name = "unfreezeWBtn";
-            this.unfreezeWBtn.Size = new System.Drawing.Size(89, 23);
-            this.unfreezeWBtn.TabIndex = 117;
-            this.unfreezeWBtn.Text = "UNFREEZEW";
-            this.unfreezeWBtn.UseVisualStyleBackColor = true;
-            this.unfreezeWBtn.Click += new System.EventHandler(this.unfreezeWBtn_Click);
-            // 
-            // unfreezeCBtn
-            // 
-            this.unfreezeCBtn.Location = new System.Drawing.Point(426, 561);
-            this.unfreezeCBtn.Name = "unfreezeCBtn";
-            this.unfreezeCBtn.Size = new System.Drawing.Size(89, 23);
-            this.unfreezeCBtn.TabIndex = 119;
-            this.unfreezeCBtn.Text = "UNFREEZEC";
-            this.unfreezeCBtn.UseVisualStyleBackColor = true;
-            this.unfreezeCBtn.Click += new System.EventHandler(this.unfreezeCBtn_Click);
-            // 
-            // freezeCBtn
-            // 
-            this.freezeCBtn.Location = new System.Drawing.Point(345, 561);
-            this.freezeCBtn.Name = "freezeCBtn";
-            this.freezeCBtn.Size = new System.Drawing.Size(75, 23);
-            this.freezeCBtn.TabIndex = 118;
-            this.freezeCBtn.Text = "FREEZEC";
-            this.freezeCBtn.UseVisualStyleBackColor = true;
-            this.freezeCBtn.Click += new System.EventHandler(this.freezeCBtn_Click);
-            // 
-            // slowwBtn
-            // 
-            this.slowwBtn.Location = new System.Drawing.Point(530, 561);
-            this.slowwBtn.Name = "slowwBtn";
-            this.slowwBtn.Size = new System.Drawing.Size(69, 23);
-            this.slowwBtn.TabIndex = 120;
-            this.slowwBtn.Text = "SLOWW";
-            this.slowwBtn.UseVisualStyleBackColor = true;
-            this.slowwBtn.Click += new System.EventHandler(this.slowwBtn_Click);
+            this.workerIdMsgBox.Location = new System.Drawing.Point(71, 121);
+            this.workerIdMsgBox.Name = "workerIdMsgBox";
+            this.workerIdMsgBox.Size = new System.Drawing.Size(79, 20);
+            this.workerIdMsgBox.TabIndex = 131;
             // 
             // refreshBtn
             // 
-            this.refreshBtn.Location = new System.Drawing.Point(670, 561);
+            this.refreshBtn.Location = new System.Drawing.Point(670, 119);
             this.refreshBtn.Name = "refreshBtn";
             this.refreshBtn.Size = new System.Drawing.Size(70, 23);
-            this.refreshBtn.TabIndex = 121;
+            this.refreshBtn.TabIndex = 130;
             this.refreshBtn.Text = "REFRESH";
             this.refreshBtn.UseVisualStyleBackColor = true;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
-            // workerIdMsgBox
+            // slowwBtn
             // 
-            this.workerIdMsgBox.Location = new System.Drawing.Point(71, 562);
-            this.workerIdMsgBox.Name = "workerIdMsgBox";
-            this.workerIdMsgBox.Size = new System.Drawing.Size(79, 20);
-            this.workerIdMsgBox.TabIndex = 122;
-            this.workerIdMsgBox.TextChanged += new System.EventHandler(this.workerIdMsgBox_TextChanged);
+            this.slowwBtn.Location = new System.Drawing.Point(530, 119);
+            this.slowwBtn.Name = "slowwBtn";
+            this.slowwBtn.Size = new System.Drawing.Size(69, 23);
+            this.slowwBtn.TabIndex = 129;
+            this.slowwBtn.Text = "SLOWW";
+            this.slowwBtn.UseVisualStyleBackColor = true;
+            // 
+            // unfreezeCBtn
+            // 
+            this.unfreezeCBtn.Location = new System.Drawing.Point(426, 119);
+            this.unfreezeCBtn.Name = "unfreezeCBtn";
+            this.unfreezeCBtn.Size = new System.Drawing.Size(89, 23);
+            this.unfreezeCBtn.TabIndex = 128;
+            this.unfreezeCBtn.Text = "UNFREEZEC";
+            this.unfreezeCBtn.UseVisualStyleBackColor = true;
+            // 
+            // freezeCBtn
+            // 
+            this.freezeCBtn.Location = new System.Drawing.Point(345, 119);
+            this.freezeCBtn.Name = "freezeCBtn";
+            this.freezeCBtn.Size = new System.Drawing.Size(75, 23);
+            this.freezeCBtn.TabIndex = 127;
+            this.freezeCBtn.Text = "FREEZEC";
+            this.freezeCBtn.UseVisualStyleBackColor = true;
+            // 
+            // unfreezeWBtn
+            // 
+            this.unfreezeWBtn.Location = new System.Drawing.Point(241, 119);
+            this.unfreezeWBtn.Name = "unfreezeWBtn";
+            this.unfreezeWBtn.Size = new System.Drawing.Size(89, 23);
+            this.unfreezeWBtn.TabIndex = 126;
+            this.unfreezeWBtn.Text = "UNFREEZEW";
+            this.unfreezeWBtn.UseVisualStyleBackColor = true;
+            // 
+            // freezeWBtn
+            // 
+            this.freezeWBtn.Location = new System.Drawing.Point(160, 119);
+            this.freezeWBtn.Name = "freezeWBtn";
+            this.freezeWBtn.Size = new System.Drawing.Size(75, 23);
+            this.freezeWBtn.TabIndex = 125;
+            this.freezeWBtn.Text = "FREEZEW";
+            this.freezeWBtn.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 123);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.TabIndex = 124;
+            this.label2.Text = "Worker Id:";
+            // 
+            // slowNumSeconds
+            // 
+            this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slowNumSeconds.Location = new System.Drawing.Point(605, 120);
+            this.slowNumSeconds.Name = "slowNumSeconds";
+            this.slowNumSeconds.Size = new System.Drawing.Size(50, 22);
+            this.slowNumSeconds.TabIndex = 123;
+            this.slowNumSeconds.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             // 
             // GUIPuppetMaster
             // 
@@ -564,13 +556,13 @@
             this.Controls.Add(this.unfreezeWBtn);
             this.Controls.Add(this.freezeWBtn);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.slowNumSeconds);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.NetworkTreeView);
             this.Controls.Add(this.consoleMessageBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.commandMsgBox);
             this.Controls.Add(this.submitCommand);
-            this.Controls.Add(this.slowNumSeconds);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.ConsoleLabel);
             this.Controls.Add(this.menuStrip1);
@@ -581,11 +573,11 @@
             this.Load += new System.EventHandler(this.GUIPuppetMaster_Load);
             this.Resize += new System.EventHandler(this.GUIPupperMaster_Resize);
             this.consoleContextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.treeViewContextView.ResumeLayout(false);
             this.workerMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.slowNumSeconds)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -595,7 +587,6 @@
 
         private System.Windows.Forms.Label ConsoleLabel;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.NumericUpDown slowNumSeconds;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox commandMsgBox;
         private System.Windows.Forms.Button submitCommand;
@@ -638,14 +629,15 @@
         private System.Windows.Forms.ToolStripMenuItem expandAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button freezeWBtn;
-        private System.Windows.Forms.Button unfreezeWBtn;
+        private System.Windows.Forms.TextBox workerIdMsgBox;
+        private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.Button slowwBtn;
         private System.Windows.Forms.Button unfreezeCBtn;
         private System.Windows.Forms.Button freezeCBtn;
-        private System.Windows.Forms.Button slowwBtn;
-        private System.Windows.Forms.Button refreshBtn;
-        private System.Windows.Forms.TextBox workerIdMsgBox;
+        private System.Windows.Forms.Button unfreezeWBtn;
+        private System.Windows.Forms.Button freezeWBtn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown slowNumSeconds;
 
     }
 }

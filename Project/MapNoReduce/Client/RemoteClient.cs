@@ -55,8 +55,14 @@ namespace PADIMapNoReduce
 
                 fs.Write(lineBytes, 0, lineBytes.Length);
             }
-
+            
             nSplits--;
+
+            if (nSplits <= 0)
+            {
+                Logger.LogInfo("Work done!");
+
+            }
 
         }
 
