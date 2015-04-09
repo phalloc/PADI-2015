@@ -14,6 +14,7 @@ namespace PADIMapNoReduce
         private string destPath;
         private int nSplits;
         UTF8Encoding encoding;
+        private static Object _lock = new Object();
        
         
         public RemoteClient(FileReader reader, int nSplits, string destPath)
@@ -28,8 +29,20 @@ namespace PADIMapNoReduce
         public string getWorkSplit(long beginSplit, long endSplit)
         {
             Logger.LogInfo("received request from node");
+            string splitGiven;
+               
+            lock (_lock)
+                
+            {
+               
+                splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
+             
+            }
+           
+            Logger.LogInfo("Split given: " + splitGiven);
+           
+            return splitGiven;
 
-            return fileReader.fetchSplitFromFile(beginSplit, endSplit);
         }
 
         public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, int splitId)

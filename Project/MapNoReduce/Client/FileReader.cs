@@ -50,14 +50,15 @@ namespace PADIMapNoReduce
             }
             else
             {
-                beginLine = begin;
-                _reader.Seek(begin, SeekOrigin.Begin);
+                Logger.LogInfo("Reading 0!");
+                beginLine = 0;
+                _reader.Seek(0, SeekOrigin.Begin);
 
             }
 
             endLine = seekNewLine(end);
 
-
+            Logger.LogInfo("Reading from " + beginLine  + " to " + endLine);
             string split = readString(beginLine, endLine);
 
 
