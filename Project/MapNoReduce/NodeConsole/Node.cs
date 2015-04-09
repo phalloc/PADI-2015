@@ -10,20 +10,18 @@ namespace PADIMapNoReduce
 {
     public class Node : MarshalByRefObject, IWorker
     {
-        public delegate bool RemoteAsyncDelegate(bool reply);
+        public delegate void RemoteAsyncDelegate(string clientURL, string jobTrackerURL, long start, long end, string mapperName, byte[] mapperCode, long splitSize, int remainingSplits);
         private static string serviceName = "W";
 
         private string id;
         private int channelPort;
         private string myURL;
-        private static string clientURL;
+        private string clientURL;
 
         private string nextURL = null;
         private string nextNextURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
 
-
-        //FIXME PASSAR PARA ENUM
         private string currentRole = "WORKER";
         private string status = "PENDING";
 
@@ -92,27 +90,75 @@ namespace PADIMapNoReduce
                     }
                 }
             }
+            //FIXME
             throw (new System.Exception("could not invoke method"));
         }
 
 
-        public void ReceiveWork(string clientUrl, long fileSize, int splits, string mapperName, byte[] mapperCode)
+        public void ReceiveWork(string clientURL, long fileSize, int splits, string mapperName, byte[] mapperCode)
         {
             try
             {
-                Logger.LogInfo("Received: " + clientUrl + " with " + splits + " splits");
+                Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits");
                 currentRole = "JOBTRACKER";
+                status = "WORKING";
                 currentJobTrackerUrl = this.id;
-                client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
+                client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+                this.clientURL = clientURL;
 
-                //FIXME: valores dados sao placeholders, o worker fica com todo o ficheiro assim
-                client.getWorkSplit(0, fileSize);
+                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                long splitSize = fileSize / splits;
+                long start = 0;
+                long end = splitSize;
+                
+                RemoteAsyncDelegate RemoteDel = new RemoteAsyncDelegate(worker.FetchWorker);
+                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, start, end, mapperName, mapperCode, splitSize, splits, null, null);
+                return;
             }
             catch (RemotingException e)
             {
                 Logger.LogErr("Remoting Exception: " + e.Message);
             }
         }
+
+        public void FetchWorker(string clientURL, string jobTrackerURL, long start, long end, string mapperName, byte[] mapperCode, long splitSize, int remainingSplits)
+        {
+            try
+            {
+                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                RemoteAsyncDelegate RemoteDel = new RemoteAsyncDelegate(worker.FetchWorker);
+
+                if (status.Equals("WORKING"))
+                {
+                    Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, start, end, mapperName, mapperCode, splitSize, remainingSplits, null, null);
+                }
+                else
+                {
+                    Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
+                    client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+                    this.clientURL = clientURL;
+                    status = "WORKING";
+                    currentRole = "WORKER";
+                    if (remainingSplits != 0)
+                    {
+                        long nextStart = end + 1;
+                        long nextEnd = end + splitSize;
+                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, nextStart, nextEnd, mapperName, mapperCode, splitSize, remainingSplits - 1, null, null);
+                    }
+                    string line = client.getWorkSplit(start, end);
+                    IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
+                    client.returnWorkSplit(processedWork, remainingSplits);
+                }
+                return;
+            }
+            catch (RemotingException e)
+            {
+                Logger.LogErr("Remoting Exception: " + e.Message);
+            }
+
+        }
+
 
         public bool IsAlive()
         {
