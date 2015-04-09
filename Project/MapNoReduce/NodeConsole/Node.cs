@@ -61,7 +61,7 @@ namespace PADIMapNoReduce
 
         }
 
-        public void ReceiveWork(string clientUrl, int splits)
+        public void ReceiveWork(string clientUrl, long fileSize, int splits, string mapperName, byte[] mapperCode)
         {
             try
             {
@@ -69,7 +69,9 @@ namespace PADIMapNoReduce
                 currentRole = "JOBTRACKER";
                 currentJobTrackerUrl = this.id;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientUrl);
-                client.getWorkSplit();
+
+                //FIXME: valores dados sao placeholders, o worker fica com todo o ficheiro assim
+                client.getWorkSplit(0, fileSize);
             }
             catch (RemotingException e)
             {

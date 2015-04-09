@@ -10,43 +10,54 @@ namespace PADIMapNoReduce
     public class RemoteClient : MarshalByRefObject, IClient
     {
         
-        private string filePath;
-        private byte[] mapperCode;
-        private string mapperName;
+        private FileReader fileReader;
+        private string destPath;
         private int nSplits;
-
-        public RemoteClient(string filePath, string mapperName, string mapperPath, int nSplits)
+        UTF8Encoding encoding;
+       
+        
+        public RemoteClient(FileReader reader, int nSplits, string destPath)
         {
-            this.filePath = filePath;
-            this.mapperCode = File.ReadAllBytes(mapperPath);
-            this.mapperName = mapperName;
+            this.fileReader = reader;
             this.nSplits = nSplits;
-
+            this.destPath = destPath;
+            encoding = new UTF8Encoding(true);
         }
 
 
-        public void getWorkSplit()
+        public string getWorkSplit(long beginSplit, long endSplit)
         {
 
-            //TODO: 2 argumentos a serem usados
+            
 
             Logger.LogInfo("received request from node");
             Logger.LogErr("received request from node");
             Logger.LogWarn("received request from node");
 
-            //dar um split ao worker
+            return fileReader.fetchSplitFromFile(beginSplit, endSplit);
         }
 
-        public void returnWorkSplit()
+        public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, int splitId)
         {
-            //TODO: return deve devolver o mapa e o numero do splits
-            //receber mapa do worker e escrever .out
-            //incrementar numero de splits recebidos
+            //TODO: perceber como raio vamos parar isto quando ja nao houver mais splits
+            // ah e testar
+            Logger.LogInfo("Received split number " + splitId);
+
+            FileStream fs = File.Create(destPath + "/" + splitId + ".out");
+
+            foreach(KeyValuePair<string, string> entry in Map){
+                string key = entry.Key;
+                string value = entry.Value;
+
+                string line = "key: " + key + " value: " + value + "\n";
+
+                byte[] lineBytes = encoding.GetBytes(line.ToCharArray(), 0, line.Length);
+
+                fs.Write(lineBytes, 0, lineBytes.Length);
+            }
 
             nSplits--;
 
-
-            // retornar o trabalho feito
         }
 
     }

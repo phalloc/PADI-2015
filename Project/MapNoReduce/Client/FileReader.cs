@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 namespace PADIMapNoReduce
 {
-    class FileReader
+    public class FileReader
     {
         private string _path;
         private FileStream _reader;

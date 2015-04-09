@@ -20,12 +20,16 @@ namespace PADIMapNoReduce
         public void submitJob(string jobFilePath, string destPath, string entryUrl, int splits, string mapperName, string mapperPath)
         {
 
+            byte[] mapperCode = File.ReadAllBytes(mapperPath);
+            FileReader reader = new FileReader(jobFilePath);
+            long fileSize = reader.getFileSize();
+
             try
             {
                 TcpChannel channel = new TcpChannel(8086);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(jobFilePath, mapperName, mapperPath, splits);
+                RemoteClient rmClient = new RemoteClient(reader, splits, destPath);
                 RemotingServices.Marshal(rmClient, "IClient" , typeof(IClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);
@@ -33,7 +37,7 @@ namespace PADIMapNoReduce
                 {
                     Logger.LogInfo("Could not find specified worker");
                 }
-                else worker.ReceiveWork(clientURL, splits);
+                else worker.ReceiveWork(clientURL, fileSize, splits, mapperName, mapperCode);
             }
             //catched when node is not responding
             catch (RemotingTimeoutException timeException)

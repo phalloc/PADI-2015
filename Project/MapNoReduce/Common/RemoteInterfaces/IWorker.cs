@@ -5,7 +5,7 @@ namespace PADIMapNoReduce
 {
     public interface IWorker
     {
-       void ReceiveWork(string clientURL, int splits);
+       void ReceiveWork(string clientURL, long fileSize, int splits, string mapperName, byte[] mapperCode);
        bool IsAlive();
        List<string> AddWorker(string entryURL, bool firstContact);
 
