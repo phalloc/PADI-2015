@@ -13,7 +13,7 @@ namespace ClientApplication
         {
             if (args.Length != 6)
             {
-                Logger.LogErr("Error: Invalid arguments. Usage: [required: jobFilePath, destPath, entryUrl, splits, mapperName, mapperPath])");
+                Logger.LogErr("Error: Invalid arguments. Usage: [required: entryUrl, jobFilePath, destPath, splits, mapperName, mapperPath])");
                 Logger.LogInfo("Press any key to quit");
                 Console.ReadKey();
                 return;
@@ -21,9 +21,9 @@ namespace ClientApplication
 
             Client client = new Client();
 
-            string jobFilePath = args[0];
-            string destinationPath = args[1];
-            string entryURL = args[2];
+            string entryURL = args[0];
+            string jobFilePath = args[1];
+            string destinationPath = args[2];
             int splits = Int32.Parse(args[3]);
             string mapperName = args[4];
             string mapperPath = args[5];
@@ -34,10 +34,11 @@ namespace ClientApplication
             }
             catch (Exception ex)
             {
-                Logger.LogErr("Error during submit: " + ex.Message);
-                Logger.LogInfo("Press any key to quit");
-                Console.ReadKey();
+                Logger.LogErr("Error during submit: " + ex.Message);   
             }
+
+            Logger.LogInfo("Press any key to quit");
+            Console.ReadLine();
 
         }
     }

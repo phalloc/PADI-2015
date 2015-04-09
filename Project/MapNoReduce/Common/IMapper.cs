@@ -17,7 +17,14 @@ namespace PADIMapNoReduce
     {
         public IList<KeyValuePair<string, string>> Map(string fileLine)
         {
-            return null;
+            IList<KeyValuePair<string, string>> result = new List<KeyValuePair<string, string>>();
+
+            KeyValuePair<string, string> pair = new KeyValuePair<string, string>(fileLine.ToUpper(), fileLine.ToLower());
+
+            result.Add(pair);
+
+
+            return result;
         }
 
         public string MapDummy(string s)

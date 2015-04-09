@@ -27,12 +27,7 @@ namespace PADIMapNoReduce
 
         public string getWorkSplit(long beginSplit, long endSplit)
         {
-
-            
-
             Logger.LogInfo("received request from node");
-            Logger.LogErr("received request from node");
-            Logger.LogWarn("received request from node");
 
             return fileReader.fetchSplitFromFile(beginSplit, endSplit);
         }
@@ -43,17 +38,14 @@ namespace PADIMapNoReduce
             // ah e testar
             Logger.LogInfo("Received split number " + splitId);
 
-            FileStream fs = File.Create(destPath + "/" + splitId + ".out");
-
             foreach(KeyValuePair<string, string> entry in Map){
                 string key = entry.Key;
                 string value = entry.Value;
 
                 string line = "key: " + key + " value: " + value + "\n";
+                Logger.LogInfo("line: " + line);
+                File.WriteAllLines(destPath + "/" + splitId + ".out", new string[] { line });
 
-                byte[] lineBytes = encoding.GetBytes(line.ToCharArray(), 0, line.Length);
-
-                fs.Write(lineBytes, 0, lineBytes.Length);
             }
             
             nSplits--;
@@ -61,7 +53,6 @@ namespace PADIMapNoReduce
             if (nSplits <= 0)
             {
                 Logger.LogInfo("Work done!");
-
             }
 
         }

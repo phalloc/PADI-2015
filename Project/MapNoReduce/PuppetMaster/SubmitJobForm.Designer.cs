@@ -64,7 +64,7 @@
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
             this.submitJobMapTxtBox.Size = new System.Drawing.Size(515, 20);
             this.submitJobMapTxtBox.TabIndex = 109;
-            this.submitJobMapTxtBox.Text = "PADIMapNoReduce.DummyMapper";
+            this.submitJobMapTxtBox.Text = "DummyMapper";
             this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // destFileBtn
@@ -123,6 +123,7 @@
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
             this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 103;
+            this.submitTaskDestFileMsgBox.Text = "..\\..\\..\\";
             this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label11
@@ -141,6 +142,7 @@
             this.submitTaskSourceFileMsgBox.Name = "submitTaskSourceFileMsgBox";
             this.submitTaskSourceFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskSourceFileMsgBox.TabIndex = 101;
+            this.submitTaskSourceFileMsgBox.Text = "..\\..\\..\\file.in";
             this.submitTaskSourceFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // submitTaskEntryUrlMsgBox
@@ -188,7 +190,7 @@
             this.dllLocationMsgBox.Name = "dllLocationMsgBox";
             this.dllLocationMsgBox.Size = new System.Drawing.Size(450, 20);
             this.dllLocationMsgBox.TabIndex = 114;
-            this.dllLocationMsgBox.Text = "Common.dll";
+            this.dllLocationMsgBox.Text = "..\\..\\..\\Common\\bin\\Debug\\Common.dll";
             this.dllLocationMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // dllLocation

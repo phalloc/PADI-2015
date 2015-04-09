@@ -68,6 +68,8 @@ namespace PADIMapNoReduce
             {
                 if (type.IsClass == true)
                 {
+                    Logger.LogInfo(type.FullName + " ends With ? " + "." + mapperName);
+                    Logger.LogInfo("= " + type.FullName.EndsWith("." + mapperName));
                     if (type.FullName.EndsWith("." + mapperName))//potencial problema de nomes
                     {
                         // create an instance of the object
@@ -99,7 +101,7 @@ namespace PADIMapNoReduce
         {
             try
             {
-                Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits");
+                Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
                 currentRole = "JOBTRACKER";
                 status = "WORKING";
                 currentJobTrackerUrl = this.id;
@@ -140,15 +142,22 @@ namespace PADIMapNoReduce
                     this.clientURL = clientURL;
                     status = "WORKING";
                     currentRole = "WORKER";
-                    if (remainingSplits != 0)
+                    if (remainingSplits > 1)
                     {
                         long nextStart = end + 1;
                         long nextEnd = end + splitSize;
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, nextStart, nextEnd, mapperName, mapperCode, splitSize, remainingSplits - 1, null, null);
                     }
+
+                    Logger.LogInfo("client.getWorkSplit(" + start + ", " + end + ")");
                     string line = client.getWorkSplit(start, end);
+                    Logger.LogInfo("Line -> " + line);
                     IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
+
+                    Logger.LogInfo("GOT HERE BITCHES. STOP THAT BITCH");
+
                     client.returnWorkSplit(processedWork, remainingSplits);
+                    status = "PENDING";
                 }
                 return;
             }

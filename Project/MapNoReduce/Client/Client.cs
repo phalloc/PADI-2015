@@ -19,7 +19,7 @@ namespace PADIMapNoReduce
 
         public void submitJob(string jobFilePath, string destPath, string entryUrl, int splits, string mapperName, string mapperPath)
         {
-
+          
             byte[] mapperCode = File.ReadAllBytes(mapperPath);
             FileReader reader = new FileReader(jobFilePath);
             long fileSize = reader.getFileSize();
