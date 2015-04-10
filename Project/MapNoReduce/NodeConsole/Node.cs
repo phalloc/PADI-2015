@@ -25,8 +25,7 @@ namespace PADIMapNoReduce
         private string nextNextURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
 
-        long startSplit = -1;
-        long endSplit = -1;
+        List<KeyValuePair<long, long>> processedSplits = new List<KeyValuePair<long, long>>();
 
 
         private ServerRole _serverRole = ServerRole.NONE;
@@ -188,9 +187,9 @@ namespace PADIMapNoReduce
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, null, null);
                     }
 
-                    startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
+                    long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
 
-
+                    long endSplit;
                     if (remainingSplits == totalSplits)
                     {
                         endSplit = fileSize;
@@ -215,6 +214,8 @@ namespace PADIMapNoReduce
 
                     IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
 
+
+                    processedSplits.Add(new KeyValuePair<long, long>(startSplit, endSplit));
                     client.returnWorkSplit(processedWork, remainingSplits);
                     status = ExecutionState.WAITING;
                 }

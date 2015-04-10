@@ -50,8 +50,16 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
             result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
             result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
-            result.Add(NodeRepresentation.START_SPLIT, this.startSplit.ToString());
-            result.Add(NodeRepresentation.END_SPLIT, this.endSplit.ToString());
+
+
+            string splits = "";
+            foreach (KeyValuePair<long, long> split in processedSplits)
+            {
+                string start = split.Key.ToString();
+                string end = split.Value.ToString();
+                splits += "(" + start + ", " + end + "),  ";
+            }
+            result.Add(NodeRepresentation.PROCESSED_SPLITS, splits);
 
             result.Add("serverRole", this.serverRole.ToString());
             result.Add("serverStatus", this.status.ToString());

@@ -112,8 +112,7 @@ namespace PADIMapNoReduce
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
             List<string> downNodes = NetworkManager.GetDownWorkers();
             List<string> currentJTs = new List<string>();
-            List<string> splits = new List<string>();
-
+            
             //check if active nodes
             if (knownNodes.Count != 0 && knownNodes.Count != downNodes.Count)
             {
@@ -131,16 +130,12 @@ namespace PADIMapNoReduce
                 foreach (KeyValuePair<string, NodeRepresentation> entry in knownNodes)
                 {
 
-                    string startSplit;
-                    string endSplit;
+                    string splits;
+                    entry.Value.info.TryGetValue(NodeRepresentation.PROCESSED_SPLITS, out splits);
 
-                    entry.Value.info.TryGetValue(NodeRepresentation.START_SPLIT, out startSplit);
-                    entry.Value.info.TryGetValue(NodeRepresentation.END_SPLIT, out endSplit);
-
-                    if (!(startSplit == null || (startSplit != null && startSplit == "") || endSplit == null || (endSplit != null && endSplit == "")))
+                    if (!(splits == null || (splits != null && splits == "")))
                     {
-                        string pairSplit = "(" + startSplit + "," + endSplit + ")";
-                        splitNode.Nodes.Add(CreateNode(pairSplit, splitTag + ":" + pairSplit));
+                        splitNode.Nodes.Add(CreateNode(splits, splitTag + ":" + splits));
                     }
 
                     //check if it not flagged as down
