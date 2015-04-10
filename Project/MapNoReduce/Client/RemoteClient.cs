@@ -28,21 +28,23 @@ namespace PADIMapNoReduce
 
         public string getWorkSplit(long beginSplit, long endSplit)
         {
-            Logger.LogInfo("received request from node");
+            Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
             string splitGiven;
                
             lock (_lock)
                 
             {
-               
-                splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
-             
+                try { 
+                    splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
+                    Logger.LogInfo("Split given: " + splitGiven);
+                }
+                catch(Exception ex) {
+                    Logger.LogErr(ex.Message);
+                    throw ex;
+                }             
             }
            
-            Logger.LogInfo("Split given: " + splitGiven);
-           
             return splitGiven;
-
         }
 
         public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, int splitId)

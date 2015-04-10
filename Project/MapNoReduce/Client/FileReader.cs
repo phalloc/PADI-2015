@@ -32,7 +32,7 @@ namespace PADIMapNoReduce
             if (begin != 0)
             {
 
-                //verifica se o split dividiu a linha perfeitamente
+                //verifica se o split dividiu a linha perfeitamente, ALTERNATIVE
                 _reader.Seek(begin - 1, SeekOrigin.Begin);
                 byte[] singleByte = new byte[1];
 
@@ -47,10 +47,11 @@ namespace PADIMapNoReduce
                     beginLine = seekBeginLine(begin, end);
                 }
 
+                //beginLine = seekBeginLine(begin, end);
+
             }
             else
             {
-                Logger.LogInfo("Reading 0!");
                 beginLine = 0;
                 _reader.Seek(0, SeekOrigin.Begin);
 
@@ -71,7 +72,10 @@ namespace PADIMapNoReduce
             {
                 return _reader.Position;
             }
+
+            //alternative
             _reader.Seek(end - 1, SeekOrigin.Begin);
+            //_reader.Seek(end, SeekOrigin.Begin);
             //FIXME: Should be optimized
             byte[] singleByte = new byte[1];
             while (_reader.Read(singleByte, 0, 1) > 0)
@@ -172,22 +176,6 @@ namespace PADIMapNoReduce
             _reader.Close();
         }
 
-        //main for testing purposes
-        public static void Main(string[] args)
-        {
-
-            string path = "D:\\Valchier\\Desktop\\exampleMap.txt";
-
-            Console.WriteLine("Reading from: " + path);
-            FileReader fs = new FileReader(path);
-
-            Console.WriteLine("Each split will have " + fs.getSplitSize(3) + " bytes");
-
-            string result = fs.fetchSplitFromFile(55, 102);
-            Console.WriteLine("Got: " + result);
-            Console.ReadLine();
-
-        }
 
     }
 

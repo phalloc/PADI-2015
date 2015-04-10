@@ -210,7 +210,7 @@ namespace PADIMapNoReduce
             return result;
         }
 
-        public string GenerateNextNextUrlGraph(IDictionary<string, NodeRepresentation> knownNodes, NodeRepresentation node)
+        public string GenerateNextNextUrlGraph(IDictionary<string, NodeRepresentation> knownNodes, NodeRepresentation node /*, string fieldName, string separator */)
         {
             int numberOfTimes = knownNodes.Count*2 + 1;
 

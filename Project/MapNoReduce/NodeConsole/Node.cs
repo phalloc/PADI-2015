@@ -13,7 +13,7 @@ namespace PADIMapNoReduce
     {
         private int sleep_seconds = 0;
 
-        public delegate void RemoteAsyncDelegate(string clientURL, string jobTrackerURL, long start, long end, string mapperName, byte[] mapperCode, long splitSize, int remainingSplits);
+        public delegate void FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, int totalSplits, int remainingSplits);
         private static string serviceName = "W";
 
         private string id;
@@ -25,6 +25,8 @@ namespace PADIMapNoReduce
         private string nextNextURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
 
+        long startSplit = -1;
+        long endSplit = -1;
 
         private ServerRole serverRole = ServerRole.NONE;
         private ExecutionState status = ExecutionState.WAITING;
@@ -117,8 +119,8 @@ namespace PADIMapNoReduce
                 long start = 0;
                 long end = splitSize;
 
-                RemoteAsyncDelegate RemoteDel = new RemoteAsyncDelegate(worker.FetchWorker);
-                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, start, end, mapperName, mapperCode, splitSize, splits, null, null);
+                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
+                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, null, null);
                 return;
             }
             catch (RemotingException e)
@@ -127,17 +129,17 @@ namespace PADIMapNoReduce
             }
         }
 
-        public void FetchWorker(string clientURL, string jobTrackerURL, long start, long end, string mapperName, byte[] mapperCode, long splitSize, int remainingSplits)
+        public void FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, int totalSplits, int remainingSplits)
         {
             try
             {
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
-                RemoteAsyncDelegate RemoteDel = new RemoteAsyncDelegate(worker.FetchWorker);
+                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
 
                 if (status == ExecutionState.WORKING)
                 {
                     //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, start, end, mapperName, mapperCode, splitSize, remainingSplits, null, null);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, null, null);
                 }
                 else
                 {
@@ -149,13 +151,23 @@ namespace PADIMapNoReduce
                     Logger.LogInfo("STATUS: WORKING");
                     if (remainingSplits > 1)
                     {
-                        long nextStart = end + 1;
-                        long nextEnd = end + splitSize;
-                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, nextStart, nextEnd, mapperName, mapperCode, splitSize, remainingSplits - 1, null, null);
+                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, null, null);
                     }
 
-                    Logger.LogInfo("client.getWorkSplit(" + start + ", " + end + ")");
-                    string line = client.getWorkSplit(start, end);
+                    startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
+
+                    if (remainingSplits == totalSplits)
+                    {
+                        endSplit = fileSize;
+                    }
+                    else
+                    {
+                    endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits);//Making sure it reaches 0
+
+                    }
+                    Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
+
+                    string line = client.getWorkSplit(startSplit, endSplit);
                     Logger.LogInfo("Line -> " + line);
 
                     if (sleep_seconds > 0)
