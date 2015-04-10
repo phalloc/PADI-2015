@@ -50,10 +50,9 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
             result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
             result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
+
             result.Add("startSplit", this.startSplit.ToString());
             result.Add("endSplit", this.endSplit.ToString());
-
-
             result.Add("serverRole", this.serverRole.ToString());
             result.Add("serverStatus", this.status.ToString());
 

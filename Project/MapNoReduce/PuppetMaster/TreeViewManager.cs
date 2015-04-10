@@ -110,7 +110,7 @@ namespace PADIMapNoReduce
             IDictionary<string, NodeRepresentation> knownNodes = NetworkManager.GetKnownWorkers();
             List<string> downNodes = NetworkManager.GetDownWorkers();
             List<string> currentJTs = new List<string>();
-
+            List<string> splits = new List<string>();
 
             //check if active nodes
             if (knownNodes.Count != 0 && knownNodes.Count != downNodes.Count)
@@ -178,69 +178,36 @@ namespace PADIMapNoReduce
             mostRecentNode = now;
         }
 
-        public string GenerateNextUrlGraph(IDictionary<string, NodeRepresentation> knownNodes, NodeRepresentation node)
+        public string GenerateFieldIteratorThroughNodes(IDictionary<string, NodeRepresentation> knownNodes, NodeRepresentation node, string fieldName, string separator)
         {
-            int numberOfTimes = knownNodes.Count*2 + 1;
-            
-            string id;
-            string nextUrl;
-            string result = "";
-            for (int i = 0; i < numberOfTimes; i++)
-            {
-                node.info.TryGetValue(NodeRepresentation.ID, out id);
-                node.info.TryGetValue(NodeRepresentation.NEXT_URL, out nextUrl);
-
-                result += " => " + id;
-
-                if (nextUrl == null || (nextUrl != null && nextUrl == ""))
-                {
-                    Logger.LogErr("Node " + id + " as no nextUrl!");
-                    break;
-                }
-
-                knownNodes.TryGetValue(nextUrl, out node);
-
-                if (node == null)
-                {
-                    Logger.LogErr("No information on nextUrl...");
-                    break;
-                }
-            }
-
-            return result;
-        }
-
-        public string GenerateNextNextUrlGraph(IDictionary<string, NodeRepresentation> knownNodes, NodeRepresentation node /*, string fieldName, string separator */)
-        {
-            int numberOfTimes = knownNodes.Count*2 + 1;
+            int numberOfTimes = knownNodes.Count * 2 + 1;
 
             string id = "";
-            string nextNextUrl = "";
+            string nextFieldNameValue = "";
             string result = "";
             for (int i = 0; i < numberOfTimes; i++)
             {
                 node.info.TryGetValue(NodeRepresentation.ID, out id);
-                node.info.TryGetValue(NodeRepresentation.NEXT_NEXT_URL, out nextNextUrl);
+                node.info.TryGetValue(fieldName, out nextFieldNameValue);
 
-                result += " ==> " + id;
+                result += separator + id;
 
-                if (nextNextUrl == null || (nextNextUrl != null && nextNextUrl == ""))
+                if (nextFieldNameValue == null || (nextFieldNameValue != null && nextFieldNameValue == ""))
                 {
-                    Logger.LogErr("Node " + id + " has no nextNextUrl!");
-                    break;
+                    throw new Exception("Node " + id + " has no " + fieldName + " !");
                 }
 
-                knownNodes.TryGetValue(nextNextUrl, out node);
+                knownNodes.TryGetValue(nextFieldNameValue, out node);
 
                 if (node == null)
                 {
-                    Logger.LogErr("No information on nextNextUrl...");
-                    break;
+                    throw new Exception("No information on " + fieldName + ".");
                 }
             }
 
             return result;
         }
+
 
 
 
@@ -251,40 +218,54 @@ namespace PADIMapNoReduce
 
             if (knownNodes.Count == 0)
             {
-                Logger.LogErr("There are no known nodes");
+                Logger.LogWarn("There are no known nodes");
                 return;
             }
 
             NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
-
-
             //Generating nextUrlGraph
-            string result = GenerateNextUrlGraph(knownNodes, node);
-            TreeNode tagNode = CreateNode(RING_NEXT_URL_TAG + " : " + result, RING_NEXT_URL_TAG);
-            tagNode.BackColor = RING_NEXT_COLOR;
-            mostRecentNode.Nodes.Add(tagNode);
-
-            //Generating nextNextUrlGraph 1
-            string resultNextNextUrl1 = GenerateNextNextUrlGraph(knownNodes, node);
-            TreeNode tagNode1 = CreateNode(RING_NEXT_NEXT_URL_START1_TAG + " : " + resultNextNextUrl1, RING_NEXT_NEXT_URL_START1_TAG);
-            tagNode1.BackColor = RING_NEXT_NEXT_1_COLOR;
-            mostRecentNode.Nodes.Add(tagNode1);
-
-            //Generating nextNextUrlGraph 2
-            string nextUrl;
-            node.info.TryGetValue(NodeRepresentation.NEXT_URL, out nextUrl);
-            NodeRepresentation node2;
-
-            if (nextUrl == null) {
-                Logger.LogErr("Not enough information to process nextNextGraph 2");
-                return;
+            try { 
+                string result = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_URL, "=>");
+                TreeNode tagNode = CreateNode(RING_NEXT_URL_TAG + " : " + result, RING_NEXT_URL_TAG);
+                tagNode.BackColor = RING_NEXT_COLOR;
+                mostRecentNode.Nodes.Add(tagNode);
+            }catch(Exception ex){
+                Logger.LogWarn(ex.Message);
             }
 
-            knownNodes.TryGetValue(nextUrl, out node2);
-            string resultNextNextUrl2 = GenerateNextNextUrlGraph(knownNodes, node2);
-            TreeNode tagNode2 = CreateNode(RING_NEXT_NEXT_URL_START2_TAG + " : " + resultNextNextUrl2, RING_NEXT_NEXT_URL_START2_TAG);
-            tagNode2.BackColor = RING_NEXT_NEXT_2_COLOR;
-            mostRecentNode.Nodes.Add(tagNode2);
+
+            //Generating nextNextUrlGraph 1
+            try
+            {
+                string resultNextNextUrl1 = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_NEXT_URL, "=>");
+                TreeNode tagNode1 = CreateNode(RING_NEXT_NEXT_URL_START1_TAG + " : " + resultNextNextUrl1, RING_NEXT_NEXT_URL_START1_TAG);
+                tagNode1.BackColor = RING_NEXT_NEXT_1_COLOR;
+                mostRecentNode.Nodes.Add(tagNode1);
+            }catch(Exception ex){
+                Logger.LogWarn(ex.Message);
+            }
+
+
+            //Generating nextNextUrlGraph 2
+            try {
+                string nextUrl;
+                node.info.TryGetValue(NodeRepresentation.NEXT_URL, out nextUrl);
+                NodeRepresentation node2;
+
+                if (nextUrl == null) {
+                    throw new Exception("Not enough information to process nextNextGraph 2");
+                }
+
+                knownNodes.TryGetValue(nextUrl, out node2);
+                string resultNextNextUrl2 = GenerateFieldIteratorThroughNodes(knownNodes, node2, NodeRepresentation.NEXT_NEXT_URL, "=>");
+                TreeNode tagNode2 = CreateNode(RING_NEXT_NEXT_URL_START2_TAG + " : " + resultNextNextUrl2, RING_NEXT_NEXT_URL_START2_TAG);
+                tagNode2.BackColor = RING_NEXT_NEXT_2_COLOR;
+                mostRecentNode.Nodes.Add(tagNode2);
+                }
+            catch (Exception ex)
+            {
+                Logger.LogWarn(ex.Message);
+            }
         }
 
         public void Clear()

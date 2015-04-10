@@ -28,10 +28,43 @@ namespace PADIMapNoReduce
         long startSplit = -1;
         long endSplit = -1;
 
-        private ServerRole serverRole = ServerRole.NONE;
-        private ExecutionState status = ExecutionState.WAITING;
 
-        private ServerState serverState = ServerState.ALIVE;
+        private ServerRole _serverRole = ServerRole.NONE;
+        private ServerRole serverRole
+        {
+            get {
+                return _serverRole;
+            } set {
+                Logger.LogInfo("ROLE: " + value);
+                _serverRole = value;
+            }
+        }
+
+        private ExecutionState _status = ExecutionState.WAITING;
+        private ExecutionState status
+        {
+            get {
+                return _status;
+            } set {
+                Logger.LogInfo("STATUS: " + value);
+                _status = status;
+            }
+        }
+
+        private ServerState _serverState = ServerState.ALIVE;
+        private ServerState serverState
+        {
+            get
+            {
+                return _serverState;
+            }
+            set
+            {
+                Logger.LogInfo("STATE: " + value);
+                _serverState = value;
+            }
+        }
+
 
         private IClient client = null;
 
@@ -98,7 +131,6 @@ namespace PADIMapNoReduce
                     }
                 }
             }
-            //FIXME
             throw (new System.Exception("could not invoke method"));
         }
 
@@ -108,19 +140,20 @@ namespace PADIMapNoReduce
             try
             {
                 Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
+                
+                currentJobTrackerUrl = this.id;
                 serverRole = ServerRole.JOB_TRACKER;
                 status = ExecutionState.WORKING;
-                currentJobTrackerUrl = this.id;
-                client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+                
                 this.clientURL = clientURL;
-
+                client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+                
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 long splitSize = fileSize / splits;
-                long start = 0;
-                long end = splitSize;
-
+                
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, null, null);
+                
                 return;
             }
             catch (RemotingException e)
@@ -144,11 +177,12 @@ namespace PADIMapNoReduce
                 else
                 {
                     Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
-                    client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
-                    this.clientURL = clientURL;
-                    status = ExecutionState.WORKING;
                     serverRole = ServerRole.WORKER;
-                    Logger.LogInfo("STATUS: WORKING");
+                    status = ExecutionState.WORKING;
+                    
+                    this.clientURL = clientURL;
+                    client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+                    
                     if (remainingSplits > 1)
                     {
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, null, null);
@@ -156,17 +190,17 @@ namespace PADIMapNoReduce
 
                     startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
 
+
                     if (remainingSplits == totalSplits)
                     {
                         endSplit = fileSize;
                     }
                     else
                     {
-                    endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits);//Making sure it reaches 0
-
+                        endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits);//Making sure it reaches 0
                     }
-                    Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
 
+                    Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
                     string line = client.getWorkSplit(startSplit, endSplit);
                     Logger.LogInfo("Line -> " + line);
 
@@ -183,7 +217,6 @@ namespace PADIMapNoReduce
 
                     client.returnWorkSplit(processedWork, remainingSplits);
                     status = ExecutionState.WAITING;
-                    Logger.LogInfo("STATUS: PENDING");
                 }
                 return;
             }
