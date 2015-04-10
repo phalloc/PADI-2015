@@ -12,7 +12,6 @@ namespace PADIMapNoReduce
     {
         public static string TIMESTAMP_TAG = "TIME";
 
-
         public static string ACTIVE_WORKERS_TAG = "ACTIVE_WORKERS";
         private static Color ACTIVE_WORKERS_COLOR = Color.Green;
         
@@ -31,6 +30,9 @@ namespace PADIMapNoReduce
         
         public static string CURRENT_JTS_TAG = "CURRENT_JTS";
         private static Color CURRENT_JTS_COLOR = Color.Gainsboro;
+
+        public static string SPLITS_TAG = "SPLITS";
+        private static Color SPLITS_COLOR = Color.AntiqueWhite;
 
         private TreeView NetworkTreeView;
 
@@ -120,9 +122,27 @@ namespace PADIMapNoReduce
                 active.BackColor = ACTIVE_WORKERS_COLOR;
                 now.Nodes.Add(active);
 
+                string splitTag = SPLITS_TAG + ":" + timeStamp;
+                TreeNode splitNode = CreateNode(SPLITS_TAG, splitTag);
+                splitNode.BackColor = SPLITS_COLOR;
+                now.Nodes.Add(splitNode);
+
                 //Generating Active workers
                 foreach (KeyValuePair<string, NodeRepresentation> entry in knownNodes)
                 {
+
+                    string startSplit;
+                    string endSplit;
+
+                    entry.Value.info.TryGetValue(NodeRepresentation.START_SPLIT, out startSplit);
+                    entry.Value.info.TryGetValue(NodeRepresentation.END_SPLIT, out endSplit);
+
+                    if (!(startSplit == null || (startSplit != null && startSplit == "") || endSplit == null || (endSplit != null && endSplit == "")))
+                    {
+                        string pairSplit = "(" + startSplit + "," + endSplit + ")";
+                        splitNode.Nodes.Add(CreateNode(pairSplit, splitTag + ":" + pairSplit));
+                    }
+
                     //check if it not flagged as down
                     if (!downNodes.Contains(entry.Key))
                     {
@@ -136,6 +156,9 @@ namespace PADIMapNoReduce
                             currentJTs.Add(jobTracker);
                         }
                     }
+
+
+
                 }
             }
             
@@ -244,7 +267,6 @@ namespace PADIMapNoReduce
             }catch(Exception ex){
                 Logger.LogWarn(ex.Message);
             }
-
 
             //Generating nextNextUrlGraph 2
             try {
