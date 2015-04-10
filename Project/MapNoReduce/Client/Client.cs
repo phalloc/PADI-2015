@@ -17,12 +17,15 @@ namespace PADIMapNoReduce
         private string clientURL = "tcp://localhost:8086/IClient";
 
 
-        public void submitJob(string jobFilePath, string destPath, string entryUrl, int splits, string mapperName, string mapperPath)
+        public void submitJob(string jobFilePath, string destPath, string entryUrl, long splits, string mapperName, string mapperPath)
         {
           
             byte[] mapperCode = File.ReadAllBytes(mapperPath);
             FileReader reader = new FileReader(jobFilePath);
             long fileSize = reader.getFileSize();
+
+            if (splits > fileSize)
+                splits = fileSize;
 
             try
             {

@@ -12,12 +12,12 @@ namespace PADIMapNoReduce
         
         private FileReader fileReader;
         private string destPath;
-        private int nSplits;
+        private long nSplits;
         UTF8Encoding encoding;
         private static Object _lock = new Object();
        
         
-        public RemoteClient(FileReader reader, int nSplits, string destPath)
+        public RemoteClient(FileReader reader, long nSplits, string destPath)
         {
             this.fileReader = reader;
             this.nSplits = nSplits;
@@ -46,7 +46,7 @@ namespace PADIMapNoReduce
             return splitGiven;
         }
 
-        public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, int splitId)
+        public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId)
         {
             //TODO: perceber como raio vamos parar isto quando ja nao houver mais splits
             // ah e testar

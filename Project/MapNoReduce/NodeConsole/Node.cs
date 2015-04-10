@@ -13,7 +13,7 @@ namespace PADIMapNoReduce
     {
         private int sleep_seconds = 0;
 
-        public delegate void FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, int totalSplits, int remainingSplits);
+        public delegate void FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits);
         private static string serviceName = "W";
 
         private string id;
@@ -134,7 +134,7 @@ namespace PADIMapNoReduce
         }
 
 
-        public void ReceiveWork(string clientURL, long fileSize, int splits, string mapperName, byte[] mapperCode)
+        public void ReceiveWork(string clientURL, long fileSize, long splits, string mapperName, byte[] mapperCode)
         {
             try
             {
@@ -148,6 +148,8 @@ namespace PADIMapNoReduce
                 client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
                 
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                if (splits > fileSize)
+                    splits = fileSize;
                 long splitSize = fileSize / splits;
                 
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
@@ -161,7 +163,7 @@ namespace PADIMapNoReduce
             }
         }
 
-        public void FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, int totalSplits, int remainingSplits)
+        public void FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits)
         {
             try
             {

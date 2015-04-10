@@ -12,7 +12,7 @@ namespace PADIMapNoReduce
     {
 
         string getWorkSplit(long beginSplit, long endSplit);
-        void returnWorkSplit(IList<KeyValuePair<string, string>> Map, int splitId);
+        void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId);
 
     }
 }
