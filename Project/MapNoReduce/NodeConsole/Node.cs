@@ -196,7 +196,7 @@ namespace PADIMapNoReduce
                     }
                     else
                     {
-                        endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits);//Making sure it reaches 0
+                        endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits) - 1;//Making sure it reaches 0
                     }
 
                     Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");

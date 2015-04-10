@@ -27,54 +27,71 @@ namespace PADIMapNoReduce
                 throw new InvalidAccessException(begin, end, _reader.Length);
             }
 
-
-
-            if (begin != 0)
+            try
             {
 
-                //verifica se o split dividiu a linha perfeitamente, ALTERNATIVE
-                _reader.Seek(begin - 1, SeekOrigin.Begin);
-                byte[] singleByte = new byte[1];
-
-                _reader.Read(singleByte, 0, 1);
-
-                if (encoding.GetString(singleByte) == "\n")
+                if (begin != 0)
                 {
-                    beginLine = begin;
+
+                    Logger.LogInfo("(" + begin + "," + end + ")" +"Going in guys!");
+
+                    //verifica se o split dividiu a linha perfeitamente, ALTERNATIVE
+                    _reader.Seek(begin - 1, SeekOrigin.Begin);
+                    byte[] singleByte = new byte[1];
+
+                    _reader.Read(singleByte, 0, 1);
+
+                    if (encoding.GetString(singleByte) == "\n")
+                    {
+                        Logger.LogInfo("(" + begin + "," + end + ")" + "Found \\n in the beginning!");
+
+                        beginLine = begin;
+                    }
+                    else
+                    {
+                        Logger.LogInfo("(" + begin + "," + end + ")" + "No \\n in the beginning!");
+                        beginLine = seekBeginLine(begin, end);
+                    }
+
+                    Logger.LogInfo("(" + begin + "," + end + ")" + "with begin line: " + beginLine);
+
+                    //beginLine = seekBeginLine(begin, end);
+
                 }
                 else
                 {
-                    beginLine = seekBeginLine(begin, end);
+                    Logger.LogInfo("(" + begin + "," + end + ")" + "Begin hipster!");
+                    beginLine = 0;
+                    _reader.Seek(0, SeekOrigin.Begin);
+
                 }
 
-                //beginLine = seekBeginLine(begin, end);
+                endLine = seekNewLine(end);
 
+                Logger.LogInfo("(" + begin + "," + end + ")" + "with end line: " + beginLine);
+
+                Logger.LogInfo("(" + begin + "," + end + ")"  + " Reading from " + beginLine + " to " + endLine);
+                string split = readString(beginLine, endLine);
+
+
+                return split;
             }
-            else
+            catch (EmptySplitException e)
             {
-                beginLine = 0;
-                _reader.Seek(0, SeekOrigin.Begin);
-
+                Logger.LogInfo("(" + begin + "," + end + ")" + e.ToString());
+                return "";
             }
-
-            endLine = seekNewLine(end);
-
-            Logger.LogInfo("Reading from " + beginLine  + " to " + endLine);
-            string split = readString(beginLine, endLine);
-
-
-            return split;
         }
 
         private long seekNewLine(long end)
         {
-            if (_reader.Position == getFileSize())
+            if (end == getFileSize())
             {
-                return _reader.Position;
+                return end;
             }
 
             //alternative
-            _reader.Seek(end - 1, SeekOrigin.Begin);
+            _reader.Seek(end, SeekOrigin.Begin);
             //_reader.Seek(end, SeekOrigin.Begin);
             //FIXME: Should be optimized
             byte[] singleByte = new byte[1];
@@ -86,7 +103,7 @@ namespace PADIMapNoReduce
                 }
             }
 
-            throw new EmptySplitException();
+            throw new EmptySplitException(_reader.Position);
         }
 
         private string readString(long begin, long end)
@@ -128,18 +145,20 @@ namespace PADIMapNoReduce
             byte[] singleByte = new byte[1];
             while (_reader.Read(singleByte, 0, 1) > 0)
             {
-                if (_reader.Position >= end)
-                {
-                    throw new EmptySplitException();
-                }
 
                 if (encoding.GetString(singleByte) == "\n")
                 {
                     return _reader.Position;
                 }
+                
+                if (_reader.Position >= end)
+                {
+                    throw new EmptySplitException(_reader.Position);
+                }
+
             }
 
-            throw new EmptySplitException();
+            throw new EmptySplitException(_reader.Position);
         }
 
         private int getBytesToRead(long end, int readBufferLength)

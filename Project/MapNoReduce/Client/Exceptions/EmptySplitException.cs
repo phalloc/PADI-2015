@@ -9,10 +9,16 @@ namespace PADIMapNoReduce
     class EmptySplitException : Exception
     {
 
+        long _pos;
+
+        public EmptySplitException(long pos)
+        {
+            _pos = pos;
+        }
 
         public override string ToString()
         {
-            return "Interval provided doesn't return a single line";
+            return "Interval provided doesn't return a single line: stopped at " + _pos;
         }
     }
 }
