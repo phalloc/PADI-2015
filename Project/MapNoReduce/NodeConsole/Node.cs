@@ -68,8 +68,6 @@ namespace PADIMapNoReduce
             {
                 if (type.IsClass == true)
                 {
-                    Logger.LogInfo(type.FullName + " ends With ? " + "." + mapperName);
-                    Logger.LogInfo("= " + type.FullName.EndsWith("." + mapperName));
                     if (type.FullName.EndsWith("." + mapperName))//potencial problema de nomes
                     {
                         // create an instance of the object
@@ -132,7 +130,7 @@ namespace PADIMapNoReduce
 
                 if (status.Equals("WORKING"))
                 {
-                    Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
+                    //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
                     IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, start, end, mapperName, mapperCode, splitSize, remainingSplits, null, null);
                 }
                 else
@@ -142,6 +140,7 @@ namespace PADIMapNoReduce
                     this.clientURL = clientURL;
                     status = "WORKING";
                     currentRole = "WORKER";
+                    Logger.LogInfo("STATUS: WORKING");
                     if (remainingSplits > 1)
                     {
                         long nextStart = end + 1;
@@ -154,10 +153,9 @@ namespace PADIMapNoReduce
                     Logger.LogInfo("Line -> " + line);
                     IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
 
-                    Logger.LogInfo("GOT HERE BITCHES. STOP THAT BITCH");
-
                     client.returnWorkSplit(processedWork, remainingSplits);
                     status = "PENDING";
+                    Logger.LogInfo("STATUS: PENDING");
                 }
                 return;
             }

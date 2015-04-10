@@ -91,6 +91,11 @@
             // 
             this.submitTaskNumberSplits.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.submitTaskNumberSplits.Location = new System.Drawing.Point(557, 146);
+            this.submitTaskNumberSplits.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
             this.submitTaskNumberSplits.TabIndex = 106;
