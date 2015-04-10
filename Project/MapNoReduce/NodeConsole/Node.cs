@@ -9,13 +9,9 @@ using System.Threading;
 
 namespace PADIMapNoReduce
 {
-    public class Node : MarshalByRefObject, IWorker
+    public partial class Node : MarshalByRefObject, IWorker
     {
-        private static string WORKER_ROLE = "WORKER";
-        private static string JOB_TRACKER_ROLE = "JOB_TRACKER";
         private int sleep_seconds = 0;
-        private bool freeze_worker = false;
-        private bool freeze_job_tracker = true;
 
         public delegate void RemoteAsyncDelegate(string clientURL, string jobTrackerURL, long start, long end, string mapperName, byte[] mapperCode, long splitSize, int remainingSplits);
         private static string serviceName = "W";
@@ -30,8 +26,10 @@ namespace PADIMapNoReduce
         private string currentJobTrackerUrl = "<JobTracker Id>";
 
 
-        private string currentRole = WORKER_ROLE;
-        private string status = "PENDING";
+        private ServerRole serverRole = ServerRole.NONE;
+        private ExecutionState status = ExecutionState.WAITING;
+
+        private ServerState serverState = ServerState.ALIVE;
 
         private IClient client = null;
 
@@ -108,8 +106,8 @@ namespace PADIMapNoReduce
             try
             {
                 Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
-                currentRole = JOB_TRACKER_ROLE;
-                status = "WORKING";
+                serverRole = ServerRole.JOB_TRACKER;
+                status = ExecutionState.WORKING;
                 currentJobTrackerUrl = this.id;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
                 this.clientURL = clientURL;
@@ -136,7 +134,7 @@ namespace PADIMapNoReduce
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 RemoteAsyncDelegate RemoteDel = new RemoteAsyncDelegate(worker.FetchWorker);
 
-                if (status.Equals("WORKING"))
+                if (status == ExecutionState.WORKING)
                 {
                     //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
                     IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, start, end, mapperName, mapperCode, splitSize, remainingSplits, null, null);
@@ -146,8 +144,8 @@ namespace PADIMapNoReduce
                     Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
                     client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
                     this.clientURL = clientURL;
-                    status = "WORKING";
-                    currentRole = WORKER_ROLE;
+                    status = ExecutionState.WORKING;
+                    serverRole = ServerRole.WORKER;
                     Logger.LogInfo("STATUS: WORKING");
                     if (remainingSplits > 1)
                     {
@@ -172,7 +170,7 @@ namespace PADIMapNoReduce
                     IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
 
                     client.returnWorkSplit(processedWork, remainingSplits);
-                    status = "PENDING";
+                    status = ExecutionState.WAITING;
                     Logger.LogInfo("STATUS: PENDING");
                 }
                 return;
@@ -229,87 +227,6 @@ namespace PADIMapNoReduce
             Logger.LogInfo("nextUrl: " + nextURL);
             Logger.LogInfo("nextNextUrl: " + nextNextURL);
             return urls;
-        }
-
-
-        public void FreezeWorker()
-        {
-            Logger.LogInfo("[FREEZEW] (W)");
-
-            if (currentRole == WORKER_ROLE)
-            {
-                freeze_worker = true;
-            }
-            else
-            {
-                Logger.LogInfo("I'm not a worker, you have no power over me!");
-            }
-        }
-
-        public void UnfreezeWorker()
-        {
-            Logger.LogInfo("[UNFREEZEW] (W)");
-
-            if (currentRole == WORKER_ROLE)
-            {
-                freeze_worker = false;
-            }
-            else
-            {
-                Logger.LogInfo("I'm not a worker, you have no power over me!");
-            }
-        }
-
-        public void FreezeJobTracker()
-        {
-            Logger.LogInfo("[FREEZEC] (JT)");
-
-            if (currentRole == JOB_TRACKER_ROLE) {
-                freeze_job_tracker = true;
-            }
-            else
-            {
-                Logger.LogInfo("I'm not a Job tracker, you have no power over me!");
-            }
-        }
-
-        public void UnfreezeJobTracker()
-        {
-            Logger.LogInfo("[UNFREEZEC] (JT)");
-
-            if (currentRole == JOB_TRACKER_ROLE) {
-                freeze_job_tracker = false;
-            }
-            else
-            {
-                Logger.LogInfo("I'm not a Job tracker, you have no power over me!");
-            }
-        }
-
-        public void Slow(int seconds)
-        {
-            Logger.LogInfo("[SLOWW] " + seconds + ". Delaying the worker process before mapping");
-            sleep_seconds = seconds;
-        }
-
-
-        public IDictionary<string, string> Status()
-        {
-            Logger.LogInfo("[STATUS]");
-
-            IDictionary<string, string> result = new Dictionary<string, string>();
-
-            result.Add(NodeRepresentation.ID, this.id);
-            result.Add(NodeRepresentation.SERVICE_URL, this.myURL);
-            result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
-            result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
-            result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
-
-
-            result.Add("currentRole", this.currentRole);
-            result.Add("status", this.status);
-
-            return result;
         }
 
 
