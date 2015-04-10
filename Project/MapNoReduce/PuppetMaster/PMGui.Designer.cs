@@ -466,6 +466,7 @@
             this.workerIdMsgBox.Name = "workerIdMsgBox";
             this.workerIdMsgBox.Size = new System.Drawing.Size(79, 20);
             this.workerIdMsgBox.TabIndex = 131;
+            this.workerIdMsgBox.TextChanged += new System.EventHandler(this.workerIdMsgBox_TextChanged);
             // 
             // refreshBtn
             // 
@@ -475,6 +476,7 @@
             this.refreshBtn.TabIndex = 130;
             this.refreshBtn.Text = "REFRESH";
             this.refreshBtn.UseVisualStyleBackColor = true;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // slowwBtn
             // 
@@ -484,6 +486,7 @@
             this.slowwBtn.TabIndex = 129;
             this.slowwBtn.Text = "SLOWW";
             this.slowwBtn.UseVisualStyleBackColor = true;
+            this.slowwBtn.Click += new System.EventHandler(this.slowwBtn_Click);
             // 
             // unfreezeCBtn
             // 
@@ -493,6 +496,7 @@
             this.unfreezeCBtn.TabIndex = 128;
             this.unfreezeCBtn.Text = "UNFREEZEC";
             this.unfreezeCBtn.UseVisualStyleBackColor = true;
+            this.unfreezeCBtn.Click += new System.EventHandler(this.unfreezeCBtn_Click);
             // 
             // freezeCBtn
             // 
@@ -502,6 +506,7 @@
             this.freezeCBtn.TabIndex = 127;
             this.freezeCBtn.Text = "FREEZEC";
             this.freezeCBtn.UseVisualStyleBackColor = true;
+            this.freezeCBtn.Click += new System.EventHandler(this.freezeCBtn_Click);
             // 
             // unfreezeWBtn
             // 
@@ -511,6 +516,7 @@
             this.unfreezeWBtn.TabIndex = 126;
             this.unfreezeWBtn.Text = "UNFREEZEW";
             this.unfreezeWBtn.UseVisualStyleBackColor = true;
+            this.unfreezeWBtn.Click += new System.EventHandler(this.unfreezeWBtn_Click);
             // 
             // freezeWBtn
             // 
@@ -520,6 +526,7 @@
             this.freezeWBtn.TabIndex = 125;
             this.freezeWBtn.Text = "FREEZEW";
             this.freezeWBtn.UseVisualStyleBackColor = true;
+            this.freezeWBtn.Click += new System.EventHandler(this.freezeWBtn_Click);
             // 
             // label2
             // 
@@ -542,6 +549,7 @@
             0,
             0,
             0});
+            this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
             // 
             // GUIPuppetMaster
             // 

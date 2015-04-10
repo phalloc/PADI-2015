@@ -464,7 +464,7 @@ namespace PADIMapNoReduce
 
         private void workerIdMsgBox_TextChanged(object sender, EventArgs e)
         {
-            verifyWorkerButtons();   
+            verifyWorkerButtons();
         }
 
         private void freezeWBtn_Click(object sender, EventArgs e)
