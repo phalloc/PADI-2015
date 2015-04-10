@@ -51,17 +51,19 @@ namespace PADIMapNoReduce
             //TODO: perceber como raio vamos parar isto quando ja nao houver mais splits
             // ah e testar
             //Logger.LogInfo("Received split number " + splitId);
-
+            StreamWriter writer = File.CreateText(destPath + "/" + splitId + ".out");
             foreach(KeyValuePair<string, string> entry in Map){
                 string key = entry.Key;
                 string value = entry.Value;
 
                 string line = "key: " + key + " value: " + value + "\n";
                 //Logger.LogInfo("line: " + line);
-                File.WriteAllLines(destPath + "/" + splitId + ".out", new string[] { line });
+                writer.Write(line);
 
             }
-            
+
+            writer.Close();
+
             nSplits--;
 
             if (nSplits <= 0)
