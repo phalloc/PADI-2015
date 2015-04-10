@@ -15,7 +15,7 @@ namespace PADIMapNoReduce
         public FileReader(string path)
         {
             _path = path;
-            _reader = new FileStream(_path, FileMode.Open);
+            _reader = new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.Read);
             encoding = new UTF8Encoding(true);
         }
 
@@ -33,7 +33,7 @@ namespace PADIMapNoReduce
                 if (begin != 0)
                 {
 
-                    Logger.LogInfo("(" + begin + "," + end + ")" +"Going in guys!");
+                    //Logger.LogInfo("(" + begin + "," + end + ")" +"Going in guys!");
 
                     //verifica se o split dividiu a linha perfeitamente, ALTERNATIVE
                     _reader.Seek(begin - 1, SeekOrigin.Begin);
@@ -43,24 +43,24 @@ namespace PADIMapNoReduce
 
                     if (encoding.GetString(singleByte) == "\n")
                     {
-                        Logger.LogInfo("(" + begin + "," + end + ")" + "Found \\n in the beginning!");
+                        //Logger.LogInfo("(" + begin + "," + end + ")" + "Found \\n in the beginning!");
 
                         beginLine = begin;
                     }
                     else
                     {
-                        Logger.LogInfo("(" + begin + "," + end + ")" + "No \\n in the beginning!");
+                        //Logger.LogInfo("(" + begin + "," + end + ")" + "No \\n in the beginning!");
                         beginLine = seekBeginLine(begin, end);
                     }
 
-                    Logger.LogInfo("(" + begin + "," + end + ")" + "with begin line: " + beginLine);
+                    //Logger.LogInfo("(" + begin + "," + end + ")" + "with begin line: " + beginLine);
 
                     //beginLine = seekBeginLine(begin, end);
 
                 }
                 else
                 {
-                    Logger.LogInfo("(" + begin + "," + end + ")" + "Begin hipster!");
+                    //Logger.LogInfo("(" + begin + "," + end + ")" + "Begin hipster!");
                     beginLine = 0;
                     _reader.Seek(0, SeekOrigin.Begin);
 
@@ -68,9 +68,9 @@ namespace PADIMapNoReduce
 
                 endLine = seekNewLine(end);
 
-                Logger.LogInfo("(" + begin + "," + end + ")" + "with end line: " + beginLine);
+                //Logger.LogInfo("(" + begin + "," + end + ")" + "with end line: " + beginLine);
 
-                Logger.LogInfo("(" + begin + "," + end + ")"  + " Reading from " + beginLine + " to " + endLine);
+                //Logger.LogInfo("(" + begin + "," + end + ")"  + " Reading from " + beginLine + " to " + endLine);
                 string split = readString(beginLine, endLine);
 
 
@@ -78,7 +78,7 @@ namespace PADIMapNoReduce
             }
             catch (EmptySplitException e)
             {
-                Logger.LogInfo("(" + begin + "," + end + ")" + e.ToString());
+                //Logger.LogInfo("(" + begin + "," + end + ")" + e.ToString());
                 return "";
             }
         }

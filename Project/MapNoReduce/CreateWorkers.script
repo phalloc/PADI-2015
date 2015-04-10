@@ -5,4 +5,16 @@ WAIT 1
 WORKER W3 tcp://localhost:30003/W tcp://localhost:30002/W
 WAIT 1
 WORKER W4 tcp://localhost:30004/W tcp://localhost:30003/W
+WAIT 1
+WORKER W5 tcp://localhost:30005/W tcp://localhost:30004/W
+WAIT 1
+WORKER W6 tcp://localhost:30006/W tcp://localhost:30005/W
+WAIT 1
+WORKER W7 tcp://localhost:30007/W tcp://localhost:30006/W
+WAIT 1
+WORKER W8 tcp://localhost:30008/W tcp://localhost:30007/W
+WAIT 1
+WORKER W9 tcp://localhost:30009/W tcp://localhost:30008/W
+WAIT 1
+WORKER W10 tcp://localhost:30010/W tcp://localhost:30009/W
 STATUS
