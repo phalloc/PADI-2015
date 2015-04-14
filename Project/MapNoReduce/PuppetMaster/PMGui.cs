@@ -184,7 +184,6 @@ namespace PADIMapNoReduce
 
         private void GUIPuppetMaster_Load(object sender, EventArgs e)
         {
-            puppetMaster.StartService();
             PropertiesPM.workerExeLocation = workerexeToolStripMenuItem.ToolTipText;
             PropertiesPM.clientExeLocation = clientexeToolStripMenuItem.ToolTipText;
             verifyWorkerButtons();
@@ -507,5 +506,27 @@ namespace PADIMapNoReduce
             submitCommandAux(CommandsManager.generateStatusIndividual(workerId));
         }
 
+        private void pmServiceUrlMsgBox_TextChanged(object sender, EventArgs e)
+        {
+            startServiceBtn.Enabled = pmServiceUrlMsgBox.Text != "";
+        }
+
+        private void startServiceBtn_Click(object sender, EventArgs e)
+        {
+            puppetMaster.StartService(pmServiceUrlMsgBox.Text);   
+        }
+
+        private void scriptStepCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            scriptNextBtn.Enabled = scriptStepCheckBox.Checked;
+            Logger.LogWarn("OPTION TO RUN SCRIPT STEP-BY-STEP = " + scriptStepCheckBox.Checked);
+            PuppetMaster.Run_Script_Step_By_Step_Opt = scriptStepCheckBox.Checked;
+            puppetMaster.ProcessNextCommand();
+        }
+
+        private void scriptNextBtn_Click(object sender, EventArgs e)
+        {
+            puppetMaster.ProcessNextCommand();
+        }
     }
 }

@@ -33,9 +33,6 @@
             this.consoleContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportToFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.commandMsgBox = new System.Windows.Forms.TextBox();
-            this.submitCommand = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.ConsoleLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -82,6 +79,14 @@
             this.freezeWBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.slowNumSeconds = new System.Windows.Forms.NumericUpDown();
+            this.submitCommand = new System.Windows.Forms.Button();
+            this.commandMsgBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pmServiceUrlMsgBox = new System.Windows.Forms.TextBox();
+            this.startServiceBtn = new System.Windows.Forms.Button();
+            this.scriptStepCheckBox = new System.Windows.Forms.CheckBox();
+            this.scriptNextBtn = new System.Windows.Forms.Button();
             this.consoleContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.treeViewContextView.SuspendLayout();
@@ -97,10 +102,10 @@
             this.consoleMessageBox.ContextMenuStrip = this.consoleContextMenuStrip;
             this.consoleMessageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
-            this.consoleMessageBox.Location = new System.Drawing.Point(746, 27);
+            this.consoleMessageBox.Location = new System.Drawing.Point(746, 37);
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(556, 557);
+            this.consoleMessageBox.Size = new System.Drawing.Size(556, 547);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
             // 
@@ -126,36 +131,6 @@
             this.clearToolStripMenuItem3.Text = "Clear";
             this.clearToolStripMenuItem3.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
-            this.label1.TabIndex = 75;
-            this.label1.Text = "Command:";
-            // 
-            // commandMsgBox
-            // 
-            this.commandMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commandMsgBox.Location = new System.Drawing.Point(71, 43);
-            this.commandMsgBox.Name = "commandMsgBox";
-            this.commandMsgBox.Size = new System.Drawing.Size(577, 20);
-            this.commandMsgBox.TabIndex = 74;
-            this.commandMsgBox.Text = "SUBMIT tcp://localhost:30001/W <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper C" +
-    "ommon";
-            this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
-            // 
-            // submitCommand
-            // 
-            this.submitCommand.Location = new System.Drawing.Point(654, 41);
-            this.submitCommand.Name = "submitCommand";
-            this.submitCommand.Size = new System.Drawing.Size(86, 23);
-            this.submitCommand.TabIndex = 73;
-            this.submitCommand.Text = "Run";
-            this.submitCommand.UseVisualStyleBackColor = true;
-            this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -167,7 +142,7 @@
             // ConsoleLabel
             // 
             this.ConsoleLabel.AutoSize = true;
-            this.ConsoleLabel.Location = new System.Drawing.Point(743, 9);
+            this.ConsoleLabel.Location = new System.Drawing.Point(743, 21);
             this.ConsoleLabel.Name = "ConsoleLabel";
             this.ConsoleLabel.Size = new System.Drawing.Size(45, 13);
             this.ConsoleLabel.TabIndex = 6;
@@ -207,7 +182,7 @@
             this.myScripttxtToolStripMenuItem,
             this.createWorkerstxtToolStripMenuItem});
             this.loadScriptToolStripMenuItem.Name = "loadScriptToolStripMenuItem";
-            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadScriptToolStripMenuItem.Text = "Load Script";
             // 
             // fromFileToolStripMenuItem
@@ -246,7 +221,7 @@
             this.toolStripSeparator3,
             this.pMpropertiesconfToolStripMenuItem});
             this.loadSeedToolStripMenuItem.Name = "loadSeedToolStripMenuItem";
-            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.loadSeedToolStripMenuItem.Text = "Load Seed";
             // 
             // fromFileToolStripMenuItem1
@@ -337,9 +312,9 @@
             // NetworkTreeView
             // 
             this.NetworkTreeView.ContextMenuStrip = this.treeViewContextView;
-            this.NetworkTreeView.Location = new System.Drawing.Point(12, 146);
+            this.NetworkTreeView.Location = new System.Drawing.Point(12, 158);
             this.NetworkTreeView.Name = "NetworkTreeView";
-            this.NetworkTreeView.Size = new System.Drawing.Size(728, 438);
+            this.NetworkTreeView.Size = new System.Drawing.Size(728, 426);
             this.NetworkTreeView.TabIndex = 110;
             this.NetworkTreeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
             // 
@@ -453,7 +428,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label3.Location = new System.Drawing.Point(13, 84);
+            this.label3.Location = new System.Drawing.Point(13, 95);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(731, 20);
             this.label3.TabIndex = 114;
@@ -462,7 +437,7 @@
             // 
             // workerIdMsgBox
             // 
-            this.workerIdMsgBox.Location = new System.Drawing.Point(71, 121);
+            this.workerIdMsgBox.Location = new System.Drawing.Point(71, 130);
             this.workerIdMsgBox.Name = "workerIdMsgBox";
             this.workerIdMsgBox.Size = new System.Drawing.Size(79, 20);
             this.workerIdMsgBox.TabIndex = 131;
@@ -470,7 +445,7 @@
             // 
             // refreshBtn
             // 
-            this.refreshBtn.Location = new System.Drawing.Point(670, 119);
+            this.refreshBtn.Location = new System.Drawing.Point(670, 128);
             this.refreshBtn.Name = "refreshBtn";
             this.refreshBtn.Size = new System.Drawing.Size(70, 23);
             this.refreshBtn.TabIndex = 130;
@@ -480,7 +455,7 @@
             // 
             // slowwBtn
             // 
-            this.slowwBtn.Location = new System.Drawing.Point(530, 119);
+            this.slowwBtn.Location = new System.Drawing.Point(530, 128);
             this.slowwBtn.Name = "slowwBtn";
             this.slowwBtn.Size = new System.Drawing.Size(69, 23);
             this.slowwBtn.TabIndex = 129;
@@ -490,7 +465,7 @@
             // 
             // unfreezeCBtn
             // 
-            this.unfreezeCBtn.Location = new System.Drawing.Point(426, 119);
+            this.unfreezeCBtn.Location = new System.Drawing.Point(426, 128);
             this.unfreezeCBtn.Name = "unfreezeCBtn";
             this.unfreezeCBtn.Size = new System.Drawing.Size(89, 23);
             this.unfreezeCBtn.TabIndex = 128;
@@ -500,7 +475,7 @@
             // 
             // freezeCBtn
             // 
-            this.freezeCBtn.Location = new System.Drawing.Point(345, 119);
+            this.freezeCBtn.Location = new System.Drawing.Point(345, 128);
             this.freezeCBtn.Name = "freezeCBtn";
             this.freezeCBtn.Size = new System.Drawing.Size(75, 23);
             this.freezeCBtn.TabIndex = 127;
@@ -510,7 +485,7 @@
             // 
             // unfreezeWBtn
             // 
-            this.unfreezeWBtn.Location = new System.Drawing.Point(241, 119);
+            this.unfreezeWBtn.Location = new System.Drawing.Point(241, 128);
             this.unfreezeWBtn.Name = "unfreezeWBtn";
             this.unfreezeWBtn.Size = new System.Drawing.Size(89, 23);
             this.unfreezeWBtn.TabIndex = 126;
@@ -520,7 +495,7 @@
             // 
             // freezeWBtn
             // 
-            this.freezeWBtn.Location = new System.Drawing.Point(160, 119);
+            this.freezeWBtn.Location = new System.Drawing.Point(160, 128);
             this.freezeWBtn.Name = "freezeWBtn";
             this.freezeWBtn.Size = new System.Drawing.Size(75, 23);
             this.freezeWBtn.TabIndex = 125;
@@ -531,7 +506,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 123);
+            this.label2.Location = new System.Drawing.Point(10, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 124;
@@ -540,7 +515,7 @@
             // slowNumSeconds
             // 
             this.slowNumSeconds.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.slowNumSeconds.Location = new System.Drawing.Point(605, 120);
+            this.slowNumSeconds.Location = new System.Drawing.Point(605, 129);
             this.slowNumSeconds.Name = "slowNumSeconds";
             this.slowNumSeconds.Size = new System.Drawing.Size(50, 22);
             this.slowNumSeconds.TabIndex = 123;
@@ -551,11 +526,96 @@
             0});
             this.slowNumSeconds.Leave += new System.EventHandler(this.slowNumSeconds_Leave);
             // 
+            // submitCommand
+            // 
+            this.submitCommand.Location = new System.Drawing.Point(654, 63);
+            this.submitCommand.Name = "submitCommand";
+            this.submitCommand.Size = new System.Drawing.Size(86, 23);
+            this.submitCommand.TabIndex = 73;
+            this.submitCommand.Text = "Run";
+            this.submitCommand.UseVisualStyleBackColor = true;
+            this.submitCommand.Click += new System.EventHandler(this.submitCommand_Click);
+            // 
+            // commandMsgBox
+            // 
+            this.commandMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commandMsgBox.Location = new System.Drawing.Point(71, 65);
+            this.commandMsgBox.Name = "commandMsgBox";
+            this.commandMsgBox.Size = new System.Drawing.Size(577, 20);
+            this.commandMsgBox.TabIndex = 74;
+            this.commandMsgBox.Text = "SUBMIT tcp://localhost:30001/W <FILE> <OUTPUT> 9999 PADIMapNoReduce.DummyMapper C" +
+    "ommon";
+            this.commandMsgBox.TextChanged += new System.EventHandler(this.commandMsgBox_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(57, 13);
+            this.label1.TabIndex = 75;
+            this.label1.Text = "Command:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 42);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 134;
+            this.label4.Text = "PM Url:";
+            // 
+            // pmServiceUrlMsgBox
+            // 
+            this.pmServiceUrlMsgBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pmServiceUrlMsgBox.Location = new System.Drawing.Point(71, 39);
+            this.pmServiceUrlMsgBox.Name = "pmServiceUrlMsgBox";
+            this.pmServiceUrlMsgBox.Size = new System.Drawing.Size(577, 20);
+            this.pmServiceUrlMsgBox.TabIndex = 133;
+            this.pmServiceUrlMsgBox.Text = "tcp://localhost:20001/PM";
+            this.pmServiceUrlMsgBox.TextChanged += new System.EventHandler(this.pmServiceUrlMsgBox_TextChanged);
+            // 
+            // startServiceBtn
+            // 
+            this.startServiceBtn.Location = new System.Drawing.Point(654, 37);
+            this.startServiceBtn.Name = "startServiceBtn";
+            this.startServiceBtn.Size = new System.Drawing.Size(86, 23);
+            this.startServiceBtn.TabIndex = 132;
+            this.startServiceBtn.Text = "Start Service";
+            this.startServiceBtn.UseVisualStyleBackColor = true;
+            this.startServiceBtn.Click += new System.EventHandler(this.startServiceBtn_Click);
+            // 
+            // scriptStepCheckBox
+            // 
+            this.scriptStepCheckBox.AutoSize = true;
+            this.scriptStepCheckBox.Location = new System.Drawing.Point(1080, 16);
+            this.scriptStepCheckBox.Name = "scriptStepCheckBox";
+            this.scriptStepCheckBox.Size = new System.Drawing.Size(141, 17);
+            this.scriptStepCheckBox.TabIndex = 135;
+            this.scriptStepCheckBox.Text = "Run Script-Step-By-Step";
+            this.scriptStepCheckBox.UseVisualStyleBackColor = true;
+            this.scriptStepCheckBox.CheckedChanged += new System.EventHandler(this.scriptStepCheckBox_CheckedChanged);
+            // 
+            // scriptNextBtn
+            // 
+            this.scriptNextBtn.Location = new System.Drawing.Point(1227, 12);
+            this.scriptNextBtn.Name = "scriptNextBtn";
+            this.scriptNextBtn.Size = new System.Drawing.Size(75, 23);
+            this.scriptNextBtn.TabIndex = 136;
+            this.scriptNextBtn.Text = "Step";
+            this.scriptNextBtn.UseVisualStyleBackColor = true;
+            this.scriptNextBtn.Click += new System.EventHandler(this.scriptNextBtn_Click);
+            // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1314, 592);
+            this.Controls.Add(this.scriptNextBtn);
+            this.Controls.Add(this.scriptStepCheckBox);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.pmServiceUrlMsgBox);
+            this.Controls.Add(this.startServiceBtn);
             this.Controls.Add(this.workerIdMsgBox);
             this.Controls.Add(this.refreshBtn);
             this.Controls.Add(this.slowwBtn);
@@ -595,9 +655,6 @@
 
         private System.Windows.Forms.Label ConsoleLabel;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox commandMsgBox;
-        private System.Windows.Forms.Button submitCommand;
         private System.Windows.Forms.RichTextBox consoleMessageBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
@@ -609,7 +666,6 @@
         private System.Windows.Forms.ToolStripMenuItem loadScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem myScripttxtToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSeedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -646,6 +702,15 @@
         private System.Windows.Forms.Button freezeWBtn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown slowNumSeconds;
+        private System.Windows.Forms.Button submitCommand;
+        private System.Windows.Forms.TextBox commandMsgBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox pmServiceUrlMsgBox;
+        private System.Windows.Forms.Button startServiceBtn;
+        private System.Windows.Forms.ToolStripMenuItem myScripttxtToolStripMenuItem;
+        private System.Windows.Forms.CheckBox scriptStepCheckBox;
+        private System.Windows.Forms.Button scriptNextBtn;
 
     }
 }

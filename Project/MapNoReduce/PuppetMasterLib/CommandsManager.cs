@@ -20,6 +20,8 @@ namespace PADIMapNoReduce
 
         PuppetMaster pm = null;
 
+        private bool processNextCommand = false;
+
         public CommandsManager(PuppetMaster pm)
         {
             this.pm = pm;
@@ -69,11 +71,26 @@ namespace PADIMapNoReduce
             }
         }
 
+        public void ProcessNextCommand()
+        {
+            processNextCommand = true;
+        }
+
         public void ExecuteScript()
         {
+            int numCommandsExecuted = 0;
             foreach (Command command in listCommands){
                 try { 
                     ExecuteCommand(command);
+
+                    //don't wait for step on the last command
+                    if (numCommandsExecuted < listCommands.Count - 1 && PuppetMaster.Run_Script_Step_By_Step_Opt)
+                    {
+                        Logger.LogInfo("[CMD MASTER] Waiting for STEP");
+                        while (!processNextCommand && PuppetMaster.Run_Script_Step_By_Step_Opt) { }
+                        processNextCommand = false;
+                    }
+                    numCommandsExecuted++;
                 }
                 catch (Exception ex)
                 {

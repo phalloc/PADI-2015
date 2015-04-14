@@ -15,6 +15,8 @@ namespace PADIMapNoReduce
     {
         private CommandsManager cm;
 
+
+        public static bool Run_Script_Step_By_Step_Opt = false;
         private string serviceUrl;
         private static string SERVICE_NAME = "PM";
         private int port;
@@ -39,24 +41,27 @@ namespace PADIMapNoReduce
             Logger.RefreshNetwork();
         }
 
-        public void StartService()
+        public void StartService(string url)
         {
-            
-            int portAvailable = NetworkUtil.GetFirstAvailablePort(20001, 29999);
-            if (portAvailable < 0)
-            {
-                throw new Exception("No port in range is available");
+            string[] splits = url.Split(':');
+            splits = splits[splits.Length - 1].Split('/');
+            int channelPort = int.Parse(splits[0]);
+
+            try { 
+                this.port = channelPort;
+
+                remoteObject = new PM();
+                TcpChannel myChannel = new TcpChannel(this.port);
+                ChannelServices.RegisterChannel(myChannel, true);
+                RemotingServices.Marshal(remoteObject, SERVICE_NAME, typeof(IPuppetMaster));
+
+                serviceUrl = "tcp://localhost:" + this.port + "/" + SERVICE_NAME;
+                Logger.LogInfo("Started PuppetMaster service @ " + serviceUrl);
             }
-
-            this.port = portAvailable;
-
-            remoteObject = new PM();
-            TcpChannel myChannel = new TcpChannel(this.port);
-            ChannelServices.RegisterChannel(myChannel, true);
-            RemotingServices.Marshal(remoteObject, SERVICE_NAME, typeof(IPuppetMaster));
-
-            serviceUrl = "tcp://localhost:" + this.port + "/" + SERVICE_NAME;
-            Logger.LogInfo("Started PuppetMaster service @ " + serviceUrl);
+            catch (Exception ex)
+            {
+                Logger.LogErr("Couldn't start service: " + ex.Message);
+            }
         }
 
         /**************** COMMANDS **********************/
@@ -74,6 +79,11 @@ namespace PADIMapNoReduce
         public void ExecuteCommand(string line)
         {
             cm.ExecuteCommand(line);
+        }
+
+        public void ProcessNextCommand()
+        {
+            cm.ProcessNextCommand();
         }
     }
 }
