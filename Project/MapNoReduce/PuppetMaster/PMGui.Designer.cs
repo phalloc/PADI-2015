@@ -207,36 +207,36 @@
             this.myScripttxtToolStripMenuItem,
             this.createWorkerstxtToolStripMenuItem});
             this.loadScriptToolStripMenuItem.Name = "loadScriptToolStripMenuItem";
-            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.loadScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadScriptToolStripMenuItem.Text = "Load Script";
             // 
             // fromFileToolStripMenuItem
             // 
             this.fromFileToolStripMenuItem.Name = "fromFileToolStripMenuItem";
             this.fromFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.fromFileToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
+            this.fromFileToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.fromFileToolStripMenuItem.Text = "From File";
             this.fromFileToolStripMenuItem.Click += new System.EventHandler(this.fromFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(253, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(237, 6);
             // 
             // myScripttxtToolStripMenuItem
             // 
             this.myScripttxtToolStripMenuItem.Name = "myScripttxtToolStripMenuItem";
             this.myScripttxtToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.myScripttxtToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.myScripttxtToolStripMenuItem.Text = "..\\..\\..\\MyScript.script";
+            this.myScripttxtToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.myScripttxtToolStripMenuItem.Text = "..\\..\\..\\MyScript.txt";
             this.myScripttxtToolStripMenuItem.Click += new System.EventHandler(this.myScripttxtToolStripMenuItem_Click);
             // 
             // createWorkerstxtToolStripMenuItem
             // 
             this.createWorkerstxtToolStripMenuItem.Name = "createWorkerstxtToolStripMenuItem";
             this.createWorkerstxtToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.createWorkerstxtToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
-            this.createWorkerstxtToolStripMenuItem.Text = "..\\..\\..\\CreateWorkers.script";
+            this.createWorkerstxtToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.createWorkerstxtToolStripMenuItem.Text = "..\\..\\..\\CreateWorkers.txt";
             this.createWorkerstxtToolStripMenuItem.Click += new System.EventHandler(this.createWorkerstxtToolStripMenuItem_Click);
             // 
             // loadSeedToolStripMenuItem
@@ -246,7 +246,7 @@
             this.toolStripSeparator3,
             this.pMpropertiesconfToolStripMenuItem});
             this.loadSeedToolStripMenuItem.Name = "loadSeedToolStripMenuItem";
-            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.loadSeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadSeedToolStripMenuItem.Text = "Load Seed";
             // 
             // fromFileToolStripMenuItem1

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Runtime.Remoting;
-
+using System.Threading;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -20,50 +20,17 @@ namespace PADIMapNoReduce.Commands
 
         public CreateWorkerCmd(PuppetMaster pm) : base(pm) { }
 
-        int PMStarPort = 20001;
-        int PMEndPort = 29999;
-        int WStartPort = 30001;
-        int WEndPort = 39999;
-
         protected override bool ParseAux()
         {
             
             string[] args = line.Split(' ');
 
-            //<id> <entry-url>
-            if (args.Length == 3)
-            {
-                id = args[1].Trim(); ;
-                serviceUrl = args[2].Trim();
-
-                return true;
-            }
-            else if (args.Length == 4)
+            if (args.Length == 4)
             {
                 id = args[1];
-                string url = args[2];
-
-                string[] splits = url.Split(':');
-                splits = splits[splits.Length - 1].Split('/');
-                int channelPort = int.Parse(splits[0]);
-
- 
-                //Second argument is a puppet-master url
-                if (channelPort >= PMStarPort && channelPort <= PMEndPort)
-                {
-                    puppetMasterUrl = args[2];
-                    serviceUrl = args[3];
-                }
-                else if (channelPort >= WStartPort && channelPort <= WEndPort)
-                {
-                    serviceUrl = args[2];
-                    entryUrl = args[3];
-                }
-                else
-                {
-                    return false;
-                }
-
+                puppetMasterUrl = args[2];
+                serviceUrl = args[3];
+                entryUrl = "";
 
                 return true;
             }
@@ -102,7 +69,7 @@ namespace PADIMapNoReduce.Commands
                 try
                 {
                     IPuppetMaster pm = (IPuppetMaster)Activator.GetObject(typeof(IPuppetMaster), puppetMasterUrl);
-                    pm.CreateWorker(id, serviceUrl, entryUrl);
+                    pm.CreateWorker(id, puppetMasterUrl, serviceUrl, entryUrl);
                 }
                 catch (Exception ex)
                 {
@@ -115,8 +82,11 @@ namespace PADIMapNoReduce.Commands
             else
             {
                 IPuppetMaster p = new PM();
-                p.CreateWorker(id, serviceUrl, entryUrl);
+                p.CreateWorker(id, puppetMasterUrl, serviceUrl, entryUrl);
             }
+
+            Logger.LogInfo("Waiting 1 second for node start");
+            Thread.Sleep(1000);
         }
 
     }

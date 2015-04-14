@@ -20,6 +20,7 @@ namespace PADIMapNoReduce
         private int channelPort;
         private string myURL;
         private string clientURL;
+        private string pmUrl;
 
         private string nextURL = null;
         private string nextNextURL = null;
@@ -67,9 +68,10 @@ namespace PADIMapNoReduce
 
         private IClient client = null;
 
-        public Node(string id, string serviceURL)
+        public Node(string id, string pmUrl, string serviceURL)
         {
             this.id = id;
+            this.pmUrl = pmUrl;
             myURL = serviceURL;
             string[] splits = serviceURL.Split(':');
             splits = splits[splits.Length-1].Split('/');
@@ -283,20 +285,20 @@ namespace PADIMapNoReduce
         {
             if (args.Length <= 1)
             {
-                Logger.LogErr("Error: Invalid arguments. Usage: [required: id, serviceURL], [optional: entryURL]");
+                Logger.LogErr("Error: Invalid arguments. Usage: [required: id, pmUrl, serviceURL], [optional: entryURL]");
             }
 
             try
             {
-                Node node = new Node(args[0], args[1]);
+                Node node = new Node(args[0], args[1], args[2]);
                 TcpChannel myChannel = new TcpChannel(node.channelPort);
                 ChannelServices.RegisterChannel(myChannel, true);
                 RemotingServices.Marshal(node, serviceName, typeof(IWorker));
                 Logger.LogInfo("Registered with url: " + node.myURL);
-                if (args.Length >= 3)
+                if (args.Length >= 4)
                 {
-                    Logger.LogInfo("Registering on network with entry point: " + args[2]);
-                    node.Register(args[2]);
+                    Logger.LogInfo("Registering on network with entry point: " + args[3]);
+                    node.Register(args[3]);
                 }
             }
             catch (RemotingException re)

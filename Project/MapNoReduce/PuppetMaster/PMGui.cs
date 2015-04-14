@@ -240,10 +240,10 @@ namespace PADIMapNoReduce
 
         private void fromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string file = FileUtil.FindSourceFile("Script files (*.script)|*.script|All files (*.*)|*.*", "Choose Script Source File");
+            string file = FileUtil.FindSourceFile("Text files (*.txt)|*.script|All files (*.*)|*.*", "Choose Script Source File");
 
             if (file != "") {
-                RunScript(file);Seed(pMpropertiesconfToolStripMenuItem.Text);
+                RunScript(file);
             }
         }
 

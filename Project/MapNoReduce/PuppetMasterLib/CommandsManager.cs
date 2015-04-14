@@ -47,7 +47,7 @@ namespace PADIMapNoReduce
                 int numLines = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!line.StartsWith(COMMENT_CHAR))
+                    if (!line.StartsWith(COMMENT_CHAR) && !line.StartsWith("\r") && !line.StartsWith("\n") && line != "")
                     {
                         listCommands.Add(ParseCommand(line));
                     }

@@ -8,6 +8,6 @@ namespace PADIMapNoReduce
 {
     public interface IPuppetMaster
     {
-        void CreateWorker(string id, string serviceUrl, string entryUrl);
+        void CreateWorker(string id, string puppetMasterUrl, string serviceUrl, string entryUrl);
     }
 }
