@@ -24,6 +24,7 @@ namespace PADIMapNoReduce
 
         private string nextURL = null;
         private string nextNextURL = null;
+        private string backURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
 
         List<KeyValuePair<long, long>> processedSplits = new List<KeyValuePair<long, long>>();
@@ -87,6 +88,7 @@ namespace PADIMapNoReduce
                 List<String> urls = worker.AddWorker(myURL, true);
                 nextURL = urls[1];
                 nextNextURL = urls[2];
+                backURL = urls[3];
                 if (urls[0].Equals("continue"))
                 {
                     Logger.LogInfo("Updating existing node at: " + nextURL);
@@ -246,7 +248,8 @@ namespace PADIMapNoReduce
             {
                 nextURL = newURL;
                 nextNextURL = newURL;
-                urls = new List<string> {"done", myURL, myURL};
+                backURL = newURL;
+                urls = new List<string> {"done", myURL, myURL, myURL};
             }
 
             //two nodes in the network and firstcontact from new node
@@ -254,13 +257,14 @@ namespace PADIMapNoReduce
             {
                 nextNextURL = nextURL;
                 nextURL = newURL;
-                urls = new List<string> {"continue", nextNextURL, myURL };
+                urls = new List<string> {"continue", nextNextURL, myURL, myURL};
             }
 
             //two nodes in the network but secondcontact from new node
             else if (nextURL.Equals(nextNextURL) && !firstContact)
             {
                 nextNextURL = newURL;
+                backURL = newURL;
             }
 
             //three or more nodes in the network
