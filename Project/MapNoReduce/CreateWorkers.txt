@@ -8,18 +8,6 @@ WORKER W3 tcp://localhost:20001/PM tcp://localhost:30003/W tcp://localhost:30002
 WORKER W4 tcp://localhost:20001/PM tcp://localhost:30004/W tcp://localhost:30003/W
 
 
-WORKER W5 tcp://localhost:20001/PM tcp://localhost:30005/W tcp://localhost:30004/W
-WORKER W6 tcp://localhost:20001/PM tcp://localhost:30006/W tcp://localhost:30005/W
-
-
-WORKER W7 tcp://localhost:20001/PM tcp://localhost:30007/W tcp://localhost:30006/W
-WORKER W8 tcp://localhost:20001/PM tcp://localhost:30008/W tcp://localhost:30007/W
-
-WORKER W9 tcp://localhost:20001/PM tcp://localhost:30009/W tcp://localhost:30008/W
-
-WORKER W10 tcp://localhost:20001/PM tcp://localhost:30010/W tcp://localhost:30009/W
-
-
 STATUS
 
 

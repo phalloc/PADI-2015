@@ -83,7 +83,6 @@ namespace PADIMapNoReduce
             //check if other nodes exist
             if (entryURL != null)
             {
-                Logger.LogInfo("Attaching myself to existing network at: " + entryURL);
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), entryURL);
                 List<String> urls = worker.AddWorker(myURL, true);
                 nextURL = urls[1];
@@ -98,6 +97,8 @@ namespace PADIMapNoReduce
                 Logger.LogInfo("Successfully registered on the network.");
                 Logger.LogInfo("nextURL: " + nextURL);
                 Logger.LogInfo("nextNextURL: " + nextNextURL);
+                Logger.LogInfo("backURL: " + backURL);
+                Logger.LogInfo("------------------------------");
 
             }
             else Logger.LogErr("Did not provided entryURL");
@@ -280,6 +281,8 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Successfully updated network!");
             Logger.LogInfo("nextUrl: " + nextURL);
             Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
+            Logger.LogInfo("------------------------------");
             return urls;
         }
 
