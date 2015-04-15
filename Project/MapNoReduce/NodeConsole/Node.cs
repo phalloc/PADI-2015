@@ -88,18 +88,28 @@ namespace PADIMapNoReduce
                 nextURL = urls[1];
                 nextNextURL = urls[2];
                 backURL = urls[3];
-                if (urls[0].Equals("continue"))
+                if (urls[0].Equals("smallUpdate"))
                 {
                     Logger.LogInfo("Updating existing node at: " + nextURL);
                     worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                     worker.AddWorker(myURL, false);
                 }
+                if (urls[0].Equals("bigUpdate"))
+                {
+                    string wayBackURL = urls[4];
+                    Logger.LogInfo("Updating back node at: " + wayBackURL);
+                    worker = (IWorker)Activator.GetObject(typeof(IWorker), wayBackURL);
+                    worker.BackUpdate(myURL);
+                    Logger.LogInfo("Updating next node at: " + nextURL);
+                    worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                    worker.FrontUpdate(myURL);
+                }
+                Logger.LogInfo("------------------------------");
                 Logger.LogInfo("Successfully registered on the network.");
                 Logger.LogInfo("nextURL: " + nextURL);
                 Logger.LogInfo("nextNextURL: " + nextNextURL);
                 Logger.LogInfo("backURL: " + backURL);
-                Logger.LogInfo("------------------------------");
-
+          
             }
             else Logger.LogErr("Did not provided entryURL");
 
@@ -208,7 +218,6 @@ namespace PADIMapNoReduce
 
                     Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
                     string line = client.getWorkSplit(startSplit, endSplit);
-                    Logger.LogInfo("Line -> " + line);
 
                     if (sleep_seconds > 0)
                     {
@@ -219,7 +228,9 @@ namespace PADIMapNoReduce
                         sleep_seconds = 0;
                     }
 
+                    Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
                     IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
+                    Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
                     processedSplits.Add(new KeyValuePair<long, long>(startSplit, endSplit));
@@ -233,6 +244,26 @@ namespace PADIMapNoReduce
                 Logger.LogErr("Remoting Exception: " + e.Message);
             }
 
+        }
+
+        public void BackUpdate(string nextNextURL)
+        {
+            this.nextNextURL = nextNextURL;
+            Logger.LogInfo("------------------------------");
+            Logger.LogInfo("Successfully updated network!");
+            Logger.LogInfo("nextUrl: " + nextURL);
+            Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
+        }
+
+        public void FrontUpdate(string backURL)
+        {
+            this.backURL = backURL;
+            Logger.LogInfo("------------------------------");
+            Logger.LogInfo("Successfully updated network!");
+            Logger.LogInfo("nextUrl: " + nextURL);
+            Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
         }
 
 
@@ -258,7 +289,7 @@ namespace PADIMapNoReduce
             {
                 nextNextURL = nextURL;
                 nextURL = newURL;
-                urls = new List<string> {"continue", nextNextURL, myURL, myURL};
+                urls = new List<string> {"smallUpdate", nextNextURL, myURL, myURL};
             }
 
             //two nodes in the network but secondcontact from new node
@@ -275,14 +306,15 @@ namespace PADIMapNoReduce
                 string tmpNextNextURL = nextNextURL;
                 nextNextURL = nextURL;
                 nextURL = newURL;
-                urls =  new List<string> {"done", tmpNextURL, tmpNextNextURL };
+                urls =  new List<string> {"bigUpdate", tmpNextURL, tmpNextNextURL, myURL, backURL };
             }
 
+            Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
             Logger.LogInfo("nextUrl: " + nextURL);
             Logger.LogInfo("nextNextUrl: " + nextNextURL);
             Logger.LogInfo("backURL: " + backURL);
-            Logger.LogInfo("------------------------------");
+    
             return urls;
         }
 
