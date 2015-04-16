@@ -333,7 +333,7 @@ namespace PADIMapNoReduce
                 TcpChannel myChannel = new TcpChannel(node.channelPort);
                 ChannelServices.RegisterChannel(myChannel, true);
                 RemotingServices.Marshal(node, serviceName, typeof(IWorker));
-                Logger.LogInfo("Registered with url: " + node.myURL);
+                Logger.LogInfo("Registered node " + args[0] + " with url: " + node.myURL);
                 if (args.Length >= 4)
                 {
                     Logger.LogInfo("Registering on network with entry point: " + args[3]);

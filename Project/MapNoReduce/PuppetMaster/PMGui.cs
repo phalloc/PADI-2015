@@ -518,15 +518,25 @@ namespace PADIMapNoReduce
 
         private void scriptStepCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            scriptNextBtn.Enabled = scriptStepCheckBox.Checked;
             Logger.LogWarn("OPTION TO RUN SCRIPT STEP-BY-STEP = " + scriptStepCheckBox.Checked);
             PuppetMaster.Run_Script_Step_By_Step_Opt = scriptStepCheckBox.Checked;
-            puppetMaster.ProcessNextCommand();
         }
 
         private void scriptNextBtn_Click(object sender, EventArgs e)
         {
-            puppetMaster.ProcessNextCommand();
+            Thread runThread = new Thread(() =>
+            {
+                try
+                {
+                    puppetMaster.ExecuteScript();
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogErr(ex.Message);
+                }
+            });
+
+            runThread.Start();
         }
     }
 }

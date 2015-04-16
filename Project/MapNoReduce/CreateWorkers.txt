@@ -7,7 +7,7 @@ WORKER W2 tcp://localhost:20001/PM tcp://localhost:30002/W tcp://localhost:30001
 WORKER W3 tcp://localhost:20001/PM tcp://localhost:30003/W tcp://localhost:30002/W
 WORKER W4 tcp://localhost:20001/PM tcp://localhost:30004/W tcp://localhost:30003/W
 
-
+WAIT 1
 STATUS
 
 

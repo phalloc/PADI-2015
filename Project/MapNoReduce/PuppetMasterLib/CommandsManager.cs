@@ -20,8 +20,6 @@ namespace PADIMapNoReduce
 
         PuppetMaster pm = null;
 
-        private bool processNextCommand = false;
-
         public CommandsManager(PuppetMaster pm)
         {
             this.pm = pm;
@@ -42,7 +40,7 @@ namespace PADIMapNoReduce
             StreamReader reader = null;
             try
             {
-                listCommands = new List<Command>();
+                listCommands.Clear();
                 reader = File.OpenText(file);
 
                 string line;
@@ -71,34 +69,35 @@ namespace PADIMapNoReduce
             }
         }
 
-        public void ProcessNextCommand()
-        {
-            processNextCommand = true;
-        }
-
         public void ExecuteScript()
         {
-            int numCommandsExecuted = 0;
-            foreach (Command command in listCommands){
-                try { 
-                    ExecuteCommand(command);
+            if (listCommands.Count == 0)
+            {
+                Logger.LogErr("No pending commands to be executed.");
+            }
 
-                    //don't wait for step on the last command
-                    if (numCommandsExecuted < listCommands.Count - 1 && PuppetMaster.Run_Script_Step_By_Step_Opt)
+            while (listCommands.Count != 0)
+            {
+                Command c = listCommands.First();
+                listCommands.Remove(c);
+                
+                try
+                {
+                    ExecuteCommand(c);
+                    if (PuppetMaster.Run_Script_Step_By_Step_Opt)
                     {
-                        Logger.LogInfo("[CMD MASTER] Waiting for STEP");
-                        while (!processNextCommand && PuppetMaster.Run_Script_Step_By_Step_Opt) { }
-                        processNextCommand = false;
+                        return;
                     }
-                    numCommandsExecuted++;
-                }
-                catch (Exception ex)
+                }catch (Exception ex)
                 {
                     Logger.LogWarn("ERROR IN COMMAND: " + ex.Message + " IGNORING...");
                 }
+                finally
+                {
+                    if (PuppetMaster.Run_Script_Step_By_Step_Opt &&  listCommands.Count != 0)
+                        Logger.LogInfo("[CMD MASTER] Waiting for STEP");
+                }
             }
-
-            listCommands.Clear();
         }
 
         public void ExecuteCommand(string line)

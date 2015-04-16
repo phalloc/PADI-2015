@@ -80,10 +80,5 @@ namespace PADIMapNoReduce
         {
             cm.ExecuteCommand(line);
         }
-
-        public void ProcessNextCommand()
-        {
-            cm.ProcessNextCommand();
-        }
     }
 }

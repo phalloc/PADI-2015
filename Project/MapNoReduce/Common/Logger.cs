@@ -83,7 +83,6 @@ namespace PADIMapNoReduce
             {
                 form.BeginInvoke(new RefreshDel(form.RefreshRemote), new Object[] {});
             }
-
         }
     }
 }
