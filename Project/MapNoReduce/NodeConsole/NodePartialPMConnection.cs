@@ -50,6 +50,7 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.NEXT_URL, this.nextURL);
             result.Add(NodeRepresentation.NEXT_NEXT_URL, this.nextNextURL);
             result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
+            result.Add(NodeRepresentation.BACK_URL, this.backURL);
 
 
             string splits = "";

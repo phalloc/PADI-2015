@@ -17,15 +17,17 @@ namespace PADIMapNoReduce
         
         public static string DOWN_WORKERS_TAG = "DOWN_WORKERS";
         private static Color DOWN_WORKERS_COLOR = Color.Red;
+
+        public static string RING_BACK_URL_TAG = "RING_BACK_URL";
+        private static Color RING_BACK_URL_COLOR = Color.Bisque;
         
-        
-        public static string RING_NEXT_URL_TAG = "RING_N_URL";
+        public static string RING_NEXT_URL_TAG = "RING_NEXT_URL";
         private static Color RING_NEXT_COLOR = Color.SteelBlue;
         
-        public static string RING_NEXT_NEXT_URL_START1_TAG = "RING_NN_URL_1";
+        public static string RING_NEXT_NEXT_URL_START1_TAG = "RING_NEXTNEXT_URL_1";
         private static Color RING_NEXT_NEXT_1_COLOR = Color.DodgerBlue;
         
-        public static string RING_NEXT_NEXT_URL_START2_TAG = "RING_NN_URL_2";
+        public static string RING_NEXT_NEXT_URL_START2_TAG = "RING_NEXTNEXT_URL_2";
         private static Color RING_NEXT_NEXT_2_COLOR = Color.SkyBlue;
         
         public static string CURRENT_JTS_TAG = "CURRENT_JTS";
@@ -243,7 +245,7 @@ namespace PADIMapNoReduce
             NodeRepresentation node = knownNodes[knownNodes.Keys.First(t => true)];
             //Generating nextUrlGraph
             try { 
-                string result = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_URL, "=>");
+                string result = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_URL, " -> ");
                 TreeNode tagNode = CreateNode(RING_NEXT_URL_TAG + " : " + result, RING_NEXT_URL_TAG);
                 tagNode.BackColor = RING_NEXT_COLOR;
                 mostRecentNode.Nodes.Add(tagNode);
@@ -255,7 +257,7 @@ namespace PADIMapNoReduce
             //Generating nextNextUrlGraph 1
             try
             {
-                string resultNextNextUrl1 = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_NEXT_URL, "=>");
+                string resultNextNextUrl1 = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.NEXT_NEXT_URL, " ->> ");
                 TreeNode tagNode1 = CreateNode(RING_NEXT_NEXT_URL_START1_TAG + " : " + resultNextNextUrl1, RING_NEXT_NEXT_URL_START1_TAG);
                 tagNode1.BackColor = RING_NEXT_NEXT_1_COLOR;
                 mostRecentNode.Nodes.Add(tagNode1);
@@ -274,7 +276,7 @@ namespace PADIMapNoReduce
                 }
 
                 knownNodes.TryGetValue(nextUrl, out node2);
-                string resultNextNextUrl2 = GenerateFieldIteratorThroughNodes(knownNodes, node2, NodeRepresentation.NEXT_NEXT_URL, "=>");
+                string resultNextNextUrl2 = GenerateFieldIteratorThroughNodes(knownNodes, node2, NodeRepresentation.NEXT_NEXT_URL, " ->> ");
                 TreeNode tagNode2 = CreateNode(RING_NEXT_NEXT_URL_START2_TAG + " : " + resultNextNextUrl2, RING_NEXT_NEXT_URL_START2_TAG);
                 tagNode2.BackColor = RING_NEXT_NEXT_2_COLOR;
                 mostRecentNode.Nodes.Add(tagNode2);
@@ -283,6 +285,21 @@ namespace PADIMapNoReduce
             {
                 Logger.LogWarn(ex.Message);
             }
+
+
+            //Generating backUrlGraph 1
+            try
+            {
+                string resultBackUrl = GenerateFieldIteratorThroughNodes(knownNodes, node, NodeRepresentation.BACK_URL, " <- ");
+                TreeNode backNode = CreateNode(RING_BACK_URL_TAG + " : " + resultBackUrl, RING_BACK_URL_TAG);
+                backNode.BackColor = RING_BACK_URL_COLOR;
+                mostRecentNode.Nodes.Add(backNode);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarn(ex.Message);
+            }
+
         }
 
         public void Clear()

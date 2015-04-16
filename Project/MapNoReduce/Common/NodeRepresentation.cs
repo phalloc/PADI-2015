@@ -11,6 +11,7 @@ namespace PADIMapNoReduce
         public static string NEXT_URL = "NEXT_URL";
         public static string NEXT_NEXT_URL = "NEXT_NEXT_URL";
         public static string CURRENT_JT = "CURRENT_JT";
+        public static string BACK_URL = "BACK_URL";
 
         public static string PROCESSED_SPLITS = "PROCESSED_SPLITS";
 
