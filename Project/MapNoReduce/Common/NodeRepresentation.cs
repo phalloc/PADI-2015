@@ -15,6 +15,11 @@ namespace PADIMapNoReduce
 
         public static string PROCESSED_SPLITS = "PROCESSED_SPLITS";
 
+        public static string SERVER_STATUS = "SERVER_STATUS";
+        public static string PENDING_REQUESTS = "PENDING_REQUESTS";
+        public static string SERVER_ROLE = "SERVER_ROLE";
+        public static string SERVER_STATE = "SERVER_STATE";
+       
         public IDictionary<string, string> info;
 
         public NodeRepresentation()

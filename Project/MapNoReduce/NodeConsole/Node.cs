@@ -26,48 +26,9 @@ namespace PADIMapNoReduce
         private string nextNextURL = null;
         private string backURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
-
-        List<KeyValuePair<long, long>> processedSplits = new List<KeyValuePair<long, long>>();
-
-
-        private ServerRole _serverRole = ServerRole.NONE;
-        private ServerRole serverRole
-        {
-            get {
-                return _serverRole;
-            } set {
-                Logger.LogInfo("ROLE: " + value);
-                _serverRole = value;
-            }
-        }
-
-        private ExecutionState _status = ExecutionState.WAITING;
-        private ExecutionState status
-        {
-            get {
-                return _status;
-            } set {
-                Logger.LogInfo("STATUS: " + value);
-                _status = status;
-            }
-        }
-
-        private ServerState _serverState = ServerState.ALIVE;
-        private ServerState serverState
-        {
-            get
-            {
-                return _serverState;
-            }
-            set
-            {
-                Logger.LogInfo("STATE: " + value);
-                _serverState = value;
-            }
-        }
-
-
         private IClient client = null;
+
+
 
         public Node(string id, string pmUrl, string serviceURL)
         {
@@ -153,6 +114,11 @@ namespace PADIMapNoReduce
         {
             try
             {
+                /* wait until if I am unfrozen */
+                WaitForUnfreeze();
+                /* --------------------------- */
+
+
                 Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
                 
                 currentJobTrackerUrl = this.id;
@@ -166,7 +132,8 @@ namespace PADIMapNoReduce
                 if (splits > fileSize)
                     splits = fileSize;
                 long splitSize = fileSize / splits;
-                
+
+
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, null, null);
                 
@@ -182,6 +149,10 @@ namespace PADIMapNoReduce
         {
             try
             {
+                /* wait until if I am unfrozen */
+                WaitForUnfreeze();
+                /* --------------------------- */
+
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
 

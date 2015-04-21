@@ -9,7 +9,8 @@ namespace PADIMapNoReduce
     enum ServerState
     {
         ALIVE, 
-        FREEZE
+        FREEZEW,
+        FREEZEC
     }
 
     enum ServerRole
