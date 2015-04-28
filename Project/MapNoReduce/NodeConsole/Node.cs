@@ -76,7 +76,7 @@ namespace PADIMapNoReduce
 
         }
 
-        private IList<KeyValuePair<string, string>> processStringWithMapper(string mapperName, byte[] mapperCode, string split)
+        private IList<KeyValuePair<string, string>> processLineWithMapper(string mapperName, byte[] mapperCode, string split)
         {
             Assembly assembly = Assembly.Load(mapperCode);
             //procurar o metodo
@@ -97,11 +97,16 @@ namespace PADIMapNoReduce
                                ClassObj,
                                args);
                         IList<KeyValuePair<string, string>> result = (IList<KeyValuePair<string, string>>)resultObject;
-                        Logger.LogInfo("Processed: ");
-                        foreach (KeyValuePair<string, string> p in result)
+                        
+                        //DEBUG purposes
+                        /*                         
+                         Logger.LogInfo("Processed: ");
+
+                         foreach (KeyValuePair<string, string> p in result)
                         {
                             Logger.LogInfo("key: " + p.Key + ", value: " + p.Value);
                         }
+                        */
                         return result;
                     }
                 }
@@ -188,7 +193,7 @@ namespace PADIMapNoReduce
                     }
 
                     Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
-                    string line = client.getWorkSplit(startSplit, endSplit);
+                    string mySplit = client.getWorkSplit(startSplit, endSplit);
 
                     if (sleep_seconds > 0)
                     {
@@ -199,8 +204,11 @@ namespace PADIMapNoReduce
                         sleep_seconds = 0;
                     }
 
+
+                 
+
                     Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
-                    IList<KeyValuePair<string, string>> processedWork = processStringWithMapper(mapperName, mapperCode, line);
+                    List<KeyValuePair<string, string>> processedWork = ProcessSplit(mapperName, mapperCode, mySplit);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
@@ -215,6 +223,18 @@ namespace PADIMapNoReduce
                 Logger.LogErr("Remoting Exception: " + e.Message);
             }
 
+        }
+
+        private List<KeyValuePair<string, string>> ProcessSplit(string mapperName, byte[] mapperCode, string mySplit)
+        {
+            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string, string>>();
+            //TODO: Destructive split to save memory
+            string[] lines = mySplit.Split('\n');
+            foreach (string line in lines)
+            {
+                processedWork.AddRange(processLineWithMapper(mapperName, mapperCode, line));
+            }
+            return processedWork;
         }
 
         public void BackUpdate(string nextNextURL)
