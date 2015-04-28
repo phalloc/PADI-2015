@@ -13,7 +13,7 @@ namespace PADIMapNoReduce
         private int pendingRequests = 0;
 
         //just to keep track of splits for STATUS
-        List<KeyValuePair<long, long>> processedSplits = new List<KeyValuePair<long, long>>();
+        int processedSplits = 0;
 
 
         private ServerRole _serverRole = ServerRole.NONE;
@@ -142,15 +142,7 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.CURRENT_JT, this.currentJobTrackerUrl);
             result.Add(NodeRepresentation.BACK_URL, this.backURL);
 
-
-            string splits = "";
-            foreach (KeyValuePair<long, long> split in processedSplits)
-            {
-                string start = split.Key.ToString();
-                string end = split.Value.ToString();
-                splits += "(" + start + ", " + end + "),  ";
-            }
-            result.Add(NodeRepresentation.PROCESSED_SPLITS, splits);
+            result.Add(NodeRepresentation.PROCESSED_SPLITS, processedSplits.ToString());
             result.Add(NodeRepresentation.PENDING_REQUESTS, this.pendingRequests.ToString());
             result.Add(NodeRepresentation.SERVER_ROLE, this.serverRole.ToString());
             result.Add(NodeRepresentation.SERVER_STATUS, this.status.ToString());

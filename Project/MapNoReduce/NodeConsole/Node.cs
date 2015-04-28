@@ -204,7 +204,7 @@ namespace PADIMapNoReduce
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
-                    processedSplits.Add(new KeyValuePair<long, long>(startSplit, endSplit));
+                    processedSplits++;
                     client.returnWorkSplit(processedWork, remainingSplits);
                     status = ExecutionState.WAITING;
                 }

@@ -59,7 +59,7 @@ namespace PADIMapNoReduce
 
         private void sourceFileBtn_Click(object sender, EventArgs e)
         {
-            string filePath = FileUtil.FindSourceFile("Input files (*.in)|*.in", "Choose Source File");
+            string filePath = FileUtil.FindSourceFile("Input files (*.in)|*.in | All files (*.*)|*.*", "Choose Source File");
             
             if(filePath != ""){
                 submitTaskSourceFileMsgBox.Text = filePath;
@@ -90,7 +90,7 @@ namespace PADIMapNoReduce
         private void dllLocationChooseBtn_Click(object sender, EventArgs e)
         {
 
-            string location =  FileUtil.FindSourceFile("Dll File | *.dll", "Choose Dll for Mapper File");
+            string location = FileUtil.FindSourceFile("Dll File | *.dll|All files (*.*)|*.*", "Choose Dll for Mapper File");
 
             if(location != ""){
                 dllLocationMsgBox.Text = location;

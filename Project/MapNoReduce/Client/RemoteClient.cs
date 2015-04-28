@@ -48,9 +48,10 @@ namespace PADIMapNoReduce
 
         public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId)
         {
+;
             //TODO: perceber como raio vamos parar isto quando ja nao houver mais splits
             // ah e testar
-            //Logger.LogInfo("Received split number " + splitId);
+            Logger.LogInfo("Received split number " + splitId);
             StreamWriter writer = File.CreateText(destPath + "/" + splitId + ".out");
             foreach(KeyValuePair<string, string> entry in Map){
                 string key = entry.Key;

@@ -34,7 +34,7 @@ namespace ClientApplication
             }
             catch (Exception ex)
             {
-                Logger.LogErr("Error during submit: " + ex.Message);   
+                Logger.LogErr("Error during submit: " + ex.Message);
             }
 
             Logger.LogInfo("Press any key to quit");
