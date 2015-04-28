@@ -28,6 +28,8 @@ namespace PADIMapNoReduce
         private string currentJobTrackerUrl = "<JobTracker Id>";
         private IClient client = null;
 
+        private object mapper = null;
+        private Type mapperType = null;
 
 
         public Node(string id, string pmUrl, string serviceURL)
@@ -76,7 +78,45 @@ namespace PADIMapNoReduce
 
         }
 
-        private IList<KeyValuePair<string, string>> processLineWithMapper(string mapperName, byte[] mapperCode, string split)
+        private IList<KeyValuePair<string, string>> ProcessSplit(string mySplit)
+        {
+
+            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string, string>>();
+            //TODO: Destructive split to save memory
+            string[] lines = mySplit.Split('\n');
+            foreach (string line in lines)
+            {
+                processedWork.AddRange(processLineWithMapper(line));
+            }
+            return processedWork;
+        }
+
+        private IList<KeyValuePair<string, string>> processLineWithMapper(string line)
+        {
+
+
+            // Dynamically Invoke the method
+            object[] args = new object[] { line };
+            object resultObject = this.mapperType.InvokeMember("Map",
+              BindingFlags.Default | BindingFlags.InvokeMethod,
+                   null,
+                   this.mapper,
+                   args);
+            IList<KeyValuePair<string, string>> result = (IList<KeyValuePair<string, string>>)resultObject;
+
+            //DEBUG purposes
+            /*                         
+             Logger.LogInfo("Processed: ");
+
+             foreach (KeyValuePair<string, string> p in result)
+            {
+                Logger.LogInfo("key: " + p.Key + ", value: " + p.Value);
+            }
+            */
+            return result;
+        }
+
+        private void GetMapperObject(string mapperName, byte[] mapperCode)
         {
             Assembly assembly = Assembly.Load(mapperCode);
             //procurar o metodo
@@ -87,27 +127,9 @@ namespace PADIMapNoReduce
                     if (type.FullName.EndsWith("." + mapperName))
                     {
                         // create an instance of the object
-                        object ClassObj = Activator.CreateInstance(type);
-
-                        // Dynamically Invoke the method
-                        object[] args = new object[] { split };
-                        object resultObject = type.InvokeMember("Map",
-                          BindingFlags.Default | BindingFlags.InvokeMethod,
-                               null,
-                               ClassObj,
-                               args);
-                        IList<KeyValuePair<string, string>> result = (IList<KeyValuePair<string, string>>)resultObject;
-                        
-                        //DEBUG purposes
-                        /*                         
-                         Logger.LogInfo("Processed: ");
-
-                         foreach (KeyValuePair<string, string> p in result)
-                        {
-                            Logger.LogInfo("key: " + p.Key + ", value: " + p.Value);
-                        }
-                        */
-                        return result;
+                        this.mapper = Activator.CreateInstance(type);
+                        this.mapperType = type;
+                        return;
                     }
                 }
             }
@@ -208,7 +230,12 @@ namespace PADIMapNoReduce
                  
 
                     Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
-                    List<KeyValuePair<string, string>> processedWork = ProcessSplit(mapperName, mapperCode, mySplit);
+
+                    if (this.mapper == null || this.mapperType == null) {
+                        GetMapperObject(mapperName, mapperCode);
+                    }
+
+                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(mySplit);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
@@ -225,17 +252,7 @@ namespace PADIMapNoReduce
 
         }
 
-        private List<KeyValuePair<string, string>> ProcessSplit(string mapperName, byte[] mapperCode, string mySplit)
-        {
-            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string, string>>();
-            //TODO: Destructive split to save memory
-            string[] lines = mySplit.Split('\n');
-            foreach (string line in lines)
-            {
-                processedWork.AddRange(processLineWithMapper(mapperName, mapperCode, line));
-            }
-            return processedWork;
-        }
+
 
         public void BackUpdate(string nextNextURL)
         {

@@ -64,7 +64,7 @@
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
             this.submitJobMapTxtBox.Size = new System.Drawing.Size(515, 20);
             this.submitJobMapTxtBox.TabIndex = 109;
-            this.submitJobMapTxtBox.Text = "DummyMapper";
+            this.submitJobMapTxtBox.Text = "CharCountMapper";
             this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // destFileBtn
@@ -99,6 +99,11 @@
             this.submitTaskNumberSplits.Name = "submitTaskNumberSplits";
             this.submitTaskNumberSplits.Size = new System.Drawing.Size(62, 22);
             this.submitTaskNumberSplits.TabIndex = 106;
+            this.submitTaskNumberSplits.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.submitTaskNumberSplits.Leave += new System.EventHandler(this.submitTaskNumberSplits_Leave);
             // 
             // submitTaskButton
@@ -128,7 +133,7 @@
             this.submitTaskDestFileMsgBox.Name = "submitTaskDestFileMsgBox";
             this.submitTaskDestFileMsgBox.Size = new System.Drawing.Size(450, 20);
             this.submitTaskDestFileMsgBox.TabIndex = 103;
-            this.submitTaskDestFileMsgBox.Text = "..\\..\\..\\";
+            this.submitTaskDestFileMsgBox.Text = "..\\..\\..\\result\\";
             this.submitTaskDestFileMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // label11
@@ -195,7 +200,7 @@
             this.dllLocationMsgBox.Name = "dllLocationMsgBox";
             this.dllLocationMsgBox.Size = new System.Drawing.Size(450, 20);
             this.dllLocationMsgBox.TabIndex = 114;
-            this.dllLocationMsgBox.Text = "..\\..\\..\\Common\\bin\\Debug\\Common.dll";
+            this.dllLocationMsgBox.Text = "..\\..\\..\\LibMapperCharCount.dll";
             this.dllLocationMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // dllLocation
