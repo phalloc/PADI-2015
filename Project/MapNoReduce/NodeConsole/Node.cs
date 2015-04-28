@@ -326,6 +326,13 @@ namespace PADIMapNoReduce
             return urls;
         }
 
+        public override object InitializeLifetimeService()
+        {
+
+            return null;
+
+        }
+
 
         //args: id, serviceURL, entryURL
         static void Main(string[] args)

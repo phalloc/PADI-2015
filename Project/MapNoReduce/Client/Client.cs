@@ -46,12 +46,13 @@ namespace PADIMapNoReduce
                     return;
                 }
 
-                else worker.ReceiveWork(clientURL, fileSize, splits, mapperName, mapperCode);
+                Logger.LogInfo("Submitting job to: " + entryUrl);
+                worker.ReceiveWork(clientURL, fileSize, splits, mapperName, mapperCode);
             }
             //catched when node is not responding
             catch (RemotingTimeoutException timeException)
             {
-                System.Diagnostics.Debug.WriteLine("time exception: " + timeException.Message);
+                Logger.LogErr("time exception: " + timeException.Message);
             }
         }
     }

@@ -66,10 +66,9 @@ namespace PADIMapNoReduce.Commands
             string commandResult = "[SUBMIT] EntryUrl: " + entryUrl + "\r\n" +
                             "          inputFile: " + inputFile + "\r\n" +
                             "          outputFile: " + outputFile + "\r\n" +
-                            "          outputFile: " + outputFile + "\r\n" +
                             "          numSplits: " + numSplits + "\r\n" +
-                            "          classMapper: " + classMapper.GetType().Name + "\r\n" +
-                            "          dllPath" + dllPath;
+                            "          classMapper: " + classMapper + "\r\n" +
+                            "          dllPath: " + dllPath;
             Logger.LogInfo(commandResult);
 
 
