@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{286C72D6-77FD-4746-B4B6-205B79133453}</ProjectGuid>
+    <ProjectGuid>{2D129022-0922-40C3-9987-17789E3A225F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PADIMapNoReduce</RootNamespace>
-    <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AssemblyName>LibPADIMapNoReduce</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,8 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,22 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Util\DummyClass.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Util\FileUtil.cs" />
-    <Compile Include="RemoteInterfaces\IPuppetMaster.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="RemoteInterfaces\IClient.cs" />
-    <Compile Include="RemoteInterfaces\IWorker.cs" />
-    <Compile Include="Util\NetworkUtil.cs" />
-    <Compile Include="NodeRepresentation.cs" />
-    <Compile Include="Util\ProcessUtil.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FormRemoteGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Util\TreeViewUtil.cs" />
+    <Compile Include="Interfaces.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

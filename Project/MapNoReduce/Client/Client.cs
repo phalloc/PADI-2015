@@ -21,16 +21,7 @@ namespace PADIMapNoReduce
 
         public void submitJob(string jobFilePath, string destPath, string entryUrl, long splits, string mapperName, string mapperPath)
         {
-            Logger.LogInfo("---------------------------------------");
-            Logger.LogInfo("---------------------------------------");
-            Logger.LogInfo("jobFilePath: " + jobFilePath);
-            Logger.LogInfo("destPath: " + destPath);
-            Logger.LogInfo("entryUrl: " + entryUrl);
-            Logger.LogInfo("splits: " + splits);
-            Logger.LogInfo("mapperName: " + mapperName);
-            Logger.LogInfo("mapperPath: " + mapperPath);
-            Logger.LogInfo("---------------------------------------");
-            Logger.LogInfo("---------------------------------------");
+
 
 
             byte[] mapperCode = File.ReadAllBytes(mapperPath);
