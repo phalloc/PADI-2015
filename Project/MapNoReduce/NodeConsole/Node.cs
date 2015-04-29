@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
 namespace PADIMapNoReduce
@@ -13,7 +14,7 @@ namespace PADIMapNoReduce
     {
         private int sleep_seconds = 0;
 
-        public delegate void FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits);
+        public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits);
         private static string serviceName = "W";
 
         private string id;
@@ -27,6 +28,7 @@ namespace PADIMapNoReduce
         private string backURL = null;
         private string currentJobTrackerUrl = "<JobTracker Id>";
         private IClient client = null;
+        private TcpChannel myChannel = null;
 
         private object mapper = null;
         private Type mapperType = null;
@@ -172,12 +174,26 @@ namespace PADIMapNoReduce
             }
         }
 
-        public void FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits)
+
+        public void CallBack(IAsyncResult ar)
+        {
+            try
+            {
+                FetchWorkerAsyncDel rad = (FetchWorkerAsyncDel)((AsyncResult)ar).AsyncDelegate;
+                bool status = (bool)rad.EndInvoke(ar);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogErr(ex.Message);
+            }
+        }
+
+        public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits)
         {
             try
             {
                 /* wait until if I am unfrozen */
-                WaitForUnfreeze();
+                //WaitForUnfreeze();
                 /* --------------------------- */
 
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
@@ -186,7 +202,8 @@ namespace PADIMapNoReduce
                 if (status == ExecutionState.WORKING)
                 {
                     //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, null, null);
+                    AsyncCallback asyncCallback = new AsyncCallback(this.CallBack);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, asyncCallback, null);
                 }
                 else
                 {
@@ -243,12 +260,13 @@ namespace PADIMapNoReduce
                     client.returnWorkSplit(processedWork, remainingSplits);
                     status = ExecutionState.WAITING;
                 }
-                return;
+                return true;
             }
             catch (RemotingException e)
             {
                 Logger.LogErr("Remoting Exception: " + e.Message);
             }
+            return true;
 
         }
 
@@ -272,6 +290,11 @@ namespace PADIMapNoReduce
             Logger.LogInfo("nextUrl: " + nextURL);
             Logger.LogInfo("nextNextUrl: " + nextNextURL);
             Logger.LogInfo("backURL: " + backURL);
+        }
+
+        public void SetTcpChannel(TcpChannel newChannel)
+        {
+            this.myChannel = newChannel;
         }
 
 
@@ -345,7 +368,12 @@ namespace PADIMapNoReduce
             try
             {
                 Node node = new Node(args[0], args[1], args[2]);
-                TcpChannel myChannel = new TcpChannel(node.channelPort);
+                BinaryServerFormatterSinkProvider provider = new BinaryServerFormatterSinkProvider();
+                IDictionary props = new Hashtable();
+                props["port"] = node.channelPort;
+                props["timeout"] = 5000; // in milliseconds
+                TcpChannel myChannel = new TcpChannel(props, null, provider);
+                node.SetTcpChannel(myChannel);
                 ChannelServices.RegisterChannel(myChannel, true);
                 RemotingServices.Marshal(node, serviceName, typeof(IWorker));
                 Logger.LogInfo("Registered node " + args[0] + " with url: " + node.myURL);

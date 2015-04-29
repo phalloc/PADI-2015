@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+using System.Collections;
+using System.Runtime.Remoting;
+
 namespace PADIMapNoReduce
 {
     partial class Node : MarshalByRefObject, IWorker
@@ -82,6 +87,16 @@ namespace PADIMapNoReduce
 
             Logger.LogInfo("[FREEZEW] (W)");
             serverState = ServerState.FREEZEW;
+
+            BinaryServerFormatterSinkProvider provider = new BinaryServerFormatterSinkProvider();
+            IDictionary props = new Hashtable();
+            props["port"] = 51000;
+            props["timeout"] = 5000; // in milliseconds
+            TcpChannel freezeChannel = new TcpChannel(props, null, provider);
+            ChannelServices.UnregisterChannel(myChannel);
+            ChannelServices.RegisterChannel(freezeChannel, true);
+            RemotingServices.Marshal(this, serviceName, typeof(IWorker));
+
         }
 
         public void UnfreezeWorker()

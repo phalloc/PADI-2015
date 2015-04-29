@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApplication", "Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLib", "Client\ClientLib.csproj", "{DEC1B207-E162-40EC-AA63-B6BB8069A686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPADIMapNoReduce", "..\..\..\..\Desktop\MapperTransfer\LibPADIMapNoReduce\LibPADIMapNoReduce.csproj", "{2D129022-0922-40C3-9987-17789E3A225F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPADIMapNoReduce", "LibPADIMapNoReduce\LibPADIMapNoReduce.csproj", "{2D129022-0922-40C3-9987-17789E3A225F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
