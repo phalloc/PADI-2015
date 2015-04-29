@@ -113,7 +113,7 @@ namespace PADIMapNoReduce
 
             string split = "";
 
-            int readBufferLength = 1024;
+            int readBufferLength = 65536;
             byte[] readBuffer = new byte[readBufferLength];
 
 
