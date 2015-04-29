@@ -111,8 +111,9 @@ namespace PADIMapNoReduce
 
             _reader.Seek(begin, SeekOrigin.Begin);
 
-            string split = "";
 
+            StringBuilder builder= new StringBuilder(unchecked ((int)(end - begin)));
+      
             int readBufferLength = 65536;
             byte[] readBuffer = new byte[readBufferLength];
 
@@ -124,17 +125,25 @@ namespace PADIMapNoReduce
             {
                 //Last iteration will have trash if it isn't cleaned
                 if (nBytesToRead < readBufferLength)
-                    Array.Clear(readBuffer, 0, readBufferLength);
+                {
+                    readBuffer = null;
 
-                _reader.Read(readBuffer, 0, nBytesToRead);
+                    byte[] lastReadBuffer = new byte[nBytesToRead];
+                    
+                    _reader.Read(lastReadBuffer, 0, nBytesToRead);
+                    builder.Append(encoding.GetString(lastReadBuffer));
+                    nBytesToRead = getBytesToRead(end, readBufferLength);
 
-                split += encoding.GetString(readBuffer);
-                nBytesToRead = getBytesToRead(end, readBufferLength);
+                }else{
 
+                    _reader.Read(readBuffer, 0, nBytesToRead);
+                    builder.Append(encoding.GetString(readBuffer));
+                    nBytesToRead = getBytesToRead(end, readBufferLength);
+                }
 
 
             }
-            return split;
+            return builder.ToString();
         }
 
         private long seekBeginLine(long start, long end)

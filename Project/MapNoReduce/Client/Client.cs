@@ -27,6 +27,7 @@ namespace PADIMapNoReduce
             byte[] mapperCode = File.ReadAllBytes(mapperPath);
             FileReader reader = new FileReader(jobFilePath);
             long fileSize = reader.getFileSize();
+            reader.closeReader();
 
             if (splits > fileSize)
                 splits = fileSize;
@@ -36,7 +37,7 @@ namespace PADIMapNoReduce
                 TcpChannel channel = new TcpChannel(DEFAULT_PORT);
                 ChannelServices.RegisterChannel(channel, true);
 
-                RemoteClient rmClient = new RemoteClient(reader, splits, destPath);
+                RemoteClient rmClient = new RemoteClient(jobFilePath, splits, destPath);
                 RemotingServices.Marshal(rmClient, SERVICE_NAME, typeof(IClient));
 
                 worker = (IWorker)Activator.GetObject(typeof(IWorker), entryUrl);

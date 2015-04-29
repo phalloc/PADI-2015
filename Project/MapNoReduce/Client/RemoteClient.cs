@@ -10,16 +10,16 @@ namespace PADIMapNoReduce
     public class RemoteClient : MarshalByRefObject, IClient
     {
         
-        private FileReader fileReader;
+        private string jobFilePath;
         private string destPath;
         private long nSplits;
         UTF8Encoding encoding;
         private static Object _lock = new Object();
        
         
-        public RemoteClient(FileReader reader, long nSplits, string destPath)
+        public RemoteClient(string jobFilePath, long nSplits, string destPath)
         {
-            this.fileReader = reader;
+            this.jobFilePath = jobFilePath;
             this.nSplits = nSplits;
             this.destPath = destPath;
             encoding = new UTF8Encoding(true);
@@ -30,19 +30,25 @@ namespace PADIMapNoReduce
         {
             //Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
             string splitGiven;
-               
+
+            
+   
             lock (_lock)
                 
             {
+                FileReader fileReader = new FileReader(jobFilePath);
                 try { 
                     splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
-                 
+                    //Logger.LogInfo("Split: " + splitGiven);
+                    //Logger.LogInfo(splitGiven.ToCharArray().Length + "");
                 }
                 catch(Exception ex) {
                     throw ex;
-                }             
+                }
+                fileReader.closeReader();
             }
-           
+
+            
             return splitGiven;
         }
 
