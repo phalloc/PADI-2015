@@ -33,9 +33,10 @@ namespace PADIMapNoReduce
 
             
    
-            lock (_lock)
+            /*lock (_lock)
                 
             {
+             * */
                 FileReader fileReader = new FileReader(jobFilePath);
                 try { 
                     splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
@@ -46,7 +47,7 @@ namespace PADIMapNoReduce
                     throw ex;
                 }
                 fileReader.closeReader();
-            }
+            //}
 
             
             return splitGiven;
