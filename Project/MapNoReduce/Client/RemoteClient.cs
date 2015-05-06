@@ -31,23 +31,19 @@ namespace PADIMapNoReduce
             //Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
             string splitGiven;
 
-            
-   
-            /*lock (_lock)
-                
-            {
-             * */
+
                 FileReader fileReader = new FileReader(jobFilePath);
-                try { 
+                try
+                {
                     splitGiven = fileReader.fetchSplitFromFile(beginSplit, endSplit);
                     //Logger.LogInfo("Split: " + splitGiven);
                     //Logger.LogInfo(splitGiven.ToCharArray().Length + "");
                 }
-                catch(Exception ex) {
+                catch (Exception ex)
+                {
                     throw ex;
                 }
                 fileReader.closeReader();
-            //}
 
             
             return splitGiven;
