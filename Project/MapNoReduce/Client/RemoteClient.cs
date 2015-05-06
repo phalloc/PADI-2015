@@ -26,10 +26,10 @@ namespace PADIMapNoReduce
         }
 
 
-        public string getWorkSplit(long beginSplit, long endSplit)
+        public byte[] getWorkSplit(long beginSplit, long endSplit)
         {
             //Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
-            string splitGiven;
+            byte[] splitGiven;
 
 
                 FileReader fileReader = new FileReader(jobFilePath);

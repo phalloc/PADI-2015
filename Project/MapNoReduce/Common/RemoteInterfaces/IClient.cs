@@ -11,7 +11,7 @@ namespace PADIMapNoReduce
     public interface IClient
     {
 
-        string getWorkSplit(long beginSplit, long endSplit);
+        byte[] getWorkSplit(long beginSplit, long endSplit);
         void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId);
 
     }

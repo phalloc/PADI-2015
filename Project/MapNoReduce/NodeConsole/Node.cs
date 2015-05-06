@@ -6,6 +6,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Messaging;
+using System.Text;
 using System.Threading;
 
 namespace PADIMapNoReduce
@@ -232,7 +233,11 @@ namespace PADIMapNoReduce
                     }
 
                     Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
-                    string mySplit = client.getWorkSplit(startSplit, endSplit);
+                    //string mySplit = client.getWorkSplit(startSplit, endSplit);
+                    
+                    byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
+                    UTF8Encoding encoding = new UTF8Encoding();
+                    string splitString = encoding.GetString(mySplit);
 
                     if (sleep_seconds > 0)
                     {
@@ -252,7 +257,7 @@ namespace PADIMapNoReduce
                         GetMapperObject(mapperName, mapperCode);
                     }
 
-                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(mySplit);
+                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(splitString);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 

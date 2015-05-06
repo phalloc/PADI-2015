@@ -19,7 +19,7 @@ namespace PADIMapNoReduce
             encoding = new UTF8Encoding(true);
         }
 
-        public string fetchSplitFromFile(long begin, long end)
+        public byte[] fetchSplitFromFile(long begin, long end)
         {
             long beginLine;
             long endLine;
@@ -71,15 +71,20 @@ namespace PADIMapNoReduce
                 //Logger.LogInfo("(" + begin + "," + end + ")" + "with end line: " + beginLine);
 
                 //Logger.LogInfo("(" + begin + "," + end + ")"  + " Reading from " + beginLine + " to " + endLine);
-                string split = readString(beginLine, endLine);
+                
+                
+                /*string split = readString(beginLine, endLine);
 
 
-                return split;
+                return split;*/
+
+
+                return readBytes(beginLine, endLine);
             }
             catch (EmptySplitException e)
             {
                 //Logger.LogInfo("(" + begin + "," + end + ")" + e.ToString());
-                return "";
+                return null;
             }
         }
 
@@ -106,6 +111,31 @@ namespace PADIMapNoReduce
             throw new EmptySplitException(_reader.Position);
         }
 
+
+        private byte[] readBytes(long begin, long end) {
+            
+            _reader.Seek(begin, SeekOrigin.Begin);
+      
+            byte[] splitBytes = new byte[end-begin];
+
+
+
+            int nBytesToRead = unchecked((int)(end - begin));
+            int bytesRead = 0;
+            int byteCount;
+            while (nBytesToRead > 0)
+            {
+
+                byteCount = _reader.Read(splitBytes, bytesRead, nBytesToRead);
+
+                nBytesToRead -= byteCount;
+                bytesRead += byteCount;
+            }
+  
+            return splitBytes;
+        }
+
+        //Legacy
         private string readString(long begin, long end)
         {
 
