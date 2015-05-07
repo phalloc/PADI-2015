@@ -14,7 +14,7 @@ namespace PADIMapNoReduce
         private string destPath;
         private long nSplits;
         UTF8Encoding encoding;
-        private static Object _lock = new Object();
+        private delegate void AsyncWriteToFileCaller(IList<KeyValuePair<string, string>> Map, long splitId);
        
         
         public RemoteClient(string jobFilePath, long nSplits, string destPath)
@@ -51,12 +51,29 @@ namespace PADIMapNoReduce
 
         public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId)
         {
-;
-            //TODO: perceber como raio vamos parar isto quando ja nao houver mais splits
-            // ah e testar
+
             Logger.LogInfo("Received split number " + splitId);
+
+            //Async
+            AsyncWriteToFileCaller caller = new AsyncWriteToFileCaller(this.WriteMapToFile);
+            caller.BeginInvoke(Map, splitId, null, null);
+            //Sync
+            //WriteMapToFile(Map, splitId);
+
+            nSplits--;
+
+            if (nSplits <= 0)
+            {
+                Logger.LogInfo("Work done!");
+            }
+
+        }
+
+        private void WriteMapToFile(IList<KeyValuePair<string, string>> Map, long splitId)
+        {
             StreamWriter writer = File.CreateText(destPath + "/" + splitId + ".out");
-            foreach(KeyValuePair<string, string> entry in Map){
+            foreach (KeyValuePair<string, string> entry in Map)
+            {
                 string key = entry.Key;
                 string value = entry.Value;
 
@@ -67,14 +84,6 @@ namespace PADIMapNoReduce
             }
 
             writer.Close();
-
-            nSplits--;
-
-            if (nSplits <= 0)
-            {
-                Logger.LogInfo("Work done!");
-            }
-
         }
 
         public override object InitializeLifetimeService()

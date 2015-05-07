@@ -81,7 +81,7 @@ namespace PADIMapNoReduce
 
                 return readBytes(beginLine, endLine);
             }
-            catch (EmptySplitException e)
+            catch (EmptySplitException)
             {
                 //Logger.LogInfo("(" + begin + "," + end + ")" + e.ToString());
                 return null;

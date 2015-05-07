@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientLib", "Client\ClientL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibPADIMapNoReduce", "LibPADIMapNoReduce\LibPADIMapNoReduce.csproj", "{2D129022-0922-40C3-9987-17789E3A225F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMapper", "NoMapper\NoMapper.csproj", "{A8820461-717D-4D18-9A1D-5E996E8F6681}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{2D129022-0922-40C3-9987-17789E3A225F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D129022-0922-40C3-9987-17789E3A225F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D129022-0922-40C3-9987-17789E3A225F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8820461-717D-4D18-9A1D-5E996E8F6681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8820461-717D-4D18-9A1D-5E996E8F6681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8820461-717D-4D18-9A1D-5E996E8F6681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8820461-717D-4D18-9A1D-5E996E8F6681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
