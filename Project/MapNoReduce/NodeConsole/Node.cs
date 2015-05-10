@@ -34,6 +34,8 @@ namespace PADIMapNoReduce
         private object mapper = null;
         private Type mapperType = null;
 
+        private UTF8Encoding encoding = new UTF8Encoding();
+
 
         public Node(string id, string pmUrl, string serviceURL)
         {
@@ -81,16 +83,53 @@ namespace PADIMapNoReduce
 
         }
 
-        private IList<KeyValuePair<string, string>> ProcessSplit(string mySplit)
+        private IList<KeyValuePair<string, string>> ProcessSplit(byte[] splitBytes)
         {
-
             List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string, string>>();
-            //TODO: Destructive split to save memory
-            string[] lines = mySplit.Split('\n');
-            foreach (string line in lines)
-            {
-                processedWork.AddRange(processLineWithMapper(line));
+
+            if (splitBytes == null)
+                return processedWork;
+
+            int normalInterval = 64;
+            int byteIndex = 0;
+            int stringIndex = -1;
+            int intervalToRead = normalInterval;//valor arbitrario para o comprimento normal de uma linha
+            byte[] intervalBytes = new byte[intervalToRead];
+            StringBuilder builder = new StringBuilder();
+            int maxIndex = splitBytes.Length - 1;
+            string intervalString;
+            while(byteIndex < maxIndex){
+
+                //this prevents garbage bytes from being converted to string
+                if (intervalToRead < normalInterval)
+                    intervalBytes = new byte[intervalToRead];
+
+                Array.Copy(splitBytes, byteIndex, intervalBytes, 0, intervalToRead);
+                    
+                intervalString = encoding.GetString(intervalBytes);
+                stringIndex = intervalString.IndexOf('\n');
+
+
+                if (stringIndex == -1){
+                    builder.Append(intervalString);
+                    byteIndex += intervalToRead;
+                }
+                else {
+                    builder.Append(intervalString.Substring(0, stringIndex));
+                    processedWork.AddRange(processLineWithMapper(builder.ToString()));
+                    builder.Clear();
+                    byteIndex += stringIndex + 1;
+                }
+
+                if (intervalToRead + byteIndex > maxIndex)
+                {
+                    intervalToRead = maxIndex - byteIndex;
+                }
+
+
             }
+
+            
             return processedWork;
         }
 
@@ -235,10 +274,11 @@ namespace PADIMapNoReduce
                     Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
                     //string mySplit = client.getWorkSplit(startSplit, endSplit);
                     
-                    byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
-                    UTF8Encoding encoding = new UTF8Encoding();
-                    string splitString = encoding.GetString(mySplit);
 
+                    //TODO: Verificar se e um null
+                    byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
+          
+                    
                     if (sleep_seconds > 0)
                     {
                         int seconds = sleep_seconds * 1000;
@@ -257,7 +297,7 @@ namespace PADIMapNoReduce
                         GetMapperObject(mapperName, mapperCode);
                     }
 
-                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(splitString);
+                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(mySplit);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 

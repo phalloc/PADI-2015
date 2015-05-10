@@ -28,7 +28,7 @@ namespace PADIMapNoReduce
 
         public byte[] getWorkSplit(long beginSplit, long endSplit)
         {
-            //Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
+            Logger.LogInfo("Received request from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
             byte[] splitGiven;
 
 
@@ -41,10 +41,12 @@ namespace PADIMapNoReduce
                 }
                 catch (Exception ex)
                 {
+                    Logger.LogErr("Client error reading from " + beginSplit + " to " + endSplit);
                     throw ex;
                 }
-                fileReader.closeReader();
+            fileReader.closeReader();
 
+            Logger.LogInfo("Returning from node: (start, end) = (" + beginSplit + "," + endSplit + ")");
             
             return splitGiven;
         }
