@@ -136,7 +136,7 @@ namespace PADIMapNoReduce
                 processedWork.AddRange(processLineWithMapper(lastString));
             } 
 
-            Logger.LogInfo("Length Work: "+ processedWork.Count);
+            //Logger.LogInfo("Length Work: "+ processedWork.Count);
             
             return processedWork;
         }
@@ -284,8 +284,8 @@ namespace PADIMapNoReduce
                     
 
                     //TODO: Verificar se e um null
+                    //byte[] mySplit = getWorkSplitMemorySave(startSplit, endSplit);
                     byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
-          
                     
                     if (sleep_seconds > 0)
                     {
@@ -321,6 +321,39 @@ namespace PADIMapNoReduce
             }
             return true;
 
+        }
+
+        private byte[] getWorkSplitMemorySave(long startSplit, long endSplit)
+        {
+            //TODO: should this jointly with string conversion
+
+            int maxMemoryGet = 26214400;
+            long firstIndex = startSplit;
+            long endIndex = firstIndex + maxMemoryGet;
+
+            byte[] gradualSplit;
+            byte[] mySplitBytes = new byte[endSplit - startSplit];
+
+            if (endIndex > endSplit) {
+                endIndex = endSplit;
+            }
+
+            
+
+            while (endIndex <= endSplit) {
+
+                Logger.LogInfo("Fetching (" + firstIndex + ", " + endIndex + ")");
+
+                gradualSplit = client.getWorkSplit(firstIndex, endIndex);
+                Array.Copy(gradualSplit, 0, mySplitBytes, firstIndex - startSplit, endIndex - firstIndex);
+
+                firstIndex = endIndex;
+                endIndex += maxMemoryGet;
+
+            }
+
+            //byte[] gradualSplit = client.getWorkSplit(startSplit, endSplit);
+            return mySplitBytes;
         }
 
 
