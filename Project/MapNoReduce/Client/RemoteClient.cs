@@ -57,10 +57,10 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Received split number " + splitId);
 
             //Async
-            AsyncWriteToFileCaller caller = new AsyncWriteToFileCaller(this.WriteMapToFile);
-            caller.BeginInvoke(Map, splitId, null, null);
+            //AsyncWriteToFileCaller caller = new AsyncWriteToFileCaller(this.WriteMapToFile);
+            //caller.BeginInvoke(Map, splitId, null, null);
             //Sync
-            //WriteMapToFile(Map, splitId);
+            WriteMapToFile(Map, splitId);
 
             nSplits--;
 

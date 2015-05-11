@@ -109,6 +109,7 @@ namespace PADIMapNoReduce
                 intervalString = encoding.GetString(intervalBytes);
                 stringIndex = intervalString.IndexOf('\n');
 
+                
 
                 if (stringIndex == -1){
                     builder.Append(intervalString);
@@ -129,6 +130,13 @@ namespace PADIMapNoReduce
 
             }
 
+
+            string lastString = builder.ToString();
+            if (lastString != "") {
+                processedWork.AddRange(processLineWithMapper(lastString));
+            } 
+
+            Logger.LogInfo("Length Work: "+ processedWork.Count);
             
             return processedWork;
         }
