@@ -18,6 +18,8 @@ namespace PADIMapNoReduce
         public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits);
         private static string serviceName = "W";
 
+        private const int TIMEOUT = 5000;
+
         private string id;
         private int channelPort;
         private string myURL;
@@ -222,18 +224,22 @@ namespace PADIMapNoReduce
             }
         }
 
-
-        public void CallBack(IAsyncResult ar)
+        public void nodeDown()
         {
-            try
+            //do code
+        }
+
+
+        public void liveCheck(object ar)
+        {
+            IAsyncResult iar = (IAsyncResult)ar;
+            Thread.Sleep(TIMEOUT);
+            if (!iar.IsCompleted)
             {
-                FetchWorkerAsyncDel rad = (FetchWorkerAsyncDel)((AsyncResult)ar).AsyncDelegate;
-                bool status = (bool)rad.EndInvoke(ar);
+                nodeDown();
+                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
             }
-            catch (Exception ex)
-            {
-                Logger.LogErr(ex.Message);
-            }
+            else Logger.LogInfo("Forwarded with Success");
         }
 
         public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits)
@@ -241,17 +247,19 @@ namespace PADIMapNoReduce
             try
             {
                 /* wait until if I am unfrozen */
-                //WaitForUnfreeze();
+                WaitForUnfreeze();
                 /* --------------------------- */
 
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
+                Thread liveCheck = new Thread(this.liveCheck);
 
                 if (status == ExecutionState.WORKING)
                 {
                     //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                    AsyncCallback asyncCallback = new AsyncCallback(this.CallBack);
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, asyncCallback, null);
+                    //AsyncCallback asyncCallback = new AsyncCallback(this.CallBack);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, null, null);
+                    liveCheck.Start(RemAr);
                 }
                 else
                 {
@@ -265,6 +273,7 @@ namespace PADIMapNoReduce
                     if (remainingSplits > 1)
                     {
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, null, null);
+                        liveCheck.Start(RemAr);
                     }
 
                     long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
@@ -295,9 +304,6 @@ namespace PADIMapNoReduce
                         Logger.LogInfo("[SLOWW BEFORE INFOKING MAPPER] Woke up!!");
                         sleep_seconds = 0;
                     }
-
-
-                 
 
                     Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
 
