@@ -134,8 +134,8 @@ namespace PADIMapNoReduce
             string lastString = builder.ToString();
             if (lastString != "") {
                 processedWork.AddRange(processLineWithMapper(lastString));
-            } 
-
+            }
+            //Logger.LogInfo("Processed Gradual split");
             //Logger.LogInfo("Length Work: "+ processedWork.Count);
             
             return processedWork;
@@ -283,10 +283,11 @@ namespace PADIMapNoReduce
                     //string mySplit = client.getWorkSplit(startSplit, endSplit);
                     
 
-                    //TODO: Verificar se e um null
-                    //byte[] mySplit = getWorkSplitMemorySave(startSplit, endSplit);
-                    byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
                     
+                  
+                    //byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
+                    //Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
+
                     if (sleep_seconds > 0)
                     {
                         int seconds = sleep_seconds * 1000;
@@ -299,13 +300,13 @@ namespace PADIMapNoReduce
 
                  
 
-                    Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
+                   
 
                     if (this.mapper == null || this.mapperType == null) {
                         GetMapperObject(mapperName, mapperCode);
                     }
 
-                    IList<KeyValuePair<string, string>> processedWork = ProcessSplit(mySplit);
+                    IList<KeyValuePair<string, string>> processedWork = getProcessWorkSplitMemorySave(startSplit, endSplit);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
@@ -323,37 +324,47 @@ namespace PADIMapNoReduce
 
         }
 
-        private byte[] getWorkSplitMemorySave(long startSplit, long endSplit)
+        private List<KeyValuePair<string, string>> getProcessWorkSplitMemorySave(long startSplit, long endSplit)
         {
-            //TODO: should this jointly with string conversion
+
 
             int maxMemoryGet = 26214400;
             long firstIndex = startSplit;
-            long endIndex = firstIndex + maxMemoryGet;
+            long endIndex = startSplit;
 
             byte[] gradualSplit;
-            byte[] mySplitBytes = new byte[endSplit - startSplit];
+            //byte[] mySplitBytes = new byte[endSplit - startSplit];
 
-            if (endIndex > endSplit) {
-                endIndex = endSplit;
-            }
+            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string,string>>();
 
-            
 
-            while (endIndex <= endSplit) {
 
-                Logger.LogInfo("Fetching (" + firstIndex + ", " + endIndex + ")");
+            //reve logica tiago
+
+            while (endIndex < endSplit) {
+
+                endIndex = firstIndex + maxMemoryGet;
+
+                if (endIndex > endSplit)
+                {
+                    endIndex = endSplit;
+                }
+
+                //Logger.LogInfo("Fetching (" + firstIndex + ", " + endIndex + ")");
 
                 gradualSplit = client.getWorkSplit(firstIndex, endIndex);
-                Array.Copy(gradualSplit, 0, mySplitBytes, firstIndex - startSplit, endIndex - firstIndex);
+                //if(gradualSplit == null)
+                  //  Logger.LogInfo("EMPTY RETURN");
+                processedWork.AddRange(ProcessSplit(gradualSplit));
 
-                firstIndex = endIndex;
-                endIndex += maxMemoryGet;
+                firstIndex += gradualSplit.Length;
+                
+               
 
             }
 
             //byte[] gradualSplit = client.getWorkSplit(startSplit, endSplit);
-            return mySplitBytes;
+            return processedWork;
         }
 
 

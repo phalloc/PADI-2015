@@ -64,7 +64,7 @@
             this.submitJobMapTxtBox.Name = "submitJobMapTxtBox";
             this.submitJobMapTxtBox.Size = new System.Drawing.Size(515, 20);
             this.submitJobMapTxtBox.TabIndex = 109;
-            this.submitJobMapTxtBox.Text = "CharCountMapper";
+            this.submitJobMapTxtBox.Text = "NoMapper";
             this.submitJobMapTxtBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // destFileBtn
@@ -200,7 +200,7 @@
             this.dllLocationMsgBox.Name = "dllLocationMsgBox";
             this.dllLocationMsgBox.Size = new System.Drawing.Size(450, 20);
             this.dllLocationMsgBox.TabIndex = 114;
-            this.dllLocationMsgBox.Text = "..\\..\\..\\LibMapperCharCount.dll";
+            this.dllLocationMsgBox.Text = "..\\..\\..\\NoMapper.dll";
             this.dllLocationMsgBox.TextChanged += new System.EventHandler(this.textChanged);
             // 
             // dllLocation
