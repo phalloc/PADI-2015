@@ -12,15 +12,20 @@ namespace PADIMapNoReduce
         
         private string jobFilePath;
         private string destPath;
-        private long nSplits;
+       // private long nSplits;
+        private HashSet<long> hasWritten = new HashSet<long>();
         UTF8Encoding encoding;
-        private delegate void AsyncWriteToFileCaller(IList<KeyValuePair<string, string>> Map, long splitId);
+        private delegate void AsyncWriteToFileCaller(IList<KeyValuePair<string, string>> Map, long splitId, string path);
        
         
         public RemoteClient(string jobFilePath, long nSplits, string destPath)
         {
+            foreach (string file in Directory.GetFiles(destPath, "*.out")){
+                File.Delete(file);
+            }
+
             this.jobFilePath = jobFilePath;
-            this.nSplits = nSplits;
+           // this.nSplits = nSplits;
             this.destPath = destPath;
             encoding = new UTF8Encoding(true);
         }
@@ -51,35 +56,39 @@ namespace PADIMapNoReduce
             return splitGiven;
         }
 
-        public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId)
+        public void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId, bool firstReturn)
         {
+            string path = destPath + "/" + splitId + ".out";
+
+            if (hasWritten.Contains(splitId)){
+               // bool firstWrite = true;//bogus for testing
+                if(firstReturn)
+                    File.Delete(path);
+            }else{
+                hasWritten.Add(splitId);
+            }
+
 
             Logger.LogInfo("Received split number " + splitId);
-
+        
             //Async
             //AsyncWriteToFileCaller caller = new AsyncWriteToFileCaller(this.WriteMapToFile);
-            //caller.BeginInvoke(Map, splitId, null, null);
+            //caller.BeginInvoke(Map, splitId, path, null, null);
             //Sync
-            WriteMapToFile(Map, splitId);
-
-            nSplits--;
-
-            if (nSplits <= 0)
-            {
-                Logger.LogInfo("Work done!");
-            }
+            WriteMapToFile(Map, splitId, path);
 
         }
 
-        private void WriteMapToFile(IList<KeyValuePair<string, string>> Map, long splitId)
+        private void WriteMapToFile(IList<KeyValuePair<string, string>> Map, long splitId, string path)
         {
-            StreamWriter writer = File.CreateText(destPath + "/" + splitId + ".out");
+            StreamWriter writer = File.AppendText(path);
             foreach (KeyValuePair<string, string> entry in Map)
             {
                 string key = entry.Key;
                 string value = entry.Value;
 
                 string line = "key: " + key + " value: " + value + "\n";
+               
                 //Logger.LogInfo("line: " + line);
                 writer.Write(line);
 

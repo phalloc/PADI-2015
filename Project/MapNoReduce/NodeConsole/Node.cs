@@ -92,7 +92,7 @@ namespace PADIMapNoReduce
             if (splitBytes == null)
                 return processedWork;
 
-            int normalInterval = 64;
+            int normalInterval = 55;
             int byteIndex = 0;
             int stringIndex = -1;
             int intervalToRead = normalInterval;//valor arbitrario para o comprimento normal de uma linha
@@ -311,12 +311,12 @@ namespace PADIMapNoReduce
                         GetMapperObject(mapperName, mapperCode);
                     }
 
-                    IList<KeyValuePair<string, string>> processedWork = getProcessWorkSplitMemorySave(startSplit, endSplit);
+                    fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
                     Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
                     processedSplits++;
-                    client.returnWorkSplit(processedWork, remainingSplits);
+                    //client.returnWorkSplit(processedWork, remainingSplits);
                     status = ExecutionState.WAITING;
                 }
                 return true;
@@ -329,22 +329,19 @@ namespace PADIMapNoReduce
 
         }
 
-        private List<KeyValuePair<string, string>> getProcessWorkSplitMemorySave(long startSplit, long endSplit)
+        private void fetchItProcessItSendIt(long startSplit, long endSplit, long splitId)
         {
 
 
-            int maxMemoryGet = 26214400;
+            int maxMemoryGet = 5242880;
             long firstIndex = startSplit;
             long endIndex = startSplit;
 
             byte[] gradualSplit;
             //byte[] mySplitBytes = new byte[endSplit - startSplit];
 
-            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string,string>>();
-
-
-
-            //reve logica tiago
+            IList<KeyValuePair<string, string>> processedWork;
+            bool firstReturn = true;
 
             while (endIndex < endSplit) {
 
@@ -360,16 +357,19 @@ namespace PADIMapNoReduce
                 gradualSplit = client.getWorkSplit(firstIndex, endIndex);
                 //if(gradualSplit == null)
                   //  Logger.LogInfo("EMPTY RETURN");
-                processedWork.AddRange(ProcessSplit(gradualSplit));
 
+                processedWork = ProcessSplit(gradualSplit);
+          
+
+                client.returnWorkSplit(processedWork, splitId, firstReturn);
                 firstIndex += gradualSplit.Length;
-                
+                firstReturn = false;
                
 
             }
 
             //byte[] gradualSplit = client.getWorkSplit(startSplit, endSplit);
-            return processedWork;
+           
         }
 
 
