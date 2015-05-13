@@ -14,6 +14,7 @@ namespace PADIMapNoReduce
        String DownNodeFrontNotify(string backURL);
        void DownNodeBackNotify(string nextNextURL);
        void Register(string entryURL);
+       void deadCheck(string backURL);
 
        void FreezeWorker();
        void UnfreezeWorker();

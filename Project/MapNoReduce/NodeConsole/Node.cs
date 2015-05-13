@@ -233,6 +233,43 @@ namespace PADIMapNoReduce
             }
         }
 
+
+        //METODOS PARA USAR NA REPLICAÇÃO DO JOBTRACKER - BRUNOOOOB
+
+        //talvez venhas a precisar desta conta
+        /*long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
+
+        long endSplit;
+        if (remainingSplits == totalSplits)
+        {
+            endSplit = fileSize;
+        }
+        else
+        {
+            endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits) - 1;//Making sure it reaches 0
+        }*/
+
+        //this is when a worker starts working on a split
+        public void workingOn(string url, long fileSize, long totalSplits, long remainingSplits)
+        {
+            //TODO
+        }
+
+        //this is when a worker finishes working on a split
+        public void workingOff(string url)
+        {
+            //TODO
+        }
+
+        //this is a method to update the jobtracker
+        public void trackerUpdate(string newJobTracker)
+        {
+            this.currentJobTrackerUrl = newJobTracker;
+        }
+
+        //FIM DOS METODOS PARA USAR NA REPLICAÇÃO DO JOBTRACKER - BRUNOOOOB
+
+
         public String DownNodeFrontNotify(string backURL)
         {
             this.backURL = backURL;
@@ -398,7 +435,12 @@ namespace PADIMapNoReduce
 
 
                         processedSplits++;
-                        //client.returnWorkSplit(processedWork, remainingSplits);
+                        if (remainingSplits == 1)
+                        {
+                            IWorker wasIDeadWorker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                            wasIDeadWorker.deadCheck(myURL);
+                        }
+
                         status = ExecutionState.WAITING;
                     }
                 }
@@ -486,6 +528,16 @@ namespace PADIMapNoReduce
         public bool IsAlive()
         {
             return true;
+        }
+
+        public void deadCheck(string backURL){
+            if(!this.backURL.Equals(backURL)){
+                Logger.LogInfo("Receiving work from the Dead. Invoking Node Registration");
+                //do stuff to recover that node back to the network
+                IWorker revivedWorker = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
+                RecoverDeadNodeAsyncDel deadDel = new RecoverDeadNodeAsyncDel(revivedWorker.Register);
+                IAsyncResult deadResponse = deadDel.BeginInvoke(currentJobTrackerUrl, null, null);
+            }
         }
 
         public List<string> AddWorker(string newURL, bool firstContact)
