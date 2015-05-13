@@ -46,6 +46,7 @@ namespace PADIMapNoReduce
         private long remainingSplits;
         private ExecutionState backupStatus;
 
+        IWorker currentJobTracker;
 
         public Node(string id, string pmUrl, string serviceURL)
         {
@@ -197,77 +198,11 @@ namespace PADIMapNoReduce
             throw (new System.Exception("could not invoke method"));
         }
 
-
-        public void ReceiveWork(string clientURL, long fileSize, long splits, string mapperName, byte[] mapperCode)
-        {
-            try
-            {
-                /* wait until if I am unfrozen */
-                WaitForUnfreeze();
-                /* --------------------------- */
-
-
-                Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
-                
-                currentJobTrackerUrl = this.id;
-                serverRole = ServerRole.JOB_TRACKER;
-                status = ExecutionState.WORKING;
-                
-                this.clientURL = clientURL;
-                client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
-                
-                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
-                if (splits > fileSize)
-                    splits = fileSize;
-                long splitSize = fileSize / splits;
-
-
-                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
-                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, null, null);
-                
-                return;
-            }
-            catch (RemotingException e)
-            {
-                Logger.LogErr("Remoting Exception: " + e.Message);
-            }
-        }
-
-
-        //METODOS PARA USAR NA REPLICAÇÃO DO JOBTRACKER - BRUNOOOOB
-
-        //talvez venhas a precisar desta conta
-        /*long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
-
-        long endSplit;
-        if (remainingSplits == totalSplits)
-        {
-            endSplit = fileSize;
-        }
-        else
-        {
-            endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits) - 1;//Making sure it reaches 0
-        }*/
-
-        //this is when a worker starts working on a split
-        public void workingOn(string url, long fileSize, long totalSplits, long remainingSplits)
-        {
-            //TODO
-        }
-
-        //this is when a worker finishes working on a split
-        public void workingOff(string url)
-        {
-            //TODO
-        }
-
-        //this is a method to update the jobtracker
-        public void trackerUpdate(string newJobTracker)
+        public void UpdateJobTracker(string newJobTracker)
         {
             this.currentJobTrackerUrl = newJobTracker;
+            IWorker currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
         }
-
-        //FIM DOS METODOS PARA USAR NA REPLICAÇÃO DO JOBTRACKER - BRUNOOOOB
 
 
         public String DownNodeFrontNotify(string backURL)
@@ -360,6 +295,11 @@ namespace PADIMapNoReduce
                 }
 
                 currentJobTrackerUrl = jobTrackerURL;
+                if (currentJobTracker == null)
+                {
+                    currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), jobTrackerURL);
+                }
+                
                 backupWorkData(status, clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits);
 
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
@@ -373,6 +313,11 @@ namespace PADIMapNoReduce
                 }
                 else
                 {
+                    //registering as worker
+                    Logger.LogInfo("Registering in the jobtracker at " + jobTrackerURL);
+                    //BRUNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO HEEEEEEEEEEEEEERE
+                    //currentJobTracker.RegisterWorker(myURL);
+
                     if (status == ExecutionState.WORKING)
                     {
                         //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
@@ -382,6 +327,11 @@ namespace PADIMapNoReduce
                     else
                     {
                         Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
+
+                        //registering as worker
+                        Logger.LogInfo("Warning Jobtracker that I am going to start");
+                        //currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
+
                         serverRole = ServerRole.WORKER;
                         status = ExecutionState.WORKING;
 
@@ -431,6 +381,8 @@ namespace PADIMapNoReduce
                         }
 
                         fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
+
+                        //currentJobTracker.LogFinishedSplit(totalSplits, remainingSplits);
                         Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 

@@ -16,14 +16,23 @@ namespace PADIMapNoReduce
        void Register(string entryURL);
        void deadCheck(string backURL);
 
+
+        //jobtracker specific methods
+       void RegisterWorker(string url);
+       void UnregisterWorker(string url);
+       void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
+       void LogFinishedSplit(long totalSplits, long remainingSplits);
+        
+
+
+
+
+        //special commands
        void FreezeWorker();
        void UnfreezeWorker();
        void FreezeJobTracker();
        void UnfreezeJobTracker();
        void Slow(int seconds);
        IDictionary<string, string> Status();
-
-
-
     }
 }

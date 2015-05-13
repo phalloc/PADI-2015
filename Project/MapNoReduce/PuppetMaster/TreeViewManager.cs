@@ -153,9 +153,6 @@ namespace PADIMapNoReduce
                             currentJTs.Add(jobTracker);
                         }
                     }
-
-
-
                 }
             }
             
@@ -250,7 +247,7 @@ namespace PADIMapNoReduce
                 tagNode.BackColor = RING_NEXT_COLOR;
                 mostRecentNode.Nodes.Add(tagNode);
             }catch(Exception ex){
-                Logger.LogWarn(ex.Message);
+                //Logger.LogWarn(ex.Message);
             }
 
 
@@ -262,7 +259,7 @@ namespace PADIMapNoReduce
                 tagNode1.BackColor = RING_NEXT_NEXT_1_COLOR;
                 mostRecentNode.Nodes.Add(tagNode1);
             }catch(Exception ex){
-                Logger.LogWarn(ex.Message);
+                //Logger.LogWarn(ex.Message);
             }
 
             //Generating nextNextUrlGraph 2
@@ -280,10 +277,10 @@ namespace PADIMapNoReduce
                 TreeNode tagNode2 = CreateNode(RING_NEXT_NEXT_URL_START2_TAG + " : " + resultNextNextUrl2, RING_NEXT_NEXT_URL_START2_TAG);
                 tagNode2.BackColor = RING_NEXT_NEXT_2_COLOR;
                 mostRecentNode.Nodes.Add(tagNode2);
-                }
+            }
             catch (Exception ex)
             {
-                Logger.LogWarn(ex.Message);
+                //Logger.LogWarn(ex.Message);
             }
 
 
@@ -297,7 +294,7 @@ namespace PADIMapNoReduce
             }
             catch (Exception ex)
             {
-                Logger.LogWarn(ex.Message);
+                //Logger.LogWarn(ex.Message);
             }
 
         }
