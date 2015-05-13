@@ -15,7 +15,9 @@ namespace PADIMapNoReduce
     {
         private int sleep_seconds = 0;
 
-        public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits);
+        public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL);
+        public delegate void RecoverDeadNodeAsyncDel(string entryURL);
+
         private static string serviceName = "W";
 
         private const int TIMEOUT = 5000;
@@ -37,6 +39,12 @@ namespace PADIMapNoReduce
         private Type mapperType = null;
 
         private UTF8Encoding encoding = new UTF8Encoding();
+        private string mapperName;
+        private byte[] mapperCode;
+        private long fileSize;
+        private long totalSplits;
+        private long remainingSplits;
+        private ExecutionState backupStatus;
 
 
         public Node(string id, string pmUrl, string serviceURL)
@@ -51,6 +59,7 @@ namespace PADIMapNoReduce
 
         public void Register(string entryURL){
             //check if other nodes exist
+            Logger.LogInfo("starting network registration on node: " + entryURL);
             if (entryURL != null)
             {
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), entryURL);
@@ -214,7 +223,7 @@ namespace PADIMapNoReduce
 
 
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
-                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, null, null);
+                IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, null, null);
                 
                 return;
             }
@@ -224,9 +233,35 @@ namespace PADIMapNoReduce
             }
         }
 
+        public String DownNodeFrontNotify(string backURL)
+        {
+            this.backURL = backURL;
+            Logger.LogInfo("------------------------------");
+            Logger.LogInfo("Successfully updated network!");
+            Logger.LogInfo("nextUrl: " + nextURL);
+            Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
+            return nextURL;
+        }
+
+        public void DownNodeBackNotify(string nextNextURL)
+        {
+            this.nextNextURL = nextNextURL;
+            Logger.LogInfo("------------------------------");
+            Logger.LogInfo("Successfully updated network!");
+            Logger.LogInfo("nextUrl: " + nextURL);
+            Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
+        }
+
         public void nodeDown()
         {
-            //do code
+           IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextNextURL);
+           String tmpURL = worker.DownNodeFrontNotify(myURL);
+           nextURL = nextNextURL;
+           nextNextURL = tmpURL;
+           worker = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
+           worker.DownNodeBackNotify(nextURL);
         }
 
         public void liveCheck(object ar)
@@ -236,11 +271,39 @@ namespace PADIMapNoReduce
             if (!iar.IsCompleted)
             {
                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
+               nodeDown();
+               Logger.LogInfo("------------------------------");
+               Logger.LogInfo("Successfully updated network!");
+               Logger.LogInfo("nextUrl: " + nextURL);
+               Logger.LogInfo("nextNextUrl: " + nextNextURL);
+               Logger.LogInfo("backURL: " + backURL);
+               IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+               FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
+               if (backupStatus == ExecutionState.WORKING)
+               {
+                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
+               }
+               else
+               {
+                   if (remainingSplits > 1)
+                   {
+                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, null, null);
+
+                   }
+               }
             }
-            else Logger.LogInfo("Forwarded with Success");
         }
 
-        public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits)
+        private void backupWorkData(ExecutionState status, string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits){
+            this.mapperName = mapperName;
+            this.mapperCode = mapperCode;
+            this.fileSize = fileSize;
+            this.totalSplits = totalSplits;
+            this.remainingSplits = remainingSplits;
+        }
+
+
+        public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL)
         {
             try
             {
@@ -248,73 +311,96 @@ namespace PADIMapNoReduce
                 WaitForUnfreeze();
                 /* --------------------------- */
 
+                //dead node revived!!! nooooooooo !
+                if (!backURL.Equals(this.backURL))
+                {
+                    Logger.LogInfo("Receiving work from the Dead. Invoking Node Registration");
+                    //do stuff to recover that node back to the network
+                    IWorker revivedWorker = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
+                    RecoverDeadNodeAsyncDel deadDel = new RecoverDeadNodeAsyncDel(revivedWorker.Register);
+                    IAsyncResult deadResponse = deadDel.BeginInvoke(currentJobTrackerUrl, null, null);
+                    return true;
+                }
+
+                currentJobTrackerUrl = jobTrackerURL;
+                backupWorkData(status, clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits);
+
                 IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
                 Thread liveCheck = new Thread(this.liveCheck);
 
-                if (status == ExecutionState.WORKING)
+                if (serverRole == ServerRole.JOB_TRACKER)
                 {
-                    //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, null, null);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
                     liveCheck.Start(RemAr);
                 }
                 else
                 {
-                    Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
-                    serverRole = ServerRole.WORKER;
-                    status = ExecutionState.WORKING;
-                    
-                    this.clientURL = clientURL;
-                    client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
-                    
-                    if (remainingSplits > 1)
+                    if (status == ExecutionState.WORKING)
                     {
-                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, null, null);
+                        //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
+                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
                         liveCheck.Start(RemAr);
-                    }
-
-                    long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
-
-                    long endSplit;
-                    if (remainingSplits == totalSplits)
-                    {
-                        endSplit = fileSize;
                     }
                     else
                     {
-                        endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits) - 1;//Making sure it reaches 0
+                        Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
+                        serverRole = ServerRole.WORKER;
+                        status = ExecutionState.WORKING;
+
+                        this.clientURL = clientURL;
+                        client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+
+                        if (remainingSplits > 1)
+                        {
+                            IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, null, null);
+                            liveCheck.Start(RemAr);
+                        }
+
+                        long startSplit = (remainingSplits - 1) * (fileSize / totalSplits);
+
+                        long endSplit;
+                        if (remainingSplits == totalSplits)
+                        {
+                            endSplit = fileSize;
+                        }
+                        else
+                        {
+                            endSplit = (remainingSplits - 1 + 1) * (fileSize / totalSplits) - 1;//Making sure it reaches 0
+                        }
+
+                        Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
+                        //string mySplit = client.getWorkSplit(startSplit, endSplit);
+
+
+
+
+                        //byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
+                        //Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
+
+                        if (sleep_seconds > 0)
+                        {
+                            int seconds = sleep_seconds * 1000;
+                            Logger.LogInfo("[SLOWW BEFORE INVOKING MAPPER] Sleeping for " + sleep_seconds + " seconds");
+                            Thread.Sleep(seconds);
+                            Logger.LogInfo("[SLOWW BEFORE INFOKING MAPPER] Woke up!!");
+                            sleep_seconds = 0;
+                        }
+
+
+                        if (this.mapper == null || this.mapperType == null)
+                        {
+                            GetMapperObject(mapperName, mapperCode);
+                        }
+
+                        fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
+                        Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
+
+
+                        processedSplits++;
+                        //client.returnWorkSplit(processedWork, remainingSplits);
+                        status = ExecutionState.WAITING;
                     }
-
-                    Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
-                    //string mySplit = client.getWorkSplit(startSplit, endSplit);
-                    
-
-                    
-                  
-                    //byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
-                    //Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
-
-                    if (sleep_seconds > 0)
-                    {
-                        int seconds = sleep_seconds * 1000;
-                        Logger.LogInfo("[SLOWW BEFORE INVOKING MAPPER] Sleeping for " + sleep_seconds + " seconds");
-                        Thread.Sleep(seconds);
-                        Logger.LogInfo("[SLOWW BEFORE INFOKING MAPPER] Woke up!!");
-                        sleep_seconds = 0;
-                    }
-
-
-                    if (this.mapper == null || this.mapperType == null) {
-                        GetMapperObject(mapperName, mapperCode);
-                    }
-
-                    fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
-                    Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
-
-
-                    processedSplits++;
-                    //client.returnWorkSplit(processedWork, remainingSplits);
-                    status = ExecutionState.WAITING;
                 }
                 return true;
             }
