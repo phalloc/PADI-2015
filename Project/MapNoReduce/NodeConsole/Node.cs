@@ -229,15 +229,13 @@ namespace PADIMapNoReduce
             //do code
         }
 
-
         public void liveCheck(object ar)
         {
             IAsyncResult iar = (IAsyncResult)ar;
             Thread.Sleep(TIMEOUT);
             if (!iar.IsCompleted)
             {
-                nodeDown();
-                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
+               Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
             }
             else Logger.LogInfo("Forwarded with Success");
         }
@@ -257,7 +255,6 @@ namespace PADIMapNoReduce
                 if (status == ExecutionState.WORKING)
                 {
                     //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                    //AsyncCallback asyncCallback = new AsyncCallback(this.CallBack);
                     IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, null, null);
                     liveCheck.Start(RemAr);
                 }
