@@ -98,6 +98,7 @@ namespace PADIMapNoReduce
         {
             Logger.LogWarn("UPDATING JOBTRACKER");
             this.currentJobTrackerUrl = newJobTracker;
+            didRegisted = false;
             IWorker currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
         }
 

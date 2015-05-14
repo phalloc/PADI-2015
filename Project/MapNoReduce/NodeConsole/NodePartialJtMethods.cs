@@ -21,7 +21,9 @@ namespace PADIMapNoReduce
         IWorker secondaryJT = null;
                 
         private bool receivedAliveFromServer;
-        
+
+        bool isPrimary = false;
+
         public bool PingJT()
         {
             Logger.LogInfo("Answering Ping");
@@ -29,6 +31,7 @@ namespace PADIMapNoReduce
         }
 
         public void SetUpAsSecondaryServer(string primaryJTurl, long numSplits) {
+            isPrimary = false;
             primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
             jtInformation = new JobTrackerInformation(this, numSplits);
             Thread SendIAmAliveThread = new Thread(() =>
@@ -74,6 +77,7 @@ namespace PADIMapNoReduce
         }
 
         private void StartJobTrackerProcess(long numSplits){
+            isPrimary = true;
             jtInformation = new JobTrackerInformation(this, numSplits);
 
             Thread trackWorkersThread = new Thread(() =>
@@ -104,6 +108,7 @@ namespace PADIMapNoReduce
 
             Thread ConfigureSecondaryServerThread = new Thread(() =>
             {
+                //wait for an available backUrl, then pings it then sets up as primary Server
                 while (true)
                 {
                     if (backURL == myURL)
@@ -187,15 +192,21 @@ namespace PADIMapNoReduce
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
-            Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
-            //secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
+            if (isPrimary)
+            {
+                Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
+                secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
+            }
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
         }
         
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
-            Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
-            //secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
+            if (isPrimary)
+            {
+                Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
+                secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
+            }
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
         }
 
