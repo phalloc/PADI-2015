@@ -15,6 +15,7 @@ namespace PADIMapNoReduce
        void DownNodeBackNotify(string nextNextURL);
        void Register(string entryURL);
        void deadCheck(string backURL);
+       void UpdateCurrentJobTracker(string jobtracker);
 
 
         //jobtracker specific methods
@@ -23,7 +24,7 @@ namespace PADIMapNoReduce
        void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
        void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits);
        bool PingJT();
-       void SetUpAsSecondaryServer(string primaryJTurl);
+       void SetUpAsSecondaryServer(string primaryJTurl, long numSplits);
         
 
 

@@ -18,8 +18,8 @@ namespace PADIMapNoReduce
         private static int PingTimeout = 4000;
         private JobTrackerInformation jtInformation;
         IWorker primaryJobTracker;
-        IWorker secondaryJobTracker;
-              
+        IWorker secondaryJT = null;
+                
         private bool receivedAliveFromServer;
         
         public bool PingJT()
@@ -28,9 +28,9 @@ namespace PADIMapNoReduce
             return true;
         }
 
-        public void SetUpAsSecondaryServer(string primaryJTurl) {
+        public void SetUpAsSecondaryServer(string primaryJTurl, long numSplits) {
             primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
-
+            jtInformation = new JobTrackerInformation(this, numSplits);
             Thread SendIAmAliveThread = new Thread(() =>
             {
                 while (true)
@@ -47,13 +47,18 @@ namespace PADIMapNoReduce
                     }
                     catch (Exception ex)
                     {
-                        Logger.LogErr("TIMEOUT" + ex.ToString());
+                        Logger.LogErr("TIMEOUT");
                     }
 
 
                     if (!receivedAliveFromServer)
                     {
                         Logger.LogErr("PRIMARY JOB TRACKER IS DOWN");
+                        nodeDown();
+                        PrintUpdateNetwork();
+                        jtInformation.AlertChangeOfJobTracker(myURL);
+                        this.StartJobTrackerProcess(jtInformation.numSplits);
+                        break;
                     }
                     else
                     {
@@ -99,15 +104,31 @@ namespace PADIMapNoReduce
 
             Thread ConfigureSecondaryServerThread = new Thread(() =>
             {
-
-                while (nextURL == myURL)
+                while (true)
                 {
-                    Logger.LogInfo("Waiting for an available nextUrl to be the secondary JT");
+                    if (backURL == myURL)
+                    {
+                        continue;
+                    }
+
+                    Logger.LogInfo("Waiting for an available url to be the secondary JT");
+                    secondaryJT = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
+
+                    try
+                    {
+                        secondaryJT.PingJT();
+                        secondaryJT.SetUpAsSecondaryServer(this.myURL, numSplits);
+                        Logger.LogInfo("Success setting setup backupserver");
+                        break;
+                    }
+                    catch(Exception)
+                    {
+                        Logger.LogInfo("There is still no backUrl available to become backup server");
+                    }
+
                     Thread.Sleep(1000);
                 }
 
-                IWorker secondaryJT = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
-                secondaryJT.SetUpAsSecondaryServer(this.myURL);
             });
             ConfigureSecondaryServerThread.Start();
         }
@@ -134,14 +155,14 @@ namespace PADIMapNoReduce
                 StartJobTrackerProcess(splits);
 
 
-                secondaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                IWorker nextWorker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 if (splits > fileSize)
                     splits = fileSize;
                 long splitSize = fileSize / splits;
 
 
 
-                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(secondaryJobTracker.FetchWorker);
+                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(nextWorker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, true, null, null);
 
                 return;
@@ -166,16 +187,17 @@ namespace PADIMapNoReduce
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
-            secondaryJobTracker.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
+            Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
+            //secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
         }
         
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
-            secondaryJobTracker.LogFinishedSplit(workerId, totalSplits, remainingSplits);
+            Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
+            //secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
         }
-
 
         public void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
         {

@@ -42,6 +42,8 @@ namespace PADIMapNoReduce
 
         IWorker currentJobTracker;
 
+        private Object CurrentJobTrackerLock = new Object();
+
         public Node(string id, string pmUrl, string serviceURL)
         {
             this.id = id;
@@ -94,6 +96,7 @@ namespace PADIMapNoReduce
 
         public void UpdateJobTracker(string newJobTracker)
         {
+            Logger.LogWarn("UPDATING JOBTRACKER");
             this.currentJobTrackerUrl = newJobTracker;
             IWorker currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
         }
@@ -152,6 +155,12 @@ namespace PADIMapNoReduce
            nextNextURL = tmpURL;
            worker = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
            worker.DownNodeBackNotify(nextURL);
+        }
+
+        public void UpdateCurrentJobTracker(string jobtrackerUrl)
+        {
+            currentJobTrackerUrl = jobtrackerUrl;
+            currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), jobtrackerUrl);
         }
 
         public void liveCheck(object ar)

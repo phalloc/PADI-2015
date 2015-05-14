@@ -25,7 +25,7 @@ namespace PADIMapNoReduce
         static object LockLogSplitStarted = new Object();
         static object LockLogFinished = new Object();
 
-        private long numSplits = 0;
+        public long numSplits = 0;
 
         Node jtNode;
 
@@ -35,8 +35,15 @@ namespace PADIMapNoReduce
             this.numSplits = numSplits;
         }
 
-        public void AlertChangeOfJobTracker()
-        {   
+        public void AlertChangeOfJobTracker(string newJobTrackerUrl)
+        {
+            Logger.LogInfo("Updating current JobTracking across the network");
+            foreach (KeyValuePair<string, IWorker> keyValue in activeNodes)
+            {
+                //string key = keyValue.Key;
+                //IWorker worker = keyValue.Value;
+                //worker.UpdateCurrentJobTracker(newJobTrackerUrl);
+            }
             //TODO when detected current jobtracker done
         }
 
