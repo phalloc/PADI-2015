@@ -50,6 +50,7 @@
     <Compile Include="Node.cs" />
     <Compile Include="NodePartialJtMethods.cs" />
     <Compile Include="NodePartialPMConnection.cs" />
+    <Compile Include="NodePartialProcessSplit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SplitInfo.cs" />
   </ItemGroup>

@@ -18,8 +18,8 @@ namespace PADIMapNoReduce
 
 
         //jobtracker specific methods
-       void RegisterWorker(string url);
-       void UnregisterWorker(string url);
+       void RegisterWorker(string workerId, string workerUrl);
+       void UnregisterWorker(string workerId);
        void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
        void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits);
         

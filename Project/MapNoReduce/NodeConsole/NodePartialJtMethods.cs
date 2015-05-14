@@ -42,12 +42,17 @@ namespace PADIMapNoReduce
                 {
                     while (!jtInformation.DidFinishJob())
                     {
-                        Logger.LogInfo("[CHECKING SLOW WORKERS");
+                        Logger.LogInfo("[CHECKING SLOW WORKERS]");
                         SplitInfo slowSplit = jtInformation.FindSlowSplit();
                         if (slowSplit != null)
                         {
-                            Logger.LogWarn("[SLOW SPLIT] RESENDING " + slowSplit.remainingSplits + " TO NEXT URL: " + nextURL);
-                            ResentSplitToNextWorker(slowSplit.totalSplits, slowSplit.remainingSplits);
+                            Logger.LogWarn("There is a slow split - " + slowSplit.splitId);
+                            IWorker freeWorker = jtInformation.GetFirstFreeWorker();
+                            if (freeWorker != null)
+                            {
+                                Logger.LogWarn("[SLOWWWWWWW SPLIT] RESENDING " + slowSplit.remainingSplits);
+                                ResentSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
+                            }
                         }
                         Thread.Sleep(2000);
                     }
@@ -77,16 +82,16 @@ namespace PADIMapNoReduce
             }
         }
 
-        public void RegisterWorker(string url)
+        public void RegisterWorker(string workerId, string workerUrl)
         {
             Logger.LogInfo("REGISTERING WORKER");
-            IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), url);
-            jtInformation.RegisterWorker(url, worker);
+            IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), workerUrl);
+            jtInformation.RegisterWorker(workerId, worker);
         }
 
-        public void UnregisterWorker(string url)
+        public void UnregisterWorker(string workerId)
         {
-            jtInformation.UnregisterWorker(url);
+            jtInformation.UnregisterWorker(workerId);
         }
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
@@ -102,9 +107,8 @@ namespace PADIMapNoReduce
         }
 
 
-        public void ResentSplitToNextWorker(long totalSplits, long remainingSplits)
+        public void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
         {
-            IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
             FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
             Thread liveCheck = new Thread(this.liveCheck);
             IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, false, null, null);

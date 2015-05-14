@@ -10,7 +10,7 @@ namespace PADIMapNoReduce
     public class SplitInfo
     {
         Stopwatch stopWatch = new Stopwatch();
-        int elapsedMiliSeconds = int.MaxValue;
+        long elapsedMiliSeconds = long.MaxValue;
         bool finished = false;
         public long splitId;
         public long splitSize;
@@ -41,9 +41,9 @@ namespace PADIMapNoReduce
             return finished;
         }
 
-        public int SplitTime()
+        public long SplitTime()
         {
-            return stopWatch.Elapsed.Milliseconds;
+            return stopWatch.ElapsedMilliseconds;
         }
     }
 }

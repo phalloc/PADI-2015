@@ -21,7 +21,7 @@ namespace PADIMapNoReduce
         private static string serviceName = "W";
 
         private const int TIMEOUT = 5000;
-
+        bool didRegisted = false;
         private string id;
         private int channelPort;
         private string myURL;
@@ -35,12 +35,6 @@ namespace PADIMapNoReduce
         private IClient client = null;
         private TcpChannel myChannel = null;
 
-        private object mapper = null;
-        private Type mapperType = null;
-
-        private UTF8Encoding encoding = new UTF8Encoding();
-        private string mapperName;
-        private byte[] mapperCode;
         private long fileSize;
         private long totalSplits;
         private long remainingSplits;
@@ -56,6 +50,11 @@ namespace PADIMapNoReduce
             string[] splits = serviceURL.Split(':');
             splits = splits[splits.Length-1].Split('/');
             channelPort = int.Parse(splits[0]);
+        }
+
+        public override object InitializeLifetimeService()
+        {
+            return null;
         }
 
         public void Register(string entryURL){
@@ -84,119 +83,14 @@ namespace PADIMapNoReduce
                     worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                     worker.FrontUpdate(myURL);
                 }
-                Logger.LogInfo("------------------------------");
-                Logger.LogInfo("Successfully registered on the network.");
-                //Logger.LogInfo("nextURL: " + nextURL);
-                //Logger.LogInfo("nextNextURL: " + nextNextURL);
-                //Logger.LogInfo("backURL: " + backURL);
+                PrintUpdateNetwork();
           
             }
             else Logger.LogErr("Did not provided entryURL");
 
         }
 
-        private IList<KeyValuePair<string, string>> ProcessSplit(byte[] splitBytes)
-        {
-            List<KeyValuePair<string, string>> processedWork = new List<KeyValuePair<string, string>>();
-
-            if (splitBytes == null)
-                return processedWork;
-
-            int normalInterval = 55;
-            int byteIndex = 0;
-            int stringIndex = -1;
-            int intervalToRead = normalInterval;//valor arbitrario para o comprimento normal de uma linha
-            byte[] intervalBytes = new byte[intervalToRead];
-            StringBuilder builder = new StringBuilder();
-            int maxIndex = splitBytes.Length - 1;
-            string intervalString;
-            while(byteIndex < maxIndex){
-
-                //this prevents garbage bytes from being converted to string
-                if (intervalToRead < normalInterval)
-                    intervalBytes = new byte[intervalToRead];
-
-                Array.Copy(splitBytes, byteIndex, intervalBytes, 0, intervalToRead);
-                    
-                intervalString = encoding.GetString(intervalBytes);
-                stringIndex = intervalString.IndexOf('\n');
-
-                
-
-                if (stringIndex == -1){
-                    builder.Append(intervalString);
-                    byteIndex += intervalToRead;
-                }
-                else {
-                    builder.Append(intervalString.Substring(0, stringIndex));
-                    processedWork.AddRange(processLineWithMapper(builder.ToString()));
-                    builder.Clear();
-                    byteIndex += stringIndex + 1;
-                }
-
-                if (intervalToRead + byteIndex > maxIndex)
-                {
-                    intervalToRead = maxIndex - byteIndex;
-                }
-
-
-            }
-
-
-            string lastString = builder.ToString();
-            if (lastString != "") {
-                processedWork.AddRange(processLineWithMapper(lastString));
-            }
-            //Logger.LogInfo("Processed Gradual split");
-            //Logger.LogInfo("Length Work: "+ processedWork.Count);
-            
-            return processedWork;
-        }
-
-        private IList<KeyValuePair<string, string>> processLineWithMapper(string line)
-        {
-
-
-            // Dynamically Invoke the method
-            object[] args = new object[] { line };
-            object resultObject = this.mapperType.InvokeMember("Map",
-              BindingFlags.Default | BindingFlags.InvokeMethod,
-                   null,
-                   this.mapper,
-                   args);
-            IList<KeyValuePair<string, string>> result = (IList<KeyValuePair<string, string>>)resultObject;
-
-            //DEBUG purposes
-            /*                         
-             Logger.LogInfo("Processed: ");
-
-             foreach (KeyValuePair<string, string> p in result)
-            {
-                Logger.LogInfo("key: " + p.Key + ", value: " + p.Value);
-            }
-            */
-            return result;
-        }
-
-        private void GetMapperObject(string mapperName, byte[] mapperCode)
-        {
-            Assembly assembly = Assembly.Load(mapperCode);
-            //procurar o metodo
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (type.IsClass == true)
-                {
-                    if (type.FullName.EndsWith("." + mapperName))
-                    {
-                        // create an instance of the object
-                        this.mapper = Activator.CreateInstance(type);
-                        this.mapperType = type;
-                        return;
-                    }
-                }
-            }
-            throw (new System.Exception("could not invoke method"));
-        }
+        
 
         public void UpdateJobTracker(string newJobTracker)
         {
@@ -208,22 +102,46 @@ namespace PADIMapNoReduce
         public String DownNodeFrontNotify(string backURL)
         {
             this.backURL = backURL;
-            Logger.LogInfo("------------------------------");
-            Logger.LogInfo("Successfully updated network!");
-            //Logger.LogInfo("nextUrl: " + nextURL);
-            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            //Logger.LogInfo("backURL: " + backURL);
+            PrintUpdateNetwork();
             return nextURL;
         }
 
         public void DownNodeBackNotify(string nextNextURL)
         {
             this.nextNextURL = nextNextURL;
-            Logger.LogInfo("------------------------------");
+            PrintUpdateNetwork();
+        }
+
+
+        public void BackUpdate(string nextNextURL)
+        {
+            this.nextNextURL = nextNextURL;
+            PrintUpdateNetwork();
+        }
+
+        void PrintUpdateNetwork()
+        {
             Logger.LogInfo("Successfully updated network!");
             //Logger.LogInfo("nextUrl: " + nextURL);
             //Logger.LogInfo("nextNextUrl: " + nextNextURL);
             //Logger.LogInfo("backURL: " + backURL);
+        }
+
+        public void FrontUpdate(string backURL)
+        {
+            this.backURL = backURL;
+            PrintUpdateNetwork();
+        }
+
+        public void SetTcpChannel(TcpChannel newChannel)
+        {
+            this.myChannel = newChannel;
+        }
+
+
+        public bool IsAlive()
+        {
+            return true;
         }
 
         public void nodeDown()
@@ -240,30 +158,30 @@ namespace PADIMapNoReduce
         {
             IAsyncResult iar = (IAsyncResult)ar;
             Thread.Sleep(TIMEOUT);
+            Console.Write("LIVE CHECK");
+            
+            /*
             if (!iar.IsCompleted)
             {
                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
                nodeDown();
-               //Logger.LogInfo("------------------------------");
-               Logger.LogInfo("Successfully updated network!");
-               //Logger.LogInfo("nextUrl: " + nextURL);
-               //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-               //Logger.LogInfo("backURL: " + backURL);
+               PrintUpdateNetwork();
                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
+                
                if (backupStatus == ExecutionState.WORKING)
                {
-                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, false, null, null);
+                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                }
                else
                {
                    if (remainingSplits > 1)
                    {
-                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, false, null, null);
+                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
 
                    }
                }
-            }
+            }*/
         }
 
         private void backupWorkData(ExecutionState status, string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits){
@@ -314,8 +232,10 @@ namespace PADIMapNoReduce
                 {
                     //registering as worker
                     Logger.LogInfo("Registering in the jobtracker at " + jobTrackerURL);
-                    //BRUNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO HEEEEEEEEEEEEEERE
-                    //currentJobTracker.RegisterWorker(myURL);
+                    if (!didRegisted) { 
+                        currentJobTracker.RegisterWorker(id, myURL);
+                        didRegisted = true;
+                    }
 
                     if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
@@ -364,14 +284,8 @@ namespace PADIMapNoReduce
                         //byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
                         //Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
 
-                        if (sleep_seconds > 0)
-                        {
-                            int seconds = sleep_seconds * 1000;
-                            Logger.LogInfo("[SLOWW BEFORE INVOKING MAPPER] Sleeping for " + sleep_seconds + " seconds");
-                            Thread.Sleep(seconds);
-                            Logger.LogInfo("[SLOWW BEFORE INFOKING MAPPER] Woke up!!");
-                            sleep_seconds = 0;
-                        }
+                        SleepIfAskedTo();
+
 
 
                         if (this.mapper == null || this.mapperType == null)
@@ -405,81 +319,6 @@ namespace PADIMapNoReduce
 
         }
 
-        private void fetchItProcessItSendIt(long startSplit, long endSplit, long splitId)
-        {
-
-
-            int maxMemoryGet = 5242880;
-            long firstIndex = startSplit;
-            long endIndex = startSplit;
-
-            byte[] gradualSplit;
-            //byte[] mySplitBytes = new byte[endSplit - startSplit];
-
-            IList<KeyValuePair<string, string>> processedWork;
-            bool firstReturn = true;
-
-            while (endIndex < endSplit) {
-
-                endIndex = firstIndex + maxMemoryGet;
-
-                if (endIndex > endSplit)
-                {
-                    endIndex = endSplit;
-                }
-
-                //Logger.LogInfo("Fetching (" + firstIndex + ", " + endIndex + ")");
-
-                gradualSplit = client.getWorkSplit(firstIndex, endIndex);
-                //if(gradualSplit == null)
-                  //  Logger.LogInfo("EMPTY RETURN");
-
-                processedWork = ProcessSplit(gradualSplit);
-          
-
-                client.returnWorkSplit(processedWork, splitId, firstReturn);
-                firstIndex += gradualSplit.Length;
-                firstReturn = false;
-               
-
-            }
-
-            //byte[] gradualSplit = client.getWorkSplit(startSplit, endSplit);
-           
-        }
-
-
-
-        public void BackUpdate(string nextNextURL)
-        {
-            this.nextNextURL = nextNextURL;
-            Logger.LogInfo("------------------------------");
-            Logger.LogInfo("Successfully updated network!");
-            //Logger.LogInfo("nextUrl: " + nextURL);
-            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            //Logger.LogInfo("backURL: " + backURL);
-        }
-
-        public void FrontUpdate(string backURL)
-        {
-            this.backURL = backURL;
-            Logger.LogInfo("------------------------------");
-            Logger.LogInfo("Successfully updated network!");
-            //Logger.LogInfo("nextUrl: " + nextURL);
-            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            //Logger.LogInfo("backURL: " + backURL);
-        }
-
-        public void SetTcpChannel(TcpChannel newChannel)
-        {
-            this.myChannel = newChannel;
-        }
-
-
-        public bool IsAlive()
-        {
-            return true;
-        }
 
         public void deadCheck(string backURL){
             if(!this.backURL.Equals(backURL)){
@@ -528,21 +367,13 @@ namespace PADIMapNoReduce
                 urls =  new List<string> {"bigUpdate", tmpNextURL, tmpNextNextURL, myURL, backURL };
             }
 
-            Logger.LogInfo("------------------------------");
-            Logger.LogInfo("Successfully updated network!");
-            //Logger.LogInfo("nextUrl: " + nextURL);
-            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            //Logger.LogInfo("backURL: " + backURL);
+            PrintUpdateNetwork();
+
     
             return urls;
         }
 
-        public override object InitializeLifetimeService()
-        {
 
-            return null;
-
-        }
 
 
         //args: id, serviceURL, entryURL

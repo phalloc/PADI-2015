@@ -166,5 +166,17 @@ namespace PADIMapNoReduce
 
             return result;
         }
+
+        public void SleepIfAskedTo()
+        {
+            if (sleep_seconds > 0)
+            {
+                int seconds = sleep_seconds * 1000;
+                Logger.LogInfo("[SLOWW BEFORE INVOKING MAPPER] Sleeping for " + sleep_seconds + " seconds");
+                Thread.Sleep(seconds);
+                Logger.LogInfo("[SLOWW BEFORE INFOKING MAPPER] Woke up!!");
+                sleep_seconds = 0;
+            }
+        }
     }
 }
