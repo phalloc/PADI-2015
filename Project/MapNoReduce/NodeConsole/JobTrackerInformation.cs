@@ -117,6 +117,7 @@ namespace PADIMapNoReduce
                 int waitTime = splitInfo.splitSize > averageSplitSize ? 3 * averageSplitTime : averageSplitTime;
                 if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
                 {
+                    Logger.LogWarn("[SPLIT " + splitInfo.splitId + " SLOW taking " + splitInfo.SplitTime() + " vs " + waitTime);
                     return splitInfo;
                 }
             }
