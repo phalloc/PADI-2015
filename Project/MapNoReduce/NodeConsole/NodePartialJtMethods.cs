@@ -42,6 +42,10 @@ namespace PADIMapNoReduce
                 {
                     while (!jtInformation.DidFinishJob())
                     {
+                        /* wait until if I am unfrozen */
+                        WaitForUnfreeze();
+                        /* --------------------------- */
+
                         Logger.LogInfo("[CHECKING SLOW WORKERS]");
                         SplitInfo slowSplit = jtInformation.FindSlowSplit();
                         if (slowSplit != null)
