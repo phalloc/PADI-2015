@@ -87,6 +87,7 @@
             this.startServiceBtn = new System.Windows.Forms.Button();
             this.scriptStepCheckBox = new System.Windows.Forms.CheckBox();
             this.scriptNextBtn = new System.Windows.Forms.Button();
+            this.startServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consoleContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.treeViewContextView.SuspendLayout();
@@ -153,6 +154,7 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadToolStripMenuItem,
+            this.startServiceToolStripMenuItem,
             this.createWorkerToolStripMenuItem,
             this.submitJobToolStripMenuItem,
             this.networkToolStripMenuItem,
@@ -606,6 +608,14 @@
             this.scriptNextBtn.UseVisualStyleBackColor = true;
             this.scriptNextBtn.Click += new System.EventHandler(this.scriptNextBtn_Click);
             // 
+            // startServiceToolStripMenuItem
+            // 
+            this.startServiceToolStripMenuItem.Name = "startServiceToolStripMenuItem";
+            this.startServiceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.startServiceToolStripMenuItem.Size = new System.Drawing.Size(125, 20);
+            this.startServiceToolStripMenuItem.Text = "StartService (Ctrl+R)";
+            this.startServiceToolStripMenuItem.Click += new System.EventHandler(this.startServiceBtn_Click);
+            // 
             // GUIPuppetMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -711,6 +721,7 @@
         private System.Windows.Forms.ToolStripMenuItem myScripttxtToolStripMenuItem;
         private System.Windows.Forms.CheckBox scriptStepCheckBox;
         private System.Windows.Forms.Button scriptNextBtn;
+        private System.Windows.Forms.ToolStripMenuItem startServiceToolStripMenuItem;
 
     }
 }

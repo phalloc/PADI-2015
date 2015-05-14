@@ -8,14 +8,110 @@ using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
+using System.Net.Sockets;
 
 namespace PADIMapNoReduce
 {
     //Job tracker portion of the node
     partial class Node
     {
-
+        private static int PingTimeout = 4000;
         private JobTrackerInformation jtInformation;
+        IWorker primaryJobTracker;
+        IWorker secondaryJobTracker;
+              
+        private bool receivedAliveFromServer;
+        
+        public bool PingJT()
+        {
+            Logger.LogInfo("Answering Ping");
+            return true;
+        }
+
+        public void SetUpAsSecondaryServer(string primaryJTurl) {
+            primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
+
+            Thread SendIAmAliveThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    /* wait until if I am unfrozen */
+                    WaitForUnfreeze();
+                    /* --------------------------- */
+
+                    Logger.LogInfo("Sending I am alive");
+                    try
+                    {
+                        primaryJobTracker.PingJT();
+                        receivedAliveFromServer = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogErr("TIMEOUT" + ex.ToString());
+                    }
+
+
+                    if (!receivedAliveFromServer)
+                    {
+                        Logger.LogErr("PRIMARY JOB TRACKER IS DOWN");
+                    }
+                    else
+                    {
+                        Logger.LogErr("PRIMARY JOB TRACKER IS UP!!!");
+                    }
+
+                    receivedAliveFromServer = false;
+                    Thread.Sleep(PingTimeout);
+                    
+                }
+            });
+            SendIAmAliveThread.Start();
+        }
+
+        private void StartJobTrackerProcess(long numSplits){
+            jtInformation = new JobTrackerInformation(this, numSplits);
+
+            Thread trackWorkersThread = new Thread(() =>
+            {
+                while (!jtInformation.DidFinishJob())
+                {
+                    /* wait until if I am unfrozen */
+                    WaitForUnfreeze();
+                    /* --------------------------- */
+
+                    Logger.LogInfo("[CHECKING SLOW WORKERS]");
+                    SplitInfo slowSplit = jtInformation.FindSlowSplit();
+                    if (slowSplit != null)
+                    {
+                        Logger.LogWarn("There is a slow split - " + slowSplit.splitId);
+                        IWorker freeWorker = jtInformation.GetFirstFreeWorker();
+                        if (freeWorker != null)
+                        {
+                            Logger.LogWarn("[SLOWWWWWWW SPLIT] RESENDING " + slowSplit.remainingSplits);
+                            ResentSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
+                        }
+                    }
+                    Thread.Sleep(2000);
+                }
+                //TIAGO SANTOS PODES POR AQUI O QUE QUISERES PARA NOTIFICAR O CLIENTE QUE ACABOU
+            });
+            trackWorkersThread.Start();
+
+            Thread ConfigureSecondaryServerThread = new Thread(() =>
+            {
+
+                while (nextURL == myURL)
+                {
+                    Logger.LogInfo("Waiting for an available nextUrl to be the secondary JT");
+                    Thread.Sleep(1000);
+                }
+
+                IWorker secondaryJT = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                secondaryJT.SetUpAsSecondaryServer(this.myURL);
+            });
+            ConfigureSecondaryServerThread.Start();
+        }
+
 
         public void ReceiveWork(string clientURL, long fileSize, long splits, string mapperName, byte[] mapperCode)
         {
@@ -34,48 +130,18 @@ namespace PADIMapNoReduce
                 this.clientURL = clientURL;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
 
-                /******* FOR DETECTING SLOW WORKERS *********/
 
-                jtInformation = new JobTrackerInformation(this, splits);
-
-                Thread runThread3 = new Thread(() =>
-                {
-                    while (!jtInformation.DidFinishJob())
-                    {
-                        /* wait until if I am unfrozen */
-                        WaitForUnfreeze();
-                        /* --------------------------- */
-
-                        Logger.LogInfo("[CHECKING SLOW WORKERS]");
-                        SplitInfo slowSplit = jtInformation.FindSlowSplit();
-                        if (slowSplit != null)
-                        {
-                            Logger.LogWarn("There is a slow split - " + slowSplit.splitId);
-                            IWorker freeWorker = jtInformation.GetFirstFreeWorker();
-                            if (freeWorker != null)
-                            {
-                                Logger.LogWarn("[SLOWWWWWWW SPLIT] RESENDING " + slowSplit.remainingSplits);
-                                ResentSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
-                            }
-                        }
-                        Thread.Sleep(2000);
-                    }
-
-                    //TIAGO SANTOS PODES POR AQUI O QUE QUISERES PARA NOTIFICAR O CLIENTE QUE ACABOU
-                });
-                runThread3.Start();
-
-                /*******************************************/
+                StartJobTrackerProcess(splits);
 
 
-                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                secondaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 if (splits > fileSize)
                     splits = fileSize;
                 long splitSize = fileSize / splits;
 
 
 
-                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
+                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(secondaryJobTracker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, true, null, null);
 
                 return;
@@ -100,13 +166,13 @@ namespace PADIMapNoReduce
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
+            secondaryJobTracker.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
         }
-
-
         
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
+            secondaryJobTracker.LogFinishedSplit(workerId, totalSplits, remainingSplits);
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
         }
 
