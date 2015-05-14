@@ -56,13 +56,19 @@ namespace PADIMapNoReduce
         {
             lock (LockLogFinished)
             {
-                Logger.LogInfo("Worker " + workerId + " finished split " + remainingSplits);
                 long splitId = remainingSplits;
+                SplitInfo splitInfo = splitInfos[splitId];
+                if (splitInfo.DidFinished())
+                {
+                    Logger.LogInfo("[" + workerId + " SLOW FINISHED " + splitId + "]");
+                    return;
+                }
+
                 splitInfos[splitId].EndedSplit();
 
                 if (averageSplitTime == int.MaxValue)
                 {
-                    averageSplitTime = splitInfos[splitId].elapsedSeconds;
+                    averageSplitTime = splitInfos[splitId].SplitTime() ;
                 }
 
                 long splitSize = splitInfos[splitId].splitSize;
@@ -71,7 +77,9 @@ namespace PADIMapNoReduce
                     averageSplitSize = splitSize;
                 }
                 numSplits--;
-                Logger.LogInfo("SplitId " + splitId + " took + " + splitInfos[splitId].elapsedSeconds + " seconds. " + numSplits + " splits remaining");
+                workersSplits.Remove(workerId);
+
+                Logger.LogInfo("[" + workerId + " ENDED " + splitId + "] - " + splitInfos[splitId].SplitTime() + " ms. " + numSplits + " splits remaining");
             }
         }
 
@@ -79,27 +87,27 @@ namespace PADIMapNoReduce
         {
             lock (LockLogSplitStarted)
             {
-                Logger.LogInfo("STARTING SPLIT BY " + workerId);
                 long splitId = remainingSplits;
+                Logger.LogInfo("[" + workerId + " STARTED " + splitId + "]");
                 if (workersSplits.ContainsKey(workerId))
                 {
+                    Logger.LogWarn("[" + workerId + " STARTED " + splitId + "] " + " was already registered with another split.");
                     workersSplits.Remove(workerId);
                 }
-                else
-                {
-                    workersSplits.Add(workerId, splitId);
-                }
+                
+                workersSplits.Add(workerId, splitId);
+                
+
                 if (splitInfos.ContainsKey(splitId))
                 {
-                    Logger.LogErr("SOMEONE IS TRYING TO PROCESS THE SAME SPLIT");
+                    Logger.LogWarn("[SPLIT START " + workerId + "]" + " is processing a slow split " + splitId);
+                    splitInfos.Remove(splitId);
                 }
                 splitInfos.Add(remainingSplits, new SplitInfo(splitId, fileSize, totalSplits, remainingSplits));
             }
         }
 
-
-
-        public void NotifyRemainingWorks()
+        public SplitInfo FindSlowSplit()
         {
             foreach (KeyValuePair<string, long> keyValue in workersSplits)
             {
@@ -109,17 +117,18 @@ namespace PADIMapNoReduce
                 int waitTime = splitInfo.splitSize > averageSplitSize ? 3 * averageSplitTime : averageSplitTime;
                 if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
                 {
-                    Logger.LogWarn("Slow worker... sending split elsewhere");
+                    return splitInfo;
                 }
             }
+            return null;
         }
 
 
-        public bool DidFinishedJob()
+        public bool DidFinishJob()
         {
             if (numSplits < 0)
             {
-                Logger.LogWarn("Clearing the job tracker information for the next job");
+                Logger.LogWarn("[JOB FINISHED] Clearing the job tracker information for the next job");
                 workersSplits.Clear();
                 splitInfos.Clear();
                 return true;

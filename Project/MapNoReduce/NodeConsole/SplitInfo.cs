@@ -10,15 +10,15 @@ namespace PADIMapNoReduce
     public class SplitInfo
     {
         Stopwatch stopWatch = new Stopwatch();
-        public int elapsedSeconds = int.MaxValue;
+        int elapsedMiliSeconds = int.MaxValue;
         bool finished = false;
         public long splitId;
         public long splitSize;
         public long beginSplit = 222;
         public long endPlit = 100;
-        long fileSize;
-        long totalSplits;
-        long remainingSplits;
+        public long fileSize;
+        public long totalSplits;
+        public long remainingSplits;
 
         public SplitInfo(long splitId, long fileSize, long totalSplits, long remainingSplits)
         {
@@ -32,7 +32,7 @@ namespace PADIMapNoReduce
         public void EndedSplit()
         {
             stopWatch.Stop();
-            elapsedSeconds = SplitTime();
+            elapsedMiliSeconds = SplitTime();
             finished = true;
         }
 
@@ -43,7 +43,7 @@ namespace PADIMapNoReduce
 
         public int SplitTime()
         {
-            return stopWatch.Elapsed.Seconds;
+            return stopWatch.Elapsed.Milliseconds;
         }
     }
 }

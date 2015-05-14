@@ -15,7 +15,7 @@ namespace PADIMapNoReduce
     {
         private int sleep_seconds = 0;
 
-        public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL);
+        public delegate bool FetchWorkerAsyncDel(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL, bool propagateRemainingSplits);
         public delegate void RecoverDeadNodeAsyncDel(string entryURL);
 
         private static string serviceName = "W";
@@ -86,9 +86,9 @@ namespace PADIMapNoReduce
                 }
                 Logger.LogInfo("------------------------------");
                 Logger.LogInfo("Successfully registered on the network.");
-                Logger.LogInfo("nextURL: " + nextURL);
-                Logger.LogInfo("nextNextURL: " + nextNextURL);
-                Logger.LogInfo("backURL: " + backURL);
+                //Logger.LogInfo("nextURL: " + nextURL);
+                //Logger.LogInfo("nextNextURL: " + nextNextURL);
+                //Logger.LogInfo("backURL: " + backURL);
           
             }
             else Logger.LogErr("Did not provided entryURL");
@@ -210,9 +210,9 @@ namespace PADIMapNoReduce
             this.backURL = backURL;
             Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
-            Logger.LogInfo("nextUrl: " + nextURL);
-            Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            Logger.LogInfo("backURL: " + backURL);
+            //Logger.LogInfo("nextUrl: " + nextURL);
+            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            //Logger.LogInfo("backURL: " + backURL);
             return nextURL;
         }
 
@@ -221,9 +221,9 @@ namespace PADIMapNoReduce
             this.nextNextURL = nextNextURL;
             Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
-            Logger.LogInfo("nextUrl: " + nextURL);
-            Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            Logger.LogInfo("backURL: " + backURL);
+            //Logger.LogInfo("nextUrl: " + nextURL);
+            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            //Logger.LogInfo("backURL: " + backURL);
         }
 
         public void nodeDown()
@@ -244,22 +244,22 @@ namespace PADIMapNoReduce
             {
                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
                nodeDown();
-               Logger.LogInfo("------------------------------");
+               //Logger.LogInfo("------------------------------");
                Logger.LogInfo("Successfully updated network!");
-               Logger.LogInfo("nextUrl: " + nextURL);
-               Logger.LogInfo("nextNextUrl: " + nextNextURL);
-               Logger.LogInfo("backURL: " + backURL);
+               //Logger.LogInfo("nextUrl: " + nextURL);
+               //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+               //Logger.LogInfo("backURL: " + backURL);
                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
                if (backupStatus == ExecutionState.WORKING)
                {
-                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
+                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, false, null, null);
                }
                else
                {
                    if (remainingSplits > 1)
                    {
-                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, null, null);
+                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, false, null, null);
 
                    }
                }
@@ -274,8 +274,7 @@ namespace PADIMapNoReduce
             this.remainingSplits = remainingSplits;
         }
 
-
-        public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL)
+        public bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL, bool propagateRemainingSplits)
         {
             try
             {
@@ -308,7 +307,7 @@ namespace PADIMapNoReduce
 
                 if (serverRole == ServerRole.JOB_TRACKER)
                 {
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                     liveCheck.Start(RemAr);
                 }
                 else
@@ -318,10 +317,10 @@ namespace PADIMapNoReduce
                     //BRUNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO HEEEEEEEEEEEEEERE
                     //currentJobTracker.RegisterWorker(myURL);
 
-                    if (status == ExecutionState.WORKING)
+                    if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
                         //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, null, null);
+                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                         liveCheck.Start(RemAr);
                     }
                     else
@@ -338,9 +337,9 @@ namespace PADIMapNoReduce
                         this.clientURL = clientURL;
                         client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
 
-                        if (remainingSplits > 1)
+                        if (remainingSplits > 1 && propagateRemainingSplits)
                         {
-                            IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, null, null);
+                            IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
                             liveCheck.Start(RemAr);
                         }
 
@@ -456,9 +455,9 @@ namespace PADIMapNoReduce
             this.nextNextURL = nextNextURL;
             Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
-            Logger.LogInfo("nextUrl: " + nextURL);
-            Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            Logger.LogInfo("backURL: " + backURL);
+            //Logger.LogInfo("nextUrl: " + nextURL);
+            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            //Logger.LogInfo("backURL: " + backURL);
         }
 
         public void FrontUpdate(string backURL)
@@ -466,9 +465,9 @@ namespace PADIMapNoReduce
             this.backURL = backURL;
             Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
-            Logger.LogInfo("nextUrl: " + nextURL);
-            Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            Logger.LogInfo("backURL: " + backURL);
+            //Logger.LogInfo("nextUrl: " + nextURL);
+            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            //Logger.LogInfo("backURL: " + backURL);
         }
 
         public void SetTcpChannel(TcpChannel newChannel)
@@ -531,9 +530,9 @@ namespace PADIMapNoReduce
 
             Logger.LogInfo("------------------------------");
             Logger.LogInfo("Successfully updated network!");
-            Logger.LogInfo("nextUrl: " + nextURL);
-            Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            Logger.LogInfo("backURL: " + backURL);
+            //Logger.LogInfo("nextUrl: " + nextURL);
+            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            //Logger.LogInfo("backURL: " + backURL);
     
             return urls;
         }

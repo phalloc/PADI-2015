@@ -102,10 +102,10 @@
             this.consoleMessageBox.ContextMenuStrip = this.consoleContextMenuStrip;
             this.consoleMessageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.consoleMessageBox.ForeColor = System.Drawing.Color.Lime;
-            this.consoleMessageBox.Location = new System.Drawing.Point(746, 37);
+            this.consoleMessageBox.Location = new System.Drawing.Point(750, 37);
             this.consoleMessageBox.Name = "consoleMessageBox";
             this.consoleMessageBox.ReadOnly = true;
-            this.consoleMessageBox.Size = new System.Drawing.Size(556, 547);
+            this.consoleMessageBox.Size = new System.Drawing.Size(682, 547);
             this.consoleMessageBox.TabIndex = 85;
             this.consoleMessageBox.Text = "";
             // 
@@ -161,7 +161,7 @@
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             this.menuStrip1.ShowItemToolTips = true;
-            this.menuStrip1.Size = new System.Drawing.Size(1314, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1444, 24);
             this.menuStrip1.TabIndex = 109;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -588,7 +588,7 @@
             // scriptStepCheckBox
             // 
             this.scriptStepCheckBox.AutoSize = true;
-            this.scriptStepCheckBox.Location = new System.Drawing.Point(1080, 16);
+            this.scriptStepCheckBox.Location = new System.Drawing.Point(1210, 14);
             this.scriptStepCheckBox.Name = "scriptStepCheckBox";
             this.scriptStepCheckBox.Size = new System.Drawing.Size(141, 17);
             this.scriptStepCheckBox.TabIndex = 135;
@@ -598,7 +598,7 @@
             // 
             // scriptNextBtn
             // 
-            this.scriptNextBtn.Location = new System.Drawing.Point(1227, 12);
+            this.scriptNextBtn.Location = new System.Drawing.Point(1357, 12);
             this.scriptNextBtn.Name = "scriptNextBtn";
             this.scriptNextBtn.Size = new System.Drawing.Size(75, 23);
             this.scriptNextBtn.TabIndex = 136;
@@ -610,7 +610,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1314, 592);
+            this.ClientSize = new System.Drawing.Size(1444, 592);
             this.Controls.Add(this.scriptNextBtn);
             this.Controls.Add(this.scriptStepCheckBox);
             this.Controls.Add(this.label4);

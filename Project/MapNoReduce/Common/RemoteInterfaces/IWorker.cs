@@ -6,7 +6,7 @@ namespace PADIMapNoReduce
     public interface IWorker
     {
        void ReceiveWork(string clientURL, long fileSize, long splits, string mapperName, byte[] mapperCode);
-       bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL);
+       bool FetchWorker(string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits, string backURL, bool fromSlowSplit);
        void BackUpdate(string nextNextURL);
        void FrontUpdate(string nextNextURL);
        bool IsAlive();
