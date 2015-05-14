@@ -42,11 +42,10 @@ namespace PADIMapNoReduce
                 {
                     while (!jtInformation.DidFinishJob())
                     {
-                        Logger.LogInfo("---- Checking for slow workers ------");
+                        Logger.LogInfo("[CHECKING SLOW WORKERS");
                         SplitInfo slowSplit = jtInformation.FindSlowSplit();
                         if (slowSplit != null)
                         {
-
                             Logger.LogWarn("[SLOW SPLIT] RESENDING " + slowSplit.remainingSplits + " TO NEXT URL: " + nextURL);
                             ResentSplitToNextWorker(slowSplit.totalSplits, slowSplit.remainingSplits);
                         }

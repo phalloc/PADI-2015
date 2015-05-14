@@ -68,7 +68,7 @@ namespace PADIMapNoReduce
 
                 if (averageSplitTime == int.MaxValue)
                 {
-                    averageSplitTime = splitInfos[splitId].SplitTime() ;
+                    averageSplitTime = splitInfos[splitId].SplitTime() + 500 ;
                 }
 
                 long splitSize = splitInfos[splitId].splitSize;
@@ -114,7 +114,7 @@ namespace PADIMapNoReduce
                 string key = keyValue.Key;
                 SplitInfo splitInfo = splitInfos[keyValue.Value];
 
-                int waitTime = splitInfo.splitSize > averageSplitSize ? 3 * averageSplitTime : averageSplitTime;
+                int waitTime = (splitInfo.splitSize > averageSplitSize ? 2 * averageSplitTime : averageSplitTime);
                 if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
                 {
                     Logger.LogWarn("[SPLIT " + splitInfo.splitId + " SLOW taking " + splitInfo.SplitTime() + " vs " + waitTime);
@@ -127,7 +127,7 @@ namespace PADIMapNoReduce
 
         public bool DidFinishJob()
         {
-            if (numSplits < 0)
+            if (numSplits <= 0)
             {
                 Logger.LogWarn("[JOB FINISHED] Clearing the job tracker information for the next job");
                 workersSplits.Clear();
