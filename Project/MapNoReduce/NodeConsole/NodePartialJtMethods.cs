@@ -82,15 +82,14 @@ namespace PADIMapNoReduce
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
-            Logger.LogInfo("STARTING SPLIT BY " + workerId);
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
         }
 
 
         
-        public void LogFinishedSplit(long totalSplits, long remainingSplits)
+        public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
-            jtInformation.LogFinishedSplit(totalSplits, remainingSplits);
+            jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
         }
     }
 }

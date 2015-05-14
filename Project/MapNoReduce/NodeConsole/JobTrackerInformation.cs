@@ -52,11 +52,12 @@ namespace PADIMapNoReduce
             activeNodes.Remove(url);
         }
 
-        public void LogFinishedSplit(long totalSplits, long remainingSplits)
+        public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
             lock (LockLogFinished)
             {
-                long splitId = totalSplits - remainingSplits;
+                Logger.LogInfo("Worker " + workerId + " finished split " + remainingSplits);
+                long splitId = remainingSplits;
                 splitInfos[splitId].EndedSplit();
 
                 if (averageSplitTime == int.MaxValue)
@@ -78,7 +79,8 @@ namespace PADIMapNoReduce
         {
             lock (LockLogSplitStarted)
             {
-                long splitId = totalSplits - remainingSplits;
+                Logger.LogInfo("STARTING SPLIT BY " + workerId);
+                long splitId = remainingSplits;
                 if (workersSplits.ContainsKey(workerId))
                 {
                     workersSplits.Remove(workerId);
@@ -104,7 +106,7 @@ namespace PADIMapNoReduce
                 string key = keyValue.Key;
                 SplitInfo splitInfo = splitInfos[keyValue.Value];
 
-                int waitTime = splitInfo.splitSize > averageSplitSize ? 2 * averageSplitTime : averageSplitTime;
+                int waitTime = splitInfo.splitSize > averageSplitSize ? 3 * averageSplitTime : averageSplitTime;
                 if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
                 {
                     Logger.LogWarn("Slow worker... sending split elsewhere");

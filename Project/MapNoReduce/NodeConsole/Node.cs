@@ -330,7 +330,7 @@ namespace PADIMapNoReduce
 
                         //registering as worker
                         Logger.LogInfo("Warning Jobtracker that I am going to start");
-                        //currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
+                        currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
 
                         serverRole = ServerRole.WORKER;
                         status = ExecutionState.WORKING;
@@ -382,7 +382,7 @@ namespace PADIMapNoReduce
 
                         fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
 
-                        //currentJobTracker.LogFinishedSplit(totalSplits, remainingSplits);
+                        currentJobTracker.LogFinishedSplit(id, totalSplits, remainingSplits);
                         Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 

@@ -246,7 +246,7 @@ namespace PADIMapNoReduce
                 TreeNode tagNode = CreateNode(RING_NEXT_URL_TAG + " : " + result, RING_NEXT_URL_TAG);
                 tagNode.BackColor = RING_NEXT_COLOR;
                 mostRecentNode.Nodes.Add(tagNode);
-            }catch(Exception ex){
+            }catch(Exception){
                 //Logger.LogWarn(ex.Message);
             }
 
@@ -258,7 +258,7 @@ namespace PADIMapNoReduce
                 TreeNode tagNode1 = CreateNode(RING_NEXT_NEXT_URL_START1_TAG + " : " + resultNextNextUrl1, RING_NEXT_NEXT_URL_START1_TAG);
                 tagNode1.BackColor = RING_NEXT_NEXT_1_COLOR;
                 mostRecentNode.Nodes.Add(tagNode1);
-            }catch(Exception ex){
+            }catch(Exception){
                 //Logger.LogWarn(ex.Message);
             }
 
@@ -278,7 +278,7 @@ namespace PADIMapNoReduce
                 tagNode2.BackColor = RING_NEXT_NEXT_2_COLOR;
                 mostRecentNode.Nodes.Add(tagNode2);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Logger.LogWarn(ex.Message);
             }
@@ -292,7 +292,7 @@ namespace PADIMapNoReduce
                 backNode.BackColor = RING_BACK_URL_COLOR;
                 mostRecentNode.Nodes.Add(backNode);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Logger.LogWarn(ex.Message);
             }

@@ -21,7 +21,7 @@ namespace PADIMapNoReduce
        void RegisterWorker(string url);
        void UnregisterWorker(string url);
        void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
-       void LogFinishedSplit(long totalSplits, long remainingSplits);
+       void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits);
         
 
 

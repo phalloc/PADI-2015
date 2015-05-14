@@ -98,6 +98,11 @@ namespace PADIMapNoReduce
                         Logger.LogInfo("[CMD MASTER] Waiting for STEP");
                 }
             }
+
+            if (listCommands.Count == 0)
+            {
+                Logger.LogInfo("SCRIPT EXECUTION COMPLETED");
+            }
         }
 
         public void ExecuteCommand(string line)
