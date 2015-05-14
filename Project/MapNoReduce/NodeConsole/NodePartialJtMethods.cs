@@ -46,7 +46,8 @@ namespace PADIMapNoReduce
                         SplitInfo slowSplit = jtInformation.FindSlowSplit();
                         if (slowSplit != null)
                         {
-                            Logger.LogWarn("Slow worker... sending split elsewhere");
+
+                            Logger.LogWarn("[SLOW SPLIT] RESENDING " + slowSplit.remainingSplits + " TO NEXT URL: " + nextURL);
                             ResentSplitToNextWorker(slowSplit.totalSplits, slowSplit.remainingSplits);
                         }
                         Thread.Sleep(2000);
@@ -104,7 +105,6 @@ namespace PADIMapNoReduce
 
         public void ResentSplitToNextWorker(long totalSplits, long remainingSplits)
         {
-            Logger.LogWarn("RESENDING SLOW SPLIT TO NEXT URL: " + nextURL);
             IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
             FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
             Thread liveCheck = new Thread(this.liveCheck);
