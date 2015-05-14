@@ -26,17 +26,22 @@ namespace PADIMapNoReduce
 
         public bool PingJT()
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
+
             Logger.LogInfo("Answering Ping");
             return true;
         }
 
         public void SetUpAsSecondaryServer(string primaryJTurl, long numSplits) {
+
             isPrimary = false;
             primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
             jtInformation = new JobTrackerInformation(this, numSplits);
             Thread SendIAmAliveThread = new Thread(() =>
             {
-                while (true)
+                while (!isPrimary)
                 {
                     /* wait until if I am unfrozen */
                     WaitForUnfreeze();
@@ -48,7 +53,7 @@ namespace PADIMapNoReduce
                         primaryJobTracker.PingJT();
                         receivedAliveFromServer = true;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Logger.LogErr("TIMEOUT");
                     }
@@ -60,7 +65,7 @@ namespace PADIMapNoReduce
                         nodeDown();
                         PrintUpdateNetwork();
                         jtInformation.AlertChangeOfJobTracker(myURL);
-                        this.StartJobTrackerProcess(jtInformation.numSplits);
+                        this.StartPrimaryJobTrackerProcess(jtInformation.numSplits);
                         break;
                     }
                     else
@@ -76,13 +81,16 @@ namespace PADIMapNoReduce
             SendIAmAliveThread.Start();
         }
 
-        private void StartJobTrackerProcess(long numSplits){
+        private void StartPrimaryJobTrackerProcess(long numSplits){
+            currentJobTrackerUrl = this.myURL;
+            serverRole = ServerRole.JOB_TRACKER;
+            status = ExecutionState.WORKING;
             isPrimary = true;
             jtInformation = new JobTrackerInformation(this, numSplits);
-
+            
             Thread trackWorkersThread = new Thread(() =>
             {
-                while (!jtInformation.DidFinishJob())
+                while (!jtInformation.DidFinishJob() && isPrimary)
                 {
                     /* wait until if I am unfrozen */
                     WaitForUnfreeze();
@@ -109,7 +117,7 @@ namespace PADIMapNoReduce
             Thread ConfigureSecondaryServerThread = new Thread(() =>
             {
                 //wait for an available backUrl, then pings it then sets up as primary Server
-                while (true)
+                while (isPrimary)
                 {
                     if (backURL == myURL)
                     {
@@ -143,21 +151,20 @@ namespace PADIMapNoReduce
         {
             try
             {
-                /* wait until if I am unfrozen */
-                WaitForUnfreeze();
-                /* --------------------------- */
-
-
                 Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
 
-                currentJobTrackerUrl = this.id;
-                serverRole = ServerRole.JOB_TRACKER;
-                status = ExecutionState.WORKING;
+
                 this.clientURL = clientURL;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
 
 
-                StartJobTrackerProcess(splits);
+                StartPrimaryJobTrackerProcess(splits);
+
+
+                /* wait until if I am unfrozen */
+                WaitForUnfreeze();
+                /* --------------------------- */
+
 
 
                 IWorker nextWorker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
@@ -180,6 +187,15 @@ namespace PADIMapNoReduce
 
         public void RegisterWorker(string workerId, string workerUrl)
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
+
+            if (isPrimary)
+            {
+                Logger.LogInfo("Resending register to secondary JT");
+                secondaryJT.RegisterWorker(workerId, workerUrl);
+            }
             Logger.LogInfo("REGISTERING WORKER");
             IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), workerUrl);
             jtInformation.RegisterWorker(workerId, worker);
@@ -187,11 +203,19 @@ namespace PADIMapNoReduce
 
         public void UnregisterWorker(string workerId)
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
+
             jtInformation.UnregisterWorker(workerId);
         }
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
+
             if (isPrimary)
             {
                 Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
@@ -202,6 +226,10 @@ namespace PADIMapNoReduce
         
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
+
             if (isPrimary)
             {
                 Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
@@ -210,8 +238,9 @@ namespace PADIMapNoReduce
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
         }
 
-        public void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
+        private void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
         {
+
             FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
             Thread liveCheck = new Thread(this.liveCheck);
             IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, false, null, null);

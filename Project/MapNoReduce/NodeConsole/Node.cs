@@ -160,6 +160,7 @@ namespace PADIMapNoReduce
 
         public void UpdateCurrentJobTracker(string jobtrackerUrl)
         {
+            Logger.LogInfo("UPDATING CURRENT JOBTRACKER");
             currentJobTrackerUrl = jobtrackerUrl;
             currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), jobtrackerUrl);
         }
@@ -170,7 +171,7 @@ namespace PADIMapNoReduce
             Thread.Sleep(TIMEOUT);
             Console.Write("LIVE CHECK");
             
-            /*
+            
             if (!iar.IsCompleted)
             {
                Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
@@ -191,7 +192,7 @@ namespace PADIMapNoReduce
 
                    }
                }
-            }*/
+            }
         }
 
         private void backupWorkData(ExecutionState status, string clientURL, string jobTrackerURL, string mapperName, byte[] mapperCode, long fileSize, long totalSplits, long remainingSplits){
@@ -240,12 +241,7 @@ namespace PADIMapNoReduce
                 }
                 else
                 {
-                    //registering as worker
-                    Logger.LogInfo("Registering in the jobtracker at " + jobTrackerURL);
-                    if (!didRegisted) { 
-                        currentJobTracker.RegisterWorker(id, myURL);
-                        didRegisted = true;
-                    }
+                    RegisterAtJobTracker();
 
                     if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
@@ -257,9 +253,7 @@ namespace PADIMapNoReduce
                     {
                         Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
 
-                        //registering as worker
-                        Logger.LogInfo("Warning Jobtracker that I am going to start");
-                        currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
+                        LogStartSplit(id, fileSize, totalSplits, remainingSplits);
 
                         serverRole = ServerRole.WORKER;
                         status = ExecutionState.WORKING;
@@ -304,8 +298,7 @@ namespace PADIMapNoReduce
                         }
 
                         fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
-
-                        currentJobTracker.LogFinishedSplit(id, totalSplits, remainingSplits);
+                        LogEndSplit(id, totalSplits, remainingSplits);
                         Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
 
 
@@ -329,6 +322,52 @@ namespace PADIMapNoReduce
 
         }
 
+        public void LogStartSplit(string id, long filesize, long totalSplits, long remainingSplits){
+            //registering as worker
+            Logger.LogInfo("LOGGING START SPLIT at " + currentJobTrackerUrl);
+            while(true){
+                try{
+                    Logger.LogInfo("Warning Jobtracker that I am going to start");
+                    currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
+                    
+                    break;
+                }catch(Exception){
+                    Logger.LogWarn("Retrying to log start to jobtracker.");
+                }
+                Thread.Sleep(500);
+            }
+        }
+
+        public void LogEndSplit(string id, long totalSplits, long remainingSplits){
+            //registering as worker
+            Logger.LogInfo("LOGGING END SPLIT at " + currentJobTrackerUrl);
+            while(true){
+                try{
+                    currentJobTracker.LogFinishedSplit(id, totalSplits, remainingSplits);
+                    break;
+                }catch(Exception){
+                    Logger.LogWarn("Retrying to log start to jobtracker.");
+                }
+                Thread.Sleep(500);
+            }
+        }
+
+        public void RegisterAtJobTracker(){
+            //registering as worker
+            Logger.LogInfo("Registering in the jobtracker at " + currentJobTrackerUrl);
+            while(true){
+                try{
+                    if (!didRegisted) { 
+                        currentJobTracker.RegisterWorker(id, myURL);
+                        didRegisted = true;
+                        break;
+                    }
+                }catch(Exception){
+                    Logger.LogWarn("Retrying to register to jobtracker.");
+                }
+                Thread.Sleep(500);
+            }
+        }
 
         public void deadCheck(string backURL){
             if(!this.backURL.Equals(backURL)){
@@ -382,9 +421,6 @@ namespace PADIMapNoReduce
     
             return urls;
         }
-
-
-
 
         //args: id, serviceURL, entryURL
         static void Main(string[] args)

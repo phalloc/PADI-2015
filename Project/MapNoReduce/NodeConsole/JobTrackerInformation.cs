@@ -40,9 +40,9 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Updating current JobTracking across the network");
             foreach (KeyValuePair<string, IWorker> keyValue in activeNodes)
             {
-                //string key = keyValue.Key;
-                //IWorker worker = keyValue.Value;
-                //worker.UpdateCurrentJobTracker(newJobTrackerUrl);
+                string key = keyValue.Key;
+                IWorker worker = keyValue.Value;
+                worker.UpdateCurrentJobTracker(newJobTrackerUrl);
             }
             //TODO when detected current jobtracker done
         }
