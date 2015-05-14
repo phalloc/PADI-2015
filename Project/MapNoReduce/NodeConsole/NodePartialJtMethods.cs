@@ -23,12 +23,13 @@ namespace PADIMapNoReduce
         private bool receivedAliveFromServer;
 
         bool isPrimary = false;
+        bool didStartedPrimaryProcess = false;
 
         public bool PingJT()
         {
-            /* wait until if I am unfrozen */
-            WaitForUnfreeze();
-            /* --------------------------- */
+            /* wait until if I am unfrozen and revert to Worker if needed */
+            if (WaitForUnfreezeAndCheckChanges())
+                return false;
 
             Logger.LogInfo("Answering Ping");
             return true;
@@ -43,8 +44,9 @@ namespace PADIMapNoReduce
             {
                 while (!isPrimary)
                 {
-                    /* wait until if I am unfrozen */
-                    WaitForUnfreeze();
+                    /* wait until if I am unfrozen and revert to Worker if needed */
+                    if (WaitForUnfreezeAndCheckChanges())
+                        break;
                     /* --------------------------- */
 
                     Logger.LogInfo("Sending I am alive");
@@ -90,10 +92,11 @@ namespace PADIMapNoReduce
             
             Thread trackWorkersThread = new Thread(() =>
             {
-                while (!jtInformation.DidFinishJob() && isPrimary)
+                while (!jtInformation.DidFinishJob() && isPrimary && serverRole == ServerRole.JOB_TRACKER)
                 {
-                    /* wait until if I am unfrozen */
-                    WaitForUnfreeze();
+                    /* wait until if I am unfrozen and revert to Worker if needed */
+                    if (WaitForUnfreezeAndCheckChanges())
+                        break;
                     /* --------------------------- */
 
                     Logger.LogInfo("[CHECKING SLOW WORKERS]");
@@ -117,7 +120,7 @@ namespace PADIMapNoReduce
             Thread ConfigureSecondaryServerThread = new Thread(() =>
             {
                 //wait for an available backUrl, then pings it then sets up as primary Server
-                while (isPrimary)
+                while (isPrimary && serverRole == ServerRole.JOB_TRACKER)
                 {
                     if (backURL == myURL)
                     {
@@ -157,12 +160,15 @@ namespace PADIMapNoReduce
                 this.clientURL = clientURL;
                 client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
 
+                if (!didStartedPrimaryProcess)
+                {
+                    StartPrimaryJobTrackerProcess(splits);
+                    didStartedPrimaryProcess = true;
+                }
 
-                StartPrimaryJobTrackerProcess(splits);
 
-
-                /* wait until if I am unfrozen */
-                WaitForUnfreeze();
+                /* wait until if I am unfrozen and revert to Worker if needed */
+                WaitForUnfreezeAndCheckChanges();
                 /* --------------------------- */
 
 
@@ -187,8 +193,8 @@ namespace PADIMapNoReduce
 
         public void RegisterWorker(string workerId, string workerUrl)
         {
-            /* wait until if I am unfrozen */
-            WaitForUnfreeze();
+            /* wait until if I am unfrozen and revert to Worker if needed */
+            WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
             if (isPrimary)
@@ -203,8 +209,8 @@ namespace PADIMapNoReduce
 
         public void UnregisterWorker(string workerId)
         {
-            /* wait until if I am unfrozen */
-            WaitForUnfreeze();
+            /* wait until if I am unfrozen and revert to Worker if needed */
+            WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
             jtInformation.UnregisterWorker(workerId);
@@ -212,8 +218,8 @@ namespace PADIMapNoReduce
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
         {
-            /* wait until if I am unfrozen */
-            WaitForUnfreeze();
+            /* wait until if I am unfrozen and revert to Worker if needed */
+            WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
             if (isPrimary)
@@ -226,8 +232,8 @@ namespace PADIMapNoReduce
         
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
         {
-            /* wait until if I am unfrozen */
-            WaitForUnfreeze();
+            /* wait until if I am unfrozen and revert to Worker if needed */
+            WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
             if (isPrimary)
@@ -236,6 +242,26 @@ namespace PADIMapNoReduce
                 secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
             }
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
+        }
+        public bool IsPrimary()
+        {
+            return isPrimary;
+        }
+
+        public bool  WaitForUnfreezeAndCheckChanges()
+        {
+            WaitForUnfreeze();
+            if (secondaryJT != null && secondaryJT.IsPrimary())
+            {
+                Logger.LogWarn("REVERTING BACK TO WORKER");
+                this.serverRole = ServerRole.WORKER;
+                isPrimary = false;
+                didStartedPrimaryProcess = false;
+                return true;
+            }
+
+            return false;
+
         }
 
         private void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
