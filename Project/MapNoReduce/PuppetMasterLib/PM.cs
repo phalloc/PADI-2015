@@ -9,6 +9,11 @@ namespace PADIMapNoReduce
 {
     public class PM : MarshalByRefObject, IPuppetMaster
     {
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+
         //FIXME FALTA LANÇAR EXCEPCOES REMOTAS CASO O workerExecutableDirectory nao estiver definido
         public void CreateWorker(string id, string puppetMasterUrl, string serviceUrl, string entryUrl)
         {

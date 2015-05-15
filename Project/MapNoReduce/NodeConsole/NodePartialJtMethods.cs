@@ -22,7 +22,7 @@ namespace PADIMapNoReduce
 
         //to use when secondary server fails
         IWorker backupSecondaryServerIfFails;
-
+        bool primaryDidStartedJob = false;
 
         string backupSecondaryServerIfFailsUrl;
         private bool receivedAliveFromServer;
@@ -40,13 +40,17 @@ namespace PADIMapNoReduce
             return true;
         }
 
-        public string SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits) {
+        public string SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits, string mapperName, byte[] mapperCode)
+        {
             this.clientURL = clientUrl;
+            firstRequest = false;
             client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
             isPrimary = false;
             this.fileSize = fileSize;
             primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
             jtInformation = new JobTrackerInformation(this, numSplits);
+            this.mapperName = mapperName;
+            this.mapperCode = mapperCode;
             Thread SendIAmAliveThread = new Thread(() =>
             {
                 while (!isPrimary && !jtInformation.DidFinishJob())
@@ -74,7 +78,7 @@ namespace PADIMapNoReduce
                         nodeDown();
                         PrintUpdateNetwork();
                         jtInformation.AlertChangeOfJobTracker(myURL);
-                        this.StartPrimaryJobTrackerProcess(clientUrl, fileSize, jtInformation.numSplits);
+                        this.StartPrimaryJobTrackerProcess(clientUrl, fileSize, jtInformation.numSplits, mapperName, mapperCode);
                         break;
                     }
 
@@ -88,7 +92,8 @@ namespace PADIMapNoReduce
             return backURL;
         }
 
-        private void StartPrimaryJobTrackerProcess(string clientUrl, long fileSize, long numSplits){
+        private void StartPrimaryJobTrackerProcess(string clientUrl, long fileSize, long numSplits, string mapperName, byte[] mapperCode)
+        {
             currentJobTrackerUrl = this.myURL;
             serverRole = ServerRole.JOB_TRACKER;
             status = ExecutionState.WORKING;
@@ -97,7 +102,8 @@ namespace PADIMapNoReduce
             this.clientURL = clientUrl;
             this.fileSize = fileSize;
             client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
-
+            this.mapperName = mapperName;
+            this.mapperCode = mapperCode;
             Thread trackWorkersThread = new Thread(() =>
             {
                 while (!jtInformation.DidFinishJob() && isPrimary && serverRole == ServerRole.JOB_TRACKER)
@@ -143,7 +149,7 @@ namespace PADIMapNoReduce
                     try
                     {
                         secondaryJT.PingJT();
-                        backupSecondaryServerIfFailsUrl = secondaryJT.SetUpAsSecondaryServer(this.clientURL, this.myURL, fileSize, numSplits);
+                        backupSecondaryServerIfFailsUrl = secondaryJT.SetUpAsSecondaryServer(this.clientURL, this.myURL, fileSize, numSplits, mapperName, mapperCode);
 
                         backupSecondaryServerIfFails = (IWorker)Activator.GetObject(typeof(IWorker), backupSecondaryServerIfFailsUrl);
 
@@ -160,8 +166,22 @@ namespace PADIMapNoReduce
 
             });
             ConfigureSecondaryServerThread.Start();
+
+            if (!primaryDidStartedJob && !firstRequest)
+            {
+                primaryDidStartedJob = true;
+                ReceiveWork(clientUrl, fileSize, numSplits, mapperName, mapperCode);
+            }
+
+            firstRequest = false;
+
         }
 
+        public void PrimaryStartedJob() {
+            primaryDidStartedJob = true;
+        }
+
+        bool firstRequest = true;
 
         public void ReceiveWork(string clientURL, long fileSize, long splits, string mapperName, byte[] mapperCode)
         {
@@ -172,7 +192,7 @@ namespace PADIMapNoReduce
 
                 if (!didStartedPrimaryProcess)
                 {
-                    StartPrimaryJobTrackerProcess(clientURL, fileSize, splits);
+                    StartPrimaryJobTrackerProcess(clientURL, fileSize, splits, mapperName, mapperCode);
                     didStartedPrimaryProcess = true;
                 }
 
@@ -189,7 +209,12 @@ namespace PADIMapNoReduce
 
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(nextWorker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, true, null, null);
-        
+
+                if (secondaryJT == null) {
+                    Logger.LogErr("Job tracker backup hasn't been configured yet");
+                    secondaryJT.PrimaryStartedJob();
+                }
+                
                 return;
             }
             catch (RemotingException e)
@@ -302,9 +327,10 @@ namespace PADIMapNoReduce
             
             this.clientURL = null;
             this.fileSize = 0;
-    
 
+            primaryDidStartedJob = false;
             isPrimary = false;
+            firstRequest = true;
             didStartedPrimaryProcess = false;
             client = null;
         }
@@ -321,7 +347,7 @@ namespace PADIMapNoReduce
             {
                 Logger.LogWarn("SECONDARY SERVER DOWN.");
                 backupSecondaryServerIfFails.nodeDown();
-                backupSecondaryServerIfFails.SetUpAsSecondaryServer(clientURL, myURL, fileSize, jtInformation.numSplits);
+                backupSecondaryServerIfFails.SetUpAsSecondaryServer(clientURL, myURL, fileSize, jtInformation.numSplits, mapperName, mapperCode);
             }
 
             return false;

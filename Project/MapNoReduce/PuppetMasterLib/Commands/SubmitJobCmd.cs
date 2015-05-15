@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Runtime.Remoting;
-
+using System.Threading;
 
 namespace PADIMapNoReduce.Commands
 {
@@ -73,6 +73,8 @@ namespace PADIMapNoReduce.Commands
 
 
             string arguments = entryUrl + " " + inputFile + " " + outputFile + " " + numSplits + " " + classMapper + " " + dllPath;
+
+           
             ProcessUtil.ExecuteNewProcess(PropertiesPM.clientExeLocation, arguments);
 
         }
