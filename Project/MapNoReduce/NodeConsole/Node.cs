@@ -229,11 +229,9 @@ namespace PADIMapNoReduce
                     return true;
                 }
 
-                if (currentJobTracker == null)
-                {
-                    currentJobTrackerUrl = jobTrackerURL;
-                    currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), jobTrackerURL);
-                }
+               
+                currentJobTrackerUrl = jobTrackerURL;
+                currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), currentJobTrackerUrl);
                 
                 backupWorkData(status, clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits);
 
@@ -243,7 +241,7 @@ namespace PADIMapNoReduce
 
                 if (serverRole == ServerRole.JOB_TRACKER)
                 {
-                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
+                    IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                     liveCheck.Start(RemAr);
                 }
                 else
@@ -256,13 +254,13 @@ namespace PADIMapNoReduce
 
                     if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
-                        Logger.LogInfo("[JT FORWARD] Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
-                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
+                        Logger.LogInfo("[JT FORWARD] Forwarded work from JobTracker: " + currentJobTrackerUrl + " remainingSplits: " + remainingSplits);
+                        IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                         liveCheck.Start(RemAr);
                     }
                     else
                     {
-                        Logger.LogInfo("[RECEIVED SPLIT] Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
+                        Logger.LogInfo("[RECEIVED SPLIT] Received Work from JobTracker: " + currentJobTrackerUrl + " remainingSplits: " + remainingSplits);
 
                         LogStartSplit(id, fileSize, totalSplits, remainingSplits);
 
@@ -275,7 +273,7 @@ namespace PADIMapNoReduce
                         if (remainingSplits > 1 && propagateRemainingSplits)
                         {
                             Logger.LogInfo("[WORKER FORWARD NEXT SPLIT]");
-                            IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
+                            IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
                             liveCheck.Start(RemAr);
                         }
 
@@ -338,6 +336,7 @@ namespace PADIMapNoReduce
                 try{
                     currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), currentJobTrackerUrl);
                     currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
+                    Logger.LogInfo("[SUCCESS] LOGGING START SPLIT at " + currentJobTrackerUrl);
                     break;
                 }catch(Exception ex){
                     Logger.LogWarn("Retrying to log start to jobtracker. " + ex.ToString());
@@ -353,6 +352,7 @@ namespace PADIMapNoReduce
                 try{
                     currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), currentJobTrackerUrl);
                     currentJobTracker.LogFinishedSplit(id, totalSplits, remainingSplits);
+                    Logger.LogInfo("[SUCCESS] LOGGING END SPLIT at " + currentJobTrackerUrl);
                     break;
                 }catch(Exception ex){
                     Logger.LogWarn("Retrying to log start to jobtracker. " + ex.ToString());
@@ -369,6 +369,7 @@ namespace PADIMapNoReduce
                     currentJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), currentJobTrackerUrl);
                     currentJobTracker.RegisterWorker(id, myURL);
                     didRegisted = true;
+                    Logger.LogInfo("[SUCESS] Registering in the jobtracker at " + currentJobTrackerUrl);
                     break;                    
                 }catch(Exception ex){
                     Logger.LogWarn("Retrying to register to jobtracker. " + ex.ToString());

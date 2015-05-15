@@ -167,6 +167,7 @@ namespace PADIMapNoReduce
                 Logger.LogWarn("[JOB FINISHED] Clearing the job tracker information for the next job");
                 workersSplits.Clear();
                 splitInfos.Clear();
+                jtNode.RevertToNoneState();
                 return true;
             }
 

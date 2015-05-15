@@ -49,7 +49,7 @@ namespace PADIMapNoReduce
             jtInformation = new JobTrackerInformation(this, numSplits);
             Thread SendIAmAliveThread = new Thread(() =>
             {
-                while (!isPrimary)
+                while (!isPrimary && !jtInformation.DidFinishJob())
                 {
                     /* wait until if I am unfrozen and revert to Worker if needed */
                     if (WaitForUnfreezeAndCheckChanges())
@@ -122,14 +122,15 @@ namespace PADIMapNoReduce
                     Thread.Sleep(4000);
                 }
 
-                client.NotifyFinishedJob();
+                serverRole = ServerRole.NONE;
+                status = ExecutionState.WAITING;
             });
             trackWorkersThread.Start();
 
             Thread ConfigureSecondaryServerThread = new Thread(() =>
             {
                 //wait for an available backUrl, then pings it then sets up as primary Server
-                while (isPrimary && serverRole == ServerRole.JOB_TRACKER)
+                while (isPrimary && serverRole == ServerRole.JOB_TRACKER && !jtInformation.DidFinishJob())
                 {
                     if (backURL == myURL)
                     {
@@ -284,6 +285,25 @@ namespace PADIMapNoReduce
 
             return false;
 
+        }
+
+        public void RevertToNoneState() {
+            Logger.LogErr("REVERTING BACK TO NONE STATE");
+
+            //just notify once
+            if (isPrimary)
+                client.NotifyFinishedJob();
+
+            currentJobTrackerUrl = null;
+            serverRole = ServerRole.NONE;
+            status = ExecutionState.WAITING;
+            
+            this.clientURL = null;
+            this.fileSize = 0;
+    
+
+            isPrimary = false;
+            client = null;
         }
 
         public bool CheckSecondaryJTAlive()
