@@ -16,9 +16,11 @@ namespace PADIMapNoReduce
         public long fileSize;
         public long totalSplits;
         public long remainingSplits;
+        public string assignedWorker;
 
-        public SplitInfo(long splitId, long fileSize, long totalSplits, long remainingSplits)
+        public SplitInfo(string assignedWorker, long splitId, long fileSize, long totalSplits, long remainingSplits)
         {
+            this.assignedWorker = assignedWorker;
             this.splitId = splitId;
             this.fileSize = fileSize;
             this.totalSplits = totalSplits;

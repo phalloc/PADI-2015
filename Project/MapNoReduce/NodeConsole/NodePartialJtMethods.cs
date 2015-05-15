@@ -19,7 +19,12 @@ namespace PADIMapNoReduce
         private JobTrackerInformation jtInformation;
         IWorker primaryJobTracker;
         IWorker secondaryJT = null;
-                
+
+        //to use when secondary server fails
+        IWorker backupSecondaryServerIfFails;
+
+
+        string backupSecondaryServerIfFailsUrl;
         private bool receivedAliveFromServer;
 
         bool isPrimary = false;
@@ -35,7 +40,7 @@ namespace PADIMapNoReduce
             return true;
         }
 
-        public void SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits) {
+        public string SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits) {
             this.clientURL = clientUrl;
             client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
             isPrimary = false;
@@ -51,7 +56,7 @@ namespace PADIMapNoReduce
                         break;
                     /* --------------------------- */
 
-                    Logger.LogInfo("Sending I am alive");
+                    //Logger.LogInfo("Sending I am alive");
                     try
                     {
                         primaryJobTracker.PingJT();
@@ -72,10 +77,6 @@ namespace PADIMapNoReduce
                         this.StartPrimaryJobTrackerProcess(clientUrl, fileSize, jtInformation.numSplits);
                         break;
                     }
-                    else
-                    {
-                        Logger.LogErr("PRIMARY JOB TRACKER IS UP!!!");
-                    }
 
                     receivedAliveFromServer = false;
                     Thread.Sleep(PingTimeout);
@@ -83,6 +84,8 @@ namespace PADIMapNoReduce
                 }
             });
             SendIAmAliveThread.Start();
+
+            return backURL;
         }
 
         private void StartPrimaryJobTrackerProcess(string clientUrl, long fileSize, long numSplits){
@@ -108,7 +111,7 @@ namespace PADIMapNoReduce
                     SplitInfo slowSplit = jtInformation.FindSlowSplit();
                     if (slowSplit != null)
                     {
-                        Logger.LogWarn("There is a slow split - " + slowSplit.splitId);
+                        //Logger.LogWarn("There is a slow split - " + slowSplit.splitId);
                         IWorker freeWorker = jtInformation.GetFirstFreeWorker();
                         if (freeWorker != null)
                         {
@@ -116,7 +119,7 @@ namespace PADIMapNoReduce
                             ResendSplitToNextWorker(freeWorker, slowSplit.fileSize, slowSplit.totalSplits, slowSplit.remainingSplits);
                         }
                     }
-                    Thread.Sleep(2000);
+                    Thread.Sleep(4000);
                 }
 
                 client.NotifyFinishedJob();
@@ -133,13 +136,16 @@ namespace PADIMapNoReduce
                         continue;
                     }
 
-                    Logger.LogInfo("Waiting for an available url to be the secondary JT");
+                    //Logger.LogInfo("Waiting for an available url to be the secondary JT");
                     secondaryJT = (IWorker)Activator.GetObject(typeof(IWorker), backURL);
 
                     try
                     {
                         secondaryJT.PingJT();
-                        secondaryJT.SetUpAsSecondaryServer(this.clientURL, this.myURL, fileSize, numSplits);
+                        backupSecondaryServerIfFailsUrl = secondaryJT.SetUpAsSecondaryServer(this.clientURL, this.myURL, fileSize, numSplits);
+
+                        backupSecondaryServerIfFails = (IWorker)Activator.GetObject(typeof(IWorker), backupSecondaryServerIfFailsUrl);
+
                         Logger.LogInfo("Success setting setup backupserver");
                         break;
                     }
@@ -181,7 +187,7 @@ namespace PADIMapNoReduce
 
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(nextWorker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, true, null, null);
-
+        
                 return;
             }
             catch (RemotingException e)
@@ -196,23 +202,24 @@ namespace PADIMapNoReduce
             WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
+            if (jtInformation.didFinishedCurrentJob())
+            {
+                return;
+            }
+
             if (isPrimary)
             {
-                Logger.LogInfo("Resending register to secondary JT");
+                //Logger.LogInfo("Resending register to secondary JT");
                 secondaryJT.RegisterWorker(workerId, workerUrl);
             }
-            Logger.LogInfo("REGISTERING WORKER");
+            //Logger.LogInfo("REGISTERING WORKER");
             IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), workerUrl);
             jtInformation.RegisterWorker(workerId, worker);
         }
 
-        public void UnregisterWorker(string workerId)
+        public bool CanContinueProcessSplit(string workerId, long splitId)
         {
-            /* wait until if I am unfrozen and revert to Worker if needed */
-            WaitForUnfreezeAndCheckChanges();
-            /* --------------------------- */
-
-            jtInformation.UnregisterWorker(workerId);
+            return jtInformation.CanContinueProcessSplit(workerId, splitId);
         }
 
         public void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits)
@@ -221,9 +228,14 @@ namespace PADIMapNoReduce
             WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
+            if (jtInformation.didFinishedCurrentJob())
+            {
+                return;
+            }
+
             if (isPrimary)
             {
-                Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
+                //Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
                 secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
             }
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
@@ -235,9 +247,14 @@ namespace PADIMapNoReduce
             WaitForUnfreezeAndCheckChanges();
             /* --------------------------- */
 
+            if (jtInformation.didFinishedCurrentJob())
+            {
+                return;
+            }
+
             if (isPrimary)
             {
-                Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
+                //Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
                 secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
             }
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);

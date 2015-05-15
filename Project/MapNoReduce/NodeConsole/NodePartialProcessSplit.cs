@@ -34,8 +34,17 @@ namespace PADIMapNoReduce
             IList<KeyValuePair<string, string>> processedWork;
             bool firstReturn = true;
 
+
+
             while (endIndex < endSplit)
             {
+
+                
+                if (!currentJobTracker.CanContinueProcessSplit(id, splitId))
+                {
+                    Logger.LogErr("ABORT SPLIT PROCESS!!!!!!!!!!!!!!!!!!!!!!");
+                    return;
+                }
 
                 endIndex = firstIndex + maxMemoryGet;
 
@@ -56,9 +65,8 @@ namespace PADIMapNoReduce
                 client.returnWorkSplit(processedWork, splitId, firstReturn);
                 firstIndex += gradualSplit.Length;
                 firstReturn = false;
-
-
             }
+
 
             //byte[] gradualSplit = client.getWorkSplit(startSplit, endSplit);
 

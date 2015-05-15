@@ -8,7 +8,6 @@ namespace PADIMapNoReduce
 {
     public class JobTrackerInformation
     {
-        Node currentSecondaryJT = null;
         IDictionary<string, IWorker> activeNodes = new Dictionary<string, IWorker>();
 
         //worker->splitId
@@ -28,6 +27,20 @@ namespace PADIMapNoReduce
 
         Node jtNode;
 
+        public bool CanContinueProcessSplit(string workerId, long splitId)
+        {
+            if (splitInfos.ContainsKey(splitId)) {
+                return splitInfos[splitId].assignedWorker == workerId;
+            }
+
+            return false;
+        }
+
+        public bool didFinishedCurrentJob()
+        {
+            return numSplits <= 0;
+        }
+
         public JobTrackerInformation(Node jtnode, long numSplits)
         {
             this.jtNode = jtnode;
@@ -36,7 +49,7 @@ namespace PADIMapNoReduce
 
         public void AlertChangeOfJobTracker(string newJobTrackerUrl)
         {
-            Logger.LogInfo("Updating current JobTracking across the network");
+            //Logger.LogInfo("Updating current JobTracking across the network");
             foreach (KeyValuePair<string, IWorker> keyValue in activeNodes)
             {
                 string key = keyValue.Key;
@@ -49,14 +62,9 @@ namespace PADIMapNoReduce
         public void RegisterWorker(string workerId, IWorker worker)
         {
             if (!activeNodes.ContainsKey(workerId)) {
-                Logger.LogInfo("Registering new worker " + workerId);
+                //Logger.LogInfo("Registering new worker " + workerId);
                 activeNodes.Add(workerId, worker);
             }
-        }
-
-        public void UnregisterWorker(string url)
-        {
-            activeNodes.Remove(url);
         }
 
         public void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits)
@@ -67,21 +75,18 @@ namespace PADIMapNoReduce
                 SplitInfo splitInfo = splitInfos[splitId];
                 if (splitInfo.DidFinished())
                 {
-                    Logger.LogInfo("[" + workerId + " SLOW FINISHED " + splitId + "]");
+                    //Logger.LogInfo("[" + workerId + " SLOW FINISHED " + splitId + "]");
                     return;
                 }
 
                 splitInfos[splitId].EndedSplit();
 
-                if (averageSplitTime == long.MaxValue)
-                {
-                    averageSplitTime = splitInfos[splitId].SplitTime() + 500;
-                }
 
-
+                averageSplitTime = splitInfos[splitId].SplitTime() + 500;
+                
                 numSplits--;
 
-                Logger.LogInfo("[" + workerId + " ENDED " + splitId + "] - " + splitInfos[splitId].SplitTime() + " ms. " + numSplits + " splits remaining");
+                Logger.LogInfo("[" + workerId + " ENDED " + splitId + "] in " + splitInfos[splitId].SplitTime() + " ms. " + numSplits + " splits remaining");
             }
         }
 
@@ -93,7 +98,7 @@ namespace PADIMapNoReduce
                 Logger.LogInfo("[" + workerId + " STARTED " + splitId + "]");
                 if (workersSplits.ContainsKey(workerId))
                 {
-                    Logger.LogWarn("[" + workerId + " STARTED " + splitId + "] " + " was already registered with another split.");
+                    //Logger.LogWarn("[" + workerId + " STARTED " + splitId + "] " + " was already registered with another split.");
                     workersSplits.Remove(workerId);
                 }
                 
@@ -106,8 +111,7 @@ namespace PADIMapNoReduce
                     splitInfos.Remove(splitId);
                 }
 
-                Logger.LogInfo(fileSize + " @ " + totalSplits + " @ " + remainingSplits);
-                splitInfos.Add(remainingSplits, new SplitInfo(splitId, fileSize, totalSplits, remainingSplits));
+                splitInfos.Add(remainingSplits, new SplitInfo(workerId, splitId, fileSize, totalSplits, remainingSplits));
             }
         }
 
@@ -118,14 +122,19 @@ namespace PADIMapNoReduce
                 string key = keyValue.Key;
                 SplitInfo splitInfo = splitInfos[keyValue.Value];
 
-                long waitTime = splitInfo.splitId == 0 ? 2 * averageSplitTime : averageSplitTime;
 
-                //Logger.LogInfo(splitInfo.splitId + " taking " + splitInfo.SplitTime() + " waitTime is " + waitTime);
-                if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
+                if (averageSplitTime < long.MaxValue)
                 {
-                    Logger.LogWarn("[SPLIT " + splitInfo.splitId + " SLOW] taking " + splitInfo.SplitTime() + " vs " + waitTime);
-                    return splitInfo;
+                    long waitTime = splitInfo.splitId == 0 ? 3 * averageSplitTime : 2 * averageSplitTime;
+
+                    if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)
+                    {
+                        Logger.LogWarn("[SPLIT " + splitInfo.splitId + " SLOW] taking " + splitInfo.SplitTime() + " vs " + waitTime);
+
+                        return splitInfo;
+                    }
                 }
+                
             }
             return null;
         }

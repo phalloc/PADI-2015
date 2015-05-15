@@ -20,13 +20,12 @@ namespace PADIMapNoReduce
 
         //jobtracker specific methods
        void RegisterWorker(string workerId, string workerUrl);
-       void UnregisterWorker(string workerId);
        void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
        void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits);
        bool PingJT();
-       void SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits);
+       string SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits);
        bool IsPrimary();
-
+       bool CanContinueProcessSplit(string workerId, long splitId);
 
 
 

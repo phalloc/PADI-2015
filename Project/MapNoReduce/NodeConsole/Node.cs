@@ -99,7 +99,7 @@ namespace PADIMapNoReduce
             Logger.LogWarn("UPDATING JOBTRACKER");
             this.currentJobTrackerUrl = newJobTracker;
             didRegisted = false;
-            IWorker currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
+            currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
             RegisterAtJobTracker();
         }
 
@@ -180,7 +180,6 @@ namespace PADIMapNoReduce
                try
                {
                    bool alive = worker.IsAlive();
-                   Logger.LogInfo("alive: " + alive);
                }
                catch (Exception ex)
                {
@@ -324,7 +323,7 @@ namespace PADIMapNoReduce
             }
             catch (Exception e)
             {
-                Logger.LogErr("Exception: " + e.Message);
+                Logger.LogErr("Exception: " + e.ToString());
             }
             return true;
 
@@ -341,7 +340,6 @@ namespace PADIMapNoReduce
             Logger.LogInfo("LOGGING START SPLIT at " + currentJobTrackerUrl);
             while(true){
                 try{
-                    Logger.LogInfo("Warning Jobtracker that I am going to start");
                     currentJobTracker.LogStartedSplit(id, fileSize, totalSplits, remainingSplits);
                     
                     break;
@@ -371,7 +369,6 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Registering in the jobtracker at " + currentJobTrackerUrl);
             while(true){
                 try{
-                    Logger.LogInfo("Send request to register at jt");
                     currentJobTracker.RegisterWorker(id, myURL);
                     didRegisted = true;
                     break;                    
