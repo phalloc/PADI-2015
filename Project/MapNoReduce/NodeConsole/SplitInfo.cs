@@ -13,9 +13,6 @@ namespace PADIMapNoReduce
         long elapsedMiliSeconds = long.MaxValue;
         bool finished = false;
         public long splitId;
-        public long splitSize;
-        public long beginSplit = 222;
-        public long endPlit = 100;
         public long fileSize;
         public long totalSplits;
         public long remainingSplits;

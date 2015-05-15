@@ -35,9 +35,11 @@ namespace PADIMapNoReduce
             return true;
         }
 
-        public void SetUpAsSecondaryServer(string primaryJTurl, long numSplits) {
-
+        public void SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits) {
+            this.clientURL = clientUrl;
+            client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
             isPrimary = false;
+            this.fileSize = fileSize;
             primaryJobTracker = (IWorker)Activator.GetObject(typeof(IWorker), primaryJTurl);
             jtInformation = new JobTrackerInformation(this, numSplits);
             Thread SendIAmAliveThread = new Thread(() =>
@@ -67,7 +69,7 @@ namespace PADIMapNoReduce
                         nodeDown();
                         PrintUpdateNetwork();
                         jtInformation.AlertChangeOfJobTracker(myURL);
-                        this.StartPrimaryJobTrackerProcess(jtInformation.numSplits);
+                        this.StartPrimaryJobTrackerProcess(clientUrl, fileSize, jtInformation.numSplits);
                         break;
                     }
                     else
@@ -83,13 +85,16 @@ namespace PADIMapNoReduce
             SendIAmAliveThread.Start();
         }
 
-        private void StartPrimaryJobTrackerProcess(long numSplits){
+        private void StartPrimaryJobTrackerProcess(string clientUrl, long fileSize, long numSplits){
             currentJobTrackerUrl = this.myURL;
             serverRole = ServerRole.JOB_TRACKER;
             status = ExecutionState.WORKING;
             isPrimary = true;
             jtInformation = new JobTrackerInformation(this, numSplits);
-            
+            this.clientURL = clientUrl;
+            this.fileSize = fileSize;
+            client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
+
             Thread trackWorkersThread = new Thread(() =>
             {
                 while (!jtInformation.DidFinishJob() && isPrimary && serverRole == ServerRole.JOB_TRACKER)
@@ -108,12 +113,13 @@ namespace PADIMapNoReduce
                         if (freeWorker != null)
                         {
                             Logger.LogWarn("[SLOWWWWWWW SPLIT] RESENDING " + slowSplit.remainingSplits);
-                            ResendSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
+                            ResendSplitToNextWorker(freeWorker, slowSplit.fileSize, slowSplit.totalSplits, slowSplit.remainingSplits);
                         }
                     }
                     Thread.Sleep(2000);
                 }
-                //TIAGO SANTOS PODES POR AQUI O QUE QUISERES PARA NOTIFICAR O CLIENTE QUE ACABOU
+
+                client.NotifyFinishedJob();
             });
             trackWorkersThread.Start();
 
@@ -133,7 +139,7 @@ namespace PADIMapNoReduce
                     try
                     {
                         secondaryJT.PingJT();
-                        secondaryJT.SetUpAsSecondaryServer(this.myURL, numSplits);
+                        secondaryJT.SetUpAsSecondaryServer(this.clientURL, this.myURL, fileSize, numSplits);
                         Logger.LogInfo("Success setting setup backupserver");
                         break;
                     }
@@ -157,28 +163,21 @@ namespace PADIMapNoReduce
                 Logger.LogInfo("Received: " + clientURL + " with " + splits + " splits fileSize =" + fileSize);
 
 
-                this.clientURL = clientURL;
-                client = (IClient)Activator.GetObject(typeof(IClient), clientURL);
-
                 if (!didStartedPrimaryProcess)
                 {
-                    StartPrimaryJobTrackerProcess(splits);
+                    StartPrimaryJobTrackerProcess(clientURL, fileSize, splits);
                     didStartedPrimaryProcess = true;
                 }
-
 
                 /* wait until if I am unfrozen and revert to Worker if needed */
                 WaitForUnfreezeAndCheckChanges();
                 /* --------------------------- */
 
 
-
                 IWorker nextWorker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                 if (splits > fileSize)
                     splits = fileSize;
                 long splitSize = fileSize / splits;
-
-
 
                 FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(nextWorker.FetchWorker);
                 IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, myURL, mapperName, mapperCode, fileSize, splits, splits, myURL, true, null, null);
@@ -264,7 +263,7 @@ namespace PADIMapNoReduce
 
         }
 
-        private void ResendSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
+        private void ResendSplitToNextWorker(IWorker worker, long fileSize, long totalSplits, long remainingSplits)
         {
 
             FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);

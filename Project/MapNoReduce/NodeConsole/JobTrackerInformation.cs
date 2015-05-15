@@ -19,7 +19,6 @@ namespace PADIMapNoReduce
 
         //average seconds (kindish)
         long averageSplitTime = long.MaxValue;
-        long averageSplitSize = long.MaxValue;
 
         //locks for jobtracker functions
         static object LockLogSplitStarted = new Object();
@@ -79,11 +78,7 @@ namespace PADIMapNoReduce
                     averageSplitTime = splitInfos[splitId].SplitTime() + 500;
                 }
 
-                long splitSize = splitInfos[splitId].splitSize;
-                if (splitSize == long.MaxValue || splitSize < averageSplitSize)
-                {
-                    averageSplitSize = splitSize;
-                }
+
                 numSplits--;
 
                 Logger.LogInfo("[" + workerId + " ENDED " + splitId + "] - " + splitInfos[splitId].SplitTime() + " ms. " + numSplits + " splits remaining");
@@ -110,6 +105,8 @@ namespace PADIMapNoReduce
                     Logger.LogWarn("[SPLIT START " + workerId + "]" + " is processing a slow split " + splitId);
                     splitInfos.Remove(splitId);
                 }
+
+                Logger.LogInfo(fileSize + " @ " + totalSplits + " @ " + remainingSplits);
                 splitInfos.Add(remainingSplits, new SplitInfo(splitId, fileSize, totalSplits, remainingSplits));
             }
         }
@@ -121,7 +118,7 @@ namespace PADIMapNoReduce
                 string key = keyValue.Key;
                 SplitInfo splitInfo = splitInfos[keyValue.Value];
 
-                long waitTime = (splitInfo.splitSize > averageSplitSize ? 2 * averageSplitTime : averageSplitTime);
+                long waitTime = splitInfo.splitId == 0 ? 2 * averageSplitTime : averageSplitTime;
 
                 //Logger.LogInfo(splitInfo.splitId + " taking " + splitInfo.SplitTime() + " waitTime is " + waitTime);
                 if (!splitInfo.DidFinished() && splitInfo.SplitTime() > waitTime)

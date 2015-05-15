@@ -97,11 +97,14 @@ namespace PADIMapNoReduce
             writer.Close();
         }
 
+        public void NotifyFinishedJob()
+        {
+            Logger.LogInfo("[DONE!!!] FINISHED JOB");
+        }
+
         public override object InitializeLifetimeService()
         {
-
             return null;
-
         }
 
 

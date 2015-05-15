@@ -261,13 +261,13 @@ namespace PADIMapNoReduce
 
                     if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
-                        Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
+                        Logger.LogInfo("[JT FORWARD] Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                         liveCheck.Start(RemAr);
                     }
                     else
                     {
-                        Logger.LogInfo("Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
+                        Logger.LogInfo("[RECEIVED SPLIT] Received Work from JobTracker: " + jobTrackerURL + " remainingSplits: " + remainingSplits);
 
                         LogStartSplit(id, fileSize, totalSplits, remainingSplits);
 
@@ -279,6 +279,7 @@ namespace PADIMapNoReduce
 
                         if (remainingSplits > 1 && propagateRemainingSplits)
                         {
+                            Logger.LogInfo("[WORKER FORWARD NEXT SPLIT]");
                             IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
                             liveCheck.Start(RemAr);
                         }
@@ -296,17 +297,8 @@ namespace PADIMapNoReduce
                         }
 
                         Logger.LogInfo("client.getWorkSplit(" + startSplit + ", " + endSplit + ")");
-                        //string mySplit = client.getWorkSplit(startSplit, endSplit);
-
-
-
-
-                        //byte[] mySplit = client.getWorkSplit(startSplit, endSplit);
-                        //Logger.LogInfo("client.finishedGetWorkSplit(" + startSplit + ", " + endSplit + ")");
 
                         SleepIfAskedTo();
-
-
 
                         if (this.mapper == null || this.mapperType == null)
                         {
@@ -325,7 +317,6 @@ namespace PADIMapNoReduce
                             IWorker wasIDeadWorker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
                             wasIDeadWorker.deadCheck(myURL);
                         }
-
                         
                     }
                 }

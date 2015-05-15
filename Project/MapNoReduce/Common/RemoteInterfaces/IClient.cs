@@ -13,6 +13,6 @@ namespace PADIMapNoReduce
 
         byte[] getWorkSplit(long beginSplit, long endSplit);
         void returnWorkSplit(IList<KeyValuePair<string, string>> Map, long splitId, bool firstReturn);
-
+        void NotifyFinishedJob();
     }
 }

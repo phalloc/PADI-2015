@@ -24,7 +24,7 @@ namespace PADIMapNoReduce
        void LogStartedSplit(string workerId, long fileSize, long totalSplits, long remainingSplits);
        void LogFinishedSplit(string workerId, long totalSplits, long remainingSplits);
        bool PingJT();
-       void SetUpAsSecondaryServer(string primaryJTurl, long numSplits);
+       void SetUpAsSecondaryServer(string clientUrl, string primaryJTurl, long fileSize, long numSplits);
        bool IsPrimary();
 
 
