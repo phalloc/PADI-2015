@@ -162,7 +162,10 @@ namespace PADIMapNoReduce
             result.Add(NodeRepresentation.SERVER_ROLE, this.serverRole.ToString());
             result.Add(NodeRepresentation.SERVER_STATUS, this.status.ToString());
             result.Add(NodeRepresentation.SERVER_STATE, this.serverState.ToString());
-            
+            result.Add("SecondaryJT", this.backURL);
+            result.Add("BackupSecondaryJT", this.backupSecondaryServerIfFailsUrl);
+            result.Add("IsPrimary?", isPrimary.ToString());
+
 
             return result;
         }

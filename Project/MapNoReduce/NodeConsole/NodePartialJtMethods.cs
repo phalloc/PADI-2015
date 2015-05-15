@@ -209,7 +209,7 @@ namespace PADIMapNoReduce
 
             if (isPrimary)
             {
-                Logger.LogInfo("Resending register to secondary JT");
+                //Logger.LogInfo("Resending register to secondary JT");
                 if (!CheckSecondaryJTAlive())
                     return;
                 secondaryJT.RegisterWorker(workerId, workerUrl);
@@ -237,7 +237,7 @@ namespace PADIMapNoReduce
 
             if (isPrimary)
             {
-                Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
+                //Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
                 if (!CheckSecondaryJTAlive())
                     return;
                 secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
@@ -258,7 +258,7 @@ namespace PADIMapNoReduce
 
             if (isPrimary)
             {
-                Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
+                //Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
                 if(!CheckSecondaryJTAlive())
                     return;
                 secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
