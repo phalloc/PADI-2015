@@ -130,9 +130,9 @@ namespace PADIMapNoReduce
         void PrintUpdateNetwork()
         {
             Logger.LogInfo("Successfully updated network!");
-            //Logger.LogInfo("nextUrl: " + nextURL);
-            //Logger.LogInfo("nextNextUrl: " + nextNextURL);
-            //Logger.LogInfo("backURL: " + backURL);
+            Logger.LogInfo("nextUrl: " + nextURL);
+            Logger.LogInfo("nextNextUrl: " + nextNextURL);
+            Logger.LogInfo("backURL: " + backURL);
         }
 
         public void FrontUpdate(string backURL)

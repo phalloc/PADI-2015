@@ -177,6 +177,7 @@ namespace PADIMapNoReduce
                 }
 
                 /* wait until if I am unfrozen and revert to Worker if needed */
+                Logger.LogWarn("Testing in freeze state");
                 WaitForUnfreezeAndCheckChanges();
                 /* --------------------------- */
 
@@ -294,7 +295,8 @@ namespace PADIMapNoReduce
             if (isPrimary)
                 client.NotifyFinishedJob();
 
-            currentJobTrackerUrl = null;
+            
+            //currentJobTrackerUrl = null;
             serverRole = ServerRole.NONE;
             status = ExecutionState.WAITING;
             
@@ -303,6 +305,7 @@ namespace PADIMapNoReduce
     
 
             isPrimary = false;
+            didStartedPrimaryProcess = false;
             client = null;
         }
 

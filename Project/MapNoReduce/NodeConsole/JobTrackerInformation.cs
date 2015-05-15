@@ -62,7 +62,6 @@ namespace PADIMapNoReduce
                     //only alert the active workers
                 }
             }
-            //TODO when detected current jobtracker done
         }
 
         public void RegisterWorker(string workerId, IWorker worker)

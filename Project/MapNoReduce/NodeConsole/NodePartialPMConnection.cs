@@ -66,6 +66,7 @@ namespace PADIMapNoReduce
 
         private void WaitForUnfreeze()
         {
+
             lock (stateLock)
             {
                 pendingRequests++;
