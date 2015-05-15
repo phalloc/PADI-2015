@@ -39,11 +39,17 @@ namespace PADIMapNoReduce
             while (endIndex < endSplit)
             {
 
-                
-                if (!currentJobTracker.CanContinueProcessSplit(id, splitId))
+                try
                 {
-                    Logger.LogErr("ABORT SPLIT PROCESS!!!!!!!!!!!!!!!!!!!!!!");
-                    return;
+                    if (!currentJobTracker.CanContinueProcessSplit(id, splitId))
+                    {
+                        Logger.LogErr("ABORT SPLIT PROCESS!!!!!!!!!!!!!!!!!!!!!!");
+                        return;
+                    }
+                }
+                catch (Exception)
+                {
+                    Logger.LogErr("Currnet Job tracker is down");
                 }
 
                 endIndex = firstIndex + maxMemoryGet;

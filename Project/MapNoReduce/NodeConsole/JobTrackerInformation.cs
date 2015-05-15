@@ -54,7 +54,13 @@ namespace PADIMapNoReduce
             {
                 string key = keyValue.Key;
                 IWorker worker = keyValue.Value;
-                worker.UpdateCurrentJobTracker(newJobTrackerUrl);
+                try { 
+                   worker.UpdateCurrentJobTracker(newJobTrackerUrl);
+                }
+                catch (Exception)
+                {
+                    //only alert the active workers
+                }
             }
             //TODO when detected current jobtracker done
         }
@@ -111,7 +117,7 @@ namespace PADIMapNoReduce
                     splitInfos.Remove(splitId);
                 }
 
-                splitInfos.Add(remainingSplits, new SplitInfo(workerId, splitId, fileSize, totalSplits, remainingSplits));
+                splitInfos.Add(splitId, new SplitInfo(workerId, splitId, fileSize, totalSplits, remainingSplits));
             }
         }
 
