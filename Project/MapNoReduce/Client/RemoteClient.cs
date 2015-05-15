@@ -20,9 +20,6 @@ namespace PADIMapNoReduce
         
         public RemoteClient(string jobFilePath, long nSplits, string destPath)
         {
-            foreach (string file in Directory.GetFiles(destPath, "*.out")){
-                File.Delete(file);
-            }
 
             this.jobFilePath = jobFilePath;
            // this.nSplits = nSplits;

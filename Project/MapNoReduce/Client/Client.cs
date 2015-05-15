@@ -22,9 +22,13 @@ namespace PADIMapNoReduce
         public void submitJob(string jobFilePath, string destPath, string entryUrl, long splits, string mapperName, string mapperPath)
         {
 
-
+            foreach (string file in Directory.GetFiles(destPath, "*.out"))
+            {
+                File.Delete(file);
+            }
 
             byte[] mapperCode = File.ReadAllBytes(mapperPath);
+
             FileReader reader = new FileReader(jobFilePath);
             long fileSize = reader.getFileSize();
             reader.closeReader();

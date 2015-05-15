@@ -293,10 +293,10 @@ namespace PADIMapNoReduce
 
                         SleepIfAskedTo();
 
-                        if (this.mapper == null || this.mapperType == null)
-                        {
+                        //if (this.mapper == null || this.mapperType == null)
+                        //{
                             GetMapperObject(mapperName, mapperCode);
-                        }
+                        //}
 
                         fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
                         status = ExecutionState.WAITING;
