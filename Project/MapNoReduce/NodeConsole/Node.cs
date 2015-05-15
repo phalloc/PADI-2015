@@ -20,7 +20,7 @@ namespace PADIMapNoReduce
 
         private static string serviceName = "W";
 
-        private const int TIMEOUT = 5000;
+        private const int TIMEOUT = 3000;
         bool didRegisted = false;
         private string id;
         private int channelPort;
@@ -145,6 +145,9 @@ namespace PADIMapNoReduce
 
         public bool IsAlive()
         {
+            /* wait until if I am unfrozen */
+            WaitForUnfreeze();
+            /* --------------------------- */
             return true;
         }
 
@@ -169,27 +172,35 @@ namespace PADIMapNoReduce
         {
             IAsyncResult iar = (IAsyncResult)ar;
             Thread.Sleep(TIMEOUT);
-            Console.Write("LIVE CHECK");
-            
-            
+             
             if (!iar.IsCompleted)
             {
-               Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
-               nodeDown();
-               PrintUpdateNetwork();
                IWorker worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
-               FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
-                
-               if (backupStatus == ExecutionState.WORKING)
+               try
                {
-                   IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
+                   bool alive = worker.IsAlive();
+                   Logger.LogInfo("alive: " + alive);
                }
-               else
+               catch (Exception ex)
                {
-                   if (remainingSplits > 1)
-                   {
-                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
+                   Logger.LogErr("exception: " + ex.ToString());
+                   Logger.LogErr(" ---- NODE DOWN ALERT ---- ");
+                   nodeDown();
+                   PrintUpdateNetwork();
+                   worker = (IWorker)Activator.GetObject(typeof(IWorker), nextURL);
+                   FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
 
+                   if (backupStatus == ExecutionState.WORKING)
+                   {
+                       IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
+                   }
+                   else
+                   {
+                       if (remainingSplits > 1)
+                       {
+                           IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, currentJobTrackerUrl, mapperName, mapperCode, fileSize, totalSplits, remainingSplits - 1, myURL, true, null, null);
+
+                       }
                    }
                }
             }
@@ -436,7 +447,8 @@ namespace PADIMapNoReduce
                 BinaryServerFormatterSinkProvider provider = new BinaryServerFormatterSinkProvider();
                 IDictionary props = new Hashtable();
                 props["port"] = node.channelPort;
-                props["timeout"] = 5000; // in milliseconds
+                props["timeout"] = 3000; // in milliseconds
+                props["connectionTimeout"] = 3000;
                 TcpChannel myChannel = new TcpChannel(props, null, provider);
                 node.SetTcpChannel(myChannel);
                 ChannelServices.RegisterChannel(myChannel, true);
