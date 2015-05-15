@@ -100,6 +100,7 @@ namespace PADIMapNoReduce
             this.currentJobTrackerUrl = newJobTracker;
             didRegisted = false;
             IWorker currentJobTracker =  (IWorker)Activator.GetObject(typeof(IWorker), newJobTracker);
+            RegisterAtJobTracker();
         }
 
 
@@ -337,6 +338,12 @@ namespace PADIMapNoReduce
             return true;
 
         }
+
+        public bool IsWorking()
+        {
+            return status == ExecutionState.WORKING;
+        }
+
 
         public void LogStartSplit(string id, long filesize, long totalSplits, long remainingSplits){
             //registering as worker

@@ -16,7 +16,7 @@ namespace PADIMapNoReduce
        void Register(string entryURL);
        void deadCheck(string backURL);
        void UpdateCurrentJobTracker(string jobtracker);
-
+       bool IsWorking();
 
         //jobtracker specific methods
        void RegisterWorker(string workerId, string workerUrl);

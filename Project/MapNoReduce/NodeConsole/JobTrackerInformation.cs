@@ -135,14 +135,14 @@ namespace PADIMapNoReduce
 
         public IWorker GetFirstFreeWorker()
         {
-            foreach (KeyValuePair<string, long> keyValue in workersSplits)
+            foreach (KeyValuePair<string, IWorker> keyValue in activeNodes)
             {
                 string key = keyValue.Key;
-                SplitInfo splitInfo = splitInfos[keyValue.Value];
+                IWorker worker = keyValue.Value;
 
-                if (splitInfo.DidFinished())
+                if (!worker.IsWorking())
                 {
-                    return activeNodes[key];
+                    return worker;
                 }
             }
             return null;
