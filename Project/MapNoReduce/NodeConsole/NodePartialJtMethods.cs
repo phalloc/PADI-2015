@@ -210,6 +210,7 @@ namespace PADIMapNoReduce
             if (isPrimary)
             {
                 Logger.LogInfo("Resending register to secondary JT");
+                CheckSecondaryJTAlive();
                 secondaryJT.RegisterWorker(workerId, workerUrl);
             }
             //Logger.LogInfo("REGISTERING WORKER");
@@ -236,6 +237,7 @@ namespace PADIMapNoReduce
             if (isPrimary)
             {
                 Logger.LogInfo("RESENDING STARTSPLIT TO SECONDARY SERVER");
+                CheckSecondaryJTAlive();
                 secondaryJT.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
             }
             jtInformation.LogStartedSplit(workerId, fileSize, totalSplits, remainingSplits);
@@ -255,6 +257,7 @@ namespace PADIMapNoReduce
             if (isPrimary)
             {
                 Logger.LogInfo("RESENDING ENDSPLIT TO SECONDARY SERVER");
+                CheckSecondaryJTAlive();
                 secondaryJT.LogFinishedSplit(workerId, totalSplits, remainingSplits);
             }
             jtInformation.LogFinishedSplit(workerId, totalSplits, remainingSplits);
@@ -278,6 +281,24 @@ namespace PADIMapNoReduce
 
             return false;
 
+        }
+
+        public bool CheckSecondaryJTAlive()
+        {
+            try
+            {
+
+                secondaryJT.PingJT();
+                return true;
+            }
+            catch (Exception)
+            {
+                Logger.LogWarn("SECONDARY SERVER DOWN.");
+                backupSecondaryServerIfFails.nodeDown();
+                backupSecondaryServerIfFails.SetUpAsSecondaryServer(clientURL, myURL, fileSize, jtInformation.numSplits);
+            }
+
+            return false;
         }
 
         private void ResendSplitToNextWorker(IWorker worker, long fileSize, long totalSplits, long remainingSplits)

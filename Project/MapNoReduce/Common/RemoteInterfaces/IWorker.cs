@@ -28,6 +28,7 @@ namespace PADIMapNoReduce
        bool CanContinueProcessSplit(string workerId, long splitId);
 
 
+       void nodeDown();
 
         //special commands
        void FreezeWorker();
