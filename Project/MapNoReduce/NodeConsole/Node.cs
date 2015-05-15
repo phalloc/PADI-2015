@@ -252,11 +252,15 @@ namespace PADIMapNoReduce
                 }
                 else
                 {
-                    RegisterAtJobTracker();
+                    if (!didRegisted)
+                    {
+                        RegisterAtJobTracker();
+                        didRegisted = true;
+                    }
 
                     if (status == ExecutionState.WORKING && propagateRemainingSplits)
                     {
-                        //Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
+                        Logger.LogInfo("Forwarded work from JobTracker: " + jobTrackerURL +" remainingSplits: " + remainingSplits);
                         IAsyncResult RemAr = RemoteDel.BeginInvoke(clientURL, jobTrackerURL, mapperName, mapperCode, fileSize, totalSplits, remainingSplits, myURL, true, null, null);
                         liveCheck.Start(RemAr);
                     }
@@ -309,9 +313,10 @@ namespace PADIMapNoReduce
                         }
 
                         fetchItProcessItSendIt(startSplit, endSplit, remainingSplits);
-                        LogEndSplit(id, totalSplits, remainingSplits);
+                        status = ExecutionState.WAITING;
                         Logger.LogInfo("client.finishedProcessingSplit(" + startSplit + ", " + endSplit + ")");
-
+                        LogEndSplit(id, totalSplits, remainingSplits);
+                        
 
                         processedSplits++;
                         if (remainingSplits == 1)
@@ -320,14 +325,14 @@ namespace PADIMapNoReduce
                             wasIDeadWorker.deadCheck(myURL);
                         }
 
-                        status = ExecutionState.WAITING;
+                        
                     }
                 }
                 return true;
             }
-            catch (RemotingException e)
+            catch (Exception e)
             {
-                Logger.LogErr("Remoting Exception: " + e.Message);
+                Logger.LogErr("Exception: " + e.Message);
             }
             return true;
 
@@ -368,11 +373,10 @@ namespace PADIMapNoReduce
             Logger.LogInfo("Registering in the jobtracker at " + currentJobTrackerUrl);
             while(true){
                 try{
-                    if (!didRegisted) { 
-                        currentJobTracker.RegisterWorker(id, myURL);
-                        didRegisted = true;
-                        break;
-                    }
+                    Logger.LogInfo("Send request to register at jt");
+                    currentJobTracker.RegisterWorker(id, myURL);
+                    didRegisted = true;
+                    break;                    
                 }catch(Exception){
                     Logger.LogWarn("Retrying to register to jobtracker.");
                 }

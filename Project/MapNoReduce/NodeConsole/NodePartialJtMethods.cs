@@ -108,7 +108,7 @@ namespace PADIMapNoReduce
                         if (freeWorker != null)
                         {
                             Logger.LogWarn("[SLOWWWWWWW SPLIT] RESENDING " + slowSplit.remainingSplits);
-                            ResentSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
+                            ResendSplitToNextWorker(freeWorker, slowSplit.totalSplits, slowSplit.remainingSplits);
                         }
                     }
                     Thread.Sleep(2000);
@@ -264,7 +264,7 @@ namespace PADIMapNoReduce
 
         }
 
-        private void ResentSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
+        private void ResendSplitToNextWorker(IWorker worker, long totalSplits, long remainingSplits)
         {
 
             FetchWorkerAsyncDel RemoteDel = new FetchWorkerAsyncDel(worker.FetchWorker);
